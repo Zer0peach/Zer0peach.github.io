@@ -16,21 +16,21 @@
   <meta name="author" content="Zer0peach">
   <meta name="keywords" content="">
   
-    <meta name="description" content="侧信道什么是侧信道个人简单理解就是通过报错，响应时间等信息推断出敏感信息，因此经常通过盲注的方式进行攻击 大佬的说法： 都说侧信道，那什么是侧信道。侧信道其实就是根据一个二元或者多元条件关系差，可以让我们以”盲注”的形式，去获取某些信息的一种方法，测信道广义上是非常广泛的。在web题目中他们通常以盲注的形式出现  盲注攻击在广义上可以被认为是一种侧信道攻击，因为它是利用应用程序的实现细节（如响应时">
+    <meta name="description" content="侧信道什么是侧信道个人简单理解就是通过报错，响应时间等信息推断出敏感信息，因此经常通过盲注的方式进行攻击 Boogipop大佬的说法： 都说侧信道，那什么是侧信道。侧信道其实就是根据一个二元或者多元条件关系差，可以让我们以”盲注”的形式，去获取某些信息的一种方法，测信道广义上是非常广泛的。在web题目中他们通常以盲注的形式出现  盲注攻击在广义上可以被认为是一种侧信道攻击，因为它是利用应用程序的实">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从lovephp看侧信道">
 <meta property="og:url" content="https://zer0peach.github.io/2023/08/29/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/index.html">
 <meta property="og:site_name" content="My Blog">
-<meta property="og:description" content="侧信道什么是侧信道个人简单理解就是通过报错，响应时间等信息推断出敏感信息，因此经常通过盲注的方式进行攻击 大佬的说法： 都说侧信道，那什么是侧信道。侧信道其实就是根据一个二元或者多元条件关系差，可以让我们以”盲注”的形式，去获取某些信息的一种方法，测信道广义上是非常广泛的。在web题目中他们通常以盲注的形式出现  盲注攻击在广义上可以被认为是一种侧信道攻击，因为它是利用应用程序的实现细节（如响应时">
+<meta property="og:description" content="侧信道什么是侧信道个人简单理解就是通过报错，响应时间等信息推断出敏感信息，因此经常通过盲注的方式进行攻击 Boogipop大佬的说法： 都说侧信道，那什么是侧信道。侧信道其实就是根据一个二元或者多元条件关系差，可以让我们以”盲注”的形式，去获取某些信息的一种方法，测信道广义上是非常广泛的。在web题目中他们通常以盲注的形式出现  盲注攻击在广义上可以被认为是一种侧信道攻击，因为它是利用应用程序的实">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zer0peach.github.io/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830185630646.png">
-<meta property="og:image" content="https://zer0peach.github.io/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830191100214.png">
-<meta property="og:image" content="https://zer0peach.github.io/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830191805947.png">
+<meta property="og:image" content="https://zer0peach.github.io/2023/08/29/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830185630646.png">
+<meta property="og:image" content="https://zer0peach.github.io/2023/08/29/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830191100214.png">
+<meta property="og:image" content="https://zer0peach.github.io/2023/08/29/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830191805947.png">
 <meta property="article:published_time" content="2023-08-29T09:14:55.000Z">
-<meta property="article:modified_time" content="2023-08-30T12:59:00.727Z">
+<meta property="article:modified_time" content="2023-08-30T22:51:17.862Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://zer0peach.github.io/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830185630646.png">
+<meta name="twitter:image" content="https://zer0peach.github.io/2023/08/29/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830185630646.png">
   
   
   
@@ -277,7 +277,7 @@
               <div class="markdown-body">
                 
                 <h1 id="侧信道"><a href="#侧信道" class="headerlink" title="侧信道"></a>侧信道</h1><h2 id="什么是侧信道"><a href="#什么是侧信道" class="headerlink" title="什么是侧信道"></a>什么是侧信道</h2><p>个人简单理解就是通过报错，响应时间等信息推断出敏感信息，因此经常通过<strong>盲注</strong>的方式进行攻击</p>
-<p>大佬的说法：</p>
+<p>Boogipop大佬的说法：</p>
 <p>都说侧信道，那什么是侧信道。侧信道其实就是根据一个二元或者多元条件关系差，可以让我们以”盲注”的形式，去获取某些信息的一种方法，测信道广义上是非常广泛的。在web题目中他们通常以盲注的形式出现</p>
 <blockquote>
 <p>盲注攻击在广义上可以被认为是一种侧信道攻击，因为它是利用应用程序的实现细节（如响应时间、错误信息等）推断出敏感信息的一种攻击方式。与其他侧信道攻击不同的是，盲注攻击通常是针对Web应用程序或其他应用程序进行的，而不是直接攻击物理设备或加密算法。<br>在盲注攻击中，攻击者通常无法直接获取目标系统中的敏感信息，而是通过不断地尝试发送恶意数据，并根据应用程序的响应结果进行推断。例如，攻击者可以通过不断地发送不同的请求，根据目标系统返回的响应时间、错误信息等推断出敏感信息，进而实现攻击的目的</p>
@@ -300,14 +300,14 @@
 <h2 id="对脚本内容的理解-链接放在最后）"><a href="#对脚本内容的理解-链接放在最后）" class="headerlink" title="对脚本内容的理解(链接放在最后）"></a>对脚本内容的理解(链接放在最后）</h2><h3 id="这部分讲的是脚本原理，可以不看"><a href="#这部分讲的是脚本原理，可以不看" class="headerlink" title="这部分讲的是脚本原理，可以不看"></a>这部分讲的是脚本原理，可以不看</h3><p>我们把侧信道的关键点称为oracle</p>
 <h4 id="Part1-报错"><a href="#Part1-报错" class="headerlink" title="Part1 - 报错"></a>Part1 - 报错</h4><p>想到报错，我们一般是见到页面报错，而此处我们用到的是服务端报错即返回50xHTTP的状态码</p>
 <p>如何找到服务端的oracle呢，脚本作者的方案是使用 <code>php filter</code> 配合 <code>convert.iconv.L1.UCS-4LE</code> 编码，经过多次该编码，达到某一程度就会使php产生内存错误</p>
-<p><img src="/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830185630646.png" srcset="/img/loading.gif" lazyload alt="image-20230830185630646"></p>
+<p><img src="/2023/08/29/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830185630646.png" srcset="/img/loading.gif" lazyload alt="image-20230830185630646"></p>
 <p>产生错误之后，我们想能不能找到一种带判断的编码，并且经过判断后能够使产生报错的代码不再报错，通过这样盲注获取信息</p>
 <p>脚本作者在<a target="_blank" rel="noopener" href="https://github.com/php/php-src/blob/01b3fc03c30c6cb85038250bb5640be3a09c6a32/ext/standard/filters.c#L1724">php filter dechunk</a> 部分发现，其对于字符的处理存在一个范围限制，只检查第一个字符是否在<code>a-fA-f0-9</code> 这个范围内，若是则输出空，若不是则输出原字符串</p>
-<p><img src="/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830191100214.png" srcset="/img/loading.gif" lazyload alt="image-20230830191100214"></p>
+<p><img src="/2023/08/29/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830191100214.png" srcset="/img/loading.gif" lazyload alt="image-20230830191100214"></p>
 <p>因此我们可以对字符串的第一个字符进行判断</p>
 <p>这里给出参考文章的作者给出的案例，蓝色框和红色框对比是为了测出产生内存错误的临界情况（不同机器对于php产生内存错误的长度不同），红色框和绿色框对比用来判断第一个字符是否在范围内</p>
 <p>但此处我有点疑惑，明明第一个字符是<code>U</code>（多加一次编码我测试的首字符是不变的）为什么能够通过检查，输出空字符串   （希望能够解答一下）</p>
-<p><img src="/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830191805947.png" srcset="/img/loading.gif" lazyload alt="image-20230830191805947"></p>
+<p><img src="/2023/08/29/%E4%BB%8Elovephp%E7%9C%8B%E4%BE%A7%E4%BF%A1%E9%81%93/image-20230830191805947.png" srcset="/img/loading.gif" lazyload alt="image-20230830191805947"></p>
 <h3 id="Part2-交换字符"><a href="#Part2-交换字符" class="headerlink" title="Part2-交换字符"></a>Part2-交换字符</h3><p>由于dechunk只能对第一个字符做判断，于是想能不能找到交换字符顺序的编码形式</p>
 <p>下面我们用<code>abcdefgh</code>八字节举例</p>
 <p>使用 <code>convert.iconv.CSUNICODE.UCS-2BE</code> 我们可以前后交换每两个字节的位置，我们称这个编码规则为 <code>r2</code> </p>
@@ -326,7 +326,7 @@
 <h3 id="Part2-1-两个等号的处理"><a href="#Part2-1-两个等号的处理" class="headerlink" title="Part2.1 - 两个等号的处理"></a>Part2.1 - 两个等号的处理</h3><p>使用该filt将两个等号转换成24字节的字符串（至于为什么去看参考文章吧）</p>
 <figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dos">php &gt; var_dump(file_get_contents(&quot;php://filter/<span class="hljs-built_in">convert</span>.quoted-printable-encode|<span class="hljs-built_in">convert</span>.quoted-printable-encode|<span class="hljs-built_in">convert</span>.iconv.L1.utf7|<span class="hljs-built_in">convert</span>.iconv.L1.utf7|<span class="hljs-built_in">convert</span>.iconv.L1.utf7|<span class="hljs-built_in">convert</span>.iconv.L1.utf7/resource=data:,==&quot;));<br>string(<span class="hljs-number">24</span>) &quot;+---AD0-<span class="hljs-number">3</span>D3D+---AD0-<span class="hljs-number">3</span>D3D&quot;<br></code></pre></td></tr></table></figure>
 
-<p>算了，写不下去了，还是看别人的优质文章吧</p>
+<p>算了，写不下去了（没有自己的理解，反正也是跟着文章作者走的），看完也不是很懂，还是看别人的优质文章吧</p>
 <p><a target="_blank" rel="noopener" href="https://tttang.com/archive/1755/">The End of AFR? - 跳跳糖 (tttang.com)</a></p>
 
                 
