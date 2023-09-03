@@ -23,42 +23,12 @@
 <meta property="og:site_name" content="My Blog">
 <meta property="og:description" content="读Boogipop大佬文章的具体尝试1.关于eval和system   （只尝试了php7.3.4）eval常规执行命令形如eval(system(&#39;whoami&#39;);); 当然不能直接这样运行，system(&#39;whoami&#39;);是传参进去的  （记得带;号） #大佬给出的绕过技巧 eval(system(&amp;#x27;ls&amp;#x27;)?&gt;) eval(?&amp;g">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901162551316.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901170008293.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901165657391.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901171700257.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901174857243.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901212548383.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901220715920.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901220818065.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901220943156.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230902065000143.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230902065554692.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230902073626707.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230902074746052.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230902075804794.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230902085745201.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903103600057.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903111013076.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903111239338.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903112719444.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903112735404.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903114418114.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903115244293.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903120640554.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903122210912.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903122346792.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903122707190.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903123655129.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903124241964.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903144909405.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903144926904.png">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230903144942736.png">
+<meta property="og:image" content="d:\blog\source\about\index\image-20230902172136084.png">
 <meta property="article:published_time" content="2023-09-01T06:37:51.000Z">
-<meta property="article:modified_time" content="2023-09-03T09:45:30.929Z">
+<meta property="article:modified_time" content="2023-09-03T09:48:57.687Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://zer0peach.github.io/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/image-20230901162551316.png">
+<meta name="twitter:image" content="d:\blog\source\about\index\image-20230902172136084.png">
   
   
   
