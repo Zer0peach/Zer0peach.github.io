@@ -16,24 +16,29 @@
   <meta name="author" content="Zer0peach">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前几天网站被发现了，Boogipop大佬找到tel✌来找人   在烧卖有点社死（虽然我那时已经睡了，第二天看的信息），但被大佬关注到还是挺荣幸的 同时感觉学习更有动力、更有目标了（不知道这种状态能坚持多久） 在这期间还是多刷题吧，看完Boogipop的新人同学挺有收获，但是当脱离了文章，去回想学了什么时，只有一些模糊的记忆，还是通过刷题的印象更加深刻，更何况看到了大佬写的一堆ctfshow的题目">
+    <meta name="description" content="通过JavaWrapper执行BCEL字节码前言 在SICTF Round2中看到unknown师傅使用了BCEL字节码，看了他的WP后发现一种我没见过的执行方式，在网上好像找不到（可能是我不会搜索），于是自己分析源码 unknown师傅的代码 &#x2F;&#x2F;        &#x2F;&#x2F;第一种触发方式 &#x2F;&#x2F;        JavaClass cls &#x3D; Repository.lookupClass(Evil.cla">
 <meta property="og:type" content="article">
-<meta property="og:title" content="插曲">
-<meta property="og:url" content="https://zer0peach.github.io/2023/09/03/%E6%8F%92%E6%9B%B2/index.html">
+<meta property="og:title" content="JavaWrapper执行BCEL字节码">
+<meta property="og:url" content="https://zer0peach.github.io/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/index.html">
 <meta property="og:site_name" content="Zer0peach can&#39;t think">
-<meta property="og:description" content="前几天网站被发现了，Boogipop大佬找到tel✌来找人   在烧卖有点社死（虽然我那时已经睡了，第二天看的信息），但被大佬关注到还是挺荣幸的 同时感觉学习更有动力、更有目标了（不知道这种状态能坚持多久） 在这期间还是多刷题吧，看完Boogipop的新人同学挺有收获，但是当脱离了文章，去回想学了什么时，只有一些模糊的记忆，还是通过刷题的印象更加深刻，更何况看到了大佬写的一堆ctfshow的题目">
+<meta property="og:description" content="通过JavaWrapper执行BCEL字节码前言 在SICTF Round2中看到unknown师傅使用了BCEL字节码，看了他的WP后发现一种我没见过的执行方式，在网上好像找不到（可能是我不会搜索），于是自己分析源码 unknown师傅的代码 &#x2F;&#x2F;        &#x2F;&#x2F;第一种触发方式 &#x2F;&#x2F;        JavaClass cls &#x3D; Repository.lookupClass(Evil.cla">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/03/%E6%8F%92%E6%9B%B2/20230903175855.jpg">
-<meta property="og:image" content="https://zer0peach.github.io/2023/09/03/%E6%8F%92%E6%9B%B2/image-20230902172136084.png">
-<meta property="article:published_time" content="2023-09-03T09:14:55.000Z">
-<meta property="article:modified_time" content="2023-09-03T10:17:29.516Z">
+<meta property="og:image" content="https://zer0peach.github.io/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916120726884.png">
+<meta property="og:image" content="https://zer0peach.github.io/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916121036227.png">
+<meta property="og:image" content="https://zer0peach.github.io/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916121504223.png">
+<meta property="og:image" content="https://zer0peach.github.io/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916122131607.png">
+<meta property="og:image" content="https://zer0peach.github.io/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916123233706.png">
+<meta property="og:image" content="https://zer0peach.github.io/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916123451935.png">
+<meta property="og:image" content="https://zer0peach.github.io/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916125415889.png">
+<meta property="article:published_time" content="2023-09-16T04:00:31.000Z">
+<meta property="article:modified_time" content="2023-09-17T03:37:30.548Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://zer0peach.github.io/2023/09/03/%E6%8F%92%E6%9B%B2/20230903175855.jpg">
+<meta name="twitter:image" content="https://zer0peach.github.io/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916120726884.png">
   
   
   
-  <title>插曲 - Zer0peach can&#39;t think</title>
+  <title>JavaWrapper执行BCEL字节码 - Zer0peach can&#39;t think</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -211,7 +216,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="插曲"></span>
+            <span id="subtitle" data-typed-text="JavaWrapper执行BCEL字节码"></span>
           
         </div>
 
@@ -222,8 +227,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-09-03 17:14" pubdate>
-          2023年9月3日 下午
+        <time datetime="2023-09-16 12:00" pubdate>
+          2023年9月16日 中午
         </time>
       </span>
     
@@ -234,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          222 字
+          1.6k 字
         
       </span>
     
@@ -245,7 +250,7 @@
         
         
         
-          2 分钟
+          14 分钟
         
       </span>
     
@@ -282,18 +287,87 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">插曲</h1>
+            <h1 id="seo-header">JavaWrapper执行BCEL字节码</h1>
             
             
               <div class="markdown-body">
                 
-                <p>前几天网站被发现了，Boogipop大佬找到tel✌来找人</p>
-<p><img src="/2023/09/03/%E6%8F%92%E6%9B%B2/20230903175855.jpg" srcset="/img/loading.gif" lazyload></p>
-<p><img src="/2023/09/03/%E6%8F%92%E6%9B%B2/image-20230902172136084.png" srcset="/img/loading.gif" lazyload></p>
-<p>在烧卖有点社死（虽然我那时已经睡了，第二天看的信息），但被大佬关注到还是挺荣幸的</p>
-<p>同时感觉学习更有动力、更有目标了（不知道这种状态能坚持多久）</p>
-<p>在这期间还是多刷题吧，看完<code>Boogipop</code>的新人同学挺有收获，但是当脱离了文章，去回想学了什么时，只有一些模糊的记忆，还是通过刷题的印象更加深刻，更何况看到了大佬写的一堆<code>ctfshow</code>的题目</p>
-<p>😁😁😁😁😁😁😁😀😀😀😀😀😀😀</p>
+                <h1 id="通过JavaWrapper执行BCEL字节码"><a href="#通过JavaWrapper执行BCEL字节码" class="headerlink" title="通过JavaWrapper执行BCEL字节码"></a>通过JavaWrapper执行BCEL字节码</h1><p>前言</p>
+<p>在SICTF Round2中看到unknown师傅使用了BCEL字节码，看了他的WP后发现一种我没见过的执行方式，在网上好像找不到（可能是我不会搜索），于是自己分析源码</p>
+<p>unknown师傅的代码</p>
+<div class="code-wrapper"><pre><code class="hljs powershell">//        //第一种触发方式
+//        JavaClass <span class="hljs-built_in">cls</span> = Repository.lookupClass(Evil.class);
+//        String code = Utility.encode(cls.getBytes(), true);
+//        System.out.println(<span class="hljs-string">&quot;<span class="hljs-variable">$</span><span class="hljs-variable">$BCEL</span><span class="hljs-variable">$</span><span class="hljs-variable">$</span>&quot;</span>+code);
+//
+//        new ClassLoader().loadClass(<span class="hljs-string">&quot;<span class="hljs-variable">$</span><span class="hljs-variable">$BCEL</span><span class="hljs-variable">$</span><span class="hljs-variable">$</span>&quot;</span> + code).newInstance();
+
+
+//        第二种触发方式
+        JavaClass javaClass = Repository.lookupClass(Evil.class);
+        String encode = Utility.encode(javaClass.getBytes(), true);
+        JavaWrapper._main(new String[]&#123;<span class="hljs-string">&quot;<span class="hljs-variable">$</span><span class="hljs-variable">$BCEL</span><span class="hljs-variable">$</span><span class="hljs-variable">$</span>&quot;</span>+encode&#125;);
+        System.out.println(<span class="hljs-string">&quot;<span class="hljs-variable">$</span><span class="hljs-variable">$BCEL</span><span class="hljs-variable">$</span><span class="hljs-variable">$</span>&quot;</span>+encode);</code></pre></div>
+
+<h2 id="开始分析"><a href="#开始分析" class="headerlink" title="开始分析"></a>开始分析</h2><p>我们常使用的BCEL是使用ClassLoader</p>
+<div class="code-wrapper"><pre><code class="hljs stylus">com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.org</span><span class="hljs-selector-class">.apache</span><span class="hljs-selector-class">.bcel</span><span class="hljs-selector-class">.internal</span><span class="hljs-selector-class">.util</span>.ClassLoader</code></pre></div>
+
+<p>我们搜索一下这个包</p>
+<p><img src="/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916120726884.png" srcset="/img/loading.gif" lazyload alt="image-20230916120726884"></p>
+<p>查看一下JavaWrapper类</p>
+<p><img src="/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916121036227.png" srcset="/img/loading.gif" lazyload alt="image-20230916121036227"></p>
+<p>可以看到这两个跟ClassLoader执行方式有关的地方</p>
+<p>继续往下看</p>
+<p><img src="/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916121504223.png" srcset="/img/loading.gif" lazyload alt="image-20230916121504223"></p>
+<p>两图中的红框几乎凑出了利用ClassLoader的方式</p>
+<p>所以<code>JavaWrapper</code>执行的原理就是通过ClassLoader的方式来执行</p>
+<p>正常情况下找到了漏洞点，应该像找CC链一样，find usages查看谁调用了<code>runMain</code>方法</p>
+<p>这里巧合的是就在代码下面</p>
+<p><img src="/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916122131607.png" srcset="/img/loading.gif" lazyload alt="image-20230916122131607"></p>
+<p>到了这里思路大致就清晰了（但若细问为什么我也说不上来）</p>
+<p><code>getClassLoader</code>什么时候调用我也不清楚</p>
+<p>但是我们不用管那么多，只知道调用<code>_main</code>方法就行</p>
+<p>那个class_name就像执行ClassLoader时那样，传入<code>$$BCEL$$......</code>即可</p>
+<h2 id="上手尝试"><a href="#上手尝试" class="headerlink" title="上手尝试"></a>上手尝试</h2><p>我们先尝试原来<code>ClassLoader</code>执行时要用的恶意类</p>
+<div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-keyword">import</span> java.io.IOException;
+
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Evil</span> </span>&#123;
+        <span class="hljs-keyword">static</span> &#123;
+            <span class="hljs-keyword">try</span> &#123;
+                Runtime.getRuntime().exec(<span class="hljs-string">&quot;calc&quot;</span>);
+            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-type">RuntimeException</span>(e);
+            &#125;
+        &#125;
+
+&#125;</code></pre></div>
+
+<p><img src="/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916123233706.png" srcset="/img/loading.gif" lazyload alt="image-20230916123233706"></p>
+<p>没有执行成功</p>
+<p>按照提示加入<code>_main</code>方法</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.IOException;
+
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Evil</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">_main</span><span class="hljs-params">(String[] argv)</span> &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            Runtime.getRuntime().exec(<span class="hljs-string">&quot;calc&quot;</span>);
+        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(e);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p><img src="/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916123451935.png" srcset="/img/loading.gif" lazyload alt="image-20230916123451935"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>JavaWrapper只是在ClassLoader基础上套了一点东西而已</p>
+<p>更加方便了</p>
+<div class="code-wrapper"><pre><code class="hljs powershell">JavaWrapper._main(new String[]&#123;<span class="hljs-string">&quot;<span class="hljs-variable">$</span><span class="hljs-variable">$BCEL</span><span class="hljs-variable">$</span><span class="hljs-variable">$</span>&quot;</span>+code&#125;);</code></pre></div>
+
+<p>不足的是想要探究<code>getClassLoader</code>和<code>runMain</code>方法的执行顺序，但调试发现断点走完<code>_main</code>就跳出来了</p>
+<p>并且只输出了 （我在每个函数里面加了一个System.out.println）</p>
+<p><img src="/2023/09/16/JavaWrapper%E6%89%A7%E8%A1%8CBCEL%E5%AD%97%E8%8A%82%E7%A0%81/image-20230916125415889.png" srcset="/img/loading.gif" lazyload alt="image-20230916125415889"></p>
+<p>所以对此仍有困惑</p>
 
                 
               </div>
@@ -311,8 +385,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>插曲</div>
-      <div>https://zer0peach.github.io/2023/09/03/插曲/</div>
+      <div>JavaWrapper执行BCEL字节码</div>
+      <div>https://zer0peach.github.io/2023/09/16/JavaWrapper执行BCEL字节码/</div>
     </div>
     <div class="license-meta">
       
@@ -324,7 +398,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年9月3日</div>
+          <div>2023年9月16日</div>
         </div>
       
       
@@ -356,9 +430,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/09/06/disable-function/" title="disable_function">
+                      <a href="/2023/09/16/%E5%BC%80%E5%8F%91/" title="开发">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">disable_function</span>
+                        <span class="hidden-mobile">开发</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -366,8 +440,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/09/01/%E8%AF%BBBoogipop%E6%96%B0%E4%BA%BA%E5%90%8C%E5%AD%A6/" title="读Boogipop新人同学">
-                        <span class="hidden-mobile">读Boogipop新人同学</span>
+                      <a href="/2023/09/12/%E6%B5%85%E7%9C%8BOGNL/" title="浅看OGNL">
+                        <span class="hidden-mobile">浅看OGNL</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
