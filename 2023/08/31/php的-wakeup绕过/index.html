@@ -43,7 +43,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/2023/08/31/php%E7%9A%84-wakeup%E7%BB%95%E8%BF%87/image-20230904110708015.png">
 <meta property="og:image" content="https://zer0peach.github.io/2023/08/31/php%E7%9A%84-wakeup%E7%BB%95%E8%BF%87/image-20230904134136323.png">
 <meta property="article:published_time" content="2023-08-31T04:35:32.000Z">
-<meta property="article:modified_time" content="2023-09-15T00:42:35.860Z">
+<meta property="article:modified_time" content="2023-10-28T12:56:49.403Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/2023/08/31/php%E7%9A%84-wakeup%E7%BB%95%E8%BF%87/image-20230903185255743.png">
@@ -262,7 +262,7 @@
         
         
         
-          107 分钟
+          111 分钟
         
       </span>
     
@@ -347,14 +347,15 @@
     @<span class="hljs-title function_ invoke__">unserialize</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;pop&#x27;</span>]);
 &#125;</code></pre></div>
 
-<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyPort</span>();
+<div class="code-wrapper"><pre><code class="hljs awk"><span class="hljs-variable">$a</span> = new KeyPort();
 <span class="hljs-variable">$a</span>-&gt;key = &amp;<span class="hljs-variable">$a</span>-&gt;wakeup;
-<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$a</span>);</code></pre></div>
+<span class="hljs-regexp">//</span><span class="hljs-variable">$a</span>-&gt;wakeup = &amp;<span class="hljs-variable">$a</span>-&gt;key;
+echo serialize(<span class="hljs-variable">$a</span>);</code></pre></div>
 
 <p><img src="/2023/08/31/php%E7%9A%84-wakeup%E7%BB%95%E8%BF%87/image-20230903190353939.png" srcset="/img/loading.gif" lazyload alt="image-20230903190353939"></p>
 <h3 id="值恒相等"><a href="#值恒相等" class="headerlink" title="值恒相等"></a>值恒相等</h3><p>我记得好像见过要令两个值相等，但又不能赋值的情况（遇到再说吧）</p>
 <p><code>$this→b = &amp;$this→a</code></p>
-<h2 id="fast-destruct-（也能绕throws-new-Error）"><a href="#fast-destruct-（也能绕throws-new-Error）" class="headerlink" title="fast destruct  （也能绕throws new Error）"></a>fast destruct  （也能绕throws new Error）</h2><h3 id="追加总结，fast-destruct是绕过别的类里面的-wakeup，同一个类中的-destruct始终在同一个类中的-wakup之后执行"><a href="#追加总结，fast-destruct是绕过别的类里面的-wakeup，同一个类中的-destruct始终在同一个类中的-wakup之后执行" class="headerlink" title="追加总结，fast destruct是绕过别的类里面的__wakeup，同一个类中的__destruct始终在同一个类中的__wakup之后执行"></a>追加总结，fast destruct是绕过别的类里面的<code>__wakeup</code>，同一个类中的<code>__destruct</code>始终在同一个类中的<code>__wakup</code>之后执行</h3><ul>
+<h2 id="fast-destruct-（不仅是wakeup也能绕throws-new-Error）"><a href="#fast-destruct-（不仅是wakeup也能绕throws-new-Error）" class="headerlink" title="fast destruct  （不仅是wakeup也能绕throws new Error）"></a>fast destruct  （不仅是wakeup也能绕throws new Error）</h2><h3 id="追加总结，fast-destruct是绕过别的类里面的-wakeup，同一个类中的-destruct始终在同一个类中的-wakup之后执行（是在pop链的时候，只有一个类可以绕过）"><a href="#追加总结，fast-destruct是绕过别的类里面的-wakeup，同一个类中的-destruct始终在同一个类中的-wakup之后执行（是在pop链的时候，只有一个类可以绕过）" class="headerlink" title="追加总结，fast destruct是绕过别的类里面的__wakeup，同一个类中的__destruct始终在同一个类中的__wakup之后执行（是在pop链的时候，只有一个类可以绕过）"></a>追加总结，fast destruct是绕过别的类里面的<code>__wakeup</code>，同一个类中的<code>__destruct</code>始终在同一个类中的<code>__wakup</code>之后执行（是在pop链的时候，只有一个类可以绕过）</h3><ul>
 <li>在PHP中如果单独执行<code>unserialize()</code>函数，则反序列化后得到的生命周期仅限于这个函数执行的生命周期，在执行完unserialize()函数时就会执行<code>__destruct()</code>方法</li>
 <li>而如果将<code>unserialize()</code>函数执行后得到的字符串<strong>赋值给了一个变量</strong>，则反序列化的对象的生命周期就会变长，会一直到对象被销毁才执行析构方法</li>
 </ul>
@@ -770,6 +771,19 @@ Backdoor::destruct–&gt;FileViewer::__call–&gt;FileViewer::loadfile</code></p
 <p>无结果</p>
 <p>其他像<code>ArrayObject</code>的生成以<code>c</code>开头的<code>payload</code>，请看愚人杯3rd[easy_php] | Boogiepop Doesn’t Laugh (boogipop.com)](<a target="_blank" rel="noopener" href="https://boogipop.com/2023/04/02/%E6%84%9A%E4%BA%BA%E6%9D%AF3rd">https://boogipop.com/2023/04/02/愚人杯3rd</a> [easy_php]&#x2F;)</p>
 <p>嘿嘿，还得是Boogipop大佬</p>
+<h2 id="序列化字符串正则绕过（不能传入以O和a开头的序列化值）"><a href="#序列化字符串正则绕过（不能传入以O和a开头的序列化值）" class="headerlink" title="序列化字符串正则绕过（不能传入以O和a开头的序列化值）"></a>序列化字符串正则绕过（不能传入以O和a开头的序列化值）</h2><h3 id="字符O绕过"><a href="#字符O绕过" class="headerlink" title="字符O绕过"></a>字符O绕过</h3><p>低版本&lt;7.1.33</p>
+<div class="code-wrapper"><pre><code class="hljs lisp">unserialize(&#x27;O<span class="hljs-symbol">:+1</span>:<span class="hljs-string">&quot;C&quot;</span>:<span class="hljs-number">0</span>:&#123;&#125;&#x27;)<span class="hljs-comment">;</span></code></pre></div>
+
+<p>字符i，d绕过</p>
+<p>&lt;8.0.3（全版本）</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">unserialize</span>(<span class="hljs-string">&#x27;i:-1;&#x27;</span>);
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;\n&quot;</span>;
+<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">unserialize</span>(<span class="hljs-string">&#x27;i:+1;&#x27;</span>);
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;\n&quot;</span>;
+<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">unserialize</span>(<span class="hljs-string">&#x27;d:-1.1;&#x27;</span>);
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;\n&quot;</span>;
+<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">unserialize</span>(<span class="hljs-string">&#x27;d:+1.2;&#x27;</span>);</code></pre></div>
+
 <h1 id="php冷知识"><a href="#php冷知识" class="headerlink" title="php冷知识"></a>php冷知识</h1><h2 id="题目：serialize-unserialize-x-x"><a href="#题目：serialize-unserialize-x-x" class="headerlink" title="题目：serialize(unserialize($x)) !&#x3D; $x"></a>题目：serialize(unserialize($x)) !&#x3D; $x</h2><p>正常来说一个合法的反序列化字符串，在二次序列化也即反序列化再序列化之后所得到的结果是一致的。</p>
 <div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
 <span class="hljs-variable">$raw</span> = <span class="hljs-string">&#x27;O:1:&quot;A&quot;:1:&#123;s:1:&quot;a&quot;;s:1:&quot;b&quot;;&#125;&#x27;</span>;

