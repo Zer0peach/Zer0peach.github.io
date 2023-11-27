@@ -26,8 +26,10 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231105230925528.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231115171115110.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231115172353434.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231119215355544.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231119220236640.png">
 <meta property="article:published_time" content="2023-11-05T12:54:04.000Z">
-<meta property="article:modified_time" content="2023-11-15T11:59:48.295Z">
+<meta property="article:modified_time" content="2023-11-23T09:25:02.458Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231105230925528.png">
@@ -235,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8.2k 字
+          8.4k 字
         
       </span>
     
@@ -246,7 +248,7 @@
         
         
         
-          69 分钟
+          70 分钟
         
       </span>
     
@@ -430,6 +432,7 @@ jar -cvf yaml-payload.jar -C src/ .</code></pre></div>
 <p><img src="/../images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231115172353434.png" srcset="/img/loading.gif" lazyload alt="image-20231115172353434"></p>
 <p>会把<code>!!</code>变为<code>tag:yaml.org,2002:</code>然后再拼接<code>javax.script.ScriptEngineManager</code></p>
 <p>所以当<code>!!</code>被禁用时，可以用<code>tag:yaml.org,2002:</code>进行绕过</p>
+<p><code>!&lt;tag:yaml.org,2002:com.mchange.v2.c3p0.WrapperConnectionPoolDataSource&gt;</code></p>
 <h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><p>加入<code>new SafeConstructor()</code>类进行过滤</p>
 <div class="code-wrapper"><pre><code class="hljs wren"><span class="hljs-keyword">import</span> <span class="hljs-variable">org</span>.<span class="hljs-property">yaml</span>.<span class="hljs-property">snakeyaml</span>.<span class="hljs-property">Yaml</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-variable">org</span>.<span class="hljs-property">yaml</span>.<span class="hljs-property">snakeyaml</span>.<span class="hljs-property">constructor</span>.<span class="hljs-property">SafeConstructor</span>;
@@ -447,7 +450,8 @@ jar -cvf yaml-payload.jar -C src/ .</code></pre></div>
 
 &#125;</code></pre></div>
 
-<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>与fastjson类似，大多可以参考fastjson，但不能调用恶意类，因为fastjson调用恶意类调用的是getter</p>
+<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p><a target="_blank" rel="noopener" href="https://y4tacker.github.io/2022/02/08/year/2022/2/SnakeYAML%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%8F%8A%E5%8F%AF%E5%88%A9%E7%94%A8Gadget%E5%88%86%E6%9E%90/#%E6%8E%A2%E6%B5%8BSnakeYAML">SnakeYAML反序列化及可利用Gadget | Y4tacker’s Blog</a></p>
+<p>与fastjson类似，大多可以参考fastjson，但不能调用恶意类，因为fastjson调用恶意类调用的是getter</p>
 <h2 id="JdbcRowSetImpl"><a href="#JdbcRowSetImpl" class="headerlink" title="JdbcRowSetImpl"></a>JdbcRowSetImpl</h2><div class="code-wrapper"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> org.<span class="hljs-property">yaml</span>.<span class="hljs-property">snakeyaml</span>.<span class="hljs-property">Yaml</span>;
 
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JdbcRowSetImplTest</span> &#123;
@@ -458,6 +462,10 @@ jar -cvf yaml-payload.jar -C src/ .</code></pre></div>
     &#125;
 &#125;</code></pre></div>
 
+<p>之前这里下了断点，然后执行下一步时突然调到这里（唉，根本不会调试）</p>
+<p>重点就是<code>setDataSourceName</code>，<code>setAutoCommit</code></p>
+<p><img src="/../images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231119215355544.png" srcset="/img/loading.gif" lazyload alt="image-20231119215355544"></p>
+<p><img src="/../images/SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20231119220236640.png" srcset="/img/loading.gif" lazyload alt="image-20231119220236640"></p>
 <h2 id="Spring-PropertyPathFactoryBean利用链"><a href="#Spring-PropertyPathFactoryBean利用链" class="headerlink" title="Spring PropertyPathFactoryBean利用链"></a>Spring PropertyPathFactoryBean利用链</h2><p>这个链子需要springframework依赖</p>
 <div class="code-wrapper"><pre><code class="hljs wren"><span class="hljs-keyword">import</span> <span class="hljs-variable">org</span>.<span class="hljs-property">yaml</span>.<span class="hljs-property">snakeyaml</span>.<span class="hljs-property">Yaml</span>;
 
@@ -808,26 +816,9 @@ jar -cvf yaml-payload.jar -C src/ .</code></pre></div>
     <div class="beian">
   <span>
     <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
-      京ICP证123456号
+      
     </a>
   </span>
-  
-    
-      <span>
-        <a
-          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
-          rel="nofollow noopener"
-          class="beian-police"
-          target="_blank"
-        >
-          
-            <span style="visibility: hidden; width: 0">|</span>
-            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
-          
-          <span>京公网安备12345678号</span>
-        </a>
-      </span>
-    
   
 </div>
 

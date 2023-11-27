@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118162614666.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/Jackson/image-20231118162632689.png">
 <meta property="article:published_time" content="2023-09-27T14:18:23.000Z">
-<meta property="article:modified_time" content="2023-11-18T11:37:56.957Z">
+<meta property="article:modified_time" content="2023-11-23T09:25:59.998Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/Jackson/image-20231116184725409.png">
@@ -260,7 +260,7 @@
         
         
         
-          225 分钟
+          228 分钟
         
       </span>
     
@@ -485,15 +485,15 @@ mapper.enableDefaultTyping(<span class="hljs-type">ObjectMapper</span>.<span cla
 <h2 id="jackson最关键的是这里-！！！！"><a href="#jackson最关键的是这里-！！！！" class="headerlink" title="jackson最关键的是这里  ！！！！"></a>jackson最关键的是这里  ！！！！</h2><p><code>POJONode</code>是继承<code>ValueNode</code>的 <code>ValueNode</code>是继承<code>BaseJsonNode</code>的</p>
 <p>而在<code>BaseJsonNode</code>中存在</p>
 <div class="code-wrapper"><pre><code class="hljs csharp"><span class="hljs-function">Object <span class="hljs-title">writeReplace</span>()</span> &#123;
-        <span class="hljs-keyword">return</span> NodeSerialization.<span class="hljs-keyword">from</span>(<span class="hljs-keyword">this</span>);
-    &#125;</code></pre></div>
+	<span class="hljs-keyword">return</span> NodeSerialization.<span class="hljs-keyword">from</span>(<span class="hljs-keyword">this</span>);
+&#125;</code></pre></div>
 
 <p>意味着 我们在反序列化的时候 会经过这个writeReplace方法 这个方法会对我们的序列化过程进行检查 从而阻止我们的序列化进程，我们需要将其重写出来 将这个方法去掉</p>
 <p><img src="/../images/Jackson/image-20231116184725409.png" srcset="/img/loading.gif" lazyload alt="image-20231116184725409"></p>
-<p>按照图示本地生成，复制粘贴BaseJsonNode的内容，然后在本地的文件中删除</p>
+<p>按照图示本地生成，复制粘贴BaseJsonNode的内容，然后在本地的文件中删除下面这一部分</p>
 <div class="code-wrapper"><pre><code class="hljs csharp"><span class="hljs-function">Object <span class="hljs-title">writeReplace</span>()</span> &#123;
-        <span class="hljs-keyword">return</span> NodeSerialization.<span class="hljs-keyword">from</span>(<span class="hljs-keyword">this</span>);
-    &#125;</code></pre></div>
+	<span class="hljs-keyword">return</span> NodeSerialization.<span class="hljs-keyword">from</span>(<span class="hljs-keyword">this</span>);
+&#125;</code></pre></div>
 
 <h3 id="流程分析"><a href="#流程分析" class="headerlink" title="流程分析"></a>流程分析</h3><p><img src="/../images/Jackson/image-20231116190917633.png" srcset="/img/loading.gif" lazyload alt="image-20231116190917633"></p>
 <p>这是本地的<code>BaseJsonNode</code></p>
@@ -1072,13 +1072,21 @@ public <span class="hljs-keyword">class</span> avoid_error &#123;
 <span class="hljs-variable">@JacksonInject</span>
 有该注解的属性它的值不能从Json中获取</code></pre></div>
 
-<p><code>IfInput</code>打了<code>@JacksonInject</code>的注解，说明这个属性不能被传入的json数据进行赋值</p>
-<p><code>JsonCreator</code>给<code>IfInput</code>设置的<strong>键</strong>为空，<code>JsonInject</code>将<strong>json串中空键</strong>对应的值<code>true</code>赋给了<code>IfInput</code></p>
-<p>当前版本（未知）下会存在一个Jackson对Json对象的解析漏洞，当传入一个<strong>空键名</strong>时，其键值会被赋值给被<code>@JacksonInject</code>注解标注的属性</p>
-<div class="code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;Base64Code&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;AAAAAAAA&quot;</span><span class="hljs-punctuation">&#125;</span></code></pre></div>
+<p>这与Jackson的处理逻辑相关</p>
+<p><a target="_blank" rel="noopener" href="http://blog.kuron3k0.vip/2021/04/10/vulns-of-misunderstanding-annotation/">误解注解产生的漏洞 - kuron3k0的博客 | kuron3k0’s Blog</a></p>
+<div class="code-wrapper"><pre><code class="hljs crmsh">调用readValue后，进入到_deserializeUsingPropertyBased函数，这里循环处理我们的键值对，当前正在处理空键值，propName为空
 
+根据propName会去_propertyLookup中取出对应的creator <span class="hljs-keyword">property</span><span class="hljs-title"></span>，从名字也能看出来，这个就是我们之前的注解生成的，username和password都有对应同名字的键名，但是标注了@JacksonInject键名为空
 
+随后调用_deserializeWithErrorWrapping反序列化得到对应的值，并赋值给buffer中的_creatorParameters
 
+当处理完所有键值对后，取出_creatorParameters调用User的构造函数</code></pre></div>
+
+<p>调试可以发现，IfInput对应的键名为空，所以获取的是<code>&quot;&quot;</code>的值</p>
+<p>给出答案，让IfInput的键名为空  即可给IfInput赋值</p>
+<div class="code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;base64Code&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;AAAAAAAA&quot;</span><span class="hljs-punctuation">&#125;</span></code></pre></div>
+
+<p>当然这种 trick 也只适用于 creator 中只有一个 <code>@JacksonInject</code> 注解的，如果有多个注解，那么 <code>&quot;&quot;</code> 的索引位置只会是一个，一样会走到 <code>_findMissing</code></p>
 
                 
               </div>
@@ -1264,26 +1272,9 @@ public <span class="hljs-keyword">class</span> avoid_error &#123;
     <div class="beian">
   <span>
     <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
-      京ICP证123456号
+      
     </a>
   </span>
-  
-    
-      <span>
-        <a
-          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
-          rel="nofollow noopener"
-          class="beian-police"
-          target="_blank"
-        >
-          
-            <span style="visibility: hidden; width: 0">|</span>
-            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
-          
-          <span>京公网安备12345678号</span>
-        </a>
-      </span>
-    
   
 </div>
 

