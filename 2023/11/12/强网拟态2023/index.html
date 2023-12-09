@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/%E5%BC%BA%E7%BD%91%E6%8B%9F%E6%80%812023/image-20231112012313720.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E5%BC%BA%E7%BD%91%E6%8B%9F%E6%80%812023/image-20231112013029180.png">
 <meta property="article:published_time" content="2023-11-12T11:14:46.000Z">
-<meta property="article:modified_time" content="2023-11-15T12:58:51.407Z">
+<meta property="article:modified_time" content="2023-12-06T15:07:19.461Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/%E5%BC%BA%E7%BD%91%E6%8B%9F%E6%80%812023/image-20231112010611611.png">
@@ -236,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.2k 字
+          6.4k 字
         
       </span>
     
@@ -247,7 +247,7 @@
         
         
         
-          52 分钟
+          54 分钟
         
       </span>
     
@@ -459,11 +459,16 @@ remove_path会删除一个字符     <span class="hljs-meta">#刚开始在php.bu
 
 
 <span class="hljs-keyword">/tmp/</span>/ 会删除两个字符（大佬说的）
+<span class="hljs-keyword">/tmp/</span>.  也行
 因为realpath会去除多余的/，./  ，所以随便尝试，也不知道为什么<span class="hljs-keyword">/tmp/</span>/能行
 反正要达到的效果就是<span class="hljs-keyword">/var/</span>www<span class="hljs-keyword">/html/</span>.htaccess，即把.htaccess文件放在<span class="hljs-keyword">/var/</span>www/html目录下，然后删掉
 
-<span class="hljs-keyword">/tmp/</span>a/.htaccess
-<span class="hljs-keyword">/tmp/</span>/
+<span class="hljs-keyword">/tmp/</span>a/.htaccess   (子目录名字不一定是一个字符)
+<span class="hljs-keyword">/tmp/</span>.htaccess
+
+<span class="hljs-keyword">/tmp/</span><span class="hljs-number">123</span>/.htaccess      (完整的路径)
+<span class="hljs-keyword">/tmp/</span><span class="hljs-number">3</span>/.htaccess         (被去除后的htaccess目录)
+<span class="hljs-keyword">/tmp/</span><span class="hljs-number">123</span>/backdoor.php    (去除后的backdoor目录)    配置文件htaccess不在同一个目录下了，直接访问即可
 </code></pre></div>
 
 <p><img src="/../images/%E5%BC%BA%E7%BD%91%E6%8B%9F%E6%80%812023/image-20231112013029180.png" srcset="/img/loading.gif" lazyload alt="image-20231112013029180"></p>

