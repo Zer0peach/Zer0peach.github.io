@@ -1,0 +1,1428 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="javaweb前言跟着Boogipop大佬学java，这部分拖太久了，忙完下周的一个期末考试，趁其他考试还没来时赶紧学完这些开发的东西 参照Boogipop大佬的学习，学完Servlet和Listener和FIlter这部分就可以结束了 mavenM2_HOME E:\CTF学习笔记\Java\apache-maven-3.8.6-bin\apache-maven-3.8.6\bin MAVEN_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javaweb">
+<meta property="og:url" content="https://zer0peach.github.io/2023/12/10/javaweb/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="javaweb前言跟着Boogipop大佬学java，这部分拖太久了，忙完下周的一个期末考试，趁其他考试还没来时赶紧学完这些开发的东西 参照Boogipop大佬的学习，学完Servlet和Listener和FIlter这部分就可以结束了 mavenM2_HOME E:\CTF学习笔记\Java\apache-maven-3.8.6-bin\apache-maven-3.8.6\bin MAVEN_">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231210192026196.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231210192218373.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231210192634021.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231210204859722.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231210204324527.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231210220730875.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231219174850119.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231219182727934.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231219183705792.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231219190327668.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231219190404430.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231219191031818.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231219214300845.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/javaweb/image-20231220153426022.png">
+<meta property="article:published_time" content="2023-12-10T10:34:39.000Z">
+<meta property="article:modified_time" content="2023-12-21T11:23:09.527Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/javaweb/image-20231210192026196.png">
+  
+  
+  
+  <title>javaweb - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="javaweb"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-12-10 18:34" pubdate>
+          2023年12月10日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          21k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          173 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">javaweb</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="javaweb"><a href="#javaweb" class="headerlink" title="javaweb"></a>javaweb</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>跟着Boogipop大佬学java，这部分拖太久了，忙完下周的一个期末考试，趁其他考试还没来时赶紧学完这些开发的东西</p>
+<p>参照Boogipop大佬的学习，学完Servlet和Listener和FIlter这部分就可以结束了</p>
+<h2 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h2><div class="code-wrapper"><pre><code class="hljs moonscript">M2_HOME <span class="hljs-name">E</span>:\CTF学习笔记\Java\apache-maven<span class="hljs-number">-3.8</span><span class="hljs-number">.6</span>-bin\apache-maven<span class="hljs-number">-3.8</span><span class="hljs-number">.6</span>\bin
+MAVEN_HOME <span class="hljs-name">E</span>:\CTF学习笔记\Java\apache-maven<span class="hljs-number">-3.8</span><span class="hljs-number">.6</span>-bin\apache-maven<span class="hljs-number">-3.8</span><span class="hljs-number">.6</span>
+
+在Path下添加%MAVEN_HOME%\bin</code></pre></div>
+
+<p>修改conf&#x2F;setting.xml</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">mirror</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>aliyunmaven<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">mirrorOf</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">mirrorOf</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>阿里云公共仓库<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">url</span>&gt;</span>https://maven.aliyun.com/repository/public<span class="hljs-tag">&lt;/<span class="hljs-name">url</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">mirror</span>&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-section">&lt;localRepository&gt;</span><span class="hljs-attribute">E</span>:\CTF学习笔记\Java\apache-maven-<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">6</span>-bin\apache-maven-<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">6</span>\maven-repo&lt;/localRepository&gt;</code></pre></div>
+
+<h2 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> javax.servlet.ServletException;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServlet;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletRequest;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletResponse;
+<span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> java.io.PrintWriter;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HttpServlet</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
+        resp.setContentType(<span class="hljs-string">&quot;text/html&quot;</span>);
+        resp.setCharacterEncoding(<span class="hljs-string">&quot;utf-8&quot;</span>);
+        <span class="hljs-type">PrintWriter</span> <span class="hljs-variable">writer</span> <span class="hljs-operator">=</span> resp.getWriter();
+        writer.println(<span class="hljs-string">&quot;hahahhahahahha&quot;</span>);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doPost</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
+
+    &#125;
+&#125;
+</code></pre></div>
+
+<h3 id="注册servlet"><a href="#注册servlet" class="headerlink" title="注册servlet"></a>注册servlet</h3><p>更新web.xml内容</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">web-app</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://xmlns.jcp.org/xml/ns/javaee</span></span>
+<span class="hljs-string"><span class="hljs-tag">                  http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">version</span>=<span class="hljs-string">&quot;4.0&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">metadata-complete</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+    
+    
+<span class="hljs-tag">&lt;/<span class="hljs-name">web-app</span>&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">web-app</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://xmlns.jcp.org/xml/ns/javaee</span></span>
+<span class="hljs-string"><span class="hljs-tag">                  http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">version</span>=<span class="hljs-string">&quot;4.0&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">metadata-complete</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+
+
+    <span class="hljs-comment">&lt;!--注册servlet--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>hello1<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>HelloServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--设置路由--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>hello1<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/hello1<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span>
+    
+    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>hello1<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>*.asd<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>    //自定义以.asd结尾，*前面不加/
+    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span>
+    
+    <span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>error<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>ErrorServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>error<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/*<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>          //优先级较低
+    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span>
+&lt;/web-app &gt;</code></pre></div>
+
+<h2 id="ServletContent"><a href="#ServletContent" class="headerlink" title="ServletContent"></a>ServletContent</h2><p><img src="/../images/javaweb/image-20231210192026196.png" srcset="/img/loading.gif" lazyload alt="image-20231210192026196"></p>
+<p>共享数据</p>
+<div class="code-wrapper"><pre><code class="hljs scala">public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GetServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HttpServlet</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> void doGet(<span class="hljs-type">HttpServletRequest</span> req, <span class="hljs-type">HttpServletResponse</span> resp) <span class="hljs-keyword">throws</span> <span class="hljs-type">ServletException</span>, <span class="hljs-type">IOException</span> &#123;
+        <span class="hljs-type">ServletContext</span> servletContext = <span class="hljs-keyword">this</span>.getServletContext();
+        <span class="hljs-type">String</span> user = (<span class="hljs-type">String</span>)servletContext.getAttribute(<span class="hljs-string">&quot;user&quot;</span>);
+        resp.getWriter().println(user);
+
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> void doPost(<span class="hljs-type">HttpServletRequest</span> req, <span class="hljs-type">HttpServletResponse</span> resp) <span class="hljs-keyword">throws</span> <span class="hljs-type">ServletException</span>, <span class="hljs-type">IOException</span> &#123;
+        <span class="hljs-keyword">super</span>.doPost(req, resp);
+    &#125;
+&#125;
+</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs scala">public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HttpServlet</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> void doGet(<span class="hljs-type">HttpServletRequest</span> req, <span class="hljs-type">HttpServletResponse</span> resp) <span class="hljs-keyword">throws</span> <span class="hljs-type">ServletException</span>, <span class="hljs-type">IOException</span> &#123;
+        resp.setContentType(<span class="hljs-string">&quot;text/html&quot;</span>);
+        resp.setCharacterEncoding(<span class="hljs-string">&quot;utf-8&quot;</span>);
+        <span class="hljs-type">PrintWriter</span> writer = resp.getWriter();
+        writer.println(<span class="hljs-string">&quot;hahahhahahahha&quot;</span>);
+        <span class="hljs-type">ServletContext</span> servletContext = <span class="hljs-keyword">this</span>.getServletContext();
+        servletContext.setAttribute(<span class="hljs-string">&quot;user&quot;</span>,<span class="hljs-string">&quot;asdsadssad&quot;</span>);
+    &#125;</code></pre></div>
+
+<p>直接访问GetServlet对应的路由，显示为null</p>
+<p><img src="/../images/javaweb/image-20231210192218373.png" srcset="/img/loading.gif" lazyload alt="image-20231210192218373"></p>
+<p>要先访问HelloServlet对应的路由，再访问GetServlet对应的路由即可</p>
+<p><img src="/../images/javaweb/image-20231210192634021.png" srcset="/img/loading.gif" lazyload alt="image-20231210192634021"></p>
+<h4 id="getinitparam"><a href="#getinitparam" class="headerlink" title="getinitparam"></a>getinitparam</h4><p>web.xml中设置初始参数值</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span>
+<span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
+    <span class="hljs-type">ServletContext</span> <span class="hljs-variable">servletContext</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.getServletContext();
+    <span class="hljs-type">String</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> (String)servletContext.getAttribute(<span class="hljs-string">&quot;user&quot;</span>);
+    resp.getWriter().println(user);
+
+    <span class="hljs-type">String</span> <span class="hljs-variable">cmd1</span> <span class="hljs-operator">=</span> servletContext.getInitParameter(<span class="hljs-string">&quot;cmd&quot;</span>);
+    resp.getWriter().println(cmd1);
+
+
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">web-app</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://xmlns.jcp.org/xml/ns/javaee</span></span>
+<span class="hljs-string"><span class="hljs-tag">                  http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">version</span>=<span class="hljs-string">&quot;4.0&quot;</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">metadata-complete</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!--注册servlet--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>hello1<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>HelloServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--设置路由--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>hello1<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/hello1<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">context-param</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>cmd<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>jdbc:mysql://localhost:3306/test<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">context-param</span>&gt;</span>
+&lt;/web-app &gt;</code></pre></div>
+
+
+
+<h4 id="getRequestDispatcher"><a href="#getRequestDispatcher" class="headerlink" title="getRequestDispatcher"></a>getRequestDispatcher</h4><p>请求转发</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> javax.servlet.ServletContext;
+<span class="hljs-keyword">import</span> javax.servlet.ServletException;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServlet;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletRequest;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletResponse;
+<span class="hljs-keyword">import</span> java.io.IOException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GetServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HttpServlet</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
+        <span class="hljs-type">ServletContext</span> <span class="hljs-variable">servletContext</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.getServletContext();
+        <span class="hljs-type">String</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> (String)servletContext.getAttribute(<span class="hljs-string">&quot;user&quot;</span>);
+        resp.getWriter().println(user);
+
+        <span class="hljs-type">String</span> <span class="hljs-variable">cmd1</span> <span class="hljs-operator">=</span> servletContext.getInitParameter(<span class="hljs-string">&quot;cmd&quot;</span>);
+        resp.getWriter().println(cmd1);
+        
+        servletContext.getRequestDispatcher(<span class="hljs-string">&quot;/hello1&quot;</span>).forward(req,resp);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doPost</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
+        <span class="hljs-built_in">super</span>.doPost(req, resp);
+    &#125;
+&#125;
+</code></pre></div>
+
+<p><img src="/../images/javaweb/image-20231210204859722.png" srcset="/img/loading.gif" lazyload alt="image-20231210204859722"></p>
+<p>转发后，其他无效，只显示<code>/hello1</code>的页面</p>
+<p><img src="/../images/javaweb/image-20231210204324527.png" srcset="/img/loading.gif" lazyload alt="image-20231210204324527"></p>
+<h4 id="getResourceAsStream"><a href="#getResourceAsStream" class="headerlink" title="getResourceAsStream"></a>getResourceAsStream</h4><p><img src="/../images/javaweb/image-20231210220730875.png" srcset="/img/loading.gif" lazyload alt="image-20231210220730875"></p>
+<p>resources目录下的和java目录下的都会被打包到<code>classes</code>目录下</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> javax.servlet.ServletException;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServlet;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletRequest;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletResponse;
+<span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> java.io.InputStream;
+<span class="hljs-keyword">import</span> java.util.Properties;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ResourceServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HttpServlet</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
+        <span class="hljs-type">InputStream</span> <span class="hljs-variable">stream</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.getServletContext().getResourceAsStream(<span class="hljs-string">&quot;/WEB-INF/classes/cb.properties&quot;</span>);
+        <span class="hljs-type">Properties</span> <span class="hljs-variable">properties</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Properties</span>();
+        properties.load(stream);
+
+        <span class="hljs-type">String</span> <span class="hljs-variable">username</span> <span class="hljs-operator">=</span> properties.getProperty(<span class="hljs-string">&quot;username&quot;</span>);
+        resp.getWriter().println(username);
+
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doPost</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
+        <span class="hljs-built_in">super</span>.doPost(req, resp);
+    &#125;
+&#125;</code></pre></div>
+
+<p>当properties文件不在resources目录下时，有可能无法导出</p>
+<p>在pom.xml添加一段代码即可</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">resources</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">resource</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">directory</span>&gt;</span>src/main/resources<span class="hljs-tag">&lt;/<span class="hljs-name">directory</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">includes</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">include</span>&gt;</span>**/*.properties<span class="hljs-tag">&lt;/<span class="hljs-name">include</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">include</span>&gt;</span>**/*.xml<span class="hljs-tag">&lt;/<span class="hljs-name">include</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">includes</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">resource</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">resource</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">directory</span>&gt;</span>src/main/java<span class="hljs-tag">&lt;/<span class="hljs-name">directory</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">includes</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">include</span>&gt;</span>**/*.properties<span class="hljs-tag">&lt;/<span class="hljs-name">include</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">include</span>&gt;</span>**/*.xml<span class="hljs-tag">&lt;/<span class="hljs-name">include</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">includes</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">filtering</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">filtering</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">resource</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">resources</span>&gt;</span></code></pre></div>
+
+<h2 id="response下载文件"><a href="#response下载文件" class="headerlink" title="response下载文件"></a>response下载文件</h2><p>关键在于响应的请求头<code>Content-Disposition</code>，内容为<code>attachment;filename=</code></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> javax.servlet.ServletException;
+<span class="hljs-keyword">import</span> javax.servlet.ServletOutputStream;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServlet;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletRequest;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletResponse;
+<span class="hljs-keyword">import</span> java.io.FileInputStream;
+<span class="hljs-keyword">import</span> java.io.FileOutputStream;
+<span class="hljs-keyword">import</span> java.io.IOException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DownServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HttpServlet</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
+        <span class="hljs-type">String</span> <span class="hljs-variable">path</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;C:\\Users\\86136\\Pictures\\Saved Pictures\\yunchong.png&quot;</span>;
+        
+        <span class="hljs-type">String</span> <span class="hljs-variable">filename</span> <span class="hljs-operator">=</span> path.substring(path.lastIndexOf(<span class="hljs-string">&quot;\\&quot;</span>)+<span class="hljs-number">1</span>);
+        
+        resp.setHeader(<span class="hljs-string">&quot;Content-Disposition&quot;</span>,<span class="hljs-string">&quot;attachment;filename=&quot;</span>+filename);
+        
+        <span class="hljs-type">FileInputStream</span> <span class="hljs-variable">in</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(path);
+        <span class="hljs-type">int</span> <span class="hljs-variable">len</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;
+        <span class="hljs-type">byte</span>[] bytes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">1024</span>];
+
+        <span class="hljs-type">ServletOutputStream</span> <span class="hljs-variable">out</span> <span class="hljs-operator">=</span> resp.getOutputStream();
+        <span class="hljs-keyword">while</span> ((len = in.read(bytes))!=<span class="hljs-number">0</span>)&#123;
+            out.write(bytes,<span class="hljs-number">0</span>,len);
+        &#125;
+        out.close();
+        in.close();
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doPost</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
+        <span class="hljs-built_in">super</span>.doPost(req, resp);
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="response-验证码"><a href="#response-验证码" class="headerlink" title="response 验证码"></a>response 验证码</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> javax.imageio.ImageIO;
+<span class="hljs-keyword">import</span> javax.servlet.ServletException;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServlet;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletRequest;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletResponse;
+<span class="hljs-keyword">import</span> java.awt.*;
+<span class="hljs-keyword">import</span> java.awt.image.BufferedImage;
+<span class="hljs-keyword">import</span> java.io.IOException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ImageServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HttpServlet</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
+    
+        <span class="hljs-comment">//内存中生成</span>
+        <span class="hljs-type">BufferedImage</span> <span class="hljs-variable">image</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedImage</span>(<span class="hljs-number">80</span>, <span class="hljs-number">20</span>, BufferedImage.TYPE_INT_ARGB);
+        <span class="hljs-type">Graphics2D</span> <span class="hljs-variable">g</span> <span class="hljs-operator">=</span> (Graphics2D) image.getGraphics();
+
+
+        g.setColor(Color.BLUE);
+        g.fillRect(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">80</span>,<span class="hljs-number">20</span>);
+
+        g.setColor(Color.BLACK);
+        g.setFont(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Font</span>(<span class="hljs-literal">null</span>,Font.BOLD,<span class="hljs-number">20</span>));
+        g.drawString(<span class="hljs-string">&quot;123456&quot;</span>,<span class="hljs-number">0</span>,<span class="hljs-number">20</span>);
+
+
+        resp.setContentType(<span class="hljs-string">&quot;image/jpg&quot;</span>);
+        resp.setHeader(<span class="hljs-string">&quot;Cache-Control&quot;</span>,<span class="hljs-string">&quot;no-cache&quot;</span>);
+
+        ImageIO.write(image, <span class="hljs-string">&quot;jpg&quot;</span>, resp.getOutputStream());
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doPost</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
+
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="response-重定向"><a href="#response-重定向" class="headerlink" title="response 重定向"></a>response 重定向</h2><p>设置跳转路径时，注意加上页面设置时的虚拟映射</p>
+<div class="code-wrapper"><pre><code class="hljs erb"><span class="language-xml">//index.jsp</span>
+<span class="language-xml"></span>
+<span class="language-xml">&lt;%</span><span class="language-ruby"><span class="hljs-variable">@page</span> contentType=<span class="hljs-string">&quot;text/html; charset=utf-8&quot;</span> pageEncoding=<span class="hljs-string">&quot;UTF-8&quot;</span> </span><span class="language-xml">%&gt;</span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Hello World!<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span>
+<span class="language-xml"></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&quot;redirect&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;get&quot;</span>&gt;</span></span>
+<span class="language-xml">    用户 <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;username&quot;</span>&gt;</span></span>
+<span class="language-xml">    密码 <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;password&quot;</span>&gt;</span></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;</span></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;search&quot;</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs scala"><span class="hljs-keyword">import</span> javax.servlet.<span class="hljs-type">ServletException</span>;
+<span class="hljs-keyword">import</span> javax.servlet.http.<span class="hljs-type">HttpServlet</span>;
+<span class="hljs-keyword">import</span> javax.servlet.http.<span class="hljs-type">HttpServletRequest</span>;
+<span class="hljs-keyword">import</span> javax.servlet.http.<span class="hljs-type">HttpServletResponse</span>;
+<span class="hljs-keyword">import</span> java.io.<span class="hljs-type">IOException</span>;
+
+public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RedirectServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HttpServlet</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> void doGet(<span class="hljs-type">HttpServletRequest</span> req, <span class="hljs-type">HttpServletResponse</span> resp) <span class="hljs-keyword">throws</span> <span class="hljs-type">ServletException</span>, <span class="hljs-type">IOException</span> &#123;
+
+        <span class="hljs-type">String</span> username = req.getParameter(<span class="hljs-string">&quot;username&quot;</span>);
+        <span class="hljs-type">String</span> password = req.getParameter(<span class="hljs-string">&quot;password&quot;</span>);
+
+        <span class="hljs-type">System</span>.out.println(username+<span class="hljs-string">&quot;:&quot;</span>+password);
+
+        resp.sendRedirect(<span class="hljs-string">&quot;/hello/success.jsp&quot;</span>);    <span class="hljs-comment">//要包含页面设置时的虚拟映射</span>
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> void doPost(<span class="hljs-type">HttpServletRequest</span> req, <span class="hljs-type">HttpServletResponse</span> resp) <span class="hljs-keyword">throws</span> <span class="hljs-type">ServletException</span>, <span class="hljs-type">IOException</span> &#123;
+        <span class="hljs-keyword">super</span>.doPost(req, resp);
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="request"><a href="#request" class="headerlink" title="request"></a>request</h2><p><code>req.getRequestDispatcher(&quot;success.jsp&quot;).forward(req,resp);</code>请求路径已经在虚拟映射的路径下了，不用再写虚拟映射的路径，另外这里<code>success.jsp</code>加不加<code>/</code>是一样的</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> javax.servlet.ServletException;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServlet;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletRequest;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletResponse;
+<span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> java.util.Arrays;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RedirectServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HttpServlet</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doGet</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
+
+        <span class="hljs-type">String</span> <span class="hljs-variable">username</span> <span class="hljs-operator">=</span> req.getParameter(<span class="hljs-string">&quot;username&quot;</span>);
+        <span class="hljs-type">String</span> <span class="hljs-variable">password</span> <span class="hljs-operator">=</span> req.getParameter(<span class="hljs-string">&quot;password&quot;</span>);
+        String[] hobbys = req.getParameterValues(<span class="hljs-string">&quot;hobbys&quot;</span>);
+
+
+        System.out.println(hobbys);
+        System.out.println(Arrays.toString(hobbys));
+        System.out.println(username+<span class="hljs-string">&quot;:&quot;</span>+password);
+        System.out.println(req.getContextPath());
+
+<span class="hljs-comment">//        resp.sendRedirect(&quot;/hello/success.jsp&quot;);</span>
+        req.getRequestDispatcher(<span class="hljs-string">&quot;success.jsp&quot;</span>).forward(req,resp);
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doPost</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException &#123;
+        <span class="hljs-built_in">super</span>.doPost(req, resp);
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="cookie-客户端携带"><a href="#cookie-客户端携带" class="headerlink" title="cookie  (客户端携带)"></a>cookie  (客户端携带)</h2><ul>
+<li>一个cookie只能保存一个信息</li>
+<li>一个web站点可以给浏览器发送多个cookie，最多存放20个cookie</li>
+<li>cookie大小有限制4kb</li>
+<li>300个cookie浏览器上限</li>
+</ul>
+<p>删除cookie</p>
+<ul>
+<li>不设置有效期</li>
+<li>设置有效期为0</li>
+</ul>
+<p>传递中文</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">URLEncoder</span>.</span></span>encode(<span class="hljs-string">&quot;啊啊啊&quot;</span>,<span class="hljs-string">&quot;utf-8&quot;</span>)
+<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">URLDecoder</span>.</span></span>decode(cookie.get<span class="hljs-constructor">Value()</span>,<span class="hljs-string">&quot;utf-8&quot;</span>)</code></pre></div>
+
+<h2 id="session"><a href="#session" class="headerlink" title="session"></a>session</h2><p>什么是session:</p>
+<ul>
+<li>服务器会给浏览器创建一个session对象</li>
+<li>一个session独占一个浏览器，只要浏览器没有关闭，这个session就存在</li>
+<li>用户登陆之后，整个网站他都可以访问</li>
+</ul>
+<p>session和cookie的区别</p>
+<p>cookie是把用户的数据写到用户的浏览器中，可以保存多个cookie</p>
+<p>session是把用户的数据写到用户独占的session中，服务器端保存（保存重要的信息，减少服务器资源的浪费）</p>
+<p>session对象由服务器创建</p>
+<div class="code-wrapper"><pre><code class="hljs stylus">session创建的逻辑实际上是
+
+Cookie cookie = new <span class="hljs-built_in">cookie</span>(<span class="hljs-string">&quot;JSESSIONID&quot;</span>,id)
+<span class="hljs-function"><span class="hljs-title">addCookie</span><span class="hljs-params">(cookie)</span></span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java">req.setCharacterEncoding(<span class="hljs-string">&quot;UTF-8&quot;</span>);
+resp.setCharacterEncoding(<span class="hljs-string">&quot;UTF-8&quot;</span>);
+resp.setContentType(<span class="hljs-string">&quot;text/plain;charset=utf-8&quot;</span>);
+
+<span class="hljs-type">PrintWriter</span> <span class="hljs-variable">writer</span> <span class="hljs-operator">=</span> resp.getWriter();
+
+
+<span class="hljs-type">HttpSession</span> <span class="hljs-variable">session</span> <span class="hljs-operator">=</span> req.getSession();
+session.setAttribute(<span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;zeropeach&quot;</span>);
+<span class="hljs-type">String</span> <span class="hljs-variable">id</span> <span class="hljs-operator">=</span> session.getId();
+writer.println(<span class="hljs-string">&quot;session的id为&quot;</span>+id);
+
+<span class="hljs-comment">//判断是不是新创建的session，只有当session被销毁时才会重新自动生成</span>
+writer.println(session.isNew());
+
+
+
+<span class="hljs-comment">//获取session内容</span>
+<span class="hljs-type">HttpSession</span> <span class="hljs-variable">session</span> <span class="hljs-operator">=</span> req.getSession();
+<span class="hljs-type">Object</span> <span class="hljs-variable">name</span> <span class="hljs-operator">=</span> session.getAttribute(<span class="hljs-string">&quot;name&quot;</span>);
+System.out.println(name.toString());
+
+
+<span class="hljs-comment">//销毁session</span>
+<span class="hljs-type">HttpSession</span> <span class="hljs-variable">session</span> <span class="hljs-operator">=</span> req.getSession();
+session.removeAttribute(<span class="hljs-string">&quot;name&quot;</span>);
+session.invalidate();</code></pre></div>
+
+
+
+<p>当有两个sessionid时，session不能共享对象，可以通过ServletContext（也叫ApplicationContext）</p>
+<p><img src="/../images/javaweb/image-20231219174850119.png" srcset="/img/loading.gif" lazyload alt="image-20231219174850119"></p>
+<h2 id="jsp原理"><a href="#jsp原理" class="headerlink" title="jsp原理"></a>jsp原理</h2><p>全称 Java Servlet Pages</p>
+<p>说明也是一个java程序，是一个servlet</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">D</span>:\idea_2022.<span class="hljs-number">3</span>\.IntelliJIdea\system\tomcat\<span class="hljs-number">81</span>de8c7e-<span class="hljs-number">5</span>d87-<span class="hljs-number">4185</span>-<span class="hljs-number">9841</span>-<span class="hljs-number">7</span>ba31aa3bac6\work\Catalina\localhost\hello\org\apache\jsp</code></pre></div>
+
+<p><img src="/../images/javaweb/image-20231219182727934.png" srcset="/img/loading.gif" lazyload alt="image-20231219182727934"></p>
+<p><img src="/../images/javaweb/image-20231219183705792.png" srcset="/img/loading.gif" lazyload alt="image-20231219183705792"></p>
+<h2 id="jsp语法"><a href="#jsp语法" class="headerlink" title="jsp语法"></a>jsp语法</h2><h3 id="热部署"><a href="#热部署" class="headerlink" title="热部署"></a>热部署</h3><p>要是exploded这个</p>
+<p><img src="/../images/javaweb/image-20231219190327668.png" srcset="/img/loading.gif" lazyload alt="image-20231219190327668"></p>
+<p>然后改为这样既可</p>
+<p><img src="/../images/javaweb/image-20231219190404430.png" srcset="/img/loading.gif" lazyload alt="image-20231219190404430"></p>
+<p>这样就不用每次重启tomcat，只需要刷新页面即可</p>
+<h3 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h3><div class="code-wrapper"><pre><code class="hljs erlang-repl">&lt;<span class="hljs-comment">%--</span>
+&lt;<span class="hljs-comment">%= 变量或表达式%&gt;     用来输出</span>
+
+--<span class="hljs-comment">%&gt;</span>
+&lt;<span class="hljs-comment">%= new java.util.Date()%&gt;</span>
+
+&lt;<span class="hljs-comment">%</span>
+    int sum=<span class="hljs-number">0</span>;
+    for (int i = <span class="hljs-number">0</span>; i &lt;= <span class="hljs-number">100</span>; i++) &#123;
+        sum +=i;
+    &#125;
+    out.println(<span class="hljs-string">&quot;&lt;h1&gt;sum&quot;</span>+sum+<span class="hljs-string">&quot;&lt;/h1&gt;&quot;</span>);
+<span class="hljs-comment">%&gt;</span>
+
+
+&lt;<span class="hljs-comment">%</span>
+    int y = <span class="hljs-number">2</span>;
+<span class="hljs-comment">%&gt;</span>
+
+&lt;<span class="hljs-comment">%</span>
+    out.println(y);
+<span class="hljs-comment">%&gt;</span>
+
+
+
+&lt;<span class="hljs-comment">%</span>
+    for (int i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;
+<span class="hljs-comment">%&gt;</span>
+&lt;h1&gt;wow&lt;/h1&gt;
+&lt;<span class="hljs-comment">%</span>
+    &#125;
+<span class="hljs-comment">%&gt;</span></code></pre></div>
+
+<p><img src="/../images/javaweb/image-20231219191031818.png" srcset="/img/loading.gif" lazyload alt="image-20231219191031818"></p>
+<p>因为本质就是java文件，所以能用java语法，作用域也是一样，于是可以配合<code>HTML</code>循环输出</p>
+<h3 id="jsp声明"><a href="#jsp声明" class="headerlink" title="jsp声明"></a>jsp声明</h3><p>&lt;%! %&gt; 声明全局变量和全局方法</p>
+<div class="code-wrapper"><pre><code class="hljs csharp">&lt;%!
+    <span class="hljs-keyword">static</span> &#123;
+        System.<span class="hljs-keyword">out</span>.println(<span class="hljs-string">&quot;666&quot;</span>);
+    &#125;
+   <span class="hljs-keyword">private</span> <span class="hljs-built_in">int</span> m = <span class="hljs-number">8848</span>;
+%&gt;</code></pre></div>
+
+<p>使用声明后，后被写到java类的作用域下，与原方法同级</p>
+<div class="code-wrapper"><pre><code class="hljs brainfuck">&lt;<span class="hljs-comment">%</span><span class="hljs-literal">--</span><span class="hljs-comment">注释</span><span class="hljs-literal">--</span><span class="hljs-comment">%</span>&gt;
+</code></pre></div>
+
+<p>jsp的注释不会在客户端的源代码中出现</p>
+<p>在jsp中加入这一句，遇到错误就跳转到500.jsp</p>
+<div class="code-wrapper"><pre><code class="hljs gcode">&lt;<span class="hljs-meta">%</span>@ page errorPage=<span class="hljs-string">&quot;error/500.jsp&quot;</span> <span class="hljs-meta">%</span>&gt;       <span class="hljs-comment">//自定义错误页面</span></code></pre></div>
+
+<p>也可以修改web.xml，当遇到404时，就会跳到404.jsp</p>
+<div class="code-wrapper"><pre><code class="hljs gauss">&lt;<span class="hljs-built_in">error</span>-page&gt;
+    &lt;<span class="hljs-built_in">error</span>-<span class="hljs-built_in">code</span>&gt;<span class="hljs-number">404</span>&lt;/<span class="hljs-built_in">error</span>-<span class="hljs-built_in">code</span>&gt;
+    &lt;location&gt;/<span class="hljs-built_in">error</span>/<span class="hljs-number">404.</span>jsp&lt;/location&gt;
+&lt;/<span class="hljs-built_in">error</span>-page&gt;</code></pre></div>
+
+
+
+<div class="code-wrapper"><pre><code class="hljs gradle">页面内容合二为一
+&lt;%@<span class="hljs-keyword">include</span> <span class="hljs-keyword">file</span>=<span class="hljs-string">&quot;&quot;</span>%&gt;         <span class="hljs-comment">//文件包含</span>
+
+
+
+页面内容拼接，实际还是多个页面
+&lt;jsp:<span class="hljs-keyword">include</span> page=<span class="hljs-string">&quot;500.jsp&quot;</span> /&gt;</code></pre></div>
+
+<h2 id="jsp-内置对象"><a href="#jsp-内置对象" class="headerlink" title="jsp 内置对象"></a>jsp 内置对象</h2><div class="code-wrapper"><pre><code class="hljs javascript">&lt;%
+    pageContext.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&quot;name1&quot;</span>,<span class="hljs-string">&quot;1&quot;</span>);   <span class="hljs-comment">//保存的数据只在一个页面中有效</span>
+    request.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&quot;name2&quot;</span>,<span class="hljs-string">&quot;2&quot;</span>);    <span class="hljs-comment">//只在一次请求中有效，请求转发会携带这个数据</span>
+    session.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&quot;name3&quot;</span>,<span class="hljs-string">&quot;3&quot;</span>);    <span class="hljs-comment">//只在一次会话中有效，从打开浏览器到关闭浏览器</span>
+    application.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&quot;name4&quot;</span>,<span class="hljs-string">&quot;4&quot;</span>);   <span class="hljs-comment">//在服务器中有效 ，从打开服务器到关闭服务器</span>
+%&gt;
+
+&lt;%
+    <span class="hljs-title class_">String</span> name1 = (<span class="hljs-title class_">String</span>) pageContext.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&quot;name1&quot;</span>);
+    <span class="hljs-title class_">String</span> name2 = (<span class="hljs-title class_">String</span>) pageContext.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&quot;name2&quot;</span>);
+    <span class="hljs-title class_">String</span> name3 = (<span class="hljs-title class_">String</span>) pageContext.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&quot;name3&quot;</span>);
+    <span class="hljs-title class_">String</span> name4 = (<span class="hljs-title class_">String</span>) pageContext.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&quot;name4&quot;</span>);
+    <span class="hljs-title class_">String</span> name5 = (<span class="hljs-title class_">String</span>) pageContext.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&quot;name5&quot;</span>);
+%&gt;
+
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>$&#123;name1&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>$&#123;name2&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>$&#123;name3&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>$&#123;name4&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span></span>
+&lt;%=name5%&gt;</code></pre></div>
+
+<h2 id="双亲委派机制-（与作用域进行类比）"><a href="#双亲委派机制-（与作用域进行类比）" class="headerlink" title="双亲委派机制 （与作用域进行类比）"></a>双亲委派机制 （与作用域进行类比）</h2><p>想要重写一个类，但加载时会在类加载器中不断地往上找，在最上面加载器中找到的话，只会使用根加载器的，不会使用你重写的</p>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><p><img src="/../images/javaweb/image-20231219214300845.png" srcset="/img/loading.gif" lazyload alt="image-20231219214300845"></p>
+<p>指定作用域</p>
+<div class="code-wrapper"><pre><code class="hljs llvm">&lt;<span class="hljs-variable">%pageContext.setAttribute</span>(<span class="hljs-string">&quot;name&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;123&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-number">3</span>)<span class="hljs-comment">;%&gt;</span></code></pre></div>
+
+
+
+<div class="code-wrapper"><pre><code class="hljs vbscript-html"><span class="language-xml">//都是请求转发</span>
+<span class="language-xml"></span>
+<span class="language-xml"></span><span class="language-vbscript">&lt;%</span>
+<span class="language-vbscript">    pageContext.forward(<span class="hljs-string">&quot;/hello/hello.jsp&quot;</span>);</span>
+<span class="language-vbscript">    <span class="hljs-built_in">request</span>.getRequestDispatcher(<span class="hljs-string">&quot;/hello/hello.jsp&quot;</span>).forward(<span class="hljs-built_in">request</span>,<span class="hljs-built_in">response</span>);</span>
+<span class="language-vbscript">%&gt;</span></code></pre></div>
+
+<h2 id="MVC框架"><a href="#MVC框架" class="headerlink" title="MVC框架"></a>MVC框架</h2><p>Model </p>
+<p>增删改查</p>
+<p>view </p>
+<p>controller</p>
+<p><img src="/../images/javaweb/image-20231220153426022.png" srcset="/img/loading.gif" lazyload alt="image-20231220153426022"></p>
+<h2 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h2><p>导入的包不要错 <code>javax.servlet.Filter</code></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> javax.servlet.*;
+<span class="hljs-keyword">import</span> java.io.IOException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestFilter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Filter</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(FilterConfig filterConfig)</span> <span class="hljs-keyword">throws</span> ServletException &#123;
+        System.out.println(<span class="hljs-string">&quot;初始化&quot;</span>);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doFilter</span><span class="hljs-params">(ServletRequest request, ServletResponse response, FilterChain chain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException &#123;
+        request.setCharacterEncoding(<span class="hljs-string">&quot;utf-8&quot;</span>);
+        response.setCharacterEncoding(<span class="hljs-string">&quot;utf-8&quot;</span>);
+        response.setContentType(<span class="hljs-string">&quot;text/plain;charset=utf-8&quot;</span>);
+
+
+        System.out.println(<span class="hljs-string">&quot;执行前&quot;</span>);
+        chain.doFilter(request,response);
+        System.out.println(<span class="hljs-string">&quot;执行后&quot;</span>);
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">destroy</span><span class="hljs-params">()</span> &#123;
+        System.out.println(<span class="hljs-string">&quot;销毁&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>web.xml</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">filter</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>filter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">filter-class</span>&gt;</span>TestFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-class</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">filter</span>&gt;</span>
+
+
+<span class="hljs-comment">&lt;!--相对路径，不用包含映射--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">filter-mapping</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>filter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/hello.jsp<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">filter-mapping</span>&gt;</span></code></pre></div>
+
+
+
+<h2 id="Listener"><a href="#Listener" class="headerlink" title="Listener"></a>Listener</h2><div class="code-wrapper"><pre><code class="hljs reasonml">import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
+
+public <span class="hljs-keyword">class</span> OnlineListener implements HttpSessionListener &#123;
+    @Override
+    public void session<span class="hljs-constructor">Created(HttpSessionEvent <span class="hljs-params">se</span>)</span> &#123;
+        ServletContext context = se.get<span class="hljs-constructor">Session()</span>.get<span class="hljs-constructor">ServletContext()</span>;
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(se.get<span class="hljs-constructor">Session()</span>.get<span class="hljs-constructor">Id()</span>);
+
+        Integer count = (Integer) context.get<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;OnlineCount&quot;</span>)</span>;
+
+        <span class="hljs-keyword">if</span> (count==null)&#123;
+            count = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Integer(1)</span>;
+        &#125;
+        <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-built_in">int</span> i = count.<span class="hljs-built_in">int</span><span class="hljs-constructor">Value()</span>;
+            count = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Integer(<span class="hljs-params">i</span>+1)</span>;
+        &#125;
+
+        context.set<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;OnlineCount&quot;</span>,<span class="hljs-params">count</span>)</span>;
+
+
+    &#125;
+
+    @Override
+    public void session<span class="hljs-constructor">Destroyed(HttpSessionEvent <span class="hljs-params">se</span>)</span> &#123;
+        ServletContext context = se.get<span class="hljs-constructor">Session()</span>.get<span class="hljs-constructor">ServletContext()</span>;
+
+        Integer count = (Integer) context.get<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;OnlineCount&quot;</span>)</span>;
+
+        <span class="hljs-keyword">if</span> (count==null)&#123;
+            count = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Integer(0)</span>;
+        &#125;
+        <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-built_in">int</span> i = count.<span class="hljs-built_in">int</span><span class="hljs-constructor">Value()</span>;
+            count = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Integer(<span class="hljs-params">i</span>-1)</span>;
+        &#125;
+
+        context.set<span class="hljs-constructor">Attribute(<span class="hljs-string">&quot;OnlineCount&quot;</span>,<span class="hljs-params">count</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>web.xml</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">listener</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">listener-class</span>&gt;</span>OnlineListener<span class="hljs-tag">&lt;/<span class="hljs-name">listener-class</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">listener</span>&gt;</span></code></pre></div>
+
+<h2 id="Filter权限管理案例"><a href="#Filter权限管理案例" class="headerlink" title="Filter权限管理案例"></a>Filter权限管理案例</h2><p>写的时候注意跳转的地方，我在写的时候写出个一直重定向的错误 。。。</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> javax.servlet.*;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletRequest;
+<span class="hljs-keyword">import</span> javax.servlet.http.HttpServletResponse;
+<span class="hljs-keyword">import</span> java.io.IOException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SysFilter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Filter</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(FilterConfig filterConfig)</span> <span class="hljs-keyword">throws</span> ServletException &#123;
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doFilter</span><span class="hljs-params">(ServletRequest request, ServletResponse response, FilterChain chain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException &#123;
+        <span class="hljs-type">HttpServletRequest</span> <span class="hljs-variable">req</span> <span class="hljs-operator">=</span> (HttpServletRequest) request;
+        <span class="hljs-type">HttpServletResponse</span> <span class="hljs-variable">resp</span> <span class="hljs-operator">=</span> (HttpServletResponse) response;
+
+        <span class="hljs-type">Object</span> <span class="hljs-variable">userSession</span> <span class="hljs-operator">=</span> req.getSession().getAttribute(<span class="hljs-string">&quot;USER_SESSION&quot;</span>);
+        <span class="hljs-keyword">if</span> (userSession==<span class="hljs-literal">null</span>)&#123;
+            resp.sendRedirect(<span class="hljs-string">&quot;/hello/sys/error.jsp&quot;</span>);
+        &#125;
+
+
+        chain.doFilter(req,resp);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">destroy</span><span class="hljs-params">()</span> &#123;
+
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs scala"><span class="hljs-keyword">import</span> javax.servlet.<span class="hljs-type">ServletException</span>;
+<span class="hljs-keyword">import</span> javax.servlet.http.<span class="hljs-type">HttpServlet</span>;
+<span class="hljs-keyword">import</span> javax.servlet.http.<span class="hljs-type">HttpServletRequest</span>;
+<span class="hljs-keyword">import</span> javax.servlet.http.<span class="hljs-type">HttpServletResponse</span>;
+<span class="hljs-keyword">import</span> java.io.<span class="hljs-type">IOException</span>;
+
+public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HttpServlet</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> void doGet(<span class="hljs-type">HttpServletRequest</span> req, <span class="hljs-type">HttpServletResponse</span> resp) <span class="hljs-keyword">throws</span> <span class="hljs-type">ServletException</span>, <span class="hljs-type">IOException</span> &#123;
+
+        <span class="hljs-type">String</span> username = req.getParameter(<span class="hljs-string">&quot;username&quot;</span>);
+
+        <span class="hljs-keyword">if</span> (username.equals(<span class="hljs-string">&quot;admin&quot;</span>))&#123;
+            req.getSession().setAttribute(<span class="hljs-string">&quot;USER_SESSION&quot;</span>,req.getSession().getId());
+            resp.sendRedirect(<span class="hljs-string">&quot;/hello/success.jsp&quot;</span>);
+        &#125;
+        <span class="hljs-keyword">else</span> &#123;
+            resp.sendRedirect(<span class="hljs-string">&quot;/hello/sys/error.jsp&quot;</span>);
+        &#125;
+
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> void doPost(<span class="hljs-type">HttpServletRequest</span> req, <span class="hljs-type">HttpServletResponse</span> resp) <span class="hljs-keyword">throws</span> <span class="hljs-type">ServletException</span>, <span class="hljs-type">IOException</span> &#123;
+        <span class="hljs-keyword">super</span>.doPost(req, resp);
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs scala"><span class="hljs-keyword">import</span> javax.servlet.<span class="hljs-type">ServletException</span>;
+<span class="hljs-keyword">import</span> javax.servlet.http.<span class="hljs-type">HttpServlet</span>;
+<span class="hljs-keyword">import</span> javax.servlet.http.<span class="hljs-type">HttpServletRequest</span>;
+<span class="hljs-keyword">import</span> javax.servlet.http.<span class="hljs-type">HttpServletResponse</span>;
+<span class="hljs-keyword">import</span> java.io.<span class="hljs-type">IOException</span>;
+
+public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LogoutServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HttpServlet</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> void doGet(<span class="hljs-type">HttpServletRequest</span> req, <span class="hljs-type">HttpServletResponse</span> resp) <span class="hljs-keyword">throws</span> <span class="hljs-type">ServletException</span>, <span class="hljs-type">IOException</span> &#123;
+        <span class="hljs-type">Object</span> userSession = req.getSession().getAttribute(<span class="hljs-string">&quot;USER_SESSION&quot;</span>);
+
+        <span class="hljs-keyword">if</span> (userSession!=<span class="hljs-literal">null</span>)&#123;
+            req.getSession().removeAttribute(<span class="hljs-string">&quot;USER_SESSION&quot;</span>);
+            resp.sendRedirect(<span class="hljs-string">&quot;/hello/sys/login.jsp&quot;</span>);
+        &#125;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">protected</span> void doPost(<span class="hljs-type">HttpServletRequest</span> req, <span class="hljs-type">HttpServletResponse</span> resp) <span class="hljs-keyword">throws</span> <span class="hljs-type">ServletException</span>, <span class="hljs-type">IOException</span> &#123;
+        <span class="hljs-keyword">super</span>.doPost(req, resp);
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>login<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>LoginServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>login<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/sys/login<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>logout<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>LogoutServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>logout<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/sys/logout<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">filter</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>log<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">filter-class</span>&gt;</span>SysFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-class</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">filter</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">filter-mapping</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>log<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/success.jsp<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">filter-mapping</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">filter-mapping</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>log<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/sys/logout.jsp<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">filter-mapping</span>&gt;</span></code></pre></div>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>javaweb</div>
+      <div>https://zer0peach.github.io/2023/12/10/javaweb/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年12月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/12/24/NCTF2023/" title="NCTF2023">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">NCTF2023</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/12/01/12%E6%9C%88%E5%BA%B7%E5%A4%8D%E8%AE%A1%E5%88%92/" title="12月康复计划">
+                        <span class="hidden-mobile">12月康复计划</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
