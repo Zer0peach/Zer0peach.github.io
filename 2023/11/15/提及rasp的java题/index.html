@@ -58,7 +58,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231119155007555.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231127213739145.png">
 <meta property="article:published_time" content="2023-11-15T13:07:25.000Z">
-<meta property="article:modified_time" content="2023-12-27T11:07:40.352Z">
+<meta property="article:modified_time" content="2023-12-29T19:46:07.665Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231116172916127.png">
@@ -1003,7 +1003,7 @@ advisedSupport.setTarget(templatesImpl);
     &#125;</code></pre></div>
 
 <p><code>exec</code>追溯一下会发现是调用<code>ProcessImpl</code>的<code>start</code>方法，封掉了之前常见的<code>Runtime</code>,<code>ProcessBuilder</code></p>
-<p>java命令执行的方式中追溯到底层只有<code>UNIXProcess</code>和<code>ProcessImpl</code>，因此可以用<code>UNIXProcess</code>进行绕过,最终都是调用<code>forkAndExec</code>方法</p>
+<p>java命令执行的方式中追溯到底层只有<code>UNIXProcess</code>和<code>ProcessImpl</code>，因此可以用<code>UNIXProcess</code>进行绕过,最终调用<code>forkAndExec</code>方法</p>
 <h3 id="JNI绕过RASP"><a href="#JNI绕过RASP" class="headerlink" title="JNI绕过RASP"></a>JNI绕过RASP</h3><p><img src="/../images/%E6%8F%90%E5%8F%8Arasp%E7%9A%84java%E9%A2%98/image-20231118200106740.png" srcset="/img/loading.gif" lazyload alt="image-20231118200106740"></p>
 <p><a target="_blank" rel="noopener" href="https://dummykitty.github.io/posts/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%95%E8%BF%87-RASP/#%E7%AC%AC%E4%B8%80%E6%AD%A5%E7%BC%96%E5%86%99-native-%E6%96%B9%E6%B3%95">Java 反序列化绕过 RASP | DummyKitty’s blog</a></p>
 <div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-keyword">package</span> com.javasec;
