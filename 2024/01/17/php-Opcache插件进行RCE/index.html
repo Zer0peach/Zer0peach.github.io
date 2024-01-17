@@ -1,0 +1,797 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="php opcache缓存进行RCE前言关于opcache我是在去年三四月份从B站上的nepnep战队的一个分享会上看到的，当时觉得很难，就记录了一下操作，记住了这个词，然后就没出现过了 再次见到就是Boogipop大佬的文章，不过也没看，一直到现在复现DASCTF X 0psu3的一个题目用到了，就来看一遍，相当于是重新学一遍了 复现一遍Boogipop大佬文章，我这里详细给出了环境搭建的命令（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php Opcache插件进行RCE">
+<meta property="og:url" content="https://zer0peach.github.io/2024/01/17/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="php opcache缓存进行RCE前言关于opcache我是在去年三四月份从B站上的nepnep战队的一个分享会上看到的，当时觉得很难，就记录了一下操作，记住了这个词，然后就没出现过了 再次见到就是Boogipop大佬的文章，不过也没看，一直到现在复现DASCTF X 0psu3的一个题目用到了，就来看一遍，相当于是重新学一遍了 复现一遍Boogipop大佬文章，我这里详细给出了环境搭建的命令（">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117181811688.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117145457621.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117145457621.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117145519755.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117145739241.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117183119719.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117183402563.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117162146324.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117175735733.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117175701476.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117180130700.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117180147678.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117184508737.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117184527792.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117184659142.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117185550804.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117180524000.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117180147678.png">
+<meta property="article:published_time" content="2024-01-17T06:54:31.000Z">
+<meta property="article:modified_time" content="2024-01-17T10:59:58.455Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117181811688.png">
+  
+  
+  
+  <title>php Opcache插件进行RCE - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="php Opcache插件进行RCE"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-17 14:54" pubdate>
+          2024年1月17日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">php Opcache插件进行RCE</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="php-opcache缓存进行RCE"><a href="#php-opcache缓存进行RCE" class="headerlink" title="php opcache缓存进行RCE"></a>php opcache缓存进行RCE</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于<code>opcache</code>我是在去年三四月份从B站上的nepnep战队的一个分享会上看到的，当时觉得很难，就记录了一下操作，记住了这个词，然后就没出现过了</p>
+<p>再次见到就是Boogipop大佬的文章，不过也没看，一直到现在复现DASCTF X 0psu3的一个题目用到了，就来看一遍，相当于是重新学一遍了</p>
+<p>复现一遍Boogipop大佬文章，我这里详细给出了环境搭建的命令（当然若是大佬可以直接看原文）</p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><div class="code-wrapper"><pre><code class="hljs awk">docker pull php:<span class="hljs-number">7.1</span>-apache
+<span class="hljs-regexp">//</span>docker pull php:<span class="hljs-number">8.2</span>-apache
+
+docker run -d -p <span class="hljs-number">9000</span>:<span class="hljs-number">80</span> --name opcache7 php:<span class="hljs-number">7.1</span>-apache
+
+
+
+
+apt-get update
+apt install vim
+vim phpinfo.php    <span class="hljs-regexp">//</span>写phpinfo
+
+<span class="hljs-regexp">//</span>安装opcache插件
+docker-php-ext-configure opcache --enable-opcache &amp;&amp; docker-php-ext-install opcache
+
+vim <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/etc/</span>php/php.ini-production
+
+<span class="hljs-regexp">//</span>找到opcache部分添加下面三行句子
+[opcache]
+opcache.enable=<span class="hljs-number">1</span>
+opcache.file_cache=<span class="hljs-string">&quot;/tmp&quot;</span>
+opcache.file_cache_only=<span class="hljs-number">1</span>
+
+<span class="hljs-regexp">//</span>docker的php是没有php.ini配置文件的，修改了php.ini-production后复制并重命名为php.ini即可
+cp <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/etc/</span>php<span class="hljs-regexp">/php.ini-production /u</span>sr<span class="hljs-regexp">/local/</span>etc<span class="hljs-regexp">/php/</span>php.ini
+
+
+<span class="hljs-regexp">//</span>修改了php.ini要重启服务
+service apache2 reload</code></pre></div>
+
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117181811688.png" srcset="/img/loading.gif" lazyload alt="image-20240117181811688"></p>
+<p>看到这一行就说明配置成功了</p>
+<p>看一下docker中的文件</p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117145457621.png" srcset="/img/loading.gif" lazyload alt="image-20240117145457621"></p>
+<p>当Opcache第一次缓存文件时， <code>/tmp/system_id/var/www/html/phpinfo.php.bin</code></p>
+<h2 id="php7-Opcache"><a href="#php7-Opcache" class="headerlink" title="php7 Opcache"></a>php7 Opcache</h2><p>首先说一下Opcache rce的原理，Opache是php中一个生成缓存文件的拓展，当我们访问一个php文件时，他会产生一个缓存文件，下次访问该php文件时，就是直接根据缓存文件回显页面了。</p>
+<p>那很明显伪造文件替换即可</p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117145457621.png" srcset="/img/loading.gif" lazyload alt="image-20240117145457621"></p>
+<p>缓存文件夹是<code>1116d566fdc53f79abce6c01e3a0308d</code>这个是今天的重点，我们怎么去算这个<code>system_id</code>呢？</p>
+<p>在之前的笔记中，我记录它为文件上传 LFI + phpinfo，是可以根据phpinfo的信息计算出来<code>system_id</code>的</p>
+<p>在PHP环境下已经有前人给出我们计算脚本<br><code>https://github.com/GoSecure/php7-opcache-override</code></p>
+<p>php7.3版本好像太高算不对，于是Boogipop大佬降低了版本为7.1</p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117145519755.png" srcset="/img/loading.gif" lazyload alt="image-20240117145519755"></p>
+<p>我们怎么利用呢？当我们存在任意文件写入或者覆盖时，我们可以通过覆盖<code>.php.bin</code>文件达到RCE的目的</p>
+<p>我们把缓存文件下载下来分析一下</p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117145739241.png" srcset="/img/loading.gif" lazyload alt="image-20240117145739241"></p>
+<p>可以看到最开头是OPACHE+systemid，因此假如我们获取到了SYSTEMID，我们就可以伪造一份缓存文件了，但是还需要注意一点</p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117183119719.png" srcset="/img/loading.gif" lazyload alt="image-20240117183119719"></p>
+<p>我们这里的<code>opcache</code>拓展开启了<code>timestamp</code>，也就是时间戳验证，那么假如我们创建的文件时间戳不对的话，我们也无法覆盖成功的QWQ，那么就需要题目有一个获取时间的地方，假如可以下载任意文件或者直接获取时间戳，那么我们可以用010editor直接修改。</p>
+<p>干到这里时我实在是受不了原来那版010了，又耗费精力找新的破解版，耗了不少时间，服了</p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117183402563.png" srcset="/img/loading.gif" lazyload alt="image-20240117183402563"></p>
+<p>从<code>0040h</code>开始，即<strong>第五行</strong>开始的8个字节（图中蓝色部分）即是时间戳</p>
+<p>这里我们再启动一个容器就行，与原来一样的配置（只是在<code>phpinfo.php</code>文件中写入一句话木马），这样就省下计算<code>system_id</code>这一步了</p>
+<p>同样会生成一个<code>phpinfo.php.bin</code>文件，弄下来修改为前一个的system_id(已省略)和时间戳</p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117162146324.png" srcset="/img/loading.gif" lazyload alt="image-20240117162146324"></p>
+<p>然后把这个修改过的文件替换掉环境中的文件即可</p>
+<p>我是把原来的直接删掉，然后通过base64写入文件</p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117175735733.png" srcset="/img/loading.gif" lazyload alt="image-20240117175735733"></p>
+<p>然后访问phpinfo.php就会变得空白，说明一句话木马写入成功</p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117175701476.png" srcset="/img/loading.gif" lazyload alt="image-20240117175701476"></p>
+<p>这样就成功getshell了，需要注意一下生成恶意bin文件的php版本需要大致吻合，不能差太多。</p>
+<h2 id="php8-opcache"><a href="#php8-opcache" class="headerlink" title="php8 opcache"></a>php8 opcache</h2><p>在PHP8之后，opcache生成system_id的方法有些许改变，所以之前的脚本是跑不出来了</p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117180130700.png" srcset="/img/loading.gif" lazyload alt="image-20240117180130700"></p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117180147678.png" srcset="/img/loading.gif" lazyload alt="image-20240117180147678"></p>
+<p>可以看到算出的<code>system_id</code>不同</p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117184508737.png" srcset="/img/loading.gif" lazyload alt="image-20240117184508737"></p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117184527792.png" srcset="/img/loading.gif" lazyload alt="image-20240117184527792"></p>
+<p>Boogipop大佬并没有说出规律是什么</p>
+<p>经过我的尝试，规律很简单，就是修改API前的版本号即可</p>
+<p>我这里是8.2.14</p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117184659142.png" srcset="/img/loading.gif" lazyload alt="image-20240117184659142"></p>
+<p>再加上框框中的内容</p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117185550804.png" srcset="/img/loading.gif" lazyload alt="image-20240117185550804"></p>
+<p>所以得出计算代码</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-string">&quot;8.2.14API420220829,NTSBIN_4888(size_t)8\002&quot;</span>));</code></pre></div>
+
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117180524000.png" srcset="/img/loading.gif" lazyload alt="image-20240117180524000"></p>
+<p><img src="/../images/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/image-20240117180147678.png" srcset="/img/loading.gif" lazyload alt="image-20240117180147678"></p>
+<p>后面的步骤是一样的，就不试了</p>
+<h2 id="春秋杯2023-php-again"><a href="#春秋杯2023-php-again" class="headerlink" title="春秋杯2023-php_again"></a>春秋杯2023-php_again</h2><p>给出Boogipop大佬文章中的例题，</p>
+<p>考点就是opache8的缓存文件利用：</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-variable">$action</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;action&#x27;</span>];
+<span class="hljs-keyword">if</span> (<span class="hljs-keyword">empty</span>(<span class="hljs-variable">$action</span>)) &#123;
+    <span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);
+    <span class="hljs-keyword">die</span>();
+&#125;
+<span class="hljs-keyword">switch</span> (<span class="hljs-variable">$action</span>) &#123;
+    <span class="hljs-keyword">case</span> <span class="hljs-number">0_0</span>:
+        <span class="hljs-title function_ invoke__">phpinfo</span>();
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-number">0o0_111</span>:
+        <span class="hljs-title function_ invoke__">exec</span>(<span class="hljs-string">&#x27;zip -r /tmp/www.zip *&#x27;</span>);
+        <span class="hljs-title function_ invoke__">readfile</span>(<span class="hljs-string">&#x27;/tmp/www.zip&#x27;</span>);
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-number">0b0_111</span>:
+        <span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">scandir</span>(<span class="hljs-string">&#x27;/var/www/html/&#x27;</span>));
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-number">0x0_555</span>:
+        <span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-string">&#x27;/tmp/tmp.zip&#x27;</span>,<span class="hljs-title function_ invoke__">base64_decode</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;data&#x27;</span>]));
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-number">777_777</span>:
+        <span class="hljs-title function_ invoke__">exec</span>(<span class="hljs-string">&#x27;cd /tmp &amp;&amp; unzip -o tmp.zip&#x27;</span>);
+        <span class="hljs-keyword">break</span>;
+&#125;</code></pre></div>
+
+<p>首先是一个软链接读文件，然后是unzip解压覆盖文件，满足了所有条件后就可以按照上述步骤进行处理，getshell了</p>
+<p>这感觉好难啊</p>
+<h2 id="DASCTF-X-0psu3-十一月挑战赛-single-php"><a href="#DASCTF-X-0psu3-十一月挑战赛-single-php" class="headerlink" title="DASCTF X 0psu3 十一月挑战赛   single_php"></a>DASCTF X 0psu3 十一月挑战赛   single_php</h2><p>就给个代码，看文章复现吧</p>
+<p>[DASCTF X 0psu3 Web Writeup - Boogiepop Doesn’t Laugh (boogipop.com)](<a target="_blank" rel="noopener" href="https://boogipop.com/2023/12/15/DASCTF">https://boogipop.com/2023/12/15/DASCTF</a> X 0psu3 Web Writeup&#x2F;#single-php)</p>
+<p>好像都是解压覆盖这种</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);
+
+<span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);
+<span class="hljs-variable">$allowed_ip</span> = <span class="hljs-string">&quot;127.0.0.1&quot;</span>;
+<span class="hljs-keyword">if</span> (<span class="hljs-variable">$_SERVER</span>[<span class="hljs-string">&#x27;REMOTE_ADDR&#x27;</span>] !== <span class="hljs-variable">$allowed_ip</span>) &#123;
+    <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;S* has the kanojo but you don&#x27;t&quot;</span>);
+&#125;
+
+ <span class="hljs-variable">$finfo</span> = <span class="hljs-title function_ invoke__">finfo_open</span>(FILEINFO_MIME_TYPE);
+ <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">finfo_file</span>(<span class="hljs-variable">$finfo</span>, <span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;tmp_name&quot;</span>]) === <span class="hljs-string">&#x27;application/x-tar&#x27;</span>)&#123;
+ <span class="hljs-title function_ invoke__">exec</span>(<span class="hljs-string">&#x27;cd /tmp &amp;&amp; tar -xvf &#x27;</span> . <span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;tmp_name&quot;</span>]);
+ &#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">siroha</span></span>&#123;
+<span class="hljs-keyword">public</span> <span class="hljs-variable">$koi</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span>&#123;
+<span class="hljs-variable language_">$this</span>-&gt;koi[<span class="hljs-string">&#x27;zhanjiangdiyishenqing&#x27;</span>]();
+&#125;
+&#125;
+<span class="hljs-variable">$kanozyo</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;LuckyE&#x27;</span>](<span class="hljs-keyword">__FILE__</span>);
+<span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$kanozyo</span>);
+<span class="hljs-variable">$suki</span> = <span class="hljs-title function_ invoke__">unserialize</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;suki&#x27;</span>]);</code></pre></div>
+
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p>[PHP8 OPCACHE缓存文件导致RCE - Boogiepop Doesn’t Laugh (boogipop.com)](<a target="_blank" rel="noopener" href="https://boogipop.com/2023/06/16/PHP8">https://boogipop.com/2023/06/16/PHP8</a> OPCACHE缓存文件导致RCE&#x2F;)</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>php Opcache插件进行RCE</div>
+      <div>https://zer0peach.github.io/2024/01/17/php-Opcache插件进行RCE/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/15/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/" title="DASCTF X Opsu3十一月挑战赛">
+                        <span class="hidden-mobile">DASCTF X Opsu3十一月挑战赛</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

