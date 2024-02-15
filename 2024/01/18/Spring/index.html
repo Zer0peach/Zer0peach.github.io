@@ -1,0 +1,1647 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Springspring是一个开源的容器 轻量级、非入侵的框架 控制反转(IOC) 和面向切面编程（AOP） IOC(控制反转)推导package com.zero.Dao;  public interface UserDao &amp;#123;     void getUser(); &amp;#125;   package com.zero.Dao;  public class UserDaoImpl im">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring">
+<meta property="og:url" content="https://zer0peach.github.io/2024/01/18/Spring/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="Springspring是一个开源的容器 轻量级、非入侵的框架 控制反转(IOC) 和面向切面编程（AOP） IOC(控制反转)推导package com.zero.Dao;  public interface UserDao &amp;#123;     void getUser(); &amp;#125;   package com.zero.Dao;  public class UserDaoImpl im">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/Spring/image-20240118234922520.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Spring/image-20240119164855097.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Spring/image-20240119173903265.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Spring/image-20240119175116860.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Spring/image-20240119181310885.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Spring/image-20240119201126971.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Spring/image-20240119201154474.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Spring/image-20240120005112058.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Spring/image-20240120014325047.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Spring/image-20240120182810263.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Spring/image-20240120184430262.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Spring/image-20240120184603928.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Spring/image-20240120203147891.png">
+<meta property="article:published_time" content="2024-01-18T15:47:59.000Z">
+<meta property="article:modified_time" content="2024-02-02T08:08:59.405Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/Spring/image-20240118234922520.png">
+  
+  
+  
+  <title>Spring - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Spring"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-18 23:47" pubdate>
+          2024年1月18日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          30k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          249 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Spring</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><p>spring是一个开源的容器</p>
+<p>轻量级、非入侵的框架</p>
+<p>控制反转(IOC) 和面向切面编程（AOP）</p>
+<h2 id="IOC-控制反转-推导"><a href="#IOC-控制反转-推导" class="headerlink" title="IOC(控制反转)推导"></a>IOC(控制反转)推导</h2><div class="code-wrapper"><pre><code class="hljs aspectj"><span class="hljs-keyword">package</span> com.zero.Dao;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserDao</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getUser</span><span class="hljs-params">()</span></span>;
+&#125;
+</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs aspectj"><span class="hljs-keyword">package</span> com.zero.Dao;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserDaoImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserDao</span></span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getUser</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;获取默认数据&quot;</span>);
+    &#125;
+&#125;
+</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs aspectj"><span class="hljs-keyword">package</span> com.zero.Dao;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UsermysqlImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserDao</span></span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getUser</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;mysql数据&quot;</span>);
+    &#125;
+&#125;
+</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs aspectj"><span class="hljs-keyword">package</span> com.zero.Dao;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserOracleImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserDao</span></span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getUser</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;Oracle数据&quot;</span>);
+    &#125;
+&#125;
+</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs aspectj"><span class="hljs-keyword">package</span> com.zero.service;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserService</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getUser</span><span class="hljs-params">()</span></span>;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.zero.service;
+
+<span class="hljs-keyword">import</span> com.zero.Dao.UserDao;
+<span class="hljs-keyword">import</span> com.zero.Dao.UserDaoImpl;
+<span class="hljs-keyword">import</span> com.zero.Dao.UserOracleImpl;
+<span class="hljs-keyword">import</span> com.zero.Dao.UsermysqlImpl;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">UserService</span>&#123;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-type">UserDao</span> <span class="hljs-variable">userDao</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UsermysqlImpl</span>();
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">getUser</span><span class="hljs-params">()</span> &#123;
+        userDao.getUser();
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs smali">import com.zero.service.UserServiceImpl;
+<span class="hljs-keyword"></span>
+<span class="hljs-keyword">public</span> class<span class="hljs-built_in"> execute </span>&#123;
+   <span class="hljs-keyword"> public</span><span class="hljs-keyword"> static</span> void main(String[] args) &#123;
+        UserServiceImpl userService =<span class="hljs-built_in"> new </span>UserServiceImpl();
+        userService.getUser();
+    &#125;
+&#125;</code></pre></div>
+
+<p><img src="/../images/Spring/image-20240118234922520.png" srcset="/img/loading.gif" lazyload alt="image-20240118234922520"></p>
+<div class="code-wrapper"><pre><code class="hljs aspectj"><span class="hljs-keyword">package</span> com.zero.service;
+
+<span class="hljs-keyword">import</span> com.zero.Dao.UserDao;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserService</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUser</span><span class="hljs-params">(UserDao userDao)</span></span>;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getUser</span><span class="hljs-params">()</span></span>;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs typescript">package com.<span class="hljs-property">zero</span>.<span class="hljs-property">service</span>;
+
+<span class="hljs-keyword">import</span> com.<span class="hljs-property">zero</span>.<span class="hljs-property">Dao</span>.<span class="hljs-property">UserDao</span>;
+<span class="hljs-keyword">import</span> com.<span class="hljs-property">zero</span>.<span class="hljs-property">Dao</span>.<span class="hljs-property">UserDaoImpl</span>;
+<span class="hljs-keyword">import</span> com.<span class="hljs-property">zero</span>.<span class="hljs-property">Dao</span>.<span class="hljs-property">UserOracleImpl</span>;
+<span class="hljs-keyword">import</span> com.<span class="hljs-property">zero</span>.<span class="hljs-property">Dao</span>.<span class="hljs-property">UsermysqlImpl</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">UserService</span>&#123;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">UserDao</span> userDao;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setUser</span>(<span class="hljs-params">UserDao userDao</span>) &#123;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">userDao</span> = userDao;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">getUser</span>(<span class="hljs-params"></span>) &#123;
+        userDao.<span class="hljs-title function_">getUser</span>();
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs smali">import com.zero.Dao.UserOracleImpl;
+import com.zero.service.UserServiceImpl;
+<span class="hljs-keyword"></span>
+<span class="hljs-keyword">public</span> class<span class="hljs-built_in"> execute </span>&#123;
+   <span class="hljs-keyword"> public</span><span class="hljs-keyword"> static</span> void main(String[] args) &#123;
+        UserServiceImpl userService =<span class="hljs-built_in"> new </span>UserServiceImpl();
+        UserOracleImpl userOracle =<span class="hljs-built_in"> new </span>UserOracleImpl();
+        userService.setUser(userOracle);
+        userService.getUser();
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>使用set注入，控制权不在程序员手上，程序只能被动地接受对象</p>
+<p>程序员不用再去管理对象的创建</p>
+<p><img src="/../images/Spring/image-20240119164855097.png" srcset="/img/loading.gif" lazyload alt="image-20240119164855097"></p>
+<h2 id="HelloSpring"><a href="#HelloSpring" class="headerlink" title="HelloSpring"></a>HelloSpring</h2><p>通过xml配置文件修改</p>
+<p>对象由spring来创建，管理、装配</p>
+<div class="code-wrapper"><pre><code class="hljs typescript">package com.<span class="hljs-property">zero</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">person</span> &#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-title class_">String</span> str;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">getStr</span>(<span class="hljs-params"></span>) &#123;
+        <span class="hljs-keyword">return</span> str;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setStr</span>(<span class="hljs-params"><span class="hljs-built_in">String</span> str</span>) &#123;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">str</span> = str;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">toString</span>(<span class="hljs-params"></span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;person&#123;&quot;</span> +
+                <span class="hljs-string">&quot;str=&#x27;&quot;</span> + str + <span class="hljs-string">&#x27;\&#x27;&#x27;</span> +
+                <span class="hljs-string">&#x27;&#125;&#x27;</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;mysql&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.Dao.UsermysqlImpl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span> = <span class="hljs-string">&quot;oracle&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.Dao.UserOracleImpl&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span> = <span class="hljs-string">&quot;service&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.service.UserServiceImpl&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;mysql&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>   //这个name不是属性的名字，而是那个属性对应的set方法的名字，例如我这里set方法就是setUser
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;person&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.person&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;str&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;zeropeach&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.zero.Dao.UserOracleImpl;
+<span class="hljs-keyword">import</span> com.zero.person;
+<span class="hljs-keyword">import</span> com.zero.service.UserService;
+<span class="hljs-keyword">import</span> com.zero.service.UserServiceImpl;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationContext;
+<span class="hljs-keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">execute</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;
+
+        <span class="hljs-type">ApplicationContext</span> <span class="hljs-variable">classPathXmlApplicationContext</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassPathXmlApplicationContext</span>(<span class="hljs-string">&quot;bean.xml&quot;</span>);
+        <span class="hljs-type">UserService</span> <span class="hljs-variable">service</span> <span class="hljs-operator">=</span> (UserService)classPathXmlApplicationContext.getBean(<span class="hljs-string">&quot;service&quot;</span>);
+        <span class="hljs-type">person</span> <span class="hljs-variable">person</span> <span class="hljs-operator">=</span> (person) classPathXmlApplicationContext.getBean(<span class="hljs-string">&quot;person&quot;</span>);
+        service.getUser();
+        System.out.println(person.toString());
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h2 id="IOC有参构造创建对象方式"><a href="#IOC有参构造创建对象方式" class="headerlink" title="IOC有参构造创建对象方式"></a>IOC有参构造创建对象方式</h2><p>上面默认是无参构造实例化，那若是一个有参的构造函数呢</p>
+<div class="code-wrapper"><pre><code class="hljs typescript">package com.<span class="hljs-property">zero</span>.<span class="hljs-property">pojo</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-title class_">String</span> user;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">User</span>(<span class="hljs-title class_">String</span> user) &#123;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">user</span> = user;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">toString</span>(<span class="hljs-params"></span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;User&#123;&quot;</span> +
+                <span class="hljs-string">&quot;user=&#x27;&quot;</span> + user + <span class="hljs-string">&#x27;\&#x27;&#x27;</span> +
+                <span class="hljs-string">&#x27;&#125;&#x27;</span>;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">getUser</span>(<span class="hljs-params"></span>) &#123;
+        <span class="hljs-keyword">return</span> user;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setUser</span>(<span class="hljs-params"><span class="hljs-built_in">String</span> user</span>) &#123;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">user</span> = user;
+    &#125;
+&#125;
+</code></pre></div>
+
+<p><img src="/../images/Spring/image-20240119173903265.png" srcset="/img/loading.gif" lazyload alt="image-20240119173903265"></p>
+<p>提示要使用<code>&lt;constructor-arg&gt;</code>标签</p>
+<h3 id="方式一-通过类型-不推荐"><a href="#方式一-通过类型-不推荐" class="headerlink" title="方式一 通过类型 不推荐"></a>方式一 通过类型 不推荐</h3><p>这种方法有瑕疵，就是万一2个形参都是一样的类型就没办法了</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span>
+
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.User&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;java.lang.String&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;zeropeach&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">constructor-arg</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">import</span> com.zero.Dao.UserOracleImpl;
+<span class="hljs-keyword">import</span> com.zero.person;
+<span class="hljs-keyword">import</span> com.zero.pojo.<span class="hljs-keyword">User</span>;
+<span class="hljs-keyword">import</span> com.zero.service.UserService;
+<span class="hljs-keyword">import</span> com.zero.service.UserServiceImpl;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationContext;
+<span class="hljs-keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;
+
+<span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> <span class="hljs-keyword">execute</span> &#123;
+    <span class="hljs-built_in">public</span> static <span class="hljs-type">void</span> main(String[] args) &#123;
+
+        ApplicationContext classPathXmlApplicationContext = <span class="hljs-built_in">new</span> ClassPathXmlApplicationContext(&quot;bean.xml&quot;);
+
+
+        <span class="hljs-keyword">User</span> <span class="hljs-keyword">user</span> = (<span class="hljs-keyword">User</span>) classPathXmlApplicationContext.getBean(&quot;user&quot;);
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(<span class="hljs-keyword">user</span>.toString());
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="方式二-下标索引"><a href="#方式二-下标索引" class="headerlink" title="方式二 下标索引"></a>方式二 下标索引</h3><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span>
+
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.User&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">index</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;zeropeach&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">constructor-arg</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<h3 id="方式三-名字"><a href="#方式三-名字" class="headerlink" title="方式三 名字"></a>方式三 名字</h3><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span>
+
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.User&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;zeropeach&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">constructor-arg</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<h3 id="什么时候实例化"><a href="#什么时候实例化" class="headerlink" title="什么时候实例化"></a>什么时候实例化</h3><div class="code-wrapper"><pre><code class="hljs csharp">package com.zero.pojo;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">spider</span> &#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">spider</span>()</span>&#123;
+        System.<span class="hljs-keyword">out</span>.println(<span class="hljs-string">&quot;i am spider&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs csharp">package com.zero.pojo;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">black</span> &#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">black</span>()</span>&#123;
+        System.<span class="hljs-keyword">out</span>.println(<span class="hljs-string">&quot;i am black&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;black&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.black&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;spider&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.spider&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.User&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;zeropeach&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">constructor-arg</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">import</span> com.zero.Dao.UserOracleImpl;
+<span class="hljs-keyword">import</span> com.zero.person;
+<span class="hljs-keyword">import</span> com.zero.pojo.<span class="hljs-keyword">User</span>;
+<span class="hljs-keyword">import</span> com.zero.service.UserService;
+<span class="hljs-keyword">import</span> com.zero.service.UserServiceImpl;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationContext;
+<span class="hljs-keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;
+
+<span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> <span class="hljs-keyword">execute</span> &#123;
+    <span class="hljs-built_in">public</span> static <span class="hljs-type">void</span> main(String[] args) &#123;
+
+        ApplicationContext classPathXmlApplicationContext = <span class="hljs-built_in">new</span> ClassPathXmlApplicationContext(&quot;bean.xml&quot;);
+
+
+        <span class="hljs-keyword">User</span> <span class="hljs-keyword">user</span> = (<span class="hljs-keyword">User</span>) classPathXmlApplicationContext.getBean(&quot;user&quot;);
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(<span class="hljs-keyword">user</span>.toString());
+    &#125;
+&#125;</code></pre></div>
+
+<p>并没有getBean获取black和spider，但却输出了</p>
+<p><img src="/../images/Spring/image-20240119175116860.png" srcset="/img/loading.gif" lazyload alt="image-20240119175116860"></p>
+<p>说明spring在读取beans.xml的时候就实例化了所有beans.xml中注册的类</p>
+<h2 id="spring配置"><a href="#spring配置" class="headerlink" title="spring配置"></a>spring配置</h2><h3 id="别名-alias"><a href="#别名-alias" class="headerlink" title="别名 alias"></a>别名 alias</h3><div class="code-wrapper"><pre><code class="hljs abnf">
+&lt;bean id<span class="hljs-operator">=</span><span class="hljs-string">&quot;user&quot;</span> class<span class="hljs-operator">=</span><span class="hljs-string">&quot;com.zero.pojo.User&quot;</span>&gt;
+	&lt;constructor-arg name<span class="hljs-operator">=</span><span class="hljs-string">&quot;user&quot;</span> value<span class="hljs-operator">=</span><span class="hljs-string">&quot;zeropeach&quot;</span>&gt;&lt;/constructor-arg&gt;
+&lt;/bean&gt;
+
+&lt;alias name<span class="hljs-operator">=</span><span class="hljs-string">&quot;user&quot;</span> alias<span class="hljs-operator">=</span><span class="hljs-string">&quot;user2&quot;</span>&gt;&lt;/alias&gt;
+</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs pgsql">
+ApplicationContext classPathXmlApplicationContext = <span class="hljs-built_in">new</span> ClassPathXmlApplicationContext(&quot;bean.xml&quot;);
+
+<span class="hljs-keyword">User</span> <span class="hljs-keyword">user</span> = (<span class="hljs-keyword">User</span>) classPathXmlApplicationContext.getBean(&quot;user2&quot;);
+<span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(<span class="hljs-keyword">user</span>.toString());
+</code></pre></div>
+
+<h3 id="bean"><a href="#bean" class="headerlink" title="bean"></a>bean</h3><p>bean中本身就有name属性，更加高级，可以用空格、逗号、分号、</p>
+<div class="code-wrapper"><pre><code class="hljs abnf">
+&lt;bean id<span class="hljs-operator">=</span><span class="hljs-string">&quot;user&quot;</span> class<span class="hljs-operator">=</span><span class="hljs-string">&quot;com.zero.pojo.User&quot;</span> name<span class="hljs-operator">=</span><span class="hljs-string">&quot;user2 user3,user4;user5&quot;</span>&gt;
+	&lt;constructor-arg name<span class="hljs-operator">=</span><span class="hljs-string">&quot;user&quot;</span> value<span class="hljs-operator">=</span><span class="hljs-string">&quot;zeropeach&quot;</span>&gt;&lt;/constructor-arg&gt;
+&lt;/bean&gt;</code></pre></div>
+
+<h3 id="import"><a href="#import" class="headerlink" title="import"></a>import</h3><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span>
+
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">import</span> <span class="hljs-attr">resource</span>=<span class="hljs-string">&quot;bean.xml&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">import</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<p><img src="/../images/Spring/image-20240119181310885.png" srcset="/img/loading.gif" lazyload alt="image-20240119181310885"></p>
+<h2 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h2><h3 id="构造器注入"><a href="#构造器注入" class="headerlink" title="构造器注入"></a>构造器注入</h3><h3 id="set方式注入"><a href="#set方式注入" class="headerlink" title="set方式注入"></a>set方式注入</h3><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;address&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Address&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;address&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;广州&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+   <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;student&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Student&quot;</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;name&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;zeropeach&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+
+       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;address&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;address&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+
+       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;books&quot;</span>&gt;</span>
+           <span class="hljs-tag">&lt;<span class="hljs-name">array</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>西游记<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>三国演义<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>水浒传<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>红楼梦<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+           <span class="hljs-tag">&lt;/<span class="hljs-name">array</span>&gt;</span>
+       <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;card&quot;</span>&gt;</span>
+           <span class="hljs-tag">&lt;<span class="hljs-name">map</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&quot;aa&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;aaaaaaa&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&quot;bb&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;bbb&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&quot;cc&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;acccaaa&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&quot;dd&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;add&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span>
+           <span class="hljs-tag">&lt;/<span class="hljs-name">map</span>&gt;</span>
+       <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;games&quot;</span>&gt;</span>
+           <span class="hljs-tag">&lt;<span class="hljs-name">set</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>LOL<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>BOB<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>COC<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+           <span class="hljs-tag">&lt;/<span class="hljs-name">set</span>&gt;</span>
+       <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;hobbys&quot;</span>&gt;</span>
+           <span class="hljs-tag">&lt;<span class="hljs-name">list</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>听歌<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>代码<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>电影<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+           <span class="hljs-tag">&lt;/<span class="hljs-name">list</span>&gt;</span>
+       <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;wife&quot;</span>&gt;</span>
+           <span class="hljs-tag">&lt;<span class="hljs-name">null</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">null</span>&gt;</span>
+       <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+
+       <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;info&quot;</span>&gt;</span>
+           <span class="hljs-tag">&lt;<span class="hljs-name">props</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">prop</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&quot;银行卡&quot;</span>&gt;</span>1231231231223123<span class="hljs-tag">&lt;/<span class="hljs-name">prop</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">prop</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&quot;学号&quot;</span>&gt;</span>12312312312<span class="hljs-tag">&lt;/<span class="hljs-name">prop</span>&gt;</span>
+           <span class="hljs-tag">&lt;/<span class="hljs-name">props</span>&gt;</span>
+       <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<h3 id="命名空间注入"><a href="#命名空间注入" class="headerlink" title="命名空间注入"></a>命名空间注入</h3><div class="code-wrapper"><pre><code class="hljs dts"><span class="hljs-comment">//在beans中加入命名空间</span>
+<span class="hljs-symbol"></span>
+<span class="hljs-symbol">xmlns:</span>p=<span class="hljs-string">&quot;http://www.springframework.org/schema/p&quot;</span>
+<span class="hljs-symbol">xmlns:</span>c=<span class="hljs-string">&quot;http://www.springframework.org/schema/c&quot;</span></code></pre></div>
+
+
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:p</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/p&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:c</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/c&quot;</span></span>
+<span class="hljs-tag">      <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span>
+
+    
+
+    <span class="hljs-comment">&lt;!--properties--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.User&quot;</span> <span class="hljs-attr">p:name</span>=<span class="hljs-string">&quot;zeropeach&quot;</span> <span class="hljs-attr">p:age</span>=<span class="hljs-string">&quot;19&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!--constructor-arg--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;user1&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.User&quot;</span> <span class="hljs-attr">c:name</span>=<span class="hljs-string">&quot;zeropeach1&quot;</span> <span class="hljs-attr">c:age</span>=<span class="hljs-string">&quot;20&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<p><img src="/../images/Spring/image-20240119201126971.png" srcset="/img/loading.gif" lazyload alt="image-20240119201126971"></p>
+<p><img src="/../images/Spring/image-20240119201154474.png" srcset="/img/loading.gif" lazyload alt="image-20240119201154474"></p>
+<h3 id="bean的作用域"><a href="#bean的作用域" class="headerlink" title="bean的作用域"></a>bean的作用域</h3><ol>
+<li>单例模式</li>
+</ol>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.User&quot;</span> <span class="hljs-attr">p:name</span>=<span class="hljs-string">&quot;zeropeach&quot;</span> <span class="hljs-attr">p:age</span>=<span class="hljs-string">&quot;19&quot;</span> <span class="hljs-attr">scope</span>=<span class="hljs-string">&quot;singleton&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></code></pre></div>
+
+<ol start="2">
+<li>原型模式：每次从容器中getBean的时候都会产生一个新对象</li>
+</ol>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;user1&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.User&quot;</span> <span class="hljs-attr">c:name</span>=<span class="hljs-string">&quot;zeropeach1&quot;</span> <span class="hljs-attr">c:age</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">scope</span>=<span class="hljs-string">&quot;prototype&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></code></pre></div>
+
+
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:p</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/p&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:c</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/c&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span>
+
+
+    <span class="hljs-comment">&lt;!--单例模式--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;user&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.User&quot;</span> <span class="hljs-attr">p:name</span>=<span class="hljs-string">&quot;zeropeach&quot;</span> <span class="hljs-attr">p:age</span>=<span class="hljs-string">&quot;19&quot;</span> <span class="hljs-attr">scope</span>=<span class="hljs-string">&quot;singleton&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!--原型模式--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;user1&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.User&quot;</span> <span class="hljs-attr">c:name</span>=<span class="hljs-string">&quot;zeropeach1&quot;</span> <span class="hljs-attr">c:age</span>=<span class="hljs-string">&quot;20&quot;</span> <span class="hljs-attr">scope</span>=<span class="hljs-string">&quot;prototype&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">import</span> com.zero.pojo.Student;
+<span class="hljs-keyword">import</span> com.zero.pojo.<span class="hljs-keyword">User</span>;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationContext;
+<span class="hljs-keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;
+
+<span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> exec &#123;
+    <span class="hljs-built_in">public</span> static <span class="hljs-type">void</span> main(String[] args) &#123;
+        ApplicationContext context = <span class="hljs-built_in">new</span> ClassPathXmlApplicationContext(&quot;beans.xml&quot;);
+        <span class="hljs-keyword">User</span> student = (<span class="hljs-keyword">User</span>) context.getBean(&quot;user&quot;);
+        <span class="hljs-keyword">User</span> student1 = (<span class="hljs-keyword">User</span>) context.getBean(&quot;user&quot;);
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(student.hashCode());
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(student1.hashCode());
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(student==student1);
+
+        <span class="hljs-keyword">User</span> user1 = (<span class="hljs-keyword">User</span>) context.getBean(&quot;user1&quot;);
+        <span class="hljs-keyword">User</span> user2 = (<span class="hljs-keyword">User</span>) context.getBean(&quot;user1&quot;);
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(user1.hashCode());
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(user2.hashCode());
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(user1==user2);
+    &#125;
+&#125;</code></pre></div>
+
+<p><img src="/../images/Spring/image-20240120005112058.png" srcset="/img/loading.gif" lazyload alt="image-20240120005112058"></p>
+<ol start="3">
+<li>其他的在web服务中用</li>
+</ol>
+<h2 id="bean的自动装配"><a href="#bean的自动装配" class="headerlink" title="bean的自动装配"></a>bean的自动装配</h2><div class="code-wrapper"><pre><code class="hljs typescript">package com.<span class="hljs-property">zero</span>.<span class="hljs-property">pojo</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">people</span> &#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-title class_">Dog</span> dog;
+    <span class="hljs-keyword">private</span> <span class="hljs-title class_">Cat</span> cat;
+    <span class="hljs-keyword">private</span> <span class="hljs-title class_">String</span> name;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">toString</span>(<span class="hljs-params"></span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;people&#123;&quot;</span> +
+                <span class="hljs-string">&quot;dog=&quot;</span> + dog +
+                <span class="hljs-string">&quot;, cat=&quot;</span> + cat +
+                <span class="hljs-string">&quot;, name=&#x27;&quot;</span> + name + <span class="hljs-string">&#x27;\&#x27;&#x27;</span> +
+                <span class="hljs-string">&#x27;&#125;&#x27;</span>;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">Dog</span> <span class="hljs-title function_">getDog</span>(<span class="hljs-params"></span>) &#123;
+        <span class="hljs-keyword">return</span> dog;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setDog</span>(<span class="hljs-params">Dog dog</span>) &#123;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">dog</span> = dog;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">Cat</span> <span class="hljs-title function_">getCat</span>(<span class="hljs-params"></span>) &#123;
+        <span class="hljs-keyword">return</span> cat;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setCat</span>(<span class="hljs-params">Cat cat</span>) &#123;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">cat</span> = cat;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">getName</span>(<span class="hljs-params"></span>) &#123;
+        <span class="hljs-keyword">return</span> name;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setName</span>(<span class="hljs-params"><span class="hljs-built_in">String</span> name</span>) &#123;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="ByName自动装配"><a href="#ByName自动装配" class="headerlink" title="ByName自动装配"></a>ByName自动装配</h3><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--自动在容器上下文中查找，和自己对象set方法后面的值对应的beanid--&gt;</span>
+<span class="hljs-comment">&lt;!--并且id要是小写--&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dog&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Dog&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;cat&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Cat&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+
+<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;people&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.people&quot;</span> <span class="hljs-attr">autowire</span>=<span class="hljs-string">&quot;byName&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;name&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;zeropeach&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></code></pre></div>
+
+<h3 id="ByType自动装配"><a href="#ByType自动装配" class="headerlink" title="ByType自动装配"></a>ByType自动装配</h3><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Dog&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Cat&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!--自动寻找相同的class--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;people1&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.people&quot;</span> <span class="hljs-attr">autowire</span>=<span class="hljs-string">&quot;byType&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;name&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;zeropeach&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></code></pre></div>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>byname要保证所有bean的id唯一并且这个bean需要和自动注入的属性的set方法的值一致</p>
+<p>bytype要保证所有bean的class唯一，并且这个bean需要和自动注入的属性的类型一致</p>
+<h3 id="使用注解进行自动装配"><a href="#使用注解进行自动装配" class="headerlink" title="使用注解进行自动装配"></a>使用注解进行自动装配</h3><h4 id="Autowired和-Qualifier"><a href="#Autowired和-Qualifier" class="headerlink" title="@Autowired和@Qualifier"></a>@Autowired和@Qualifier</h4><p>使用@Qualifier配合使用</p>
+<p>增加</p>
+<div class="code-wrapper"><pre><code class="hljs awk">xmlns:context=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span>
+xmlns:aop=<span class="hljs-string">&quot;http://www.springframework.org/schema/aop&quot;</span>
+
+
+ http:<span class="hljs-regexp">//</span>www.springframework.org<span class="hljs-regexp">/schema/</span>context
+ https:<span class="hljs-regexp">//</span>www.springframework.org<span class="hljs-regexp">/schema/</span>context/spring-context.xsd
+ http:<span class="hljs-regexp">//</span>www.springframework.org<span class="hljs-regexp">/schema/</span>aop
+ https:<span class="hljs-regexp">//</span>www.springframework.org<span class="hljs-regexp">/schema/</span>aop/spring-aop.xsd</code></pre></div>
+
+<p>关键别忘了<code> &lt;context:annotation-config/&gt;</code>，开启注释</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:aop</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/aop&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/beans/spring-beans.xsd</span></span>
+<span class="hljs-string"><span class="hljs-tag">        http://www.springframework.org/schema/context</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/context/spring-context.xsd</span></span>
+<span class="hljs-string"><span class="hljs-tag">        http://www.springframework.org/schema/aop</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/aop/spring-aop.xsd&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">context:annotation-config</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">context:annotation-config</span>&gt;</span>
+
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dog1&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Dog&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;cat1&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Cat&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;people&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.people&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.zero.pojo;
+
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Qualifier;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">people</span> &#123;
+    <span class="hljs-meta">@Autowired(required = false)</span> <span class="hljs-comment">//说明可以为空</span>
+    <span class="hljs-keyword">private</span> Dog dog;
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> Cat cat;
+    <span class="hljs-keyword">private</span> String name;
+
+    ......get和set方法
+&#125;</code></pre></div>
+
+
+
+<p>如果@Autowired自动装配的环境比较复杂，自动装配无法通过一个注解完成的时候，可以<strong>使用@Qualifier配合使用</strong></p>
+<div class="code-wrapper"><pre><code class="hljs routeros">&lt;bean <span class="hljs-attribute">id</span>=<span class="hljs-string">&quot;dog1&quot;</span> <span class="hljs-attribute">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Dog&quot;</span>&gt;&lt;/bean&gt;
+&lt;bean <span class="hljs-attribute">id</span>=<span class="hljs-string">&quot;dog2&quot;</span> <span class="hljs-attribute">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Dog&quot;</span>&gt;&lt;/bean&gt;
+&lt;bean <span class="hljs-attribute">id</span>=<span class="hljs-string">&quot;cat1&quot;</span> <span class="hljs-attribute">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Cat&quot;</span>&gt;&lt;/bean&gt;
+&lt;bean <span class="hljs-attribute">id</span>=<span class="hljs-string">&quot;cat2&quot;</span> <span class="hljs-attribute">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Cat&quot;</span>&gt;&lt;/bean&gt;
+&lt;bean <span class="hljs-attribute">id</span>=<span class="hljs-string">&quot;people&quot;</span> <span class="hljs-attribute">class</span>=<span class="hljs-string">&quot;com.zero.pojo.people&quot;</span>&gt;&lt;/bean&gt;</code></pre></div>
+
+<p><img src="/../images/Spring/image-20240120014325047.png" srcset="/img/loading.gif" lazyload alt="image-20240120014325047"></p>
+<div class="code-wrapper"><pre><code class="hljs less"><span class="hljs-selector-tag">package</span> <span class="hljs-selector-tag">com</span><span class="hljs-selector-class">.zero</span><span class="hljs-selector-class">.pojo</span>;
+
+<span class="hljs-selector-tag">import</span> <span class="hljs-selector-tag">org</span><span class="hljs-selector-class">.springframework</span><span class="hljs-selector-class">.beans</span><span class="hljs-selector-class">.factory</span><span class="hljs-selector-class">.annotation</span><span class="hljs-selector-class">.Autowired</span>;
+<span class="hljs-selector-tag">import</span> <span class="hljs-selector-tag">org</span><span class="hljs-selector-class">.springframework</span><span class="hljs-selector-class">.beans</span><span class="hljs-selector-class">.factory</span><span class="hljs-selector-class">.annotation</span><span class="hljs-selector-class">.Qualifier</span>;
+
+<span class="hljs-selector-tag">public</span> <span class="hljs-selector-tag">class</span> <span class="hljs-selector-tag">people</span> &#123;
+    <span class="hljs-variable">@Autowired</span>(required = false)
+    <span class="hljs-variable">@Qualifier</span>(value = <span class="hljs-string">&quot;dog1&quot;</span>)
+    private Dog dog;
+    <span class="hljs-variable">@Autowired</span>
+    <span class="hljs-variable">@Qualifier</span>(value = <span class="hljs-string">&quot;cat1&quot;</span>)
+    private Cat cat;
+    <span class="hljs-selector-tag">private</span> <span class="hljs-selector-tag">String</span> <span class="hljs-selector-tag">name</span>;
+
+
+。。。。。
+&#125;</code></pre></div>
+
+<h4 id="Resource"><a href="#Resource" class="headerlink" title="@Resource"></a>@Resource</h4><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:aop</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/aop&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/beans/spring-beans.xsd</span></span>
+<span class="hljs-string"><span class="hljs-tag">        http://www.springframework.org/schema/context</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/context/spring-context.xsd</span></span>
+<span class="hljs-string"><span class="hljs-tag">        http://www.springframework.org/schema/aop</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/aop/spring-aop.xsd&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">context:annotation-config</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">context:annotation-config</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dog&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Dog&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;cat&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.Cat&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;people&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.zero.pojo.people&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs kotlin"><span class="hljs-keyword">package</span> com.zero.pojo;
+
+
+<span class="hljs-keyword">import</span> javax.<span class="hljs-keyword">annotation</span>.Resource;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">people</span> &#123;
+
+    <span class="hljs-meta">@Resource(name = <span class="hljs-string">&quot;dog&quot;</span>)</span>
+    <span class="hljs-keyword">private</span> Dog dog;
+    <span class="hljs-meta">@Resource(name = <span class="hljs-string">&quot;cat&quot;</span>)</span>
+    <span class="hljs-keyword">private</span> Cat cat;
+    <span class="hljs-keyword">private</span> String name;
+
+&#125;</code></pre></div>
+
+<p>小结：</p>
+<p>@Autowired通过ByType方式实现，而且必须要求这个对象存在</p>
+<p>@Resource默认通过ByName方式实现，如果找不到名字，则通过byType实现，都找不到再报错</p>
+<h2 id="使用注解开发"><a href="#使用注解开发" class="headerlink" title="使用注解开发"></a>使用注解开发</h2><h3 id="Component注解"><a href="#Component注解" class="headerlink" title="Component注解"></a>Component注解</h3><p>使用Compnent注解相当于在配置文件中加入<code>&lt;bean class=&quot;com.zero.pojo.User&quot; id=&quot;user&quot;/&gt;</code></p>
+<p>于是配置文件中就可以不用注册bean了，只需要允许component注解即可</p>
+<div class="code-wrapper"><pre><code class="hljs vhdl">&lt;<span class="hljs-keyword">context</span>:<span class="hljs-keyword">component</span>-scan base-<span class="hljs-keyword">package</span>=<span class="hljs-string">&quot;com.zero&quot;</span>&gt;&lt;/<span class="hljs-keyword">context</span>:<span class="hljs-keyword">component</span>-scan&gt;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:aop</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/aop&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/beans/spring-beans.xsd</span></span>
+<span class="hljs-string"><span class="hljs-tag">        http://www.springframework.org/schema/context</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/context/spring-context.xsd</span></span>
+<span class="hljs-string"><span class="hljs-tag">        http://www.springframework.org/schema/aop</span></span>
+<span class="hljs-string"><span class="hljs-tag">        https://www.springframework.org/schema/aop/spring-aop.xsd&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">context:component-scan</span> <span class="hljs-attr">base-package</span>=<span class="hljs-string">&quot;com.zero&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">context:component-scan</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">context:annotation-config</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">context:annotation-config</span>&gt;</span>
+
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<p>@Value注解来赋值</p>
+<div class="code-wrapper"><pre><code class="hljs typescript">package com.<span class="hljs-property">zero</span>.<span class="hljs-property">pojo</span>;
+
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">springframework</span>.<span class="hljs-property">beans</span>.<span class="hljs-property">factory</span>.<span class="hljs-property">annotation</span>.<span class="hljs-property">Value</span>;
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">springframework</span>.<span class="hljs-property">stereotype</span>.<span class="hljs-property">Component</span>;
+
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &#123;
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;zeropeach&quot;</span>)
+    <span class="hljs-keyword">private</span> <span class="hljs-title class_">String</span> name;
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;19&quot;</span>)
+    <span class="hljs-keyword">private</span> int age;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">User</span>() &#123;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">User</span>(<span class="hljs-title class_">String</span> name, int age) &#123;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span> = age;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">getName</span>(<span class="hljs-params"></span>) &#123;
+        <span class="hljs-keyword">return</span> name;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setName</span>(<span class="hljs-params"><span class="hljs-built_in">String</span> name</span>) &#123;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;
+    &#125;
+
+    <span class="hljs-keyword">public</span> int <span class="hljs-title function_">getAge</span>(<span class="hljs-params"></span>) &#123;
+        <span class="hljs-keyword">return</span> age;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setAge</span>(<span class="hljs-params">int age</span>) &#123;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span> = age;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">toString</span>(<span class="hljs-params"></span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;User&#123;&quot;</span> +
+                <span class="hljs-string">&quot;name=&#x27;&quot;</span> + name + <span class="hljs-string">&#x27;\&#x27;&#x27;</span> +
+                <span class="hljs-string">&quot;, age=&quot;</span> + age +
+                <span class="hljs-string">&#x27;&#125;&#x27;</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>直接获取小写的类名即可</p>
+<div class="code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">import</span> com.zero.pojo.Student;
+<span class="hljs-keyword">import</span> com.zero.pojo.<span class="hljs-keyword">User</span>;
+<span class="hljs-keyword">import</span> com.zero.pojo.people;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationContext;
+<span class="hljs-keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;
+
+<span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> exec &#123;
+    <span class="hljs-built_in">public</span> static <span class="hljs-type">void</span> main(String[] args) &#123;
+        ApplicationContext context = <span class="hljs-built_in">new</span> ClassPathXmlApplicationContext(&quot;bean.xml&quot;);
+
+        <span class="hljs-keyword">User</span> people = (<span class="hljs-keyword">User</span>) context.getBean(&quot;user&quot;);
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(people.toString());
+    &#125;
+&#125;</code></pre></div>
+
+<p>另外component也是可以自定义id的，<code>component(&quot;&quot;)</code>就可以自定义id的名称</p>
+<p>另外与component等效的还有3种注解，另外三种作用一模一样，但是作用场景不同，是用于区分的：</p>
+<ul>
+<li>@Controller 控制器（注入服务）<br>用于标注控制层，相当于struts中的action层</li>
+<li>@Service 服务（注入dao）<br>用于标注服务层，主要用来进行业务的逻辑处理</li>
+<li>@Repository（实现dao访问）<br>用于标注数据访问层，也可以说用于标注数据访问组件，即DAO组件</li>
+<li>@Component （把普通pojo实例化到spring容器中，相当于配置文件中的 ）</li>
+</ul>
+<h3 id="Scope注解"><a href="#Scope注解" class="headerlink" title="Scope注解"></a>Scope注解</h3><p>和上面一样，单例模式和原型模式</p>
+<div class="code-wrapper"><pre><code class="hljs less"><span class="hljs-variable">@Component</span>(<span class="hljs-string">&quot;zeero&quot;</span>)
+<span class="hljs-variable">@Scope</span>(<span class="hljs-string">&quot;singleton&quot;</span>)
+public class User &#123;
+    <span class="hljs-variable">@Value</span>(<span class="hljs-string">&quot;zeropeach&quot;</span>)
+    private String name;
+    <span class="hljs-variable">@Value</span>(<span class="hljs-string">&quot;19&quot;</span>)
+    private int age;
+&#125;</code></pre></div>
+
+<h2 id="使用java方式配置spring"><a href="#使用java方式配置spring" class="headerlink" title="使用java方式配置spring"></a>使用java方式配置spring</h2><p>即不使用xml配置文件</p>
+<h3 id="Configuration标签和Bean标签"><a href="#Configuration标签和Bean标签" class="headerlink" title="Configuration标签和Bean标签"></a>Configuration标签和Bean标签</h3><p>Configuration标签意思就是<code>&lt;beans&gt;....&lt;/beans&gt;</code>大标签</p>
+<p>然后使用Bean标签就相当于注册bean</p>
+<div class="code-wrapper"><pre><code class="hljs kotlin"><span class="hljs-keyword">package</span> com.zero.config;
+
+<span class="hljs-keyword">import</span> com.zero.pojo.User;
+<span class="hljs-keyword">import</span> org.springframework.context.<span class="hljs-keyword">annotation</span>.Bean;
+<span class="hljs-keyword">import</span> org.springframework.context.<span class="hljs-keyword">annotation</span>.Configuration;
+
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">appconfig</span> &#123;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-keyword">public</span> User user123()&#123;
+        <span class="hljs-keyword">return</span> new User();
+    &#125;
+&#125;</code></pre></div>
+
+<p>函数类型是Bean的class，函数名是Bean的id</p>
+<p>下面的Bean注解代表着bean标签，和component的作用是几乎一样的（有些小区别后面会讲）然后这里bean可以通过<code>bean(&quot;&quot;)</code>指定别名</p>
+<div class="code-wrapper"><pre><code class="hljs typescript">package com.<span class="hljs-property">zero</span>.<span class="hljs-property">pojo</span>;
+
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">springframework</span>.<span class="hljs-property">beans</span>.<span class="hljs-property">factory</span>.<span class="hljs-property">annotation</span>.<span class="hljs-property">Value</span>;
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">springframework</span>.<span class="hljs-property">stereotype</span>.<span class="hljs-property">Component</span>;
+
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &#123;
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;zeropeach&quot;</span>)
+    <span class="hljs-keyword">private</span> <span class="hljs-title class_">String</span> name;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">getName</span>(<span class="hljs-params"></span>) &#123;
+        <span class="hljs-keyword">return</span> name;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">toString</span>(<span class="hljs-params"></span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;User&#123;&quot;</span> +
+                <span class="hljs-string">&quot;name=&#x27;&quot;</span> + name + <span class="hljs-string">&#x27;\&#x27;&#x27;</span> +
+                <span class="hljs-string">&#x27;&#125;&#x27;</span>;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setName</span>(<span class="hljs-params"><span class="hljs-built_in">String</span> name</span>) &#123;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;
+    &#125;
+&#125;</code></pre></div>
+
+<p>执行的话，这里要换一个上下文，从<code>ClassPathXmlApplicationContext</code>换为<code>AnnotationConfigApplicationContext</code></p>
+<p><img src="/../images/Spring/image-20240120182810263.png" srcset="/img/loading.gif" lazyload alt="image-20240120182810263"></p>
+<div class="code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">import</span> com.zero.config.appconfig;
+<span class="hljs-keyword">import</span> com.zero.pojo.<span class="hljs-keyword">User</span>;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationContext;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+<span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> exec &#123;
+    <span class="hljs-built_in">public</span> static <span class="hljs-type">void</span> main(String[] args) &#123;
+        ApplicationContext context = <span class="hljs-built_in">new</span> AnnotationConfigApplicationContext(appconfig.<span class="hljs-keyword">class</span>);  //获取配置文件的<span class="hljs-keyword">class</span>
+        <span class="hljs-keyword">User</span> <span class="hljs-keyword">user</span> = (<span class="hljs-keyword">User</span>) context.getBean(&quot;user123&quot;);  //函数名
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(<span class="hljs-keyword">user</span>.toString());
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="ComponentScan标签"><a href="#ComponentScan标签" class="headerlink" title="ComponentScan标签"></a>ComponentScan标签</h3><p>相当于xml配置文件中的<code>&lt;context:component-scan base-package=&quot;com.zero&quot;/&gt;</code></p>
+<p><img src="/../images/Spring/image-20240120184430262.png" srcset="/img/loading.gif" lazyload alt="image-20240120184430262"></p>
+<h3 id="Import标签"><a href="#Import标签" class="headerlink" title="Import标签"></a>Import标签</h3><p>导入其他配置类</p>
+<h3 id="component和bean标签的异同"><a href="#component和bean标签的异同" class="headerlink" title="component和bean标签的异同"></a>component和bean标签的异同</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/konglxblog/p/16441424.html">https://www.cnblogs.com/konglxblog/p/16441424.html</a></p>
+<p><img src="/../images/Spring/image-20240120184603928.png" srcset="/img/loading.gif" lazyload alt="image-20240120184603928"></p>
+<h2 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h2><h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><h3 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h3><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903978342301709#heading-11">https://juejin.cn/post/6844903978342301709#heading-11</a></p>
+<p>InvocationHandler接口</p>
+<p>Proxy.newProxyInstance</p>
+<p><img src="/../images/Spring/image-20240120203147891.png" srcset="/img/loading.gif" lazyload alt="image-20240120203147891"></p>
+<h2 id="aop实现的三种方式"><a href="#aop实现的三种方式" class="headerlink" title="aop实现的三种方式"></a>aop实现的三种方式</h2><h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><div class="code-wrapper"><pre><code class="hljs pgsql">package com.boogipop.cutface;
+
+<span class="hljs-keyword">import</span> org.springframework.aop.MethodBeforeAdvice;
+
+<span class="hljs-keyword">import</span> java.lang.reflect.<span class="hljs-keyword">Method</span>;
+
+<span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> <span class="hljs-keyword">Before</span> implements MethodBeforeAdvice &#123;
+    @Override
+    <span class="hljs-built_in">public</span> <span class="hljs-type">void</span> <span class="hljs-keyword">before</span>(<span class="hljs-keyword">Method</span> <span class="hljs-keyword">method</span>, <span class="hljs-keyword">Object</span>[] args, <span class="hljs-keyword">Object</span> target) throws Throwable &#123;
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;Before&quot;);
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs pgsql">package com.boogipop.cutface;
+
+<span class="hljs-keyword">import</span> org.springframework.aop.AfterReturningAdvice;
+
+<span class="hljs-keyword">import</span> java.lang.reflect.<span class="hljs-keyword">Method</span>;
+
+<span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> <span class="hljs-keyword">After</span> implements AfterReturningAdvice &#123;
+    @Override
+    <span class="hljs-built_in">public</span> <span class="hljs-type">void</span> afterReturning(<span class="hljs-keyword">Object</span> returnValue, <span class="hljs-keyword">Method</span> <span class="hljs-keyword">method</span>, <span class="hljs-keyword">Object</span>[] args, <span class="hljs-keyword">Object</span> target) throws Throwable &#123;
+        <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;After&quot;);
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:p</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/p&quot;</span> <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:aop</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/aop&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/beans/spring-beans-4.1.xsd</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/context</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/context/spring-context-4.1.xsd</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;after&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.boogipop.cutface.After&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;before&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.boogipop.cutface.Before&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;simple&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.boogipop.service.SimpleImpl&quot;</span>/&gt;</span>
+<span class="hljs-comment">&lt;!--开始配置aop--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aop:config</span>&gt;</span>
+<span class="hljs-comment">&lt;!--定义切入点--&gt;</span>
+<span class="hljs-comment">&lt;!-- 执行环绕增加 --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">aop:pointcut</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;point&quot;</span> <span class="hljs-attr">expression</span>=<span class="hljs-string">&quot;execution(* com.boogipop.service.SimpleImpl.*(..))&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">aop:advisor</span> <span class="hljs-attr">advice-ref</span>=<span class="hljs-string">&quot;before&quot;</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;point&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">aop:advisor</span> <span class="hljs-attr">advice-ref</span>=<span class="hljs-string">&quot;after&quot;</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;point&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aop:config</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<p>关于切点的表达式</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ABCD898989/article/details/50809321">https://blog.csdn.net/ABCD898989/article/details/50809321</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/loongshawn/article/details/72303040">https://blog.csdn.net/loongshawn/article/details/72303040</a></p>
+<h3 id="2-自定义切面类"><a href="#2-自定义切面类" class="headerlink" title="2   自定义切面类"></a>2   自定义切面类</h3><div class="code-wrapper"><pre><code class="hljs csharp">package com.boogipop.cutface;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Selfcut</span> &#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">after</span>()</span>&#123;
+        System.<span class="hljs-keyword">out</span>.println(<span class="hljs-string">&quot;self after&quot;</span>);
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">before</span>()</span>&#123;
+        System.<span class="hljs-keyword">out</span>.println(<span class="hljs-string">&quot;self before&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:p</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/p&quot;</span> <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:aop</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/aop&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/beans/spring-beans-4.1.xsd</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/context</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/context/spring-context-4.1.xsd</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;after&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.boogipop.cutface.After&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;before&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.boogipop.cutface.Before&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;simple&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.boogipop.service.SimpleImpl&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;selfcut&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.boogipop.cutface.Selfcut&quot;</span>/&gt;</span>
+<span class="hljs-comment">&lt;!--开始配置aop--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aop:config</span>&gt;</span>
+<span class="hljs-comment">&lt;!--引入selfcut作为切面类--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">aop:aspect</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;selfcut&quot;</span>&gt;</span>
+<span class="hljs-comment">&lt;!--定义切入点--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">aop:pointcut</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;point&quot;</span> <span class="hljs-attr">expression</span>=<span class="hljs-string">&quot;execution(* com.boogipop.service.SimpleImpl.*(..))&quot;</span>/&gt;</span>
+<span class="hljs-comment">&lt;!--定义通知，引入切点--&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">aop:after</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;after&quot;</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;point&quot;</span>/&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">aop:before</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;before&quot;</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;point&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">aop:aspect</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">aop:config</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<h3 id="注解实现"><a href="#注解实现" class="headerlink" title="注解实现"></a>注解实现</h3><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.aspectj<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>aspectjweaver<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.9.19<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:p</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/p&quot;</span> <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:aop</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/aop&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/beans/spring-beans-4.1.xsd</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/context</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/context/spring-context-4.1.xsd</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;simple&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.boogipop.service.SimpleImpl&quot;</span>/&gt;</span>
+<span class="hljs-comment">&lt;!--  需要注册bean --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;selfcut&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.boogipop.cutface.Selfcut&quot;</span>/&gt;</span>
+<span class="hljs-comment">&lt;!-- 开启注解扫描 --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aop:aspectj-autoproxy</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.boogipop.cutface;
+
+<span class="hljs-keyword">import</span> org.aspectj.lang.JoinPoint;
+<span class="hljs-keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;
+<span class="hljs-keyword">import</span> org.aspectj.lang.annotation.*;
+<span class="hljs-keyword">import</span> org.aspectj.lang.annotation.After;
+<span class="hljs-keyword">import</span> org.aspectj.lang.annotation.Before;
+
+<span class="hljs-comment">//定义切面类</span>
+<span class="hljs-meta">@Aspect</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Selfcut</span> &#123;
+    <span class="hljs-meta">@Before(&quot;execution(* com.boogipop.service.SimpleImpl.*(..))&quot;)</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">before</span><span class="hljs-params">()</span>&#123;
+        System.out.println(<span class="hljs-string">&quot;===self before===&quot;</span>);
+    &#125;
+    <span class="hljs-meta">@After(&quot;execution(* com.boogipop.service.SimpleImpl.*(..))&quot;)</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">after</span><span class="hljs-params">()</span>&#123;
+        System.out.println(<span class="hljs-string">&quot;===self after===&quot;</span>);
+    &#125;
+    <span class="hljs-meta">@Around(&quot;execution(* com.boogipop.service.SimpleImpl.*(..))&quot;)</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">around</span><span class="hljs-params">(ProceedingJoinPoint jp)</span> <span class="hljs-keyword">throws</span> Throwable &#123;
+        System.out.println(<span class="hljs-string">&quot;环绕前&quot;</span>);
+<span class="hljs-comment">//        执行切入点的方法</span>
+        <span class="hljs-type">Object</span> <span class="hljs-variable">proceed</span> <span class="hljs-operator">=</span> jp.proceed();
+        System.out.println(<span class="hljs-string">&quot;环绕后&quot;</span>);
+<span class="hljs-comment">//        获取签名</span>
+        System.out.println(jp.getSignature());
+    &#125;
+    <span class="hljs-meta">@AfterReturning(&quot;execution(* com.boogipop.service.SimpleImpl.*(..))&quot;)</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">afterreturn</span><span class="hljs-params">()</span>&#123;
+        System.out.println(<span class="hljs-string">&quot;after return&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>顺序为环绕前-&gt;执行前-&gt;方法执行-&gt;返回后通知-&gt;执行后-&gt;环绕执行后（这里是spring6的顺序，spring5貌似不一样，不过问题不大</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Spring</div>
+      <div>https://zer0peach.github.io/2024/01/18/Spring/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/02/04/HGAME-WEEK1/" title="HGAME-WEEK1">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HGAME-WEEK1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/17/php-Opcache%E6%8F%92%E4%BB%B6%E8%BF%9B%E8%A1%8CRCE/" title="php Opcache插件进行RCE">
+                        <span class="hidden-mobile">php Opcache插件进行RCE</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

