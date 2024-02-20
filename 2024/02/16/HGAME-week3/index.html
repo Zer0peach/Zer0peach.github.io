@@ -16,17 +16,27 @@
   <meta name="author" content="Zer0peach">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Zer0peach">
+    <meta name="description" content="Zero Link （二血三道题中，代码最多，但代码内容简单，目标明确，思路清晰 但是最后脑子抽了，secret文件忘记有代码了，后来一想到就出了（我造，我的一血没了  几个路由，看完代码后很容易得到思路 &#x2F;user获取Admin用户密码去登陆，登录成Admin后上传zip文件 但这做了限制  我们只需要键名不传username就行  只能上传zip文件 然后是解压代码  一看就知道是z">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zer0peach can&#39;t think">
 <meta property="og:url" content="https://zer0peach.github.io/2024/02/16/HGAME-week3/index.html">
 <meta property="og:site_name" content="Zer0peach can&#39;t think">
-<meta property="og:description" content="Zer0peach">
+<meta property="og:description" content="Zero Link （二血三道题中，代码最多，但代码内容简单，目标明确，思路清晰 但是最后脑子抽了，secret文件忘记有代码了，后来一想到就出了（我造，我的一血没了  几个路由，看完代码后很容易得到思路 &#x2F;user获取Admin用户密码去登陆，登录成Admin后上传zip文件 但这做了限制  我们只需要键名不传username就行  只能上传zip文件 然后是解压代码  一看就知道是z">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="d:\blog\source\images\HGAME-week3\image-20240216040715845.png">
+<meta property="og:image" content="d:\blog\source\images\HGAME-week3\image-20240216040654976.png">
+<meta property="og:image" content="d:\blog\source\images\HGAME-week3\image-20240216030537054.png">
+<meta property="og:image" content="d:\blog\source\images\HGAME-week3\image-20240216041032153.png">
+<meta property="og:image" content="d:\blog\source\images\HGAME-week3\image-20240216030424378.png">
+<meta property="og:image" content="d:\blog\source\images\HGAME-week3\image-20240216030439257.png">
+<meta property="og:image" content="d:\blog\source\images\HGAME-week3\image-20240216030337676.png">
+<meta property="og:image" content="d:\blog\source\images\HGAME-week3\image-20240216030153830.png">
+<meta property="og:image" content="d:\blog\source\images\HGAME-week3\image-20240216030019744.png">
 <meta property="article:published_time" content="2024-02-15T18:59:53.210Z">
-<meta property="article:modified_time" content="2024-02-19T10:58:40.174Z">
+<meta property="article:modified_time" content="2024-02-19T11:02:34.247Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="d:\blog\source\images\HGAME-week3\image-20240216040715845.png">
   
   
   
@@ -231,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          4.7k 字
         
       </span>
     
@@ -242,7 +252,7 @@
         
         
         
-          1 分钟
+          40 分钟
         
       </span>
     
@@ -284,7 +294,228 @@
             
               <div class="markdown-body">
                 
-                
+                <h2 id="Zero-Link-（二血"><a href="#Zero-Link-（二血" class="headerlink" title="Zero Link （二血"></a>Zero Link （二血</h2><p>三道题中，代码最多，但代码内容简单，目标明确，思路清晰</p>
+<p>但是最后脑子抽了，secret文件忘记有代码了，后来一想到就出了（我造，我的一血没了</p>
+<p><img src="D:\blog\source\images\HGAME-week3\image-20240216040715845.png" srcset="/img/loading.gif" lazyload alt="image-20240216040715845"></p>
+<p>几个路由，看完代码后很容易得到思路</p>
+<p>&#x2F;user获取Admin用户密码去登陆，登录成Admin后上传zip文件</p>
+<p>但这做了限制</p>
+<p><img src="D:\blog\source\images\HGAME-week3\image-20240216040654976.png" srcset="/img/loading.gif" lazyload alt="image-20240216040654976"></p>
+<p>我们只需要键名不传username就行</p>
+<p><img src="D:\blog\source\images\HGAME-week3\image-20240216030537054.png" srcset="/img/loading.gif" lazyload alt="image-20240216030537054"></p>
+<p>只能上传zip文件</p>
+<p>然后是解压代码</p>
+<p><img src="D:\blog\source\images\HGAME-week3\image-20240216041032153.png" srcset="/img/loading.gif" lazyload alt="image-20240216041032153"></p>
+<p>一看就知道是zip软链接的考点</p>
+<p>通过软链接控制<code>/app</code></p>
+<p>然后这里脑子抽了挺多风，尝试往&#x2F;app&#x2F;views下写go命令执行的文件，但解压失败</p>
+<p>想着把secret文件软连接到&#x2F;flag，但也不行</p>
+<p>最后想起了附件中有代码</p>
+<p><img src="D:\blog\source\images\HGAME-week3\image-20240216030424378.png" srcset="/img/loading.gif" lazyload alt="image-20240216030424378"></p>
+<p><img src="D:\blog\source\images\HGAME-week3\image-20240216030439257.png" srcset="/img/loading.gif" lazyload alt="image-20240216030439257"></p>
+<p>直接覆盖secret文件内容为<code>/flag</code>即可</p>
+<div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> -s /app <span class="hljs-built_in">link</span>
+zip --symlinks link.zip <span class="hljs-built_in">link</span>
+
+删掉<span class="hljs-built_in">link</span>
+
+<span class="hljs-built_in">mkdir</span> <span class="hljs-built_in">link</span>
+<span class="hljs-built_in">cd</span> <span class="hljs-built_in">link</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;/flag&quot;</span> &gt; secret
+<span class="hljs-built_in">cd</span> ..
+zip -r link1.zip ./*</code></pre></div>
+
+<p>依次上传link.zip和link1.zip即可</p>
+<p>然后访问<code>/api/unzip</code>，<code>/api/secret</code>即可</p>
+<p><img src="D:\blog\source\images\HGAME-week3\image-20240216030337676.png" srcset="/img/loading.gif" lazyload alt="image-20240216030337676"></p>
+<h2 id="webvpn"><a href="#webvpn" class="headerlink" title="webvpn"></a>webvpn</h2><p>其实思路也是比较明确的</p>
+<p>登陆后，使用&#x2F;user&#x2F;info路由进行原型链污染，污染strategy</p>
+<div class="code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;express&quot;</span>);
+<span class="hljs-keyword">const</span> axios = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;axios&quot;</span>);
+<span class="hljs-keyword">const</span> bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;body-parser&quot;</span>);
+<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;path&quot;</span>);
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;fs&quot;</span>);
+<span class="hljs-keyword">const</span> &#123; <span class="hljs-attr">v4</span>: uuidv4 &#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;uuid&quot;</span>);
+<span class="hljs-keyword">const</span> session = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;express-session&quot;</span>);
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>();
+<span class="hljs-keyword">const</span> port = <span class="hljs-number">3000</span>;
+<span class="hljs-keyword">const</span> session_name = <span class="hljs-string">&quot;my-webvpn-session-id-&quot;</span> + <span class="hljs-title function_">uuidv4</span>().<span class="hljs-title function_">toString</span>();
+
+app.<span class="hljs-title function_">set</span>(<span class="hljs-string">&quot;view engine&quot;</span>, <span class="hljs-string">&quot;pug&quot;</span>);
+app.<span class="hljs-title function_">set</span>(<span class="hljs-string">&quot;trust proxy&quot;</span>, <span class="hljs-literal">false</span>);
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">static</span>(path.<span class="hljs-title function_">join</span>(__dirname, <span class="hljs-string">&quot;public&quot;</span>)));
+app.<span class="hljs-title function_">use</span>(
+  <span class="hljs-title function_">session</span>(&#123;
+    <span class="hljs-attr">name</span>: session_name,
+    <span class="hljs-attr">secret</span>: <span class="hljs-title function_">uuidv4</span>().<span class="hljs-title function_">toString</span>(),
+    <span class="hljs-attr">secure</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">resave</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">saveUninitialized</span>: <span class="hljs-literal">true</span>,
+  &#125;)
+);
+app.<span class="hljs-title function_">use</span>(bodyParser.<span class="hljs-title function_">json</span>());
+<span class="hljs-keyword">var</span> userStorage = &#123;
+  <span class="hljs-attr">username</span>: &#123;
+    <span class="hljs-attr">password</span>: <span class="hljs-string">&quot;password&quot;</span>,
+    <span class="hljs-attr">info</span>: &#123;
+      <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>,
+    &#125;,
+    <span class="hljs-attr">strategy</span>: &#123;
+      <span class="hljs-string">&quot;baidu.com&quot;</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-string">&quot;google.com&quot;</span>: <span class="hljs-literal">false</span>,
+    &#125;,
+  &#125;,
+&#125;;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">update</span>(<span class="hljs-params">dst, src</span>) &#123;
+  <span class="hljs-keyword">for</span> (key <span class="hljs-keyword">in</span> src) &#123;
+    <span class="hljs-keyword">if</span> (key.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&quot;__&quot;</span>) != -<span class="hljs-number">1</span>) &#123;
+      <span class="hljs-keyword">continue</span>;
+    &#125;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> src[key] == <span class="hljs-string">&quot;object&quot;</span> &amp;&amp; dst[key] !== <span class="hljs-literal">undefined</span>) &#123;
+      <span class="hljs-title function_">update</span>(dst[key], src[key]);
+      <span class="hljs-keyword">continue</span>;
+    &#125;
+    dst[key] = src[key];
+  &#125;
+&#125;
+
+app.<span class="hljs-title function_">use</span>(<span class="hljs-string">&quot;/proxy&quot;</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; &#123;
+  <span class="hljs-keyword">const</span> &#123; username &#125; = req.<span class="hljs-property">session</span>;
+  <span class="hljs-keyword">if</span> (!username) &#123;
+    res.<span class="hljs-title function_">sendStatus</span>(<span class="hljs-number">403</span>);
+  &#125;
+
+  <span class="hljs-keyword">let</span> url = (<span class="hljs-function">() =&gt;</span> &#123;
+    <span class="hljs-keyword">try</span> &#123;
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(req.<span class="hljs-property">query</span>.<span class="hljs-property">url</span>);
+    &#125; <span class="hljs-keyword">catch</span> &#123;
+      res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>);
+      res.<span class="hljs-title function_">end</span>(<span class="hljs-string">&quot;invalid url.&quot;</span>);
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
+    &#125;
+  &#125;)();
+
+  <span class="hljs-keyword">if</span> (!url) <span class="hljs-keyword">return</span>;
+
+  <span class="hljs-keyword">if</span> (!userStorage[username].<span class="hljs-property">strategy</span>[url.<span class="hljs-property">hostname</span>]) &#123;
+    res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>);
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">&quot;your url is not allowed.&quot;</span>);
+  &#125;
+
+  <span class="hljs-keyword">try</span> &#123;
+    <span class="hljs-keyword">const</span> headers = req.<span class="hljs-property">headers</span>;
+    headers.<span class="hljs-property">host</span> = url.<span class="hljs-property">host</span>;
+    headers.<span class="hljs-property">cookie</span> = headers.<span class="hljs-property">cookie</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;;&quot;</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">cookie</span>) =&gt;</span> &#123;
+      <span class="hljs-keyword">var</span> filtered_cookie = <span class="hljs-string">&quot;&quot;</span>;
+      <span class="hljs-keyword">const</span> [key, value] = cookie.<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;=&quot;</span>, <span class="hljs-number">1</span>);
+      <span class="hljs-keyword">if</span> (key.<span class="hljs-title function_">trim</span>() !== session_name) &#123;
+        filtered_cookie += <span class="hljs-string">`<span class="hljs-subst">$&#123;key&#125;</span>=<span class="hljs-subst">$&#123;value&#125;</span>;`</span>;
+      &#125;
+      <span class="hljs-keyword">return</span> filtered_cookie;
+    &#125;);
+    <span class="hljs-keyword">const</span> remote_res = <span class="hljs-keyword">await</span> (<span class="hljs-function">() =&gt;</span> &#123;
+      <span class="hljs-keyword">if</span> (req.<span class="hljs-property">method</span> == <span class="hljs-string">&quot;POST&quot;</span>) &#123;
+        <span class="hljs-keyword">return</span> axios.<span class="hljs-title function_">post</span>(url, req.<span class="hljs-property">body</span>, &#123;
+          <span class="hljs-attr">headers</span>: headers,
+        &#125;);
+      &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (req.<span class="hljs-property">method</span> == <span class="hljs-string">&quot;GET&quot;</span>) &#123;
+        <span class="hljs-keyword">return</span> axios.<span class="hljs-title function_">get</span>(url, &#123;
+          <span class="hljs-attr">headers</span>: headers,
+        &#125;);
+      &#125; <span class="hljs-keyword">else</span> &#123;
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">405</span>);
+        res.<span class="hljs-title function_">end</span>(<span class="hljs-string">&quot;method not allowed.&quot;</span>);
+        <span class="hljs-keyword">return</span>;
+      &#125;
+    &#125;)();
+    res.<span class="hljs-title function_">status</span>(remote_res.<span class="hljs-property">status</span>);
+    res.<span class="hljs-title function_">header</span>(remote_res.<span class="hljs-property">headers</span>);
+    res.<span class="hljs-title function_">write</span>(remote_res.<span class="hljs-property">data</span>);
+  &#125; <span class="hljs-keyword">catch</span> (e) &#123;
+    res.<span class="hljs-title function_">status</span>(<span class="hljs-number">500</span>);
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">&quot;unreachable url.&quot;</span>);
+  &#125;
+&#125;);
+
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/user/login&quot;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+  <span class="hljs-keyword">const</span> &#123; username, password &#125; = req.<span class="hljs-property">body</span>;
+  <span class="hljs-keyword">if</span> (
+    <span class="hljs-keyword">typeof</span> username != <span class="hljs-string">&quot;string&quot;</span> ||
+    <span class="hljs-keyword">typeof</span> password != <span class="hljs-string">&quot;string&quot;</span> ||
+    !username ||
+    !password
+  ) &#123;
+    res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>);
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">&quot;invalid username or password&quot;</span>);
+    <span class="hljs-keyword">return</span>;
+  &#125;
+  <span class="hljs-keyword">if</span> (!userStorage[username]) &#123;
+    res.<span class="hljs-title function_">status</span>(<span class="hljs-number">403</span>);
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">&quot;invalid username or password&quot;</span>);
+    <span class="hljs-keyword">return</span>;
+  &#125;
+  <span class="hljs-keyword">if</span> (userStorage[username].<span class="hljs-property">password</span> !== password) &#123;
+    res.<span class="hljs-title function_">status</span>(<span class="hljs-number">403</span>);
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">&quot;invalid username or password&quot;</span>);
+    <span class="hljs-keyword">return</span>;
+  &#125;
+  req.<span class="hljs-property">session</span>.<span class="hljs-property">username</span> = username;
+  res.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;login success&quot;</span>);
+&#125;);
+
+<span class="hljs-comment">// under development</span>
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&quot;/user/info&quot;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+  <span class="hljs-keyword">if</span> (!req.<span class="hljs-property">session</span>.<span class="hljs-property">username</span>) &#123;
+    res.<span class="hljs-title function_">sendStatus</span>(<span class="hljs-number">403</span>);
+  &#125;
+  <span class="hljs-title function_">update</span>(userStorage[req.<span class="hljs-property">session</span>.<span class="hljs-property">username</span>].<span class="hljs-property">info</span>, req.<span class="hljs-property">body</span>);
+  res.<span class="hljs-title function_">sendStatus</span>(<span class="hljs-number">200</span>);
+&#125;);
+
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;/home&quot;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+  <span class="hljs-keyword">if</span> (!req.<span class="hljs-property">session</span>.<span class="hljs-property">username</span>) &#123;
+    res.<span class="hljs-title function_">sendStatus</span>(<span class="hljs-number">403</span>);
+    <span class="hljs-keyword">return</span>;
+  &#125;
+  res.<span class="hljs-title function_">render</span>(<span class="hljs-string">&quot;home&quot;</span>, &#123;
+    <span class="hljs-attr">username</span>: req.<span class="hljs-property">session</span>.<span class="hljs-property">username</span>,
+    <span class="hljs-attr">strategy</span>: (<span class="hljs-function">(<span class="hljs-params">list</span>)=&gt;</span>&#123;
+      <span class="hljs-keyword">var</span> result = [];
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> list) &#123;
+        result.<span class="hljs-title function_">push</span>(&#123;<span class="hljs-attr">host</span>: key, <span class="hljs-attr">allow</span>: list[key]&#125;);
+      &#125;
+      <span class="hljs-keyword">return</span> result;
+    &#125;)(userStorage[req.<span class="hljs-property">session</span>.<span class="hljs-property">username</span>].<span class="hljs-property">strategy</span>),
+  &#125;);
+&#125;);
+
+<span class="hljs-comment">// demo service behind webvpn</span>
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;/flag&quot;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;
+  <span class="hljs-keyword">if</span> (
+    req.<span class="hljs-property">headers</span>.<span class="hljs-property">host</span> != <span class="hljs-string">&quot;127.0.0.1:3000&quot;</span> ||
+    req.<span class="hljs-property">hostname</span> != <span class="hljs-string">&quot;127.0.0.1&quot;</span> ||
+    req.<span class="hljs-property">ip</span> != <span class="hljs-string">&quot;127.0.0.1&quot;</span> 
+  ) &#123;
+    res.<span class="hljs-title function_">sendStatus</span>(<span class="hljs-number">400</span>);
+    <span class="hljs-keyword">return</span>;
+  &#125;
+  <span class="hljs-keyword">const</span> data = fs.<span class="hljs-title function_">readFileSync</span>(<span class="hljs-string">&quot;/flag&quot;</span>);
+  res.<span class="hljs-title function_">send</span>(data);
+&#125;);
+
+app.<span class="hljs-title function_">listen</span>(port, <span class="hljs-string">&#x27;0.0.0.0&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`app listen on <span class="hljs-subst">$&#123;port&#125;</span>`</span>);
+&#125;);</code></pre></div>
+
+<p><img src="D:\blog\source\images\HGAME-week3\image-20240216030153830.png" srcset="/img/loading.gif" lazyload alt="image-20240216030153830"></p>
+<p>这里也sb了一下，Content-Type没改为application&#x2F;json，一直无法污染，我还以为思路有问题呢</p>
+<p><img src="D:\blog\source\images\HGAME-week3\image-20240216030019744.png" srcset="/img/loading.gif" lazyload alt="image-20240216030019744"></p>
+<p>不知道为什么，我明明开始就是这么做的，但是它一直显示<code>unreachable url</code></p>
+<p>然后我就污染了<code>127.0.0.1:3000</code>、<code>127.0.0.1:3000/flag</code>等等都不行</p>
+<p>最后第二天再次尝试，只污染了个<code>127.0.0.1</code>就行了</p>
+
                 
               </div>
             

