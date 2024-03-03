@@ -24,7 +24,7 @@
 <meta property="og:description" content="fastjson前言：这一部分停的有点久了，内容多，一直看别人分析源码，然后存结果，有点像以前只看文章不刷题的时候，看起来会了，但还是不会做，为了避免这种情况，所以决定写这篇文章，让自己动手尝试，顺便保存结果 &amp;#123;&quot;@type&quot;:&quot;com.student&quot;,&quot;age&quot;:6&amp;#125; JSON.parseObject()  像这样">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-24T10:51:48.000Z">
-<meta property="article:modified_time" content="2023-11-16T04:20:42.595Z">
+<meta property="article:modified_time" content="2024-02-29T09:26:48.780Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -242,7 +242,7 @@
         
         
         
-          295 分钟
+          296 分钟
         
       </span>
     
@@ -289,11 +289,16 @@
 <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">JSON</span>.</span></span>parse<span class="hljs-constructor">Object()</span></code></pre></div>
 
 <p>像这样就会调用student类中的setage和getage方法</p>
-<h3 id="FastJSON调用getter常用两种方式，1、-ref，2、JSONObject。"><a href="#FastJSON调用getter常用两种方式，1、-ref，2、JSONObject。" class="headerlink" title="FastJSON调用getter常用两种方式，1、$ref，2、JSONObject。"></a>FastJSON调用getter常用两种方式，1、$ref，2、JSONObject。</h3><p>$ref：&gt;&#x3D;1.2.36</p>
+<h2 id="parse和parseObject的区别"><a href="#parse和parseObject的区别" class="headerlink" title="parse和parseObject的区别"></a>parse和parseObject的区别</h2><p>parseObject：返回 fastjson.JSONObject 类</p>
+<p>parse ：返回我们的类 User</p>
+<p>一般来说 parseObject 的利用面更广</p>
+<h2 id="FastJSON调用getter常用两种方式，1、-ref，2、JSONObject。"><a href="#FastJSON调用getter常用两种方式，1、-ref，2、JSONObject。" class="headerlink" title="FastJSON调用getter常用两种方式，1、$ref，2、JSONObject。"></a>FastJSON调用getter常用两种方式，1、$ref，2、JSONObject。</h2><p>$ref：&gt;&#x3D;1.2.36</p>
 <p>JSONObject：&lt;&#x3D;1.2.36</p>
 <p><strong>要想使用$ref赋值，则不能使用JSONObject调用getter</strong>，因为在parse时就会调用到getter方法，无法等到处理完$ref的任务后再调用getter</p>
+<h2 id="checkAutoType"><a href="#checkAutoType" class="headerlink" title="checkAutoType"></a>checkAutoType</h2><p>如果开启了就是先白名单过滤，再黑名单。</p>
+<p>如果没开启就是会先黑名单，再白名单。</p>
 <h2 id="JdbcRowSetImpl"><a href="#JdbcRowSetImpl" class="headerlink" title="JdbcRowSetImpl"></a>JdbcRowSetImpl</h2><p><code>com.sun.rowset.JdbcRowSetImpl</code>中的<code>dataSourceName</code>和<code>autoCommit</code>都有set方法</p>
-<p>在setautoCommit()然后跟进发现</p>
+<p>在<code>setautoCommit()</code>然后跟进发现</p>
 <div class="code-wrapper"><pre><code class="hljs abnf">InitialContext var1 <span class="hljs-operator">=</span> new InitialContext()<span class="hljs-comment">;</span>
 DataSource var2 <span class="hljs-operator">=</span> (DataSource)var1.lookup(this.getDataSourceName())<span class="hljs-comment">;</span></code></pre></div>
 

